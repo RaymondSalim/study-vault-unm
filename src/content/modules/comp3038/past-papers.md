@@ -9,5 +9,5 @@ tags: ["past-papers", "exam"]
 
 | Year | Type | Paper | Solution |
 |------|------|-------|----------|
-| — | Exam | [Paper](/study-portal/files/comp3038/past-papers/COMP3038-UNMC-Machine%20Learning%20(Exam%20Paper).pdf) | [Sample Answer](/study-portal/files/comp3038/past-papers/Sample%20Answer.pdf) |
-| — | Mock Exam | [Paper](/study-portal/files/comp3038/past-papers/Mock%20Exam.pdf) | — |
+| — | Exam | [Paper](/files/comp3038/past-papers/COMP3038-UNMC-Machine%20Learning%20(Exam%20Paper).pdf) | [Sample Answer](/files/comp3038/past-papers/Sample%20Answer.pdf) |
+| — | Mock Exam | [Paper](/files/comp3038/past-papers/Mock%20Exam.pdf) | — |

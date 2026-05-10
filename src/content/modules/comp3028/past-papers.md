@@ -9,5 +9,5 @@ tags: ["past-papers", "exam"]
 
 | Year | Type | Paper | Solution |
 |------|------|-------|----------|
-| — | Exam | [Paper](/study-portal/files/comp3028/past-papers/COMP3028_exam.pdf) | — |
-| — | Exam (Paper 2) | [Paper](/study-portal/files/comp3028/past-papers/COMP3028_exam2.pdf) | — |
+| — | Exam | [Paper](/files/comp3028/past-papers/COMP3028_exam.pdf) | — |
+| — | Exam (Paper 2) | [Paper](/files/comp3028/past-papers/COMP3028_exam2.pdf) | — |

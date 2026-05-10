@@ -13,7 +13,7 @@ tags: ["past-papers", "exam"]
 
 ## Practice Questions
 
-Since no past papers are available, use the worked examples from the [Exam Preparation](/study-portal/comp3033/10-nfr-quality-models) page and the [Flashcards](/study-portal/comp3033/flashcards) for revision practice.
+Since no past papers are available, use the worked examples from the [Exam Preparation](/comp3033/10-nfr-quality-models) page and the [Flashcards](/comp3033/flashcards) for revision practice.
 
 ### Recommended Practice Areas
 

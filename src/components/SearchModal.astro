@@ -26,7 +26,7 @@
   async function loadPagefind() {
     if (pagefind) return pagefind;
     try {
-      const base = document.querySelector('link[rel="icon"]')?.getAttribute('href')?.replace('/favicon.svg', '') || '/study-portal';
+      const base = document.querySelector('link[rel="icon"]')?.getAttribute('href')?.replace('/favicon.svg', '') || '';
       const url = `${base}/pagefind/pagefind.js`;
       pagefind = await new Function('return import(arguments[0])')(url);
       await pagefind.init();

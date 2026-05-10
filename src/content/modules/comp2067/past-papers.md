@@ -9,4 +9,4 @@ tags: ["past-papers", "exam"]
 
 | Year | Type | Paper | Solution |
 |------|------|-------|----------|
-| 2023-2024 | Exam | — | [Solution](/study-portal/files/comp2067/past-papers/COMP2067%20Exam%20Solution%20Spring%202023-2024.pdf) |
+| 2023-2024 | Exam | — | [Solution](/files/comp2067/past-papers/COMP2067%20Exam%20Solution%20Spring%202023-2024.pdf) |

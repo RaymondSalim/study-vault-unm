@@ -97,7 +97,7 @@ const years = [1, 2, 3];
   <script>
     async function initPagefind() {
       try {
-        const pagefindPath = '/study-portal/pagefind/pagefind.js';
+        const pagefindPath = '/pagefind/pagefind.js';
         const pagefind = await import(/* @vite-ignore */ pagefindPath);
         await pagefind.init();
         const container = document.getElementById('search-container');

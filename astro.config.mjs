@@ -4,8 +4,8 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
 export default defineConfig({
-  site: 'https://rsalim.github.io',
-  base: '/study-portal',
+  site: 'https://study.raymonds.dev',
+  base: '/',
   output: 'static',
   integrations: [sitemap()],
   markdown: {

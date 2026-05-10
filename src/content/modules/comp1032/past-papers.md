@@ -9,6 +9,6 @@ tags: ["past-papers", "exam"]
 
 | Year | Type | Paper | Solution |
 |------|------|-------|----------|
-| 2015-2016 | Exam | — | [Solution](/study-portal/files/comp1032/past-papers/201516-G51FAI-UNMC-sol.pdf) |
-| 2017-2018 | Exam | — | [Solution](/study-portal/files/comp1032/past-papers/201718-G51FAI-UNMC-sol.pdf) |
-| 2018-2019 | Exam | — | [Solution](/study-portal/files/comp1032/past-papers/201819-G51FAI-UNMC-sol.pdf) |
+| 2015-2016 | Exam | — | [Solution](/files/comp1032/past-papers/201516-G51FAI-UNMC-sol.pdf) |
+| 2017-2018 | Exam | — | [Solution](/files/comp1032/past-papers/201718-G51FAI-UNMC-sol.pdf) |
+| 2018-2019 | Exam | — | [Solution](/files/comp1032/past-papers/201819-G51FAI-UNMC-sol.pdf) |

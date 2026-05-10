@@ -9,4 +9,4 @@ tags: ["past-papers", "exam"]
 
 | Year | Type | Paper | Solution |
 |------|------|-------|----------|
-| 2018 | Exam | [Paper](/study-portal/files/comp1023/past-papers/COMP1023-Exam%202018.pdf) | [Mark Scheme](/study-portal/files/comp1023/past-papers/COMP1023-MS(2018)%20II.docx.pdf) |
+| 2018 | Exam | [Paper](/files/comp1023/past-papers/COMP1023-Exam%202018.pdf) | [Mark Scheme](/files/comp1023/past-papers/COMP1023-MS(2018)%20II.docx.pdf) |
