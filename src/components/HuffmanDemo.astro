@@ -1,0 +1,216 @@
+---
+---
+
+<div class="huff-demo">
+  <h3>Huffman Coding Visualiser</h3>
+  <p class="huff-desc">Enter text to see how Huffman coding assigns variable-length binary codes based on character frequency.</p>
+
+  <div class="huff-input-section">
+    <label>Input text:</label>
+    <input type="text" id="huff-input" class="huff-text-input" value="hello world" />
+    <button class="huff-btn" id="huff-encode">Encode</button>
+  </div>
+
+  <div class="huff-results" id="huff-results" style="display:none;">
+    <div class="huff-section">
+      <h4>Character Frequencies</h4>
+      <div class="huff-freq" id="huff-freq"></div>
+    </div>
+
+    <div class="huff-section">
+      <h4>Huffman Codes</h4>
+      <table class="huff-table" id="huff-codes-table">
+        <thead>
+          <tr><th>Char</th><th>Freq</th><th>Code</th><th>Bits</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="huff-section">
+      <h4>Encoded Output</h4>
+      <div class="huff-encoded" id="huff-encoded"></div>
+    </div>
+
+    <div class="huff-section">
+      <h4>Compression Stats</h4>
+      <div class="huff-stats" id="huff-stats"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  interface HuffNode {
+    char: string | null;
+    freq: number;
+    left: HuffNode | null;
+    right: HuffNode | null;
+  }
+
+  function buildHuffmanTree(freq: Record<string, number>): HuffNode | null {
+    const nodes: HuffNode[] = Object.entries(freq).map(([char, f]) => ({
+      char, freq: f, left: null, right: null
+    }));
+
+    if (nodes.length === 0) return null;
+    if (nodes.length === 1) {
+      return { char: null, freq: nodes[0].freq, left: nodes[0], right: null };
+    }
+
+    while (nodes.length > 1) {
+      nodes.sort((a, b) => a.freq - b.freq);
+      const left = nodes.shift()!;
+      const right = nodes.shift()!;
+      nodes.push({ char: null, freq: left.freq + right.freq, left, right });
+    }
+
+    return nodes[0];
+  }
+
+  function generateCodes(node: HuffNode | null, prefix: string, codes: Record<string, string>) {
+    if (!node) return;
+    if (node.char !== null) {
+      codes[node.char] = prefix || '0';
+      return;
+    }
+    generateCodes(node.left, prefix + '0', codes);
+    generateCodes(node.right, prefix + '1', codes);
+  }
+
+  document.getElementById('huff-encode')!.addEventListener('click', () => {
+    const text = (document.getElementById('huff-input') as HTMLInputElement).value;
+    if (!text) return;
+
+    const freq: Record<string, number> = {};
+    for (const ch of text) {
+      freq[ch] = (freq[ch] || 0) + 1;
+    }
+
+    const tree = buildHuffmanTree(freq);
+    const codes: Record<string, string> = {};
+    generateCodes(tree, '', codes);
+
+    const freqDiv = document.getElementById('huff-freq')!;
+    const sorted = Object.entries(freq).sort((a, b) => b[1] - a[1]);
+    freqDiv.innerHTML = sorted.map(([ch, f]) => {
+      const display = ch === ' ' ? '⎵' : ch;
+      const pct = ((f / text.length) * 100).toFixed(1);
+      return `<div class="huff-freq-bar"><span class="huff-char">${display}</span><div class="huff-bar" style="width:${pct}%"></div><span class="huff-count">${f} (${pct}%)</span></div>`;
+    }).join('');
+
+    const tbody = document.querySelector('#huff-codes-table tbody')!;
+    tbody.innerHTML = sorted.map(([ch, f]) => {
+      const display = ch === ' ' ? '⎵' : ch;
+      return `<tr><td>${display}</td><td>${f}</td><td class="huff-code">${codes[ch]}</td><td>${codes[ch].length}</td></tr>`;
+    }).join('');
+
+    const encoded = text.split('').map(ch => `<span class="huff-bit" title="${ch === ' ' ? '⎵' : ch}">${codes[ch]}</span>`).join(' ');
+    document.getElementById('huff-encoded')!.innerHTML = encoded;
+
+    const totalBits = text.split('').reduce((sum, ch) => sum + codes[ch].length, 0);
+    const fixedBits = text.length * 8;
+    const ratio = ((1 - totalBits / fixedBits) * 100).toFixed(1);
+    document.getElementById('huff-stats')!.innerHTML = `
+      <div>Original (ASCII): ${fixedBits} bits (${text.length} chars × 8 bits)</div>
+      <div>Huffman encoded: ${totalBits} bits</div>
+      <div>Compression: <strong>${ratio}% saved</strong></div>
+      <div>Average bits/char: ${(totalBits / text.length).toFixed(2)}</div>
+    `;
+
+    document.getElementById('huff-results')!.style.display = 'block';
+  });
+</script>
+
+<style>
+  .huff-demo {
+    background: var(--bg-highlight);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5em;
+    margin: 2em 0;
+  }
+  .huff-demo h3 { margin-top: 0; color: var(--accent); }
+  .huff-desc { color: var(--fg-muted); font-size: 0.9em; }
+  .huff-input-section {
+    margin: 1em 0;
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    flex-wrap: wrap;
+  }
+  .huff-input-section label { font-weight: 600; }
+  .huff-text-input {
+    flex: 1;
+    min-width: 200px;
+    padding: 0.5em 0.8em;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--fg);
+    font-family: var(--font-mono, monospace);
+    font-size: 0.9em;
+  }
+  .huff-text-input:focus { border-color: var(--accent); outline: none; }
+  .huff-btn {
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    padding: 0.5em 1.2em;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .huff-btn:hover { opacity: 0.9; }
+  .huff-section { margin-top: 1.5em; }
+  .huff-section h4 { margin: 0 0 0.5em; color: var(--fg); font-size: 0.95em; }
+  .huff-freq-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    margin: 0.2em 0;
+    font-size: 0.85em;
+  }
+  .huff-char {
+    font-family: var(--font-mono, monospace);
+    width: 1.5em;
+    text-align: center;
+    font-weight: 600;
+  }
+  .huff-bar {
+    height: 14px;
+    background: var(--accent);
+    border-radius: 2px;
+    min-width: 2px;
+    opacity: 0.7;
+  }
+  .huff-count { color: var(--fg-muted); font-size: 0.85em; }
+  .huff-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85em;
+  }
+  .huff-table th, .huff-table td {
+    padding: 0.4em 0.8em;
+    border: 1px solid var(--border);
+    text-align: center;
+  }
+  .huff-table th { background: var(--bg-surface); color: var(--fg-muted); font-weight: 600; }
+  .huff-code { font-family: var(--font-mono, monospace); color: var(--accent); }
+  .huff-encoded {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.85em;
+    background: var(--bg-surface);
+    padding: 0.8em;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    word-break: break-all;
+    line-height: 1.8;
+  }
+  .huff-bit { color: #9ece6a; }
+  .huff-bit:hover { background: var(--bg-highlight); border-radius: 2px; }
+  .huff-stats {
+    font-size: 0.9em;
+    line-height: 1.8;
+  }
+  .huff-stats strong { color: #9ece6a; }
+</style>

@@ -1,0 +1,216 @@
+---
+import PortalLayout from '../layouts/PortalLayout.astro';
+import TopicCard from '../components/TopicCard.astro';
+import { getCollection } from 'astro:content';
+
+const rawBase = import.meta.env.BASE_URL;
+const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
+
+const allPages = await getCollection('modules');
+const moduleFirstPages: Record<string, string> = {};
+for (const page of allPages) {
+  const moduleSlug = page.id.split('/')[0];
+  const pageSlug = page.id.split('/').slice(1).join('/');
+  const order = page.data.order ?? 99;
+  if (!moduleFirstPages[moduleSlug] || order < (allPages.find(p => p.id === `${moduleSlug}/${moduleFirstPages[moduleSlug]}`)?.data.order ?? 99)) {
+    moduleFirstPages[moduleSlug] = pageSlug;
+  }
+}
+
+const modules = [
+  // Year 1, Semester 1
+  { code: 'COMP1017', title: 'Mathematics for Computer Scientists 1', year: 1, semester: 1, slug: 'comp1017' },
+  { code: 'COMP1027', title: 'Computer Fundamentals', year: 1, semester: 1, slug: 'comp1027' },
+  { code: 'COMP1028', title: 'Programming and Algorithms', year: 1, semester: 1, slug: 'comp1028' },
+  { code: 'COMP1030', title: 'Systems and Architecture', year: 1, semester: 1, slug: 'comp1030' },
+  // Year 1, Semester 2
+  { code: 'COMP1023', title: 'Software Engineering', year: 1, semester: 2, slug: 'comp1023' },
+  { code: 'COMP1029', title: 'Programming Paradigms', year: 1, semester: 2, slug: 'comp1029' },
+  { code: 'COMP1032', title: 'Fundamentals of Artificial Intelligence', year: 1, semester: 2, slug: 'comp1032' },
+  { code: 'COMP1044', title: 'Databases and Interfaces', year: 1, semester: 2, slug: 'comp1044' },
+  { code: 'COMP1045', title: 'Mathematics for Computer Scientists 2', year: 1, semester: 2, slug: 'comp1045' },
+  // Year 2, Semester 1
+  { code: 'COMP2035', title: 'Operating Systems & Concurrency', year: 2, semester: 1, slug: 'comp2035' },
+  { code: 'COMP2042', title: 'Developing Maintainable Software', year: 2, semester: 1, slug: 'comp2042' },
+  { code: 'COMP2066', title: 'Algorithms Data Structures and Efficiency', year: 2, semester: 1, slug: 'comp2066' },
+  // Year 2, Semester 2
+  { code: 'COMP2032', title: 'Introduction to Image Processing', year: 2, semester: 2, slug: 'comp2032' },
+  { code: 'COMP2039', title: 'Artificial Intelligence Methods', year: 2, semester: 2, slug: 'comp2039' },
+  { code: 'COMP2040', title: 'Languages and Computation', year: 2, semester: 2, slug: 'comp2040' },
+  { code: 'COMP2041', title: 'Software Specification', year: 2, semester: 2, slug: 'comp2041' },
+  { code: 'COMP2067', title: 'Introduction to Formal Reasoning', year: 2, semester: 2, slug: 'comp2067' },
+  // Year 3, Semester 1
+  { code: 'COMP3033', title: 'Software Quality Assurance', year: 3, semester: 1, slug: 'comp3033' },
+  { code: 'COMP3038', title: 'Machine Learning', year: 3, semester: 1, slug: 'comp3038' },
+  { code: 'COMP3041', title: 'Professional Ethics in Computing', year: 3, semester: 1, slug: 'comp3041' },
+  // Year 3, Semester 2
+  { code: 'COMP3028', title: 'Computer Security', year: 3, semester: 2, slug: 'comp3028' },
+  { code: 'COMP3029', title: 'Computer Vision', year: 3, semester: 2, slug: 'comp3029' },
+];
+
+const years = [1, 2, 3];
+---
+
+<PortalLayout title="Study Portal">
+  <header class="portal-header">
+    <h1>Study Portal</h1>
+    <p class="subtitle">All modules, all years — one place</p>
+    <div id="search-container" class="search-container"></div>
+    <input type="text" id="search" placeholder="Filter modules..." class="search-input" />
+  </header>
+
+  {years.map(year => (
+    <section class="year-section" id={`year-${year}`}>
+      <h2>Year {year} ({2022 + year}–{2023 + year})</h2>
+      {[1, 2].map(sem => {
+        const semModules = modules.filter(m => m.year === year && m.semester === sem);
+        return semModules.length > 0 && (
+          <div class="semester-block">
+            <h3>Semester {sem}</h3>
+            <div class="module-grid">
+              {semModules.map(m => (
+                <TopicCard
+                  title={m.title}
+                  code={m.code}
+                  href={`${base}${m.slug}/${moduleFirstPages[m.slug] || '01-overview'}`}
+                  semester={`Y${m.year}S${m.semester}`}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </section>
+  ))}
+
+  <script>
+    const search = document.getElementById('search') as HTMLInputElement;
+    const cards = document.querySelectorAll('.topic-card');
+    search?.addEventListener('input', () => {
+      const q = search.value.toLowerCase();
+      cards.forEach(card => {
+        const text = card.textContent?.toLowerCase() || '';
+        (card as HTMLElement).style.display = text.includes(q) ? '' : 'none';
+      });
+    });
+  </script>
+  <script>
+    async function initPagefind() {
+      try {
+        const pagefindPath = '/study-portal/pagefind/pagefind.js';
+        const pagefind = await import(/* @vite-ignore */ pagefindPath);
+        await pagefind.init();
+        const container = document.getElementById('search-container');
+        if (!container) return;
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.placeholder = 'Search all content...';
+        input.className = 'search-input pagefind-search';
+        const results = document.createElement('div');
+        results.className = 'pagefind-results';
+        container.appendChild(input);
+        container.appendChild(results);
+
+        let debounce: number;
+        input.addEventListener('input', () => {
+          clearTimeout(debounce);
+          debounce = window.setTimeout(async () => {
+            const q = input.value.trim();
+            if (!q) { results.innerHTML = ''; return; }
+            const search = await pagefind.search(q);
+            const items = await Promise.all(search.results.slice(0, 8).map((r: any) => r.data()));
+            results.innerHTML = items.map((item: any) =>
+              `<a href="${item.url}" class="pf-result"><span class="pf-title">${item.meta?.title || 'Untitled'}</span><span class="pf-excerpt">${item.excerpt}</span></a>`
+            ).join('');
+          }, 200);
+        });
+      } catch (e) { /* pagefind not built yet (dev mode) */ }
+    }
+    initPagefind();
+  </script>
+</PortalLayout>
+
+<style>
+  .portal-header {
+    text-align: center;
+    margin-bottom: 2em;
+  }
+  .subtitle { color: var(--fg-muted); margin-top: 0.3em; }
+  .search-input {
+    margin-top: 1em;
+    padding: 0.7em 1.2em;
+    width: 100%;
+    max-width: 400px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--fg);
+    font-size: 1em;
+  }
+  .search-input:focus { outline: none; border-color: var(--accent); }
+  .year-section { margin-bottom: 2.5em; }
+  .semester-block { margin-top: 1em; }
+  .semester-block h3 {
+    color: var(--fg-muted);
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.8em;
+  }
+  .module-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1em;
+  }
+  .search-container {
+    margin-top: 1em;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    max-width: 500px;
+  }
+  .pagefind-search {
+    margin-top: 0;
+    max-width: 100%;
+  }
+  .pagefind-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-top: 0.3em;
+    z-index: 50;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  .pagefind-results:empty { display: none; }
+  :global(.pf-result) {
+    display: block;
+    padding: 0.6em 1em;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    transition: background 0.1s;
+  }
+  :global(.pf-result:hover) { background: var(--bg-highlight); }
+  :global(.pf-result:last-child) { border-bottom: none; }
+  :global(.pf-title) {
+    display: block;
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 0.9em;
+  }
+  :global(.pf-excerpt) {
+    display: block;
+    color: var(--fg-muted);
+    font-size: 0.8em;
+    margin-top: 0.2em;
+  }
+  :global(.pf-excerpt mark) {
+    background: transparent;
+    color: var(--accent);
+    font-weight: 600;
+  }
+</style>

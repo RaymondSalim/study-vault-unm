@@ -1,0 +1,278 @@
+---
+---
+
+<div class="tt-demo">
+  <h3>Truth Table Generator</h3>
+  <p class="tt-desc">Enter a propositional logic formula using variables (p, q, r) and operators (∧ AND, ∨ OR, → IMPLIES, ¬ NOT, ↔ IFF).</p>
+
+  <div class="tt-input-section">
+    <label>Formula:</label>
+    <input type="text" id="tt-input" class="tt-text-input" value="(p → q) ∧ (q → r) → (p → r)" />
+    <button class="tt-btn" id="tt-generate">Generate</button>
+  </div>
+
+  <div class="tt-shortcuts">
+    <span>Insert:</span>
+    <button class="tt-sym" data-sym="∧">∧</button>
+    <button class="tt-sym" data-sym="∨">∨</button>
+    <button class="tt-sym" data-sym="→">→</button>
+    <button class="tt-sym" data-sym="¬">¬</button>
+    <button class="tt-sym" data-sym="↔">↔</button>
+  </div>
+
+  <div class="tt-presets">
+    <span>Presets:</span>
+    <button class="tt-preset" data-formula="p → q">p → q</button>
+    <button class="tt-preset" data-formula="¬(p ∧ q) ↔ (¬p ∨ ¬q)">De Morgan</button>
+    <button class="tt-preset" data-formula="(p → q) ↔ (¬q → ¬p)">Contrapositive</button>
+    <button class="tt-preset" data-formula="(p ∨ q) ∧ ¬p → q">Disjunctive Syllogism</button>
+  </div>
+
+  <div id="tt-result" style="display:none;">
+    <div class="tt-table-wrap">
+      <table class="tt-table" id="tt-table"></table>
+    </div>
+    <div class="tt-verdict" id="tt-verdict"></div>
+  </div>
+</div>
+
+<script>
+  function tokenize(formula: string): string[] {
+    const tokens: string[] = [];
+    let i = 0;
+    while (i < formula.length) {
+      const ch = formula[i];
+      if (ch === ' ') { i++; continue; }
+      if ('()¬'.includes(ch)) { tokens.push(ch); i++; }
+      else if (ch === '∧' || ch === '∨' || ch === '→' || ch === '↔') { tokens.push(ch); i++; }
+      else if (/[a-z]/.test(ch)) { tokens.push(ch); i++; }
+      else { i++; }
+    }
+    return tokens;
+  }
+
+  function parse(tokens: string[]): (env: Record<string, boolean>) => boolean {
+    let pos = 0;
+
+    function peek() { return tokens[pos]; }
+    function consume() { return tokens[pos++]; }
+
+    function parseIff(): (env: Record<string, boolean>) => boolean {
+      let left = parseImpl();
+      while (peek() === '↔') {
+        consume();
+        const right = parseImpl();
+        const l = left; left = (env) => l(env) === right(env);
+      }
+      return left;
+    }
+
+    function parseImpl(): (env: Record<string, boolean>) => boolean {
+      let left = parseOr();
+      while (peek() === '→') {
+        consume();
+        const right = parseOr();
+        const l = left; left = (env) => !l(env) || right(env);
+      }
+      return left;
+    }
+
+    function parseOr(): (env: Record<string, boolean>) => boolean {
+      let left = parseAnd();
+      while (peek() === '∨') {
+        consume();
+        const right = parseAnd();
+        const l = left; left = (env) => l(env) || right(env);
+      }
+      return left;
+    }
+
+    function parseAnd(): (env: Record<string, boolean>) => boolean {
+      let left = parseNot();
+      while (peek() === '∧') {
+        consume();
+        const right = parseNot();
+        const l = left; left = (env) => l(env) && right(env);
+      }
+      return left;
+    }
+
+    function parseNot(): (env: Record<string, boolean>) => boolean {
+      if (peek() === '¬') {
+        consume();
+        const inner = parseNot();
+        return (env) => !inner(env);
+      }
+      return parseAtom();
+    }
+
+    function parseAtom(): (env: Record<string, boolean>) => boolean {
+      if (peek() === '(') {
+        consume();
+        const inner = parseIff();
+        consume();
+        return inner;
+      }
+      const v = consume();
+      return (env) => env[v] ?? false;
+    }
+
+    return parseIff();
+  }
+
+  function getVars(formula: string): string[] {
+    const vars = new Set<string>();
+    for (const ch of formula) {
+      if (/[a-z]/.test(ch)) vars.add(ch);
+    }
+    return [...vars].sort();
+  }
+
+  function generate() {
+    const formula = (document.getElementById('tt-input') as HTMLInputElement).value;
+    const vars = getVars(formula);
+    if (vars.length === 0 || vars.length > 5) return;
+
+    const tokens = tokenize(formula);
+    let evaluator: (env: Record<string, boolean>) => boolean;
+    try {
+      evaluator = parse(tokens);
+    } catch { return; }
+
+    const rows = 1 << vars.length;
+    let html = '<thead><tr>';
+    vars.forEach(v => { html += `<th>${v}</th>`; });
+    html += `<th>${formula}</th></tr></thead><tbody>`;
+
+    let allTrue = true;
+    let allFalse = true;
+
+    for (let i = 0; i < rows; i++) {
+      const env: Record<string, boolean> = {};
+      vars.forEach((v, idx) => {
+        env[v] = Boolean((i >> (vars.length - 1 - idx)) & 1);
+      });
+      const result = evaluator(env);
+      if (result) allFalse = false; else allTrue = false;
+
+      html += '<tr>';
+      vars.forEach(v => { html += `<td>${env[v] ? 'T' : 'F'}</td>`; });
+      html += `<td class="${result ? 'tt-true' : 'tt-false'}">${result ? 'T' : 'F'}</td>`;
+      html += '</tr>';
+    }
+    html += '</tbody>';
+
+    document.getElementById('tt-table')!.innerHTML = html;
+
+    let verdict = '';
+    if (allTrue) verdict = '✓ TAUTOLOGY — always true';
+    else if (allFalse) verdict = '✗ CONTRADICTION — always false';
+    else verdict = '◐ CONTINGENT — sometimes true, sometimes false';
+
+    document.getElementById('tt-verdict')!.innerHTML = `<span class="${allTrue ? 'tt-taut' : allFalse ? 'tt-contra' : 'tt-conting'}">${verdict}</span>`;
+    document.getElementById('tt-result')!.style.display = 'block';
+  }
+
+  document.getElementById('tt-generate')!.addEventListener('click', generate);
+  document.getElementById('tt-input')!.addEventListener('keydown', (e) => {
+    if ((e as KeyboardEvent).key === 'Enter') generate();
+  });
+
+  document.querySelectorAll('.tt-sym').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const input = document.getElementById('tt-input') as HTMLInputElement;
+      const sym = (btn as HTMLElement).dataset.sym!;
+      const pos = input.selectionStart ?? input.value.length;
+      input.value = input.value.slice(0, pos) + sym + input.value.slice(pos);
+      input.focus();
+      input.setSelectionRange(pos + sym.length, pos + sym.length);
+    });
+  });
+
+  document.querySelectorAll('.tt-preset').forEach(btn => {
+    btn.addEventListener('click', () => {
+      (document.getElementById('tt-input') as HTMLInputElement).value = (btn as HTMLElement).dataset.formula!;
+      generate();
+    });
+  });
+</script>
+
+<style>
+  .tt-demo {
+    background: var(--bg-highlight);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5em;
+    margin: 2em 0;
+  }
+  .tt-demo h3 { margin-top: 0; color: var(--accent); }
+  .tt-desc { color: var(--fg-muted); font-size: 0.9em; }
+  .tt-input-section {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    margin: 1em 0;
+    flex-wrap: wrap;
+  }
+  .tt-input-section label { font-weight: 600; }
+  .tt-text-input {
+    flex: 1;
+    min-width: 250px;
+    padding: 0.5em 0.8em;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--fg);
+    font-family: var(--font-mono, monospace);
+    font-size: 0.9em;
+  }
+  .tt-text-input:focus { border-color: var(--accent); outline: none; }
+  .tt-btn {
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    padding: 0.5em 1.2em;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .tt-btn:hover { opacity: 0.9; }
+  .tt-shortcuts, .tt-presets {
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+    margin: 0.5em 0;
+    font-size: 0.85em;
+    color: var(--fg-muted);
+    flex-wrap: wrap;
+  }
+  .tt-sym, .tt-preset {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    color: var(--fg);
+    padding: 0.3em 0.6em;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: var(--font-mono, monospace);
+  }
+  .tt-sym:hover, .tt-preset:hover { border-color: var(--accent); color: var(--accent); }
+  .tt-table-wrap { overflow-x: auto; margin-top: 1em; }
+  .tt-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.85em;
+  }
+  .tt-table th, .tt-table td {
+    padding: 0.4em 0.8em;
+    border: 1px solid var(--border);
+    text-align: center;
+  }
+  .tt-table th { background: var(--bg-surface); color: var(--fg-muted); }
+  .tt-true { color: #9ece6a; font-weight: 600; }
+  .tt-false { color: #f7768e; }
+  .tt-verdict { margin-top: 1em; font-size: 1.05em; font-weight: 600; }
+  .tt-taut { color: #9ece6a; }
+  .tt-contra { color: #f7768e; }
+  .tt-conting { color: #e0af68; }
+</style>

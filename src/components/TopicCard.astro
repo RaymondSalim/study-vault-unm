@@ -1,0 +1,48 @@
+---
+interface Props {
+  title: string;
+  code: string;
+  href: string;
+  semester: string;
+}
+const { title, code, href, semester } = Astro.props;
+---
+
+<a href={href} class="topic-card">
+  <span class="card-code">{code}</span>
+  <span class="card-title">{title}</span>
+  <span class="card-semester">{semester}</span>
+</a>
+
+<style>
+  .topic-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+    padding: 1.2em;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .topic-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+  .card-code {
+    font-size: 0.8em;
+    color: var(--accent);
+    font-weight: 700;
+    font-family: monospace;
+  }
+  .card-title {
+    font-size: 1em;
+    color: var(--fg);
+    font-weight: 600;
+  }
+  .card-semester {
+    font-size: 0.75em;
+    color: var(--fg-muted);
+  }
+</style>

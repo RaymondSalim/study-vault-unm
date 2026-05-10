@@ -1,0 +1,40 @@
+---
+import PortalLayout from '../layouts/PortalLayout.astro';
+const base = import.meta.env.BASE_URL;
+const homeUrl = base.endsWith('/') ? base : base + '/';
+---
+
+<PortalLayout title="404 — Not Found">
+  <div class="not-found">
+    <h1>404</h1>
+    <p>Page not found.</p>
+    <a href={homeUrl} class="home-link">← Back to Study Portal</a>
+  </div>
+</PortalLayout>
+
+<style>
+  .not-found {
+    text-align: center;
+    padding: 4em 1em;
+  }
+  .not-found h1 {
+    font-size: 4em;
+    color: var(--accent);
+    margin-bottom: 0.2em;
+  }
+  .not-found p {
+    color: var(--fg-muted);
+    font-size: 1.2em;
+  }
+  .home-link {
+    display: inline-block;
+    margin-top: 1.5em;
+    padding: 0.6em 1.2em;
+    background: var(--accent);
+    color: var(--bg);
+    border-radius: var(--radius);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .home-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

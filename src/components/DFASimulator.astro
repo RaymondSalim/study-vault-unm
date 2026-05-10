@@ -1,0 +1,315 @@
+---
+---
+
+<div class="dfa-demo">
+  <h3>DFA/NFA State Transition Simulator</h3>
+  <p class="dfa-desc">Define states and transitions, then simulate input strings. The automaton processes one symbol at a time.</p>
+
+  <div class="dfa-config">
+    <div class="dfa-field">
+      <label>States (comma-separated):</label>
+      <input type="text" id="dfa-states" class="dfa-input" value="q0, q1, q2" />
+    </div>
+    <div class="dfa-field">
+      <label>Alphabet (comma-separated):</label>
+      <input type="text" id="dfa-alphabet" class="dfa-input" value="0, 1" />
+    </div>
+    <div class="dfa-field">
+      <label>Start state:</label>
+      <input type="text" id="dfa-start" class="dfa-input" value="q0" />
+    </div>
+    <div class="dfa-field">
+      <label>Accept states (comma-separated):</label>
+      <input type="text" id="dfa-accept" class="dfa-input" value="q2" />
+    </div>
+  </div>
+
+  <div class="dfa-trans-section">
+    <label>Transitions (one per line: <code>state,symbol→next</code>):</label>
+    <textarea id="dfa-transitions" class="dfa-textarea" rows="6">q0,0→q0
+q0,1→q1
+q1,0→q2
+q1,1→q0
+q2,0→q1
+q2,1→q2</textarea>
+  </div>
+
+  <div class="dfa-presets">
+    <span>Presets:</span>
+    <button class="dfa-preset-btn" data-preset="binary-ends-1">Ends with 1</button>
+    <button class="dfa-preset-btn" data-preset="even-zeros">Even 0s</button>
+    <button class="dfa-preset-btn" data-preset="contains-01">Contains "01"</button>
+  </div>
+
+  <div class="dfa-simulate">
+    <label>Input string:</label>
+    <input type="text" id="dfa-input-str" class="dfa-input" value="01001" />
+    <button class="dfa-btn" id="dfa-run">Run</button>
+    <button class="dfa-btn" id="dfa-step-btn">Step</button>
+    <button class="dfa-btn" id="dfa-reset-btn">Reset</button>
+  </div>
+
+  <div class="dfa-visualisation" id="dfa-vis" style="display:none;">
+    <div class="dfa-state-display" id="dfa-state-display"></div>
+    <div class="dfa-trace" id="dfa-trace"></div>
+    <div class="dfa-verdict" id="dfa-verdict"></div>
+  </div>
+</div>
+
+<script>
+  interface DFAConfig {
+    states: string[];
+    alphabet: string[];
+    start: string;
+    accept: string[];
+    transitions: Record<string, string>;
+  }
+
+  const presets: Record<string, { states: string; alphabet: string; start: string; accept: string; transitions: string }> = {
+    'binary-ends-1': {
+      states: 'q0, q1',
+      alphabet: '0, 1',
+      start: 'q0',
+      accept: 'q1',
+      transitions: 'q0,0→q0\nq0,1→q1\nq1,0→q0\nq1,1→q1',
+    },
+    'even-zeros': {
+      states: 'q0, q1',
+      alphabet: '0, 1',
+      start: 'q0',
+      accept: 'q0',
+      transitions: 'q0,0→q1\nq0,1→q0\nq1,0→q0\nq1,1→q1',
+    },
+    'contains-01': {
+      states: 'q0, q1, q2',
+      alphabet: '0, 1',
+      start: 'q0',
+      accept: 'q2',
+      transitions: 'q0,0→q1\nq0,1→q0\nq1,0→q1\nq1,1→q2\nq2,0→q2\nq2,1→q2',
+    },
+  };
+
+  let currentState = '';
+  let inputStr = '';
+  let inputIdx = 0;
+  let trace: string[] = [];
+  let config: DFAConfig;
+
+  function parseConfig(): DFAConfig {
+    const states = (document.getElementById('dfa-states') as HTMLInputElement).value.split(',').map(s => s.trim());
+    const alphabet = (document.getElementById('dfa-alphabet') as HTMLInputElement).value.split(',').map(s => s.trim());
+    const start = (document.getElementById('dfa-start') as HTMLInputElement).value.trim();
+    const accept = (document.getElementById('dfa-accept') as HTMLInputElement).value.split(',').map(s => s.trim());
+    const transText = (document.getElementById('dfa-transitions') as HTMLTextAreaElement).value;
+    const transitions: Record<string, string> = {};
+    transText.split('\n').forEach(line => {
+      const match = line.trim().match(/^(.+),(.+)→(.+)$/);
+      if (match) {
+        transitions[`${match[1].trim()},${match[2].trim()}`] = match[3].trim();
+      }
+    });
+    return { states, alphabet, start, accept, transitions };
+  }
+
+  function renderState() {
+    const vis = document.getElementById('dfa-vis')!;
+    const display = document.getElementById('dfa-state-display')!;
+    const traceDiv = document.getElementById('dfa-trace')!;
+    const verdict = document.getElementById('dfa-verdict')!;
+    vis.style.display = 'block';
+
+    let inputDisplay = '';
+    for (let i = 0; i < inputStr.length; i++) {
+      if (i === inputIdx) {
+        inputDisplay += `<span class="dfa-current-char">${inputStr[i]}</span>`;
+      } else if (i < inputIdx) {
+        inputDisplay += `<span class="dfa-consumed">${inputStr[i]}</span>`;
+      } else {
+        inputDisplay += `<span>${inputStr[i]}</span>`;
+      }
+    }
+
+    const isAccept = config.accept.includes(currentState);
+    const stateClass = isAccept ? 'dfa-accept-state' : '';
+
+    display.innerHTML = `
+      <div class="dfa-input-display">Input: ${inputDisplay}</div>
+      <div class="dfa-current ${stateClass}">Current state: <strong>${currentState}</strong>${isAccept ? ' (accept)' : ''}</div>
+    `;
+
+    traceDiv.innerHTML = trace.map(t => `<span class="dfa-trace-item">${t}</span>`).join(' → ');
+
+    if (inputIdx >= inputStr.length) {
+      const accepted = config.accept.includes(currentState);
+      verdict.innerHTML = accepted
+        ? '<span class="dfa-accepted">✓ ACCEPTED</span>'
+        : '<span class="dfa-rejected">✗ REJECTED</span>';
+    } else {
+      verdict.innerHTML = '';
+    }
+  }
+
+  function stepOnce() {
+    if (inputIdx >= inputStr.length) return;
+    const symbol = inputStr[inputIdx];
+    const key = `${currentState},${symbol}`;
+    const next = config.transitions[key];
+    if (next) {
+      trace.push(`δ(${currentState},${symbol})=${next}`);
+      currentState = next;
+    } else {
+      trace.push(`δ(${currentState},${symbol})=∅ (stuck)`);
+      currentState = '∅';
+    }
+    inputIdx++;
+    renderState();
+  }
+
+  function runAll() {
+    initRun();
+    while (inputIdx < inputStr.length && currentState !== '∅') {
+      stepOnce();
+    }
+  }
+
+  function initRun() {
+    config = parseConfig();
+    inputStr = (document.getElementById('dfa-input-str') as HTMLInputElement).value;
+    currentState = config.start;
+    inputIdx = 0;
+    trace = [currentState];
+    renderState();
+  }
+
+  document.getElementById('dfa-run')!.addEventListener('click', runAll);
+  document.getElementById('dfa-step-btn')!.addEventListener('click', () => {
+    if (inputIdx === 0 && trace.length <= 1) initRun();
+    stepOnce();
+  });
+  document.getElementById('dfa-reset-btn')!.addEventListener('click', initRun);
+
+  document.querySelectorAll('.dfa-preset-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const p = presets[(btn as HTMLElement).dataset.preset!];
+      (document.getElementById('dfa-states') as HTMLInputElement).value = p.states;
+      (document.getElementById('dfa-alphabet') as HTMLInputElement).value = p.alphabet;
+      (document.getElementById('dfa-start') as HTMLInputElement).value = p.start;
+      (document.getElementById('dfa-accept') as HTMLInputElement).value = p.accept;
+      (document.getElementById('dfa-transitions') as HTMLTextAreaElement).value = p.transitions;
+    });
+  });
+</script>
+
+<style>
+  .dfa-demo {
+    background: var(--bg-highlight);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5em;
+    margin: 2em 0;
+  }
+  .dfa-demo h3 { margin-top: 0; color: var(--accent); }
+  .dfa-desc { color: var(--fg-muted); font-size: 0.9em; }
+  .dfa-config {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8em;
+    margin: 1em 0;
+  }
+  .dfa-field label {
+    display: block;
+    font-size: 0.85em;
+    color: var(--fg-muted);
+    margin-bottom: 0.3em;
+  }
+  .dfa-input {
+    width: 100%;
+    padding: 0.4em 0.6em;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--fg);
+    font-family: var(--font-mono, monospace);
+    font-size: 0.9em;
+  }
+  .dfa-input:focus { border-color: var(--accent); outline: none; }
+  .dfa-trans-section { margin: 1em 0; }
+  .dfa-trans-section label { font-size: 0.85em; color: var(--fg-muted); }
+  .dfa-trans-section code { color: var(--accent); }
+  .dfa-textarea {
+    width: 100%;
+    margin-top: 0.3em;
+    padding: 0.5em;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--fg);
+    font-family: var(--font-mono, monospace);
+    font-size: 0.85em;
+    resize: vertical;
+  }
+  .dfa-textarea:focus { border-color: var(--accent); outline: none; }
+  .dfa-presets {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    margin: 0.8em 0;
+    font-size: 0.85em;
+    color: var(--fg-muted);
+  }
+  .dfa-preset-btn {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    color: var(--fg-muted);
+    padding: 0.3em 0.6em;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85em;
+  }
+  .dfa-preset-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .dfa-simulate {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    margin: 1em 0;
+    flex-wrap: wrap;
+  }
+  .dfa-simulate label { font-weight: 600; font-size: 0.9em; }
+  .dfa-simulate .dfa-input { width: auto; min-width: 150px; }
+  .dfa-btn {
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    padding: 0.4em 1em;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9em;
+  }
+  .dfa-btn:hover { opacity: 0.9; }
+  .dfa-visualisation {
+    margin-top: 1.5em;
+    padding-top: 1em;
+    border-top: 1px solid var(--border);
+  }
+  .dfa-input-display {
+    font-family: var(--font-mono, monospace);
+    font-size: 1.1em;
+    margin-bottom: 0.5em;
+  }
+  .dfa-current-char { background: var(--accent); color: var(--bg); padding: 0.1em 0.3em; border-radius: 3px; }
+  .dfa-consumed { color: var(--fg-muted); text-decoration: line-through; }
+  .dfa-current { font-size: 1em; margin: 0.5em 0; }
+  .dfa-accept-state { color: #9ece6a; }
+  .dfa-trace {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.85em;
+    margin: 0.8em 0;
+    color: var(--fg-muted);
+    word-break: break-all;
+  }
+  .dfa-trace-item { white-space: nowrap; }
+  .dfa-verdict { font-size: 1.2em; font-weight: 700; margin-top: 0.5em; }
+  .dfa-accepted { color: #9ece6a; }
+  .dfa-rejected { color: #f7768e; }
+</style>

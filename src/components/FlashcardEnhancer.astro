@@ -1,0 +1,123 @@
+---
+---
+
+<script>
+  function enhanceFlashcards() {
+    const tables = document.querySelectorAll('main table');
+    tables.forEach(table => {
+      const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.textContent?.toLowerCase().trim() || '');
+      const qIdx = headers.findIndex(h => h.includes('question'));
+      const aIdx = headers.findIndex(h => h.includes('answer'));
+      if (qIdx === -1 || aIdx === -1) return;
+
+      const rows = table.querySelectorAll('tbody tr');
+      if (rows.length === 0) return;
+
+      const cards: { q: string; a: string }[] = [];
+      rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        if (cells[qIdx] && cells[aIdx]) {
+          cards.push({ q: cells[qIdx].textContent?.trim() || '', a: cells[aIdx].textContent?.trim() || '' });
+        }
+      });
+
+      if (cards.length === 0) return;
+
+      const player = document.createElement('div');
+      player.className = 'fc-enhanced';
+      player.innerHTML = `
+        <div class="fc-card-wrap">
+          <div class="fc-front"></div>
+          <div class="fc-back"></div>
+        </div>
+        <div class="fc-controls-row">
+          <button class="fc-btn fc-prev" aria-label="Previous">← Prev</button>
+          <span class="fc-counter"></span>
+          <button class="fc-btn fc-next" aria-label="Next">Next →</button>
+        </div>
+        <button class="fc-btn fc-flip-btn">Flip Card</button>
+        <p class="fc-hint">Click "Flip" or press Space to reveal answer. Arrow keys to navigate.</p>
+      `;
+
+      table.parentNode!.insertBefore(player, table);
+      table.style.display = 'none';
+
+      let idx = 0;
+      let flipped = false;
+      const front = player.querySelector('.fc-front') as HTMLElement;
+      const back = player.querySelector('.fc-back') as HTMLElement;
+      const counter = player.querySelector('.fc-counter') as HTMLElement;
+
+      function render() {
+        front.textContent = cards[idx].q;
+        back.textContent = cards[idx].a;
+        front.style.display = flipped ? 'none' : 'block';
+        back.style.display = flipped ? 'block' : 'none';
+        counter.textContent = `${idx + 1} / ${cards.length}`;
+      }
+
+      player.querySelector('.fc-flip-btn')!.addEventListener('click', () => { flipped = !flipped; render(); });
+      player.querySelector('.fc-prev')!.addEventListener('click', () => { idx = (idx - 1 + cards.length) % cards.length; flipped = false; render(); });
+      player.querySelector('.fc-next')!.addEventListener('click', () => { idx = (idx + 1) % cards.length; flipped = false; render(); });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.target !== document.body) return;
+        if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); flipped = !flipped; render(); }
+        if (e.key === 'ArrowRight') { idx = (idx + 1) % cards.length; flipped = false; render(); }
+        if (e.key === 'ArrowLeft') { idx = (idx - 1 + cards.length) % cards.length; flipped = false; render(); }
+      });
+
+      render();
+    });
+  }
+
+  if (window.location.pathname.includes('flashcard')) {
+    enhanceFlashcards();
+  }
+</script>
+
+<style is:global>
+  .fc-enhanced {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+    margin: 1.5em 0;
+  }
+  .fc-card-wrap {
+    width: 100%;
+    max-width: 550px;
+    min-height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-highlight);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2em;
+    font-size: 1.05em;
+    text-align: center;
+    line-height: 1.5;
+  }
+  .fc-card-wrap .fc-front { color: var(--fg); }
+  .fc-card-wrap .fc-back { color: var(--green); font-weight: 500; }
+  .fc-controls-row {
+    display: flex;
+    align-items: center;
+    gap: 1.5em;
+  }
+  .fc-btn {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    color: var(--fg);
+    padding: 0.5em 1em;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+  }
+  .fc-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .fc-flip-btn { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 600; }
+  .fc-flip-btn:hover { opacity: 0.9; color: var(--bg); }
+  .fc-counter { color: var(--fg-muted); font-size: 0.9em; font-family: var(--font-mono, monospace); }
+  .fc-hint { color: var(--fg-muted); font-size: 0.8em; margin-top: 0.5em; }
+</style>

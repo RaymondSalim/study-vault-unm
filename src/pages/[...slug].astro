@@ -1,0 +1,69 @@
+---
+import ModuleLayout from '../layouts/ModuleLayout.astro';
+import ConvolutionDemo from '../components/ConvolutionDemo.astro';
+import HistogramDemo from '../components/HistogramDemo.astro';
+import HuffmanDemo from '../components/HuffmanDemo.astro';
+import SortingDemo from '../components/SortingDemo.astro';
+import DFASimulator from '../components/DFASimulator.astro';
+import GraphTraversalDemo from '../components/GraphTraversalDemo.astro';
+import TruthTableDemo from '../components/TruthTableDemo.astro';
+import PerceptronDemo from '../components/PerceptronDemo.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('modules');
+  return pages.map(entry => {
+    const parts = entry.id.split('/');
+    const moduleSlug = parts[0];
+    const pageSlug = parts.slice(1).join('/');
+    return {
+      params: { slug: `${moduleSlug}/${pageSlug}` },
+      props: { entry, moduleSlug, pageSlug },
+    };
+  });
+}
+
+const { entry, moduleSlug, pageSlug } = Astro.props;
+const { Content } = await render(entry);
+
+const allPages = await getCollection('modules');
+const modulePages = allPages.filter(p => p.id.startsWith(moduleSlug + '/'));
+
+const navItems = modulePages.map(p => {
+  const slug = p.id.split('/').slice(1).join('/');
+  return {
+    title: p.data.title || slug,
+    slug,
+    order: p.data.order ?? 99,
+  };
+});
+
+const moduleTitle = entry.data.moduleTitle || moduleSlug.toUpperCase();
+const isDemo = pageSlug.includes('interactive-demos');
+const hasConvolution = isDemo && moduleSlug === 'comp2032';
+const hasHistogram = isDemo && moduleSlug === 'comp2032';
+const hasHuffman = isDemo && moduleSlug === 'comp2032';
+const hasSorting = isDemo && moduleSlug === 'comp2066';
+const hasGraph = isDemo && moduleSlug === 'comp2066';
+const hasDFA = isDemo && moduleSlug === 'comp2040';
+const hasTruthTable = isDemo && moduleSlug === 'comp2067';
+const hasPerceptron = isDemo && moduleSlug === 'comp3038';
+---
+
+<ModuleLayout
+  title={entry.data.title}
+  moduleTitle={moduleTitle}
+  moduleSlug={moduleSlug}
+  currentSlug={pageSlug}
+  navItems={navItems}
+>
+  <Content />
+  {hasConvolution && <ConvolutionDemo />}
+  {hasHistogram && <HistogramDemo />}
+  {hasHuffman && <HuffmanDemo />}
+  {hasSorting && <SortingDemo />}
+  {hasGraph && <GraphTraversalDemo />}
+  {hasDFA && <DFASimulator />}
+  {hasTruthTable && <TruthTableDemo />}
+  {hasPerceptron && <PerceptronDemo />}
+</ModuleLayout>

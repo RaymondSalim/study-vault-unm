@@ -1,0 +1,213 @@
+---
+---
+
+<div class="hist-demo">
+  <h3>Histogram Equalisation</h3>
+  <p class="hist-desc">Enter pixel intensity values (0–255) and step through the equalisation process.</p>
+
+  <div class="hist-input-section">
+    <label>Pixel values (comma-separated, 0–255):</label>
+    <input type="text" id="hist-input" class="hist-text-input" value="52, 55, 61, 59, 70, 61, 76, 61, 80, 85, 92, 100, 55, 61, 59, 70" />
+    <button class="hist-btn" id="hist-compute">Equalise</button>
+  </div>
+
+  <div class="hist-results" id="hist-results" style="display:none;">
+    <div class="hist-panels">
+      <div class="hist-panel">
+        <h4>Original Histogram</h4>
+        <canvas id="hist-original" width="300" height="150"></canvas>
+      </div>
+      <div class="hist-panel">
+        <h4>Equalised Histogram</h4>
+        <canvas id="hist-equalised" width="300" height="150"></canvas>
+      </div>
+    </div>
+
+    <div class="hist-table-section">
+      <h4>Step-by-step CDF Mapping</h4>
+      <div class="hist-table-wrap">
+        <table class="hist-table" id="hist-table">
+          <thead>
+            <tr>
+              <th>Intensity</th>
+              <th>Count</th>
+              <th>PDF</th>
+              <th>CDF</th>
+              <th>Mapped Value</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="hist-output-section">
+      <h4>Equalised Values</h4>
+      <div id="hist-output" class="hist-output-values"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function drawHistogram(canvas: HTMLCanvasElement, data: number[], maxVal: number) {
+    const ctx = canvas.getContext('2d')!;
+    const w = canvas.width;
+    const h = canvas.height;
+    const pad = { top: 10, bottom: 25, left: 5, right: 5 };
+    ctx.clearRect(0, 0, w, h);
+
+    const bins = new Array(256).fill(0);
+    data.forEach(v => { if (v >= 0 && v <= 255) bins[v]++; });
+    const maxCount = Math.max(...bins);
+    if (maxCount === 0) return;
+
+    const plotW = w - pad.left - pad.right;
+    const plotH = h - pad.top - pad.bottom;
+    const barWidth = plotW / 256;
+    ctx.fillStyle = '#7aa2f7';
+    for (let i = 0; i < 256; i++) {
+      const barHeight = (bins[i] / maxCount) * plotH;
+      ctx.fillRect(pad.left + i * barWidth, pad.top + plotH - barHeight, Math.max(barWidth - 0.5, 1), barHeight);
+    }
+
+    ctx.fillStyle = '#565f89';
+    ctx.font = '10px sans-serif';
+    ctx.textAlign = 'center';
+    for (let i = 0; i <= 255; i += 64) {
+      ctx.fillText(String(i), pad.left + (i / 255) * plotW, h - 5);
+    }
+    ctx.fillText('255', pad.left + plotW, h - 5);
+  }
+
+  document.getElementById('hist-compute')!.addEventListener('click', () => {
+    const input = (document.getElementById('hist-input') as HTMLInputElement).value;
+    const pixels = input.split(',').map(s => Math.round(Number(s.trim()))).filter(n => !isNaN(n) && n >= 0 && n <= 255);
+
+    if (pixels.length === 0) return;
+
+    const n = pixels.length;
+    const L = 256;
+
+    const hist: Record<number, number> = {};
+    pixels.forEach(v => { hist[v] = (hist[v] || 0) + 1; });
+
+    const intensities = Object.keys(hist).map(Number).sort((a, b) => a - b);
+
+    let cdf = 0;
+    const mapping: Record<number, number> = {};
+    const tableRows: string[] = [];
+
+    intensities.forEach(intensity => {
+      const count = hist[intensity];
+      const pdf = count / n;
+      cdf += pdf;
+      const mapped = Math.round(cdf * (L - 1));
+      mapping[intensity] = mapped;
+      tableRows.push(`<tr><td>${intensity}</td><td>${count}</td><td>${pdf.toFixed(4)}</td><td>${cdf.toFixed(4)}</td><td>${mapped}</td></tr>`);
+    });
+
+    const equalised = pixels.map(v => mapping[v]);
+
+    const tbody = document.querySelector('#hist-table tbody')!;
+    tbody.innerHTML = tableRows.join('');
+
+    const outputDiv = document.getElementById('hist-output')!;
+    outputDiv.textContent = equalised.join(', ');
+
+    drawHistogram(document.getElementById('hist-original') as HTMLCanvasElement, pixels, 255);
+    drawHistogram(document.getElementById('hist-equalised') as HTMLCanvasElement, equalised, 255);
+
+    document.getElementById('hist-results')!.style.display = 'block';
+  });
+</script>
+
+<style>
+  .hist-demo {
+    background: var(--bg-highlight);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5em;
+    margin: 2em 0;
+  }
+  .hist-demo h3 { margin-top: 0; color: var(--accent); }
+  .hist-desc { color: var(--fg-muted); font-size: 0.9em; }
+  .hist-input-section {
+    margin: 1em 0;
+  }
+  .hist-input-section label {
+    display: block;
+    margin-bottom: 0.4em;
+    font-weight: 600;
+  }
+  .hist-text-input {
+    width: 100%;
+    max-width: 500px;
+    padding: 0.5em 0.8em;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--fg);
+    font-family: var(--font-mono, monospace);
+    font-size: 0.9em;
+  }
+  .hist-text-input:focus { border-color: var(--accent); outline: none; }
+  .hist-btn {
+    margin-top: 0.5em;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    padding: 0.5em 1.2em;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .hist-btn:hover { opacity: 0.9; }
+  .hist-panels {
+    display: flex;
+    gap: 1.5em;
+    flex-wrap: wrap;
+    margin: 1em 0;
+  }
+  .hist-panel {
+    flex: 1;
+    min-width: 280px;
+  }
+  .hist-panel h4 { margin: 0 0 0.5em; font-size: 0.9em; color: var(--fg-muted); }
+  .hist-panel canvas {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    width: 100%;
+    height: auto;
+  }
+  .hist-table-section { margin-top: 1.5em; }
+  .hist-table-section h4 { margin: 0 0 0.5em; color: var(--fg); }
+  .hist-table-wrap { overflow-x: auto; }
+  .hist-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85em;
+    font-family: var(--font-mono, monospace);
+  }
+  .hist-table th, .hist-table td {
+    padding: 0.4em 0.8em;
+    border: 1px solid var(--border);
+    text-align: center;
+  }
+  .hist-table th {
+    background: var(--bg-surface);
+    color: var(--fg-muted);
+    font-weight: 600;
+  }
+  .hist-output-section { margin-top: 1.5em; }
+  .hist-output-section h4 { margin: 0 0 0.5em; color: var(--fg); }
+  .hist-output-values {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.9em;
+    background: var(--bg-surface);
+    padding: 0.8em;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    word-break: break-all;
+  }
+</style>

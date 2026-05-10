@@ -1,0 +1,229 @@
+---
+---
+
+<div class="graph-demo">
+  <h3>Graph Traversal Visualiser</h3>
+  <p class="graph-desc">Watch BFS and DFS explore a graph step by step. Nodes are visited in order shown below.</p>
+
+  <div class="graph-controls">
+    <select id="graph-algo" class="graph-select">
+      <option value="bfs">Breadth-First Search (BFS)</option>
+      <option value="dfs">Depth-First Search (DFS)</option>
+    </select>
+    <label class="graph-label">Start node:
+      <select id="graph-start" class="graph-select">
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+        <option value="D">D</option>
+        <option value="E">E</option>
+        <option value="F">F</option>
+      </select>
+    </label>
+    <button class="graph-btn" id="graph-step">Step</button>
+    <button class="graph-btn" id="graph-run">Run All</button>
+    <button class="graph-btn graph-btn-secondary" id="graph-reset">Reset</button>
+  </div>
+
+  <div class="graph-layout">
+    <div class="graph-canvas-wrap">
+      <canvas id="graph-canvas" width="400" height="300"></canvas>
+    </div>
+    <div class="graph-info-panel">
+      <div class="graph-adj">
+        <h4>Adjacency List</h4>
+        <pre id="graph-adj-list"></pre>
+      </div>
+      <div class="graph-trace">
+        <h4>Visit Order</h4>
+        <div id="graph-visited" class="graph-visited"></div>
+      </div>
+      <div class="graph-ds">
+        <h4><span id="graph-ds-label">Queue</span></h4>
+        <div id="graph-ds-content" class="graph-ds-content"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const adjList: Record<string, string[]> = {
+    A: ['B', 'C'],
+    B: ['A', 'D', 'E'],
+    C: ['A', 'F'],
+    D: ['B'],
+    E: ['B', 'F'],
+    F: ['C', 'E'],
+  };
+
+  const nodePositions: Record<string, [number, number]> = {
+    A: [70, 150], B: [200, 50], C: [200, 250],
+    D: [330, 50], E: [330, 150], F: [330, 250],
+  };
+
+  let visited: string[] = [];
+  let frontier: string[] = [];
+  let algo = 'bfs';
+
+  const canvas = document.getElementById('graph-canvas') as HTMLCanvasElement;
+  const ctx = canvas.getContext('2d')!;
+
+  function drawGraph() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.lineWidth = 2;
+    for (const [node, neighbors] of Object.entries(adjList)) {
+      for (const n of neighbors) {
+        if (node < n) {
+          const [x1, y1] = nodePositions[node];
+          const [x2, y2] = nodePositions[n];
+          ctx.strokeStyle = '#3b4261';
+          ctx.beginPath();
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(x2, y2);
+          ctx.stroke();
+        }
+      }
+    }
+    for (const [node, [x, y]] of Object.entries(nodePositions)) {
+      ctx.beginPath();
+      ctx.arc(x, y, 24, 0, Math.PI * 2);
+      if (visited.includes(node)) {
+        ctx.fillStyle = '#9ece6a';
+      } else if (frontier.includes(node)) {
+        ctx.fillStyle = '#e0af68';
+      } else {
+        ctx.fillStyle = '#24283b';
+      }
+      ctx.fill();
+      ctx.strokeStyle = visited.includes(node) ? '#9ece6a' : frontier.includes(node) ? '#e0af68' : '#7aa2f7';
+      ctx.stroke();
+      ctx.fillStyle = '#c0caf5';
+      ctx.font = '14px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(node, x, y);
+    }
+  }
+
+  function updateUI() {
+    drawGraph();
+    document.getElementById('graph-visited')!.textContent = visited.join(' → ') || '(none)';
+    document.getElementById('graph-ds-content')!.textContent = frontier.length ? `[${frontier.join(', ')}]` : '(empty)';
+    document.getElementById('graph-ds-label')!.textContent = algo === 'bfs' ? 'Queue' : 'Stack';
+  }
+
+  function reset() {
+    algo = (document.getElementById('graph-algo') as HTMLSelectElement).value;
+    const start = (document.getElementById('graph-start') as HTMLSelectElement).value;
+    visited = [];
+    frontier = [start];
+    updateUI();
+  }
+
+  function step() {
+    if (frontier.length === 0) return;
+    const current = algo === 'bfs' ? frontier.shift()! : frontier.pop()!;
+    if (visited.includes(current)) {
+      step();
+      return;
+    }
+    visited.push(current);
+    const neighbors = adjList[current] || [];
+    for (const n of neighbors) {
+      if (!visited.includes(n) && !frontier.includes(n)) {
+        frontier.push(n);
+      }
+    }
+    updateUI();
+  }
+
+  function runAll() {
+    while (frontier.length > 0) step();
+  }
+
+  document.getElementById('graph-adj-list')!.textContent = Object.entries(adjList)
+    .map(([k, v]) => `${k}: [${v.join(', ')}]`).join('\n');
+
+  document.getElementById('graph-step')!.addEventListener('click', step);
+  document.getElementById('graph-run')!.addEventListener('click', runAll);
+  document.getElementById('graph-reset')!.addEventListener('click', reset);
+  document.getElementById('graph-algo')!.addEventListener('change', reset);
+  document.getElementById('graph-start')!.addEventListener('change', reset);
+
+  reset();
+</script>
+
+<style>
+  .graph-demo {
+    background: var(--bg-highlight);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5em;
+    margin: 2em 0;
+  }
+  .graph-demo h3 { margin-top: 0; color: var(--accent); }
+  .graph-desc { color: var(--fg-muted); font-size: 0.9em; }
+  .graph-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    flex-wrap: wrap;
+    margin: 1em 0;
+  }
+  .graph-select {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    color: var(--fg);
+    padding: 0.4em 0.6em;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+  .graph-label { font-size: 0.85em; color: var(--fg-muted); display: flex; align-items: center; gap: 0.3em; }
+  .graph-btn {
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    padding: 0.4em 1em;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9em;
+  }
+  .graph-btn:hover { opacity: 0.9; }
+  .graph-btn-secondary { background: var(--bg-surface); color: var(--fg); border: 1px solid var(--border); }
+  .graph-btn-secondary:hover { border-color: var(--accent); }
+  .graph-layout {
+    display: flex;
+    gap: 1.5em;
+    flex-wrap: wrap;
+    margin-top: 1em;
+  }
+  .graph-canvas-wrap canvas {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+  }
+  .graph-info-panel { flex: 1; min-width: 200px; }
+  .graph-info-panel h4 { margin: 0 0 0.3em; font-size: 0.85em; color: var(--fg-muted); }
+  .graph-adj pre {
+    font-size: 0.8em;
+    background: var(--bg-surface);
+    padding: 0.5em;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+  .graph-trace, .graph-ds { margin-top: 1em; }
+  .graph-visited {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.85em;
+    color: #9ece6a;
+  }
+  .graph-ds-content {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.85em;
+    color: #e0af68;
+  }
+</style>

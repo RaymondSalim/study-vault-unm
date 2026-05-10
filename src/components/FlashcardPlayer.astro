@@ -1,0 +1,101 @@
+---
+interface Card {
+  q: string;
+  a: string;
+}
+interface Props {
+  cards: Card[];
+}
+const { cards } = Astro.props;
+---
+
+<div class="flashcard-player" data-cards={JSON.stringify(cards)}>
+  <div class="fc-card">
+    <div class="fc-front"></div>
+    <div class="fc-back"></div>
+  </div>
+  <div class="fc-controls">
+    <button class="fc-btn fc-prev" aria-label="Previous">&#8592;</button>
+    <span class="fc-counter"></span>
+    <button class="fc-btn fc-next" aria-label="Next">&#8594;</button>
+  </div>
+  <button class="fc-btn fc-flip">Flip</button>
+</div>
+
+<script>
+  document.querySelectorAll('.flashcard-player').forEach(player => {
+    const cards = JSON.parse(player.getAttribute('data-cards') || '[]');
+    let idx = 0;
+    let flipped = false;
+
+    const front = player.querySelector('.fc-front') as HTMLElement;
+    const back = player.querySelector('.fc-back') as HTMLElement;
+    const counter = player.querySelector('.fc-counter') as HTMLElement;
+
+    function render() {
+      if (!cards.length) return;
+      front.textContent = cards[idx].q;
+      back.textContent = cards[idx].a;
+      back.style.display = flipped ? 'block' : 'none';
+      front.style.display = flipped ? 'none' : 'block';
+      counter.textContent = `${idx + 1} / ${cards.length}`;
+    }
+
+    player.querySelector('.fc-flip')!.addEventListener('click', () => {
+      flipped = !flipped;
+      render();
+    });
+    player.querySelector('.fc-prev')!.addEventListener('click', () => {
+      idx = (idx - 1 + cards.length) % cards.length;
+      flipped = false;
+      render();
+    });
+    player.querySelector('.fc-next')!.addEventListener('click', () => {
+      idx = (idx + 1) % cards.length;
+      flipped = false;
+      render();
+    });
+
+    render();
+  });
+</script>
+
+<style>
+  .flashcard-player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+    margin: 2em 0;
+  }
+  .fc-card {
+    width: 100%;
+    max-width: 500px;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-highlight);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2em;
+    font-size: 1.1em;
+    text-align: center;
+  }
+  .fc-controls {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+  }
+  .fc-counter { color: var(--fg-muted); font-size: 0.9em; }
+  .fc-btn {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    color: var(--fg);
+    padding: 0.5em 1em;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+  }
+  .fc-btn:hover { border-color: var(--accent); color: var(--accent); }
+</style>

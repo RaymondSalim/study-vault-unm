@@ -1,0 +1,201 @@
+---
+---
+
+<div class="conv-demo">
+  <h3>Convolution Calculator</h3>
+  <p class="conv-desc">Enter kernel and image patch values, then click Compute to see the step-by-step convolution.</p>
+
+  <div class="conv-inputs">
+    <div class="conv-section">
+      <label>Kernel (3×3)</label>
+      <div class="conv-grid kernel-grid" id="kernel-grid"></div>
+      <div class="conv-presets">
+        <button class="preset-btn" data-preset="sharpen">Sharpen</button>
+        <button class="preset-btn" data-preset="blur">Box Blur</button>
+        <button class="preset-btn" data-preset="edge">Edge Detect</button>
+        <button class="preset-btn" data-preset="emboss">Emboss</button>
+      </div>
+    </div>
+    <div class="conv-section">
+      <label>Image Patch (3×3)</label>
+      <div class="conv-grid patch-grid" id="patch-grid"></div>
+      <button class="preset-btn" id="random-patch">Random</button>
+    </div>
+  </div>
+
+  <button class="conv-compute" id="conv-compute">Compute Convolution</button>
+
+  <div class="conv-result" id="conv-result" style="display:none;">
+    <h4>Step-by-step</h4>
+    <div class="conv-steps" id="conv-steps"></div>
+    <div class="conv-output">
+      <strong>Output pixel = <span id="conv-output-val"></span></strong>
+    </div>
+  </div>
+</div>
+
+<script>
+  const kernelPresets: Record<string, number[]> = {
+    sharpen: [0, -1, 0, -1, 5, -1, 0, -1, 0],
+    blur: [1, 1, 1, 1, 1, 1, 1, 1, 1],
+    edge: [-1, -1, -1, -1, 8, -1, -1, -1, -1],
+    emboss: [-2, -1, 0, -1, 1, 1, 0, 1, 2],
+  };
+
+  function createGrid(container: HTMLElement, values: number[]) {
+    container.innerHTML = '';
+    values.forEach((v, i) => {
+      const input = document.createElement('input');
+      input.type = 'number';
+      input.value = String(v);
+      input.className = 'conv-cell';
+      input.dataset.index = String(i);
+      container.appendChild(input);
+    });
+  }
+
+  function getGridValues(container: HTMLElement): number[] {
+    return Array.from(container.querySelectorAll('input')).map(inp => Number((inp as HTMLInputElement).value) || 0);
+  }
+
+  const kernelGrid = document.getElementById('kernel-grid')!;
+  const patchGrid = document.getElementById('patch-grid')!;
+
+  createGrid(kernelGrid, kernelPresets.sharpen);
+  createGrid(patchGrid, [100, 120, 130, 110, 140, 150, 120, 130, 160]);
+
+  document.querySelectorAll('.preset-btn[data-preset]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const preset = (btn as HTMLElement).dataset.preset!;
+      createGrid(kernelGrid, kernelPresets[preset]);
+    });
+  });
+
+  document.getElementById('random-patch')!.addEventListener('click', () => {
+    const vals = Array.from({ length: 9 }, () => Math.floor(Math.random() * 256));
+    createGrid(patchGrid, vals);
+  });
+
+  document.getElementById('conv-compute')!.addEventListener('click', () => {
+    const kernel = getGridValues(kernelGrid);
+    const patch = getGridValues(patchGrid);
+    const resultDiv = document.getElementById('conv-result')!;
+    const stepsDiv = document.getElementById('conv-steps')!;
+    const outputVal = document.getElementById('conv-output-val')!;
+
+    let steps: string[] = [];
+    let sum = 0;
+    for (let i = 0; i < 9; i++) {
+      const product = kernel[i] * patch[i];
+      sum += product;
+      steps.push(`K[${Math.floor(i/3)},${i%3}] × I[${Math.floor(i/3)},${i%3}] = ${kernel[i]} × ${patch[i]} = ${product}`);
+    }
+
+    stepsDiv.innerHTML = steps.map(s => `<div class="conv-step">${s}</div>`).join('');
+
+    const isDivisor = kernel.every(v => v >= 0) && kernel.reduce((a, b) => a + b, 0) > 1;
+    const divisor = isDivisor ? kernel.reduce((a, b) => a + b, 0) : 1;
+    const final = divisor > 1 ? Math.round(sum / divisor) : sum;
+
+    if (divisor > 1) {
+      stepsDiv.innerHTML += `<div class="conv-step conv-sum">Sum = ${sum}, ÷ ${divisor} (normalise) = ${final}</div>`;
+    } else {
+      stepsDiv.innerHTML += `<div class="conv-step conv-sum">Sum = ${sum}</div>`;
+    }
+
+    outputVal.textContent = String(final);
+    resultDiv.style.display = 'block';
+  });
+</script>
+
+<style>
+  .conv-demo {
+    background: var(--bg-highlight);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5em;
+    margin: 2em 0;
+  }
+  .conv-demo h3 { margin-top: 0; color: var(--accent); }
+  .conv-desc { color: var(--fg-muted); font-size: 0.9em; }
+  .conv-inputs {
+    display: flex;
+    gap: 2em;
+    flex-wrap: wrap;
+    margin: 1.5em 0;
+  }
+  .conv-section label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5em;
+    color: var(--fg);
+  }
+  .conv-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 60px);
+    gap: 4px;
+  }
+  .conv-cell {
+    width: 60px;
+    height: 40px;
+    text-align: center;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--fg);
+    font-size: 0.9em;
+    font-family: var(--font-mono, monospace);
+  }
+  .conv-cell:focus { border-color: var(--accent); outline: none; }
+  .conv-presets {
+    display: flex;
+    gap: 0.4em;
+    margin-top: 0.5em;
+    flex-wrap: wrap;
+  }
+  .preset-btn {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    color: var(--fg-muted);
+    padding: 0.3em 0.6em;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8em;
+  }
+  .preset-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .conv-compute {
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    padding: 0.6em 1.5em;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95em;
+  }
+  .conv-compute:hover { opacity: 0.9; }
+  .conv-result {
+    margin-top: 1.5em;
+    padding-top: 1em;
+    border-top: 1px solid var(--border);
+  }
+  .conv-result h4 { margin: 0 0 0.5em; color: var(--fg); }
+  .conv-step {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.85em;
+    padding: 0.2em 0;
+    color: var(--fg-muted);
+  }
+  .conv-sum {
+    margin-top: 0.5em;
+    padding-top: 0.5em;
+    border-top: 1px dashed var(--border);
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .conv-output {
+    margin-top: 1em;
+    font-size: 1.1em;
+    color: var(--fg);
+  }
+</style>

@@ -1,0 +1,226 @@
+---
+---
+
+<div class="perc-demo">
+  <h3>Perceptron Trainer</h3>
+  <p class="perc-desc">Train a single-layer perceptron on 2D data. Click to add points (left-click = class 1, right-click = class 0), then train to find the decision boundary.</p>
+
+  <div class="perc-controls">
+    <button class="perc-btn" id="perc-train">Train (1 epoch)</button>
+    <button class="perc-btn" id="perc-train10">Train 10 epochs</button>
+    <button class="perc-btn perc-btn-secondary" id="perc-clear">Clear</button>
+    <button class="perc-btn perc-btn-secondary" id="perc-preset">Load AND gate</button>
+    <span class="perc-info" id="perc-epoch">Epoch: 0</span>
+    <span class="perc-info" id="perc-accuracy">Accuracy: -</span>
+  </div>
+
+  <div class="perc-layout">
+    <canvas id="perc-canvas" width="400" height="400"></canvas>
+    <div class="perc-weights">
+      <h4>Weights</h4>
+      <div id="perc-w-display" class="perc-w-display"></div>
+      <div class="perc-lr">
+        <label>Learning rate: <input type="number" id="perc-lr" value="0.1" step="0.01" min="0.01" max="1" class="perc-lr-input" /></label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const canvas = document.getElementById('perc-canvas') as HTMLCanvasElement;
+  const ctx = canvas.getContext('2d')!;
+
+  interface Point { x: number; y: number; label: number; }
+
+  let points: Point[] = [];
+  let w = [Math.random() * 0.4 - 0.2, Math.random() * 0.4 - 0.2];
+  let bias = Math.random() * 0.4 - 0.2;
+  let epoch = 0;
+
+  function predict(x: number, y: number): number {
+    return (w[0] * x + w[1] * y + bias) >= 0 ? 1 : 0;
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, 400, 400);
+
+    // Draw decision boundary
+    if (points.length > 0) {
+      ctx.strokeStyle = '#7aa2f7';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([5, 5]);
+      // Line: w0*x + w1*y + bias = 0 → y = -(w0*x + bias)/w1
+      if (Math.abs(w[1]) > 0.001) {
+        const y0 = -(w[0] * 0 + bias) / w[1];
+        const y1 = -(w[0] * 1 + bias) / w[1];
+        ctx.beginPath();
+        ctx.moveTo(0, (1 - y0) * 400);
+        ctx.lineTo(400, (1 - y1) * 400);
+        ctx.stroke();
+      } else if (Math.abs(w[0]) > 0.001) {
+        const x0 = -bias / w[0];
+        ctx.beginPath();
+        ctx.moveTo(x0 * 400, 0);
+        ctx.lineTo(x0 * 400, 400);
+        ctx.stroke();
+      }
+      ctx.setLineDash([]);
+    }
+
+    // Draw points
+    for (const p of points) {
+      ctx.beginPath();
+      ctx.arc(p.x * 400, (1 - p.y) * 400, 8, 0, Math.PI * 2);
+      ctx.fillStyle = p.label === 1 ? '#9ece6a' : '#f7768e';
+      ctx.fill();
+      ctx.strokeStyle = '#c0caf5';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    // Grid lines
+    ctx.strokeStyle = '#3b4261';
+    ctx.lineWidth = 0.5;
+    for (let i = 0; i <= 4; i++) {
+      ctx.beginPath();
+      ctx.moveTo(i * 100, 0); ctx.lineTo(i * 100, 400);
+      ctx.moveTo(0, i * 100); ctx.lineTo(400, i * 100);
+      ctx.stroke();
+    }
+
+    updateDisplay();
+  }
+
+  function updateDisplay() {
+    document.getElementById('perc-epoch')!.textContent = `Epoch: ${epoch}`;
+    document.getElementById('perc-w-display')!.innerHTML =
+      `w₁ = ${w[0].toFixed(4)}<br>w₂ = ${w[1].toFixed(4)}<br>bias = ${bias.toFixed(4)}`;
+
+    if (points.length > 0) {
+      const correct = points.filter(p => predict(p.x, p.y) === p.label).length;
+      document.getElementById('perc-accuracy')!.textContent = `Accuracy: ${correct}/${points.length}`;
+    }
+  }
+
+  function trainEpoch() {
+    const lr = Number((document.getElementById('perc-lr') as HTMLInputElement).value) || 0.1;
+    for (const p of points) {
+      const pred = predict(p.x, p.y);
+      const error = p.label - pred;
+      if (error !== 0) {
+        w[0] += lr * error * p.x;
+        w[1] += lr * error * p.y;
+        bias += lr * error;
+      }
+    }
+    epoch++;
+    draw();
+  }
+
+  canvas.addEventListener('click', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = 1 - (e.clientY - rect.top) / rect.height;
+    points.push({ x, y, label: 1 });
+    draw();
+  });
+
+  canvas.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    const rect = canvas.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = 1 - (e.clientY - rect.top) / rect.height;
+    points.push({ x, y, label: 0 });
+    draw();
+  });
+
+  document.getElementById('perc-train')!.addEventListener('click', trainEpoch);
+  document.getElementById('perc-train10')!.addEventListener('click', () => {
+    for (let i = 0; i < 10; i++) trainEpoch();
+  });
+  document.getElementById('perc-clear')!.addEventListener('click', () => {
+    points = [];
+    w = [Math.random() * 0.4 - 0.2, Math.random() * 0.4 - 0.2];
+    bias = Math.random() * 0.4 - 0.2;
+    epoch = 0;
+    draw();
+  });
+  document.getElementById('perc-preset')!.addEventListener('click', () => {
+    points = [
+      { x: 0.2, y: 0.2, label: 0 },
+      { x: 0.2, y: 0.8, label: 0 },
+      { x: 0.8, y: 0.2, label: 0 },
+      { x: 0.8, y: 0.8, label: 1 },
+    ];
+    w = [Math.random() * 0.4 - 0.2, Math.random() * 0.4 - 0.2];
+    bias = Math.random() * 0.4 - 0.2;
+    epoch = 0;
+    draw();
+  });
+
+  draw();
+</script>
+
+<style>
+  .perc-demo {
+    background: var(--bg-highlight);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5em;
+    margin: 2em 0;
+  }
+  .perc-demo h3 { margin-top: 0; color: var(--accent); }
+  .perc-desc { color: var(--fg-muted); font-size: 0.9em; }
+  .perc-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    flex-wrap: wrap;
+    margin: 1em 0;
+  }
+  .perc-btn {
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    padding: 0.4em 1em;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9em;
+  }
+  .perc-btn:hover { opacity: 0.9; }
+  .perc-btn-secondary { background: var(--bg-surface); color: var(--fg); border: 1px solid var(--border); }
+  .perc-btn-secondary:hover { border-color: var(--accent); }
+  .perc-info { font-size: 0.85em; color: var(--fg-muted); font-family: var(--font-mono, monospace); }
+  .perc-layout {
+    display: flex;
+    gap: 1.5em;
+    flex-wrap: wrap;
+    margin-top: 1em;
+  }
+  .perc-layout canvas {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: crosshair;
+    max-width: 100%;
+    height: auto;
+  }
+  .perc-weights { min-width: 150px; }
+  .perc-weights h4 { margin: 0 0 0.5em; color: var(--fg-muted); font-size: 0.85em; }
+  .perc-w-display {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.85em;
+    line-height: 1.8;
+  }
+  .perc-lr { margin-top: 1em; font-size: 0.85em; color: var(--fg-muted); }
+  .perc-lr-input {
+    width: 60px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    color: var(--fg);
+    border-radius: 4px;
+    padding: 0.2em 0.4em;
+    font-size: 0.9em;
+  }
+</style>

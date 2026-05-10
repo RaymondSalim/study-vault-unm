@@ -1,0 +1,224 @@
+---
+title: "Transactions"
+order: 6
+moduleTitle: "COMP1044 - Databases & Interfaces"
+tags: ["databases", "transactions", "acid", "concurrency"]
+---
+
+# Transactions
+
+## What is a Transaction?
+
+A **transaction** is a logical unit of work consisting of one or more SQL operations that must be treated as an indivisible unit. Either ALL operations succeed, or NONE do.
+
+```sql
+BEGIN TRANSACTION;
+    UPDATE Account SET Balance = Balance - 100 WHERE AccountID = 1;
+    UPDATE Account SET Balance = Balance + 100 WHERE AccountID = 2;
+COMMIT;
+```
+
+If either UPDATE fails, both are rolled back.
+
+## ACID Properties
+
+| Property | Meaning | Example |
+|----------|---------|---------|
+| **Atomicity** | All-or-nothing execution | Bank transfer: both debit and credit happen, or neither |
+| **Consistency** | DB moves from one valid state to another | Total money in system remains the same after transfer |
+| **Isolation** | Concurrent transactions don't interfere | Two transfers to same account don't lose updates |
+| **Durability** | Committed changes survive crashes | Once COMMIT returns, data is safely stored |
+
+### Atomicity
+
+- Ensured by the **recovery system** (undo log)
+- If a transaction is interrupted, partial changes are rolled back
+- `ROLLBACK` explicitly aborts the transaction
+
+```sql
+BEGIN TRANSACTION;
+    UPDATE Account SET Balance = Balance - 500 WHERE AccountID = 1;
+    -- Check: is balance now negative?
+    IF (SELECT Balance FROM Account WHERE AccountID = 1) < 0 THEN
+        ROLLBACK;  -- undo the debit
+    ELSE
+        UPDATE Account SET Balance = Balance + 500 WHERE AccountID = 2;
+        COMMIT;
+    END IF;
+```
+
+### Consistency
+
+- The database must satisfy all **integrity constraints** before and after a transaction
+- Constraints: PRIMARY KEY, FOREIGN KEY, CHECK, NOT NULL, UNIQUE
+- Application-level consistency is the programmer's responsibility
+
+### Isolation
+
+- Concurrent transactions should produce the same result as serial execution
+- Managed by the **concurrency control** system
+
+### Durability
+
+- Ensured by **write-ahead logging** (WAL)
+- Changes are written to a log on disk before being applied
+- After a crash, the log is replayed to restore committed transactions
+
+## Transaction States
+
+```
+        ┌──────────┐
+        │  Active  │
+        └────┬─────┘
+             │
+    ┌────────┴────────┐
+    ▼                 ▼
+┌────────┐      ┌─────────┐
+│Partially│      │  Failed  │
+│Committed│      └────┬─────┘
+└────┬────┘           │
+     │                ▼
+     ▼          ┌──────────┐
+┌──────────┐    │  Aborted  │
+│ Committed │    └──────────┘
+└──────────┘
+```
+
+## Concurrency Problems
+
+When transactions execute concurrently without proper control:
+
+| Problem | Description | Example |
+|---------|-------------|---------|
+| **Lost Update** | Two transactions update same data; one overwrites the other | T1 reads balance 100, T2 reads 100, both add 50, final is 150 not 200 |
+| **Dirty Read** | Reading uncommitted data from another transaction | T1 updates balance, T2 reads it, T1 rolls back — T2 has wrong value |
+| **Non-repeatable Read** | Same query returns different results within one transaction | T1 reads balance 100, T2 changes it to 50, T1 re-reads and gets 50 |
+| **Phantom Read** | New rows appear between two identical queries | T1 counts students, T2 inserts a student, T1 re-counts and gets different number |
+
+## Isolation Levels
+
+| Isolation Level | Dirty Read | Non-repeatable Read | Phantom Read | Performance |
+|----------------|-----------|-------------------|--------------|-------------|
+| READ UNCOMMITTED | Possible | Possible | Possible | Fastest |
+| READ COMMITTED | Prevented | Possible | Possible | Fast |
+| REPEATABLE READ | Prevented | Prevented | Possible | Moderate |
+| SERIALIZABLE | Prevented | Prevented | Prevented | Slowest |
+
+```sql
+-- Set isolation level
+SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+
+BEGIN TRANSACTION;
+    -- operations here are fully isolated
+COMMIT;
+```
+
+## Locking
+
+Locks prevent concurrent access conflicts.
+
+### Lock Types
+
+| Lock | Also Called | Allows |
+|------|-----------|--------|
+| **Shared (S)** | Read lock | Other transactions can also read |
+| **Exclusive (X)** | Write lock | No other transaction can read or write |
+
+### Lock Compatibility Matrix
+
+|  | S (held) | X (held) |
+|--|----------|----------|
+| **S (requested)** | Compatible | Conflict (wait) |
+| **X (requested)** | Conflict (wait) | Conflict (wait) |
+
+### Two-Phase Locking (2PL)
+
+Guarantees **serializability**:
+1. **Growing phase:** Transaction acquires locks, never releases
+2. **Shrinking phase:** Transaction releases locks, never acquires
+
+> Once a transaction releases any lock, it cannot acquire new locks.
+
+### Deadlock
+
+Two or more transactions wait for each other's locks indefinitely.
+
+```
+T1 holds lock on A, wants lock on B
+T2 holds lock on B, wants lock on A
+→ Neither can proceed = DEADLOCK
+```
+
+**Deadlock handling:**
+- **Prevention:** Order resources, use timeouts
+- **Detection:** Wait-for graph — if cycle exists, deadlock detected
+- **Resolution:** Abort one transaction (victim) and retry
+
+## SQL Transaction Commands
+
+```sql
+-- Start a transaction
+BEGIN TRANSACTION;
+-- or: START TRANSACTION;
+
+-- Save intermediate point
+SAVEPOINT sp1;
+
+-- Rollback to savepoint (partial undo)
+ROLLBACK TO SAVEPOINT sp1;
+
+-- Commit (make permanent)
+COMMIT;
+
+-- Rollback entire transaction
+ROLLBACK;
+```
+
+## Practice
+
+<details>
+<summary>Q1: A bank transfer of $200 from Account A to Account B fails halfway. Only the debit executes. Which ACID property ensures this is undone?</summary>
+
+**Atomicity.**
+
+Atomicity guarantees that either ALL operations in a transaction complete successfully, or NONE of them take effect. Since the transaction did not reach COMMIT, the partial debit will be rolled back, restoring Account A's original balance.
+
+</details>
+
+<details>
+<summary>Q2: Transaction T1 reads a row, then T2 modifies and commits that row, then T1 re-reads the same row and sees the new value. What concurrency problem is this? What isolation level prevents it?</summary>
+
+This is a **non-repeatable read** — the same row gives different values within one transaction.
+
+**REPEATABLE READ** (or higher) prevents this by holding shared locks on read rows until the transaction completes, blocking other transactions from modifying them.
+
+</details>
+
+<details>
+<summary>Q3: Explain why two-phase locking prevents lost updates.</summary>
+
+In 2PL, a transaction must acquire an **exclusive lock** before writing. During the growing phase:
+
+1. T1 acquires X-lock on balance row
+2. T2 tries to acquire X-lock on same row → **blocked** (conflict)
+3. T1 completes its read-modify-write, then releases lock in shrinking phase
+4. T2 now acquires the lock and reads the **updated** value
+
+Since T2 is forced to wait, it reads the value AFTER T1's update, so no update is lost.
+
+Without 2PL, both could read the old value simultaneously and overwrite each other.
+
+</details>
+
+<details>
+<summary>Q4: Draw the wait-for graph for: T1 waits for T2, T2 waits for T3, T3 waits for T1. Is there a deadlock?</summary>
+
+```
+T1 → T2 → T3 → T1
+```
+
+**Yes, there is a deadlock.** The wait-for graph contains a cycle (T1 → T2 → T3 → T1), meaning no transaction can ever proceed.
+
+Resolution: The DBMS must abort one transaction (e.g., the youngest or the one that has done the least work) and restart it later.
+
+</details>

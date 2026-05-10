@@ -1,0 +1,114 @@
+---
+import Nav from '../components/Nav.astro';
+import ModuleNav from '../components/ModuleNav.astro';
+import PrevNext from '../components/PrevNext.astro';
+import FlashcardEnhancer from '../components/FlashcardEnhancer.astro';
+import SearchModal from '../components/SearchModal.astro';
+import '../styles/global.css';
+
+interface NavItem {
+  title: string;
+  slug: string;
+  order: number;
+}
+
+interface Props {
+  title: string;
+  moduleTitle: string;
+  moduleSlug: string;
+  currentSlug: string;
+  navItems: NavItem[];
+}
+
+const { title, moduleTitle, moduleSlug, currentSlug, navItems } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title} | {moduleTitle}</title>
+  <meta name="description" content={`${title} — ${moduleTitle} study notes`} />
+  <meta name="theme-color" content="#1a1b26" />
+  <link rel="icon" type="image/svg+xml" href="/study-portal/favicon.svg" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body>
+  <Nav currentModule={moduleTitle} />
+  <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle navigation">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <line x1="3" y1="12" x2="21" y2="12"/>
+      <line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+  <div class="module-wrapper">
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    <ModuleNav items={navItems} moduleSlug={moduleSlug} currentSlug={currentSlug} />
+    <main class="module-content" data-pagefind-body>
+      <slot />
+      <PrevNext items={navItems} moduleSlug={moduleSlug} currentSlug={currentSlug} />
+    </main>
+  </div>
+  <FlashcardEnhancer />
+  <SearchModal />
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+  </script>
+  <script>
+    const btn = document.getElementById('mobile-menu-btn');
+    const overlay = document.getElementById('sidebar-overlay');
+    const nav = document.querySelector('.module-nav');
+    function toggleMenu() {
+      nav?.classList.toggle('open');
+      overlay?.classList.toggle('open');
+    }
+    btn?.addEventListener('click', toggleMenu);
+    overlay?.addEventListener('click', toggleMenu);
+  </script>
+</body>
+</html>
+
+<style>
+  .module-wrapper {
+    display: flex;
+    position: relative;
+  }
+  .module-content {
+    flex: 1;
+    max-width: 900px;
+    padding: 2em;
+    min-width: 0;
+  }
+  .mobile-menu-btn {
+    display: none;
+    position: fixed;
+    bottom: 1.5em;
+    right: 1.5em;
+    z-index: 200;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 149;
+  }
+  @media (max-width: 768px) {
+    .module-content { padding: 1em; }
+    .mobile-menu-btn { display: flex; }
+    .sidebar-overlay.open { display: block; }
+  }
+</style>
