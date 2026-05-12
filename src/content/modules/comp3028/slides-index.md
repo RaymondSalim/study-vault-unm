@@ -5,20 +5,25 @@ moduleTitle: "COMP3028 - Computer Security"
 tags: ["slides", "index", "lectures", "overview"]
 ---
 
-## Slides Index
+## Slides Index — 2026 Exam
 
-| Lecture | Topic | Key Concepts | Exam Weight |
-|---------|-------|--------------|-------------|
-| 1 | Symmetric Cryptography | AES, DES, 3DES, block cipher modes (ECB, CBC, CTR), stream ciphers | High |
-| 2 | Asymmetric Cryptography | RSA (key gen, encrypt, decrypt, sign), Diffie-Hellman, ECC, hybrid encryption | High |
-| 3 | Hashing and MACs | SHA-256, MD5 (broken), hash properties, HMAC construction, digital signatures | Medium |
-| 4 | Authentication | Passwords, challenge-response, Needham-Schroeder, Kerberos, certificates, PKI | High |
-| 5 | Access Control | DAC, MAC, RBAC, Bell-LaPadula, Biba, Chinese Wall, least privilege | High |
-| 6 | Network Security | Firewalls (packet filter, stateful, proxy), IDS/IPS, TLS handshake, IPSec, VPN | High |
-| 7 | Web Security | SQL injection, XSS (stored, reflected, DOM), CSRF, session hijacking, CSP, CORS | High |
+> Only the lectures listed below are examinable. Lectures not listed here are NOT on the 2026 exam.
+
+| Lecture | Topic | Key Concepts | Exam Role |
+|---------|-------|--------------|-----------|
+| 2 | Foundations of Computer Security | CIA triad, threat models, security principles, Kerckhoffs' principle | Mixed question |
+| 5 & 6 | Block Cipher, DES, AES | Block cipher structure, Feistel vs SPN, DES vs AES differences, modes of operation (don't memorise algorithms) | **Crypto question** |
+| 7 | Public-key Cryptosystems | RSA, Diffie-Hellman, ElGamal — know the algorithms | **Crypto question** |
+| 8 | Message Authentication, Hash Functions, Digital Signatures | Hash properties, HMAC, digital signature schemes, certificates | **Crypto question** |
+| 9 | Passwords | Storage (salting, hashing), attacks (dictionary, rainbow tables, brute force), countermeasures | Mixed question |
+| 11 | Reference Monitors | Completeness, isolation, verifiability; trusted computing base | Mixed question |
+| 12 | Malware | Virus, worm, trojan, ransomware, rootkit; propagation methods, detection, defence | Mixed question |
+| 14 | Database Security | SQL access control, inference attacks, statistical database security, views | Mixed question |
+| 15 | Software Security | Input validation, race conditions, secure SDLC — **NO buffer overflow** | Mixed question |
+| 17 | Network Security | Firewalls (packet filter, stateful, proxy), IDS/IPS, TLS, IPSec, VPN | Mixed question |
 
 ### Cross-cutting Themes
 
-- **Defence in depth** -- appears across network, access control, and web security
-- **Trust models** -- relevant in authentication, PKI, and access control
-- **Crypto selection** -- choosing appropriate algorithms appears throughout
+- **Defence in depth** -- appears across network, malware, and software security
+- **CIA triad** -- the foundation (Lecture 2) that all other topics build upon
+- **Crypto selection** -- understanding when to use symmetric vs asymmetric, and which algorithms are appropriate
