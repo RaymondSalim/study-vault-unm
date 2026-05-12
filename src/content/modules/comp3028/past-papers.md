@@ -9,5 +9,5 @@ tags: ["past-papers", "exam"]
 
 | Year | Type | Paper | Solution |
 |------|------|-------|----------|
-| — | Exam | [Paper](/files/comp3028/past-papers/COMP3028_exam.pdf) | — |
-| — | Exam (Paper 2) | [Paper](/files/comp3028/past-papers/COMP3028_exam2.pdf) | — |
+| 2022-2023 | Exam | [Paper](/files/comp3028/past-papers/COMP3028_exam.pdf) | [Solution](/comp3028/solution-2022-2023) |
+| 2023-2024 | Exam | [Paper](/files/comp3028/past-papers/COMP3028_exam2.pdf) | [Solution](/comp3028/solution-2023-2024) |
