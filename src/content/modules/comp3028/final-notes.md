@@ -5,6 +5,8 @@ moduleTitle: "COMP3028 - Computer Security"
 tags: ["exam", "cheat-sheet", "final-notes"]
 ---
 
+<button onclick="(() => { const content = document.querySelector('.module-content'); const printWindow = window.open('', '_blank'); printWindow.document.write('<html><head><title>COMP3028 Final Notes</title><link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css&quot;/><style>body{font-family:system-ui,sans-serif;font-size:9pt;line-height:1.3;margin:1cm;color:#000}h2{font-size:12pt;margin:0.5em 0 0.2em;border-bottom:1px solid #000}h3{font-size:10pt;margin:0.4em 0 0.1em}table{border-collapse:collapse;width:100%;margin:0.3em 0;font-size:8.5pt}th,td{border:1px solid #999;padding:2px 4px;text-align:left}th{background:#eee}strong{font-weight:700}hr{margin:0.4em 0;border:none;border-top:1px dashed #999}ul,ol{margin:0.2em 0;padding-left:1.2em}li{margin:0.1em 0}p{margin:0.2em 0}code{font-size:8pt;background:#f0f0f0;padding:1px 3px;border-radius:2px}.katex{font-size:0.95em}@page{size:A4;margin:1cm}@media print{.no-print{display:none}}</style></head><body>' + content.innerHTML + '</body></html>'); printWindow.document.close(); printWindow.onload = () => { printWindow.print(); }; })()" style="background:#7aa2f7;color:#1a1b26;border:none;padding:0.5em 1.2em;border-radius:6px;cursor:pointer;font-weight:600;margin-bottom:1em;font-size:0.9rem;">Print Cheat Sheet</button>
+
 ## SIDE 1: CRYPTOGRAPHY (One full question guaranteed)
 
 ### Foundations (L2)
@@ -26,13 +28,13 @@ tags: ["exam", "cheat-sheet", "final-notes"]
 | Rounds | 16 | 10/12/14 |
 | Structure | Feistel network | Substitution-Permutation Network (SPN) |
 | Status | Broken (brute-forceable) | Secure (current standard) |
-| Round ops | L_i=R_{i-1}, R_i=L_{i-1} XOR F(R_{i-1},K_i) | SubBytes, ShiftRows, MixColumns, AddRoundKey |
+| Round ops | $L_i = R_{i-1}$, $R_i = L_{i-1} \oplus F(R_{i-1}, K_i)$ | SubBytes, ShiftRows, MixColumns, AddRoundKey |
 
 **Shannon's principles:** Confusion (ciphertext bit depends on many key bits — S-box/SubBytes) + Diffusion (plaintext bit affects many ciphertext bits — ShiftRows/MixColumns)
 
 **Why blocks not single chars?** Resists frequency analysis + provides diffusion
 
-**3DES:** C = E_K3(D_K2(E_K1(P))) — effective 112-bit key (2-key) or 168-bit (3-key)
+**3DES:** $C = E_{K_3}(D_{K_2}(E_{K_1}(P)))$ — effective 112-bit key (2-key) or 168-bit (3-key)
 
 ---
 
@@ -40,66 +42,66 @@ tags: ["exam", "cheat-sheet", "final-notes"]
 
 | Mode | Formula | Weakness/Note |
 |------|---------|--------------|
-| ECB | C_i = E_K(P_i) | Identical blocks → identical ciphertext; NEVER use |
-| CBC | C_i = E_K(P_i XOR C_{i-1}), C_0=IV | Chaining hides patterns; needs random IV; sequential |
-| CTR | C_i = P_i XOR E_K(Nonce‖Counter_i) | Parallelisable; nonce reuse catastrophic (reveals P1 XOR P2) |
+| ECB | $C_i = E_K(P_i)$ | Identical blocks → identical ciphertext; NEVER use |
+| CBC | $C_i = E_K(P_i \oplus C_{i-1})$, $C_0 = \text{IV}$ | Chaining hides patterns; needs random IV; sequential |
+| CTR | $C_i = P_i \oplus E_K(\text{Nonce} \| \text{Counter}_i)$ | Parallelisable; nonce reuse catastrophic (reveals $P_1 \oplus P_2$) |
 
-**CBC decryption:** P_i = D_K(C_i) XOR C_{i-1}
+**CBC decryption:** $P_i = D_K(C_i) \oplus C_{i-1}$
 
 ---
 
 ### Public-Key Cryptosystems (L7)
 
 **RSA — Key Generation:**
-1. Choose large primes p, q
-2. n = p × q
-3. φ(n) = (p-1)(q-1)
-4. Choose e: 1 < e < φ(n), gcd(e, φ(n)) = 1
-5. Compute d = e^(-1) mod φ(n) [i.e., ed ≡ 1 mod φ(n)]
-- Public key: (e, n) | Private key: (d, n)
+1. Choose large primes $p$, $q$
+2. Compute $n = p \times q$
+3. Compute $\phi(n) = (p-1)(q-1)$
+4. Choose $e$: $1 < e < \phi(n)$, $\gcd(e, \phi(n)) = 1$
+5. Compute $d = e^{-1} \bmod \phi(n)$ &nbsp; [i.e., $ed \equiv 1 \pmod{\phi(n)}$]
+- Public key: $(e, n)$ &nbsp;|&nbsp; Private key: $(d, n)$
 
-**RSA Encrypt/Decrypt:** C = M^e mod n | M = C^d mod n
+**RSA Encrypt/Decrypt:** $C = M^e \bmod n$ &nbsp;|&nbsp; $M = C^d \bmod n$
 
-**Security basis:** Integer Factorisation Problem — factoring n into p×q is computationally hard
+**Security basis:** Integer Factorisation Problem — factoring $n$ into $p \times q$ is computationally hard
 
-**Worked example:** p=11, q=13 → n=143, φ(n)=120, e=7, d=103. Encrypt M=9: C=9^7 mod 143=48
+**Worked example:** $p=11, q=13 \Rightarrow n=143, \phi(n)=120, e=7, d=103$. Encrypt $M=9$: $C = 9^7 \bmod 143 = 48$
 
 ---
 
 **Diffie-Hellman Key Exchange:**
-- Public: prime p, generator g
-- Alice: secret a, sends A = g^a mod p
-- Bob: secret b, sends B = g^b mod p
-- Shared key: K = g^(ab) mod p
+- Public: prime $p$, generator $g$
+- Alice: secret $a$, sends $A = g^a \bmod p$
+- Bob: secret $b$, sends $B = g^b \bmod p$
+- Shared key: $K = g^{ab} \bmod p$
 - Security: Discrete Logarithm Problem
 - Vulnerability: NO authentication → MITM attack (fix: sign DH values with certificates)
 
 ---
 
 **ElGamal:**
-- Key gen: choose prime p, generator g, private key x, public key y = g^x mod p
-- Encrypt M: choose random k, C1 = g^k mod p, C2 = M × y^k mod p
-- Decrypt: M = C2 × (C1^x)^(-1) mod p
+- Key gen: choose prime $p$, generator $g$, private key $x$, public key $y = g^x \bmod p$
+- Encrypt $M$: choose random $k$, $C_1 = g^k \bmod p$, $C_2 = M \cdot y^k \bmod p$
+- Decrypt: $M = C_2 \cdot (C_1^x)^{-1} \bmod p$
 - Security: Discrete Logarithm Problem
-- Produces ciphertext 2× message size
+- Produces ciphertext $2\times$ message size
 
 ---
 
 ### Message Auth, Hash, Digital Signatures (L8)
 
-**Hash function H(M):** arbitrary input → fixed output. Properties:
-- Pre-image resistance: given h, can't find M
-- Second pre-image resistance: given M1, can't find M2 with same hash
-- Collision resistance: can't find any M1≠M2 with H(M1)=H(M2)
-- Birthday attack: find collision in ~2^(n/2) for n-bit hash
+**Hash function** $H(M)$: arbitrary input → fixed output. Properties:
+- Pre-image resistance: given $h$, can't find $M$
+- Second pre-image resistance: given $M_1$, can't find $M_2$ with same hash
+- Collision resistance: can't find any $M_1 \neq M_2$ with $H(M_1) = H(M_2)$
+- Birthday attack: find collision in $\sim 2^{n/2}$ for $n$-bit hash
 
-**MAC = MAC(K, M):** provides integrity + authentication (NOT non-repudiation — shared key)
+**MAC** $= \text{MAC}(K, M)$: provides integrity + authentication (NOT non-repudiation — shared key)
 
-**HMAC:** HMAC(K,M) = H((K' XOR opad) ‖ H((K' XOR ipad) ‖ M)) — prevents length extension
+**HMAC:** $\text{HMAC}(K,M) = H\bigl((K' \oplus \text{opad}) \| H((K' \oplus \text{ipad}) \| M)\bigr)$ — prevents length extension
 
 **Digital Signature (provides non-repudiation):**
-- Sign: S = H(M)^d mod n (sender's private key)
-- Verify: H(M) =? S^e mod n (sender's public key)
+- Sign: $S = H(M)^d \bmod n$ (sender's private key)
+- Verify: $H(M) \stackrel{?}{=} S^e \bmod n$ (sender's public key)
 - Provides: Authentication + Integrity + Non-repudiation
 
 **Anti-replay:** Add timestamp/nonce to message before signing. Receiver rejects old/duplicate timestamps.
@@ -112,7 +114,7 @@ tags: ["exam", "cheat-sheet", "final-notes"]
 
 **Attacks:** Brute force (try all), Dictionary (common words), Rainbow table (pre-computed hash lookup), Phishing (social engineering)
 
-**Salt:** Random value per user, stored alongside hash. hash = H(salt ‖ password)
+**Salt:** Random value per user, stored alongside hash. $\text{hash} = H(\text{salt} \| \text{password})$
 - Same salt for all users → dictionary attack against all at once; identical passwords still spotted
 - Unique salt per user → each must be attacked individually; rainbow tables useless
 
@@ -124,7 +126,7 @@ tags: ["exam", "cheat-sheet", "final-notes"]
 
 **Reference monitor properties:** Always invoked, tamperproof, verifiable (simple enough to prove correct)
 
-**Access Control Matrix:** Subjects × Objects → Rights. Implemented as:
+**Access Control Matrix:** Subjects $\times$ Objects → Rights. Implemented as:
 - **ACL (per object):** easy revocation, easy to see who accesses an object
 - **Capability (per subject):** hard to revoke, easy to see what a subject can access
 
@@ -219,13 +221,13 @@ tags: ["exam", "cheat-sheet", "final-notes"]
 
 | Item | Value |
 |------|-------|
-| DES brute force | 2^56 keys |
-| AES-128 brute force | 2^128 keys |
-| Birthday attack n-bit hash | 2^(n/2) |
-| RSA encrypt | C = M^e mod n |
-| RSA decrypt | M = C^d mod n |
-| RSA sign | S = H(M)^d mod n |
-| RSA verify | H(M) =? S^e mod n |
-| DH shared key | K = g^(ab) mod p |
-| CBC encrypt | C_i = E_K(P_i XOR C_{i-1}) |
-| CBC decrypt | P_i = D_K(C_i) XOR C_{i-1} |
+| DES brute force | $2^{56}$ keys |
+| AES-128 brute force | $2^{128}$ keys |
+| Birthday attack $n$-bit hash | $2^{n/2}$ |
+| RSA encrypt | $C = M^e \bmod n$ |
+| RSA decrypt | $M = C^d \bmod n$ |
+| RSA sign | $S = H(M)^d \bmod n$ |
+| RSA verify | $H(M) \stackrel{?}{=} S^e \bmod n$ |
+| DH shared key | $K = g^{ab} \bmod p$ |
+| CBC encrypt | $C_i = E_K(P_i \oplus C_{i-1})$ |
+| CBC decrypt | $P_i = D_K(C_i) \oplus C_{i-1}$ |
