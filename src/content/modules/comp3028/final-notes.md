@@ -5,7 +5,85 @@ moduleTitle: "COMP3028 - Computer Security"
 tags: ["exam", "cheat-sheet", "final-notes"]
 ---
 
-<button onclick="(() => { const content = document.querySelector('.module-content'); const printWindow = window.open('', '_blank'); printWindow.document.write('<html><head><title>COMP3028 Final Notes</title><link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css&quot;/><style>body{font-family:system-ui,sans-serif;font-size:9pt;line-height:1.3;margin:1cm;color:#000}h2{font-size:12pt;margin:0.5em 0 0.2em;border-bottom:1px solid #000}h3{font-size:10pt;margin:0.4em 0 0.1em}table{border-collapse:collapse;width:100%;margin:0.3em 0;font-size:8.5pt}th,td{border:1px solid #999;padding:2px 4px;text-align:left}th{background:#eee}strong{font-weight:700}hr{margin:0.4em 0;border:none;border-top:1px dashed #999}ul,ol{margin:0.2em 0;padding-left:1.2em}li{margin:0.1em 0}p{margin:0.2em 0}code{font-size:8pt;background:#f0f0f0;padding:1px 3px;border-radius:2px}.katex{font-size:0.95em}@page{size:A4;margin:1cm}@media print{.no-print{display:none}}</style></head><body>' + content.innerHTML + '</body></html>'); printWindow.document.close(); printWindow.onload = () => { printWindow.print(); }; })()" style="background:#7aa2f7;color:#1a1b26;border:none;padding:0.5em 1.2em;border-radius:6px;cursor:pointer;font-weight:600;margin-bottom:1em;font-size:0.9rem;">Print Cheat Sheet</button>
+<style>
+@media print {
+  .print-btn, .prev-next, .module-nav, .global-nav, nav, .mobile-menu-btn, .sidebar-overlay, .search-modal {
+    display: none !important;
+  }
+  .module-wrapper {
+    display: block !important;
+  }
+  .module-content {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    columns: 2;
+    column-gap: 1.5em;
+    font-size: 8pt;
+    line-height: 1.25;
+    color: #000;
+  }
+  .module-content h2 {
+    font-size: 11pt;
+    margin: 0.3em 0 0.15em;
+    border-bottom: 1.5px solid #000;
+    column-span: all;
+    break-after: avoid;
+  }
+  .module-content h3 {
+    font-size: 9pt;
+    margin: 0.3em 0 0.1em;
+    break-after: avoid;
+  }
+  .module-content table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0.2em 0;
+    font-size: 7.5pt;
+  }
+  .module-content th, .module-content td {
+    border: 1px solid #999;
+    padding: 1px 3px;
+    text-align: left;
+  }
+  .module-content th {
+    background: #eee !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .module-content hr {
+    margin: 0.3em 0;
+    border: none;
+    border-top: 1px dashed #999;
+  }
+  .module-content ul, .module-content ol {
+    margin: 0.15em 0;
+    padding-left: 1.1em;
+  }
+  .module-content li {
+    margin: 0.05em 0;
+  }
+  .module-content p {
+    margin: 0.15em 0;
+  }
+  .module-content code {
+    font-size: 7pt;
+    background: #f0f0f0;
+    padding: 0.5px 2px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .module-content .katex {
+    font-size: 0.9em;
+  }
+  @page {
+    size: A4;
+    margin: 0.8cm;
+  }
+}
+</style>
+
+<button class="print-btn" onclick="window.print()" style="background:#7aa2f7;color:#1a1b26;border:none;padding:0.5em 1.2em;border-radius:6px;cursor:pointer;font-weight:600;margin-bottom:1em;font-size:0.9rem;">Print Cheat Sheet</button>
 
 ## SIDE 1: CRYPTOGRAPHY (One full question guaranteed)
 
