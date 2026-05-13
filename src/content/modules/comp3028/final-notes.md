@@ -43,10 +43,12 @@ tags: ["exam", "cheat-sheet", "final-notes"]
 | Mode | Formula | Weakness/Note |
 |------|---------|--------------|
 | ECB | $C_i = E_K(P_i)$ | Identical blocks → identical ciphertext; NEVER use |
-| CBC | $C_i = E_K(P_i \oplus C_{i-1})$, $C_0 = \text{IV}$ | Chaining hides patterns; needs random IV; sequential |
+| CBC | $C_i = E_K(P_i \oplus C_{i-1})$, $C_0 = \text{IV}$ | Chaining hides patterns; needs random IV; sequential enc |
+| CFB | $C_i = P_i \oplus E_K(C_{i-1})$, $C_0 = \text{IV}$ | Turns block cipher into stream cipher; self-synchronising |
+| OFB | $O_i = E_K(O_{i-1})$, $C_i = P_i \oplus O_i$, $O_0 = \text{IV}$ | Keystream pre-computable; bit errors don't propagate |
 | CTR | $C_i = P_i \oplus E_K(\text{Nonce} \| \text{Counter}_i)$ | Parallelisable; nonce reuse catastrophic (reveals $P_1 \oplus P_2$) |
 
-**CBC decryption:** $P_i = D_K(C_i) \oplus C_{i-1}$
+**CBC decryption:** $P_i = D_K(C_i) \oplus C_{i-1}$ &nbsp; **CFB decryption:** $P_i = C_i \oplus E_K(C_{i-1})$ &nbsp; **OFB decryption:** same as encryption
 
 ---
 
