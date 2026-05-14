@@ -14,11 +14,13 @@ Pervasive technology is technology that is everywhere around you (like smartphon
 :::
 
 :::eli15
+
 Pervasive technology has spread so widely it becomes invisible and embedded in daily life (smartphones, IoT sensors, smart home devices). Autonomous technology operates independently without human intervention (self-driving cars, algorithmic trading). These are distinct concepts: autonomy does not require AI (a thermostat is autonomous), a robot is not necessarily autonomous (remote-controlled drones), and AI is not necessarily embodied (ChatGPT has no physical form). Understanding these distinctions prevents confused ethical analysis.
 
 :::
 
 :::eli20
+
 | Concept | Definition | Key Feature |
 |---------|-----------|-------------|
 | **Pervasive Technology** | Technology that has spread widely throughout society | Ubiquitous, often invisible, embedded in daily life |
@@ -51,11 +53,13 @@ When technology can work on its own (autonomy), it becomes cheaper because you d
 :::
 
 :::eli15
+
 Autonomy and pervasiveness reinforce each other in a cycle. Greater autonomy reduces operational costs (fewer human operators needed), making technology more affordable and thus more widely adopted (pervasive). Conversely, pervasiveness creates large user bases and revenue, justifying investment in further automation. Example: chatbots replaced expensive call centres, making 24/7 support affordable for small businesses (autonomy drove pervasiveness). Once everyone had smartphones, companies invested in AI assistants like Siri (pervasiveness drove autonomy).
 
 :::
 
 :::eli20
+
 ### Path 1: Autonomy → Pervasiveness
 - Greater autonomy → cheaper to use
 - Fewer human operators → lower costs → more affordable → wider adoption
@@ -77,11 +81,13 @@ Self-driving cars talk to smart traffic lights. Smart homes control temperature 
 :::
 
 :::eli15
+
 The convergence of autonomy and pervasiveness creates powerful systems across many domains. Autonomous vehicles communicate with IoT infrastructure (smart traffic lights, road sensors). Smart homes combine autonomous climate/lighting control with pervasive monitoring. Social media algorithms autonomously curate content for billions of users, creating self-reinforcing feedback loops. Predictive maintenance uses pervasive sensor data for autonomous diagnosis. Each combination amplifies both the benefits and the ethical risks.
 
 :::
 
 :::eli20
+
 | Domain | How Autonomy + Pervasiveness Combine |
 |--------|--------------------------------------|
 | Autonomous Vehicles + IoT | Self-driving cars communicate with smart traffic lights; sensors optimise routes |
@@ -100,11 +106,13 @@ Camera phones mean everyone can be recorded at any time. GPS can give bad direct
 :::
 
 :::eli15
+
 Pervasive and autonomous technologies raise unique ethical challenges. Camera phones transformed privacy (everyone carries multiple cameras). GPS cases raise questions about responsibility when human-computer collaboration produces bad outcomes (who is to blame when someone follows GPS directions onto a dangerous highway?). Lifelogging (continuous audio/video recording) offers benefits (memory aid, accountability) but creates constant surveillance of bystanders. The core ethical question is: who bears responsibility when autonomous systems embedded everywhere cause harm?
 
 :::
 
 :::eli20
+
 ### Case: Pervasiveness of Camera Phones
 - Camera Phone Predator Alert Act (2009, proposed)
 - Every person may carry 7+ cameras daily
@@ -145,11 +153,13 @@ When deciding if a new autonomous technology (like a self-driving bus on campus)
 :::
 
 :::eli15
+
 Applying ethical frameworks to autonomous/pervasive systems requires considering multiple stakeholders. For a self-driving bus on campus: consequentialism evaluates outcomes for students (safety, convenience), virtue ethics asks if the innovation is responsibly deployed, deontology examines the duty of care owed to people on campus, and professional codes demand adequate testing. Five key questions should be asked of any such system: is it reliable, safe, accountable, transparent, and consensual?
 
 :::
 
 :::eli20
+
 ### Self-Driving Buses on Campus (Discussion Scenario)
 
 | Stakeholder | Concern | Framework |

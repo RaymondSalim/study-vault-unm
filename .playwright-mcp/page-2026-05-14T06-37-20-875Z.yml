@@ -1,0 +1,1768 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - link "Study Portal" [ref=e3] [cursor=pointer]:
+      - /url: /
+    - generic [ref=e4]: /
+    - generic [ref=e5]: COMP3029 - Computer Vision
+    - button "Search" [ref=e6] [cursor=pointer]:
+      - img [ref=e7]
+      - generic [ref=e10]: Search
+      - generic [ref=e11]: ⌘K
+    - button "Toggle theme" [ref=e12] [cursor=pointer]:
+      - img [ref=e13]
+  - generic [ref=e19]:
+    - complementary [ref=e20]:
+      - generic [ref=e21]:
+        - heading "Topics" [level=4] [ref=e22]
+        - list [ref=e23]:
+          - listitem [ref=e24]:
+            - link "Image Segmentation" [ref=e25] [cursor=pointer]:
+              - /url: /comp3029/01-segmentation
+          - listitem [ref=e26]:
+            - link "Image Features" [ref=e27] [cursor=pointer]:
+              - /url: /comp3029/02-features
+          - listitem [ref=e28]:
+            - link "Point Features" [ref=e29] [cursor=pointer]:
+              - /url: /comp3029/03-point-features
+          - listitem [ref=e30]:
+            - link "Object Recognition" [ref=e31] [cursor=pointer]:
+              - /url: /comp3029/04-object-recognition
+          - listitem [ref=e32]:
+            - link "Viola-Jones Face Detection" [ref=e33] [cursor=pointer]:
+              - /url: /comp3029/05-viola-jones
+          - listitem [ref=e34]:
+            - link "Neural Networks" [ref=e35] [cursor=pointer]:
+              - /url: /comp3029/06-neural-networks
+          - listitem [ref=e36]:
+            - link "Convolutional Neural Networks" [ref=e37] [cursor=pointer]:
+              - /url: /comp3029/07-cnns
+          - listitem [ref=e38]:
+            - link "Generative Models & Vision Transformers" [ref=e39] [cursor=pointer]:
+              - /url: /comp3029/08-generative-models
+          - listitem [ref=e40]:
+            - link "3D Vision & Camera Models" [ref=e41] [cursor=pointer]:
+              - /url: /comp3029/09-3d-vision
+          - listitem [ref=e42]:
+            - link "Stereo Vision & Motion" [ref=e43] [cursor=pointer]:
+              - /url: /comp3029/10-stereo-motion
+      - generic [ref=e44]:
+        - heading "Resources" [level=4] [ref=e45]
+        - list [ref=e46]:
+          - listitem [ref=e47]:
+            - link "Exam Solution 2010-2011" [ref=e48] [cursor=pointer]:
+              - /url: /comp3029/solution-2010-2011
+          - listitem [ref=e49]:
+            - link "Exam Solution 2011-2012" [ref=e50] [cursor=pointer]:
+              - /url: /comp3029/solution-2011-2012
+          - listitem [ref=e51]:
+            - link "Exam Solution 2012-2013" [ref=e52] [cursor=pointer]:
+              - /url: /comp3029/solution-2012-2013
+          - listitem [ref=e53]:
+            - link "Exam Solution 2013-2014" [ref=e54] [cursor=pointer]:
+              - /url: /comp3029/solution-2013-2014
+          - listitem [ref=e55]:
+            - link "Exam Solution 2014-2015" [ref=e56] [cursor=pointer]:
+              - /url: /comp3029/solution-2014-2015
+          - listitem [ref=e57]:
+            - link "Exam Solution 2014-2015 (UK)" [ref=e58] [cursor=pointer]:
+              - /url: /comp3029/solution-2014-2015-uk
+          - listitem [ref=e59]:
+            - link "Exam Solution 2015-2016 (UK)" [ref=e60] [cursor=pointer]:
+              - /url: /comp3029/solution-2015-2016
+          - listitem [ref=e61]:
+            - link "Exam Strategy" [ref=e62] [cursor=pointer]:
+              - /url: /comp3029/exam-strategy
+          - listitem [ref=e63]:
+            - link "Exam Traps" [ref=e64] [cursor=pointer]:
+              - /url: /comp3029/exam-traps
+          - listitem [ref=e65]:
+            - link "Flashcards" [ref=e66] [cursor=pointer]:
+              - /url: /comp3029/flashcards
+          - listitem [ref=e67]:
+            - link "Glossary" [ref=e68] [cursor=pointer]:
+              - /url: /comp3029/glossary
+          - listitem [ref=e69]:
+            - link "Past Papers" [ref=e70] [cursor=pointer]:
+              - /url: /comp3029/past-papers
+          - listitem [ref=e71]:
+            - link "Prerequisites" [ref=e72] [cursor=pointer]:
+              - /url: /comp3029/prerequisites
+          - listitem [ref=e73]:
+            - link "Quick Reference" [ref=e74] [cursor=pointer]:
+              - /url: /comp3029/quick-reference
+          - listitem [ref=e75]:
+            - link "Slides Index" [ref=e76] [cursor=pointer]:
+              - /url: /comp3029/slides-index
+          - listitem [ref=e77]:
+            - 'link "Solution: 2020-2021 Exam" [ref=e78] [cursor=pointer]':
+              - /url: /comp3029/solution-2020-2021
+          - listitem [ref=e79]:
+            - 'link "Solution: 2021-2022 Exam" [ref=e80] [cursor=pointer]':
+              - /url: /comp3029/solution-2021-2022
+          - listitem [ref=e81]:
+            - 'link "Solution: 2022-2023 Exam" [ref=e82] [cursor=pointer]':
+              - /url: /comp3029/solution-2022-2023
+          - listitem [ref=e83]:
+            - 'link "Solution: 2023-2024 Exam" [ref=e84] [cursor=pointer]':
+              - /url: /comp3029/solution-2023-2024
+          - listitem [ref=e85]:
+            - link "Study Order" [ref=e86] [cursor=pointer]:
+              - /url: /comp3029/study-order
+    - main [ref=e87]:
+      - generic [ref=e88]:
+        - generic [ref=e89]: "Depth:"
+        - button "ELI10" [ref=e90] [cursor=pointer]
+        - button "ELI15" [ref=e91] [cursor=pointer]
+        - button "ELI20" [ref=e92] [cursor=pointer]
+      - heading "Overview" [level=2] [ref=e93]
+      - paragraph [ref=e94]: :::eli15 Image segmentation divides an image into meaningful regions by grouping pixels with similar properties. Simple approaches include thresholding (splitting by brightness) and K-means clustering (grouping pixels into K colour clusters). More advanced methods use probability models (GMMs with EM algorithm) to softly assign pixels to clusters, or deep learning to label every pixel with a semantic class like “car” or “sky.”
+      - paragraph [ref=e95]: ":::"
+      - paragraph [ref=e96]: :::eli20 Image segmentation partitions an image into meaningful regions by grouping pixels according to local properties (intensity, colour, texture, spectral profiles).
+      - table [ref=e97]:
+        - rowgroup [ref=e98]:
+          - row "Approach Type Key Idea" [ref=e99]:
+            - columnheader "Approach" [ref=e100]
+            - columnheader "Type" [ref=e101]
+            - columnheader "Key Idea" [ref=e102]
+        - rowgroup [ref=e103]:
+          - row "Thresholding Heuristic Assign labels based on intensity threshold T" [ref=e104]:
+            - cell "Thresholding" [ref=e105]
+            - cell "Heuristic" [ref=e106]
+            - cell "Assign labels based on intensity threshold T" [ref=e107]
+          - row "K-Means Unsupervised Cluster pixels by minimising within-cluster distance" [ref=e108]:
+            - cell "K-Means" [ref=e109]
+            - cell "Unsupervised" [ref=e110]
+            - cell "Cluster pixels by minimising within-cluster distance" [ref=e111]
+          - row "GMM + EM Unsupervised Probabilistic soft clustering with Gaussian mixtures" [ref=e112]:
+            - cell "GMM + EM" [ref=e113]
+            - cell "Unsupervised" [ref=e114]
+            - cell "Probabilistic soft clustering with Gaussian mixtures" [ref=e115]
+          - row "Semantic Segmentation Supervised (DL) Assign class label to every pixel" [ref=e116]:
+            - cell "Semantic Segmentation" [ref=e117]
+            - cell "Supervised (DL)" [ref=e118]
+            - cell "Assign class label to every pixel" [ref=e119]
+          - row "Instance Segmentation Supervised (DL) Distinguish individual object instances" [ref=e120]:
+            - cell "Instance Segmentation" [ref=e121]
+            - cell "Supervised (DL)" [ref=e122]
+            - cell "Distinguish individual object instances" [ref=e123]
+      - paragraph [ref=e124]: ":::"
+      - heading "K-Means Clustering" [level=2] [ref=e125]
+      - paragraph [ref=e126]: :::eli15 K-Means clustering splits data into K groups by repeatedly assigning each point to its nearest cluster centre, then recalculating each centre as the average of its assigned points. For images, each pixel’s colour (or other feature) is the data point. The algorithm minimises the total squared distance between points and their assigned centres. It always converges but may find only a local optimum depending on initialisation.
+      - paragraph [ref=e127]: ":::"
+      - paragraph [ref=e128]:
+        - text: :::eli20
+        - strong [ref=e129]: "Goal:"
+        - text: "Split N data points into K groups minimising the objective function:"
+      - paragraph [ref=e130]:
+        - generic [ref=e131]:
+          - math [ref=e133]:
+            - generic [ref=e135]:
+              - generic [ref=e136]: J
+              - generic [ref=e137]: =
+              - generic [ref=e138]:
+                - generic [ref=e139]: ∑
+                - generic [ref=e140]:
+                  - generic [ref=e141]: "n"
+                  - generic [ref=e142]: =
+                  - generic [ref=e143]: "1"
+                - generic [ref=e144]: "N"
+              - generic [ref=e145]:
+                - generic [ref=e146]: ∑
+                - generic [ref=e147]:
+                  - generic [ref=e148]: k
+                  - generic [ref=e149]: =
+                  - generic [ref=e150]: "1"
+                - generic [ref=e151]: K
+              - generic [ref=e152]:
+                - generic [ref=e153]: r
+                - generic [ref=e154]:
+                  - generic [ref=e155]: "n"
+                  - generic [ref=e156]: k
+              - generic [ref=e157]: ∥
+              - generic [ref=e158]:
+                - generic [ref=e159]: x
+                - generic [ref=e160]: "n"
+              - generic [ref=e161]: −
+              - generic [ref=e162]:
+                - generic [ref=e163]: μ
+                - generic [ref=e164]: k
+              - generic [ref=e165]:
+                - generic [ref=e166]: ∥
+                - generic [ref=e167]: "2"
+          - generic [ref=e168]:
+            - generic [ref=e169]: J =
+            - generic [ref=e170]:
+              - generic [ref=e171]:
+                - text: ∑
+                - generic [ref=e175]:
+                  - generic [ref=e177]: n=1
+                  - generic [ref=e179]: "N"
+              - generic [ref=e183]:
+                - text: ∑
+                - generic [ref=e187]:
+                  - generic [ref=e189]: k=1
+                  - generic [ref=e191]: K
+              - generic [ref=e195]:
+                - text: r
+                - generic [ref=e201]: nk
+              - text: ∥
+              - generic [ref=e205]:
+                - text: x
+                - generic [ref=e210]: "n"
+              - text: −
+            - generic [ref=e214]:
+              - generic [ref=e215]:
+                - generic [ref=e217]: μ
+                - generic [ref=e222]: k
+              - generic [ref=e226]:
+                - text: ∥
+                - generic [ref=e231]: "2"
+      - paragraph [ref=e232]:
+        - text: where
+        - generic [ref=e233]:
+          - math [ref=e235]:
+            - generic [ref=e237]:
+              - generic [ref=e238]:
+                - generic [ref=e239]: r
+                - generic [ref=e240]:
+                  - generic [ref=e241]: "n"
+                  - generic [ref=e242]: k
+              - generic [ref=e243]: =
+              - generic [ref=e244]: "1"
+          - generic [ref=e245]:
+            - generic [ref=e246]:
+              - generic [ref=e247]:
+                - text: r
+                - generic [ref=e253]: nk
+              - text: =
+            - generic [ref=e257]: "1"
+        - text: if point
+        - generic [ref=e258]:
+          - math [ref=e260]:
+            - generic [ref=e263]: "n"
+          - generic [ref=e265]: "n"
+        - text: is assigned to cluster
+        - generic [ref=e266]:
+          - math [ref=e268]:
+            - generic [ref=e271]: k
+          - generic [ref=e273]: k
+        - text: ", else 0."
+      - heading "Algorithm" [level=3] [ref=e274]
+      - table [ref=e275]:
+        - rowgroup [ref=e276]:
+          - row "Step Action" [ref=e277]:
+            - columnheader "Step" [ref=e278]
+            - columnheader "Action" [ref=e279]
+        - rowgroup [ref=e280]:
+          - row "1 Initialise randomly" [ref=e281]:
+            - cell "1" [ref=e282]
+            - cell "Initialise randomly" [ref=e283]:
+              - text: Initialise
+              - generic [ref=e284]:
+                - math [ref=e286]:
+                  - generic [ref=e289]:
+                    - generic [ref=e290]: μ
+                    - generic [ref=e291]: k
+                - generic [ref=e294]:
+                  - text: μ
+                  - generic [ref=e299]: k
+              - text: randomly
+          - 'row "2 Assign: For each point, set for nearest" [ref=e303]':
+            - cell "2" [ref=e304]
+            - 'cell "Assign: For each point, set for nearest" [ref=e305]':
+              - strong [ref=e306]: "Assign:"
+              - text: For each point, set
+              - generic [ref=e307]:
+                - math [ref=e309]:
+                  - generic [ref=e311]:
+                    - generic [ref=e312]:
+                      - generic [ref=e313]: r
+                      - generic [ref=e314]:
+                        - generic [ref=e315]: "n"
+                        - generic [ref=e316]: k
+                    - generic [ref=e317]: =
+                    - generic [ref=e318]: "1"
+                - generic [ref=e319]:
+                  - generic [ref=e320]:
+                    - generic [ref=e321]:
+                      - text: r
+                      - generic [ref=e327]: nk
+                    - text: =
+                  - generic [ref=e331]: "1"
+              - text: for nearest
+              - generic [ref=e332]:
+                - math [ref=e334]:
+                  - generic [ref=e337]:
+                    - generic [ref=e338]: μ
+                    - generic [ref=e339]: k
+                - generic [ref=e342]:
+                  - text: μ
+                  - generic [ref=e347]: k
+          - row "3 Update:" [ref=e351]:
+            - cell "3" [ref=e352]
+            - cell "Update:" [ref=e353]:
+              - strong [ref=e354]: "Update:"
+              - generic [ref=e355]:
+                - math [ref=e357]:
+                  - generic [ref=e359]:
+                    - generic [ref=e360]:
+                      - generic [ref=e361]: μ
+                      - generic [ref=e362]: k
+                    - generic [ref=e363]: =
+                    - generic [ref=e364]:
+                      - generic [ref=e365]:
+                        - generic [ref=e366]:
+                          - generic [ref=e367]: ∑
+                          - generic [ref=e368]: "n"
+                        - generic [ref=e369]:
+                          - generic [ref=e370]: r
+                          - generic [ref=e371]:
+                            - generic [ref=e372]: "n"
+                            - generic [ref=e373]: k
+                        - generic [ref=e374]:
+                          - generic [ref=e375]: x
+                          - generic [ref=e376]: "n"
+                      - generic [ref=e377]:
+                        - generic [ref=e378]:
+                          - generic [ref=e379]: ∑
+                          - generic [ref=e380]: "n"
+                        - generic [ref=e381]:
+                          - generic [ref=e382]: r
+                          - generic [ref=e383]:
+                            - generic [ref=e384]: "n"
+                            - generic [ref=e385]: k
+                - generic [ref=e386]:
+                  - generic [ref=e387]:
+                    - generic [ref=e388]:
+                      - text: μ
+                      - generic [ref=e393]: k
+                    - text: =
+                  - generic [ref=e402]:
+                    - generic [ref=e404]:
+                      - generic [ref=e405]:
+                        - text: ∑
+                        - generic [ref=e410]: "n"
+                      - generic [ref=e414]:
+                        - text: r
+                        - generic [ref=e420]: nk
+                    - generic [ref=e426]:
+                      - generic [ref=e427]:
+                        - text: ∑
+                        - generic [ref=e432]: "n"
+                      - generic [ref=e436]:
+                        - text: r
+                        - generic [ref=e442]: nk
+                      - generic [ref=e446]:
+                        - text: x
+                        - generic [ref=e451]: "n"
+          - row "4 Repeat 2-3 until convergence" [ref=e458]:
+            - cell "4" [ref=e459]
+            - cell "Repeat 2-3 until convergence" [ref=e460]
+      - heading "K-Means for Images" [level=3] [ref=e461]
+      - list [ref=e462]:
+        - listitem [ref=e463]:
+          - text: Points
+          - generic [ref=e464]:
+            - math [ref=e466]:
+              - generic [ref=e469]:
+                - generic [ref=e470]: x
+                - generic [ref=e471]: "n"
+            - generic [ref=e474]:
+              - text: x
+              - generic [ref=e479]: "n"
+          - text: = pixel feature values (e.g., hue, intensity, RGB)
+        - listitem [ref=e483]:
+          - generic [ref=e484]:
+            - math [ref=e486]:
+              - generic [ref=e489]:
+                - generic [ref=e490]: μ
+                - generic [ref=e491]: k
+            - generic [ref=e494]:
+              - text: μ
+              - generic [ref=e499]: k
+          - text: = average feature value for region
+          - generic [ref=e503]:
+            - math [ref=e505]:
+              - generic [ref=e508]: k
+            - generic [ref=e510]: k
+        - listitem [ref=e511]: "For colour segmentation: convert RGB to HSV, cluster on hue"
+      - heading "Properties" [level=3] [ref=e512]
+      - table [ref=e513]:
+        - rowgroup [ref=e514]:
+          - row "Property Detail" [ref=e515]:
+            - columnheader "Property" [ref=e516]
+            - columnheader "Detail" [ref=e517]
+        - rowgroup [ref=e518]:
+          - row "Convergence Guaranteed to converge (monotonically decreasing J)" [ref=e519]:
+            - cell "Convergence" [ref=e520]
+            - cell "Guaranteed to converge (monotonically decreasing J)" [ref=e521]
+          - row "Optimality Only local minimum — sensitive to initialisation" [ref=e522]:
+            - cell "Optimality" [ref=e523]
+            - cell "Only local minimum — sensitive to initialisation" [ref=e524]
+          - row "Complexity where I = iterations" [ref=e525]:
+            - cell "Complexity" [ref=e526]
+            - cell "where I = iterations" [ref=e527]:
+              - generic [ref=e528]:
+                - math [ref=e530]:
+                  - generic [ref=e532]:
+                    - generic [ref=e533]: O
+                    - generic [ref=e534]: (
+                    - generic [ref=e535]: "N"
+                    - generic [ref=e536]: K
+                    - generic [ref=e537]: I
+                    - generic [ref=e538]: )
+                - generic [ref=e540]: O(NKI)
+              - text: where I = iterations
+          - row "Limitation Hard assignments, assumes spherical clusters" [ref=e541]:
+            - cell "Limitation" [ref=e542]
+            - cell "Hard assignments, assumes spherical clusters" [ref=e543]
+      - paragraph [ref=e544]: ":::"
+      - heading "Gaussian Mixture Models (GMM)" [level=2] [ref=e545]
+      - paragraph [ref=e546]: :::eli15 A Gaussian Mixture Model represents the distribution of pixel values as a weighted combination of multiple Gaussian (bell curve) distributions. Each Gaussian represents one cluster/segment with its own mean and spread. Unlike K-Means which forces hard assignments, GMM gives each pixel a probability of belonging to each cluster (soft assignment). This allows overlapping clusters and non-spherical shapes, making it more flexible for real image data.
+      - paragraph [ref=e547]: ":::"
+      - paragraph [ref=e548]: ":::eli20 A GMM models pixel values as drawn from a mixture of M Gaussians:"
+      - paragraph [ref=e549]:
+        - generic [ref=e550]:
+          - math [ref=e552]:
+            - generic [ref=e554]:
+              - generic [ref=e555]: p
+              - generic [ref=e556]: (
+              - generic [ref=e557]: x
+              - generic [ref=e558]: )
+              - generic [ref=e559]: =
+              - generic [ref=e560]:
+                - generic [ref=e561]: ∑
+                - generic [ref=e562]:
+                  - generic [ref=e563]: i
+                  - generic [ref=e564]: =
+                  - generic [ref=e565]: "1"
+                - generic [ref=e566]: M
+              - generic [ref=e567]:
+                - generic [ref=e568]: π
+                - generic [ref=e569]: i
+              - generic [ref=e570]: g
+              - generic [ref=e571]: (
+              - generic [ref=e572]: x
+              - generic [ref=e573]: ∣
+              - generic [ref=e574]:
+                - generic [ref=e575]: θ
+                - generic [ref=e576]: i
+              - generic [ref=e577]: )
+          - generic [ref=e578]:
+            - generic [ref=e579]: p(x) =
+            - generic [ref=e580]:
+              - generic [ref=e581]:
+                - text: ∑
+                - generic [ref=e585]:
+                  - generic [ref=e587]: i=1
+                  - generic [ref=e589]: M
+              - generic [ref=e593]:
+                - text: π
+                - generic [ref=e598]: i
+              - text: g(x∣
+              - generic [ref=e602]:
+                - text: θ
+                - generic [ref=e607]: i
+              - text: )
+      - paragraph [ref=e611]:
+        - text: where
+        - generic [ref=e612]:
+          - math [ref=e614]:
+            - generic [ref=e616]:
+              - generic [ref=e617]:
+                - generic [ref=e618]: θ
+                - generic [ref=e619]: i
+              - generic [ref=e620]: =
+              - generic [ref=e621]: (
+              - generic [ref=e622]:
+                - generic [ref=e623]: μ
+                - generic [ref=e624]: i
+              - generic [ref=e625]: ","
+              - generic [ref=e626]:
+                - generic [ref=e627]: Σ
+                - generic [ref=e628]: i
+              - generic [ref=e629]: )
+          - generic [ref=e630]:
+            - generic [ref=e631]:
+              - generic [ref=e632]:
+                - text: θ
+                - generic [ref=e637]: i
+              - text: =
+            - generic [ref=e641]:
+              - text: (
+              - generic [ref=e642]:
+                - text: μ
+                - generic [ref=e647]: i
+              - text: ","
+              - generic [ref=e651]:
+                - text: Σ
+                - generic [ref=e656]: i
+              - text: )
+        - text: and
+        - generic [ref=e660]:
+          - math [ref=e662]:
+            - generic [ref=e665]:
+              - generic [ref=e666]: π
+              - generic [ref=e667]: i
+          - generic [ref=e670]:
+            - text: π
+            - generic [ref=e675]: i
+        - text: are mixing coefficients (
+        - generic [ref=e679]:
+          - math [ref=e681]:
+            - generic [ref=e683]:
+              - generic [ref=e684]: ∑
+              - generic [ref=e685]:
+                - generic [ref=e686]: π
+                - generic [ref=e687]: i
+              - generic [ref=e688]: =
+              - generic [ref=e689]: "1"
+          - generic [ref=e690]:
+            - generic [ref=e691]:
+              - text: ∑
+              - generic [ref=e692]:
+                - text: π
+                - generic [ref=e697]: i
+              - text: =
+            - generic [ref=e701]: "1"
+        - text: ).
+      - heading "Log-Likelihood" [level=3] [ref=e702]
+      - paragraph [ref=e703]: "Under the i.i.d. assumption (pixels are independent, identically distributed):"
+      - paragraph [ref=e704]:
+        - generic [ref=e705]:
+          - math [ref=e707]:
+            - generic [ref=e709]:
+              - generic [ref=e710]: L
+              - generic [ref=e711]: (
+              - generic [ref=e712]: θ
+              - generic [ref=e713]: )
+              - generic [ref=e714]: =
+              - generic [ref=e715]: log
+              - generic: ⁡
+              - generic [ref=e716]: p
+              - generic [ref=e717]: (
+              - generic [ref=e718]: x
+              - generic [ref=e719]: ∣
+              - generic [ref=e720]: θ
+              - generic [ref=e721]: )
+              - generic [ref=e722]: =
+              - generic [ref=e723]:
+                - generic [ref=e724]: ∑
+                - generic [ref=e725]:
+                  - generic [ref=e726]: j
+                  - generic [ref=e727]: =
+                  - generic [ref=e728]: "1"
+                - generic [ref=e729]: "N"
+              - generic [ref=e730]: log
+              - generic: ⁡
+              - generic [ref=e731]:
+                - generic [ref=e732]: (
+                - generic [ref=e733]:
+                  - generic [ref=e734]: ∑
+                  - generic [ref=e735]:
+                    - generic [ref=e736]: i
+                    - generic [ref=e737]: =
+                    - generic [ref=e738]: "1"
+                  - generic [ref=e739]: M
+                - generic [ref=e740]:
+                  - generic [ref=e741]: π
+                  - generic [ref=e742]: i
+                - generic [ref=e743]: g
+                - generic [ref=e744]: (
+                - generic [ref=e745]:
+                  - generic [ref=e746]: x
+                  - generic [ref=e747]: j
+                - generic [ref=e748]: ∣
+                - generic [ref=e749]:
+                  - generic [ref=e750]: θ
+                  - generic [ref=e751]: i
+                - generic [ref=e752]: )
+                - generic [ref=e753]: )
+          - generic [ref=e754]:
+            - generic [ref=e755]:
+              - text: L(
+              - generic [ref=e757]: θ
+              - text: ) =
+            - generic [ref=e758]:
+              - generic [ref=e759]: log
+              - text: p(x∣
+              - generic [ref=e761]: θ
+              - text: ) =
+            - generic [ref=e762]:
+              - generic [ref=e763]:
+                - text: ∑
+                - generic [ref=e767]:
+                  - generic [ref=e769]: j=1
+                  - generic [ref=e771]: "N"
+              - generic [ref=e775]: log
+              - generic [ref=e776]:
+                - generic [ref=e777]: (
+                - generic [ref=e778]:
+                  - text: ∑
+                  - generic [ref=e782]:
+                    - generic [ref=e784]: i=1
+                    - generic [ref=e786]: M
+                - generic [ref=e790]:
+                  - text: π
+                  - generic [ref=e795]: i
+                - text: g(
+                - generic [ref=e799]:
+                  - text: x
+                  - generic [ref=e804]: j
+                - text: ∣
+                - generic [ref=e808]:
+                  - text: θ
+                  - generic [ref=e813]: i
+                - text: )
+                - generic [ref=e817]: )
+      - paragraph [ref=e818]: Direct maximisation is intractable — use EM.
+      - paragraph [ref=e819]: ":::"
+      - heading "EM Algorithm for GMM" [level=2] [ref=e820]
+      - paragraph [ref=e821]: :::eli15 The Expectation-Maximisation (EM) algorithm fits a GMM when you cannot directly solve for the best parameters. In the E-step, you compute the probability that each Gaussian generated each data point (soft assignments). In the M-step, you update each Gaussian’s parameters (mean, covariance, weight) using those probabilities as weights. Each iteration is guaranteed to improve (or maintain) the likelihood, converging to a local maximum.
+      - paragraph [ref=e822]: ":::"
+      - generic [ref=e823]:
+        - table [ref=e824]:
+          - rowgroup [ref=e825]:
+            - row "Step Name Action" [ref=e826]:
+              - columnheader "Step" [ref=e827]
+              - columnheader "Name" [ref=e828]
+              - columnheader "Action" [ref=e829]
+          - rowgroup [ref=e830]:
+            - row "1 Init Set initial , , ," [ref=e831]:
+              - cell "1" [ref=e832]
+              - cell "Init" [ref=e833]
+              - cell "Set initial , , ," [ref=e834]:
+                - text: Set initial
+                - generic [ref=e835]:
+                  - math [ref=e837]:
+                    - generic [ref=e840]: M
+                  - generic [ref=e842]: M
+                - text: ","
+                - generic [ref=e843]:
+                  - math [ref=e845]:
+                    - generic [ref=e848]:
+                      - generic [ref=e849]: μ
+                      - generic [ref=e850]: i
+                  - generic [ref=e853]:
+                    - text: μ
+                    - generic [ref=e858]: i
+                - text: ","
+                - generic [ref=e862]:
+                  - math [ref=e864]:
+                    - generic [ref=e867]:
+                      - generic [ref=e868]: Σ
+                      - generic [ref=e869]: i
+                  - generic [ref=e872]:
+                    - text: Σ
+                    - generic [ref=e877]: i
+                - text: ","
+                - generic [ref=e881]:
+                  - math [ref=e883]:
+                    - generic [ref=e886]:
+                      - generic [ref=e887]: π
+                      - generic [ref=e888]: i
+                  - generic [ref=e891]:
+                    - text: π
+                    - generic [ref=e896]: i
+            - row "2 E-Step Compute $P(\\theta_i" [ref=e900]:
+              - cell "2" [ref=e901]
+              - cell "E-Step" [ref=e902]
+              - cell "Compute $P(\\theta_i" [ref=e903]
+            - row "3 M-Step Update parameters using weighted statistics" [ref=e904]:
+              - cell "3" [ref=e905]
+              - cell "M-Step" [ref=e906]
+              - cell "Update parameters using weighted statistics" [ref=e907]
+            - row "4 Repeat Until parameters converge" [ref=e908]:
+              - cell "4" [ref=e909]
+              - cell "Repeat" [ref=e910]
+              - cell "Until parameters converge" [ref=e911]
+        - heading "E-Step (Expectation)" [level=3] [ref=e912]
+        - paragraph [ref=e913]:
+          - text: Compute posterior probability that Gaussian
+          - generic [ref=e914]:
+            - math [ref=e916]:
+              - generic [ref=e919]: i
+            - generic [ref=e921]: i
+          - text: generated pixel
+          - generic [ref=e922]:
+            - math [ref=e924]:
+              - generic [ref=e927]:
+                - generic [ref=e928]: x
+                - generic [ref=e929]: j
+            - generic [ref=e932]:
+              - text: x
+              - generic [ref=e937]: j
+          - text: ":"
+        - paragraph [ref=e941]:
+          - generic [ref=e942]:
+            - math [ref=e944]:
+              - generic [ref=e946]:
+                - generic [ref=e947]: P
+                - generic [ref=e948]: (
+                - generic [ref=e949]:
+                  - generic [ref=e950]: θ
+                  - generic [ref=e951]: i
+                - generic [ref=e952]: ∣
+                - generic [ref=e953]:
+                  - generic [ref=e954]: x
+                  - generic [ref=e955]: j
+                - generic [ref=e956]: )
+                - generic [ref=e957]: =
+                - generic [ref=e958]:
+                  - generic [ref=e959]:
+                    - generic [ref=e960]:
+                      - generic [ref=e961]: π
+                      - generic [ref=e962]: i
+                    - generic [ref=e963]: g
+                    - generic [ref=e964]: (
+                    - generic [ref=e965]:
+                      - generic [ref=e966]: x
+                      - generic [ref=e967]: j
+                    - generic [ref=e968]: ∣
+                    - generic [ref=e969]:
+                      - generic [ref=e970]: θ
+                      - generic [ref=e971]: i
+                    - generic [ref=e972]: )
+                  - generic [ref=e973]:
+                    - generic [ref=e974]:
+                      - generic [ref=e975]: ∑
+                      - generic [ref=e976]:
+                        - generic [ref=e977]: m
+                        - generic [ref=e978]: =
+                        - generic [ref=e979]: "1"
+                      - generic [ref=e980]: M
+                    - generic [ref=e981]:
+                      - generic [ref=e982]: π
+                      - generic [ref=e983]: m
+                    - generic [ref=e984]: g
+                    - generic [ref=e985]: (
+                    - generic [ref=e986]:
+                      - generic [ref=e987]: x
+                      - generic [ref=e988]: j
+                    - generic [ref=e989]: ∣
+                    - generic [ref=e990]:
+                      - generic [ref=e991]: θ
+                      - generic [ref=e992]: m
+                    - generic [ref=e993]: )
+            - generic [ref=e994]:
+              - generic [ref=e995]:
+                - text: P(
+                - generic [ref=e996]:
+                  - text: θ
+                  - generic [ref=e1001]: i
+                - text: ∣
+                - generic [ref=e1005]:
+                  - text: x
+                  - generic [ref=e1010]: j
+                - text: ) =
+              - generic [ref=e1019]:
+                - generic [ref=e1021]:
+                  - generic [ref=e1022]:
+                    - text: ∑
+                    - generic [ref=e1026]:
+                      - generic [ref=e1028]: m=1
+                      - generic [ref=e1030]: M
+                  - generic [ref=e1034]:
+                    - text: π
+                    - generic [ref=e1039]: m
+                  - text: g(
+                  - generic [ref=e1043]:
+                    - text: x
+                    - generic [ref=e1048]: j
+                  - text: ∣
+                  - generic [ref=e1052]:
+                    - text: θ
+                    - generic [ref=e1057]: m
+                  - text: )
+                - generic [ref=e1063]:
+                  - generic [ref=e1064]:
+                    - text: π
+                    - generic [ref=e1069]: i
+                  - text: g(
+                  - generic [ref=e1073]:
+                    - text: x
+                    - generic [ref=e1078]: j
+                  - text: ∣
+                  - generic [ref=e1082]:
+                    - text: θ
+                    - generic [ref=e1087]: i
+                  - text: )
+        - heading "M-Step (Maximisation)" [level=3] [ref=e1094]
+        - paragraph [ref=e1095]: "Update parameters using soft assignments:"
+        - paragraph [ref=e1096]:
+          - generic [ref=e1097]:
+            - math [ref=e1099]:
+              - generic [ref=e1101]:
+                - generic [ref=e1102]:
+                  - generic [ref=e1103]: μ
+                  - generic [ref=e1104]: i
+                - generic [ref=e1105]: =
+                - generic [ref=e1106]:
+                  - generic [ref=e1107]:
+                    - generic [ref=e1108]:
+                      - generic [ref=e1109]: ∑
+                      - generic [ref=e1110]:
+                        - generic [ref=e1111]: j
+                        - generic [ref=e1112]: =
+                        - generic [ref=e1113]: "1"
+                      - generic [ref=e1114]: "N"
+                    - generic [ref=e1115]: P
+                    - generic [ref=e1116]: (
+                    - generic [ref=e1117]:
+                      - generic [ref=e1118]: θ
+                      - generic [ref=e1119]: i
+                    - generic [ref=e1120]: ∣
+                    - generic [ref=e1121]:
+                      - generic [ref=e1122]: x
+                      - generic [ref=e1123]: j
+                    - generic [ref=e1124]: )
+                    - generic [ref=e1125]:
+                      - generic [ref=e1126]: x
+                      - generic [ref=e1127]: j
+                  - generic [ref=e1128]:
+                    - generic [ref=e1129]:
+                      - generic [ref=e1130]: ∑
+                      - generic [ref=e1131]:
+                        - generic [ref=e1132]: j
+                        - generic [ref=e1133]: =
+                        - generic [ref=e1134]: "1"
+                      - generic [ref=e1135]: "N"
+                    - generic [ref=e1136]: P
+                    - generic [ref=e1137]: (
+                    - generic [ref=e1138]:
+                      - generic [ref=e1139]: θ
+                      - generic [ref=e1140]: i
+                    - generic [ref=e1141]: ∣
+                    - generic [ref=e1142]:
+                      - generic [ref=e1143]: x
+                      - generic [ref=e1144]: j
+                    - generic [ref=e1145]: )
+            - generic [ref=e1146]:
+              - generic [ref=e1147]:
+                - generic [ref=e1148]:
+                  - text: μ
+                  - generic [ref=e1153]: i
+                - text: =
+              - generic [ref=e1162]:
+                - generic [ref=e1164]:
+                  - generic [ref=e1165]:
+                    - text: ∑
+                    - generic [ref=e1169]:
+                      - generic [ref=e1171]: j=1
+                      - generic [ref=e1173]: "N"
+                  - text: P(
+                  - generic [ref=e1177]:
+                    - text: θ
+                    - generic [ref=e1182]: i
+                  - text: ∣
+                  - generic [ref=e1186]:
+                    - text: x
+                    - generic [ref=e1191]: j
+                  - text: )
+                - generic [ref=e1197]:
+                  - generic [ref=e1198]:
+                    - text: ∑
+                    - generic [ref=e1202]:
+                      - generic [ref=e1204]: j=1
+                      - generic [ref=e1206]: "N"
+                  - text: P(
+                  - generic [ref=e1210]:
+                    - text: θ
+                    - generic [ref=e1215]: i
+                  - text: ∣
+                  - generic [ref=e1219]:
+                    - text: x
+                    - generic [ref=e1224]: j
+                  - text: )
+                  - generic [ref=e1228]:
+                    - text: x
+                    - generic [ref=e1233]: j
+        - paragraph [ref=e1240]:
+          - generic [ref=e1241]:
+            - math [ref=e1243]:
+              - generic [ref=e1245]:
+                - generic [ref=e1246]:
+                  - generic [ref=e1247]: Σ
+                  - generic [ref=e1248]: i
+                - generic [ref=e1249]: =
+                - generic [ref=e1250]:
+                  - generic [ref=e1251]:
+                    - generic [ref=e1252]:
+                      - generic [ref=e1253]: ∑
+                      - generic [ref=e1254]:
+                        - generic [ref=e1255]: j
+                        - generic [ref=e1256]: =
+                        - generic [ref=e1257]: "1"
+                      - generic [ref=e1258]: "N"
+                    - generic [ref=e1259]: P
+                    - generic [ref=e1260]: (
+                    - generic [ref=e1261]:
+                      - generic [ref=e1262]: θ
+                      - generic [ref=e1263]: i
+                    - generic [ref=e1264]: ∣
+                    - generic [ref=e1265]:
+                      - generic [ref=e1266]: x
+                      - generic [ref=e1267]: j
+                    - generic [ref=e1268]: )
+                    - generic [ref=e1269]: (
+                    - generic [ref=e1270]:
+                      - generic [ref=e1271]: x
+                      - generic [ref=e1272]: j
+                    - generic [ref=e1273]: −
+                    - generic [ref=e1274]:
+                      - generic [ref=e1275]: μ
+                      - generic [ref=e1276]: i
+                    - generic [ref=e1277]: )
+                    - generic [ref=e1278]: (
+                    - generic [ref=e1279]:
+                      - generic [ref=e1280]: x
+                      - generic [ref=e1281]: j
+                    - generic [ref=e1282]: −
+                    - generic [ref=e1283]:
+                      - generic [ref=e1284]: μ
+                      - generic [ref=e1285]: i
+                    - generic [ref=e1286]:
+                      - generic [ref=e1287]: )
+                      - generic [ref=e1288]: T
+                  - generic [ref=e1289]:
+                    - generic [ref=e1290]:
+                      - generic [ref=e1291]: ∑
+                      - generic [ref=e1292]:
+                        - generic [ref=e1293]: j
+                        - generic [ref=e1294]: =
+                        - generic [ref=e1295]: "1"
+                      - generic [ref=e1296]: "N"
+                    - generic [ref=e1297]: P
+                    - generic [ref=e1298]: (
+                    - generic [ref=e1299]:
+                      - generic [ref=e1300]: θ
+                      - generic [ref=e1301]: i
+                    - generic [ref=e1302]: ∣
+                    - generic [ref=e1303]:
+                      - generic [ref=e1304]: x
+                      - generic [ref=e1305]: j
+                    - generic [ref=e1306]: )
+            - generic [ref=e1307]:
+              - generic [ref=e1308]:
+                - generic [ref=e1309]:
+                  - text: Σ
+                  - generic [ref=e1314]: i
+                - text: =
+              - generic [ref=e1323]:
+                - generic [ref=e1325]:
+                  - generic [ref=e1326]:
+                    - text: ∑
+                    - generic [ref=e1330]:
+                      - generic [ref=e1332]: j=1
+                      - generic [ref=e1334]: "N"
+                  - text: P(
+                  - generic [ref=e1338]:
+                    - text: θ
+                    - generic [ref=e1343]: i
+                  - text: ∣
+                  - generic [ref=e1347]:
+                    - text: x
+                    - generic [ref=e1352]: j
+                  - text: )
+                - generic [ref=e1358]:
+                  - generic [ref=e1359]:
+                    - text: ∑
+                    - generic [ref=e1363]:
+                      - generic [ref=e1365]: j=1
+                      - generic [ref=e1367]: "N"
+                  - text: P(
+                  - generic [ref=e1371]:
+                    - text: θ
+                    - generic [ref=e1376]: i
+                  - text: ∣
+                  - generic [ref=e1380]:
+                    - text: x
+                    - generic [ref=e1385]: j
+                  - text: )(
+                  - generic [ref=e1389]:
+                    - text: x
+                    - generic [ref=e1394]: j
+                  - text: −
+                  - generic [ref=e1398]:
+                    - text: μ
+                    - generic [ref=e1403]: i
+                  - text: )(
+                  - generic [ref=e1407]:
+                    - text: x
+                    - generic [ref=e1412]: j
+                  - text: −
+                  - generic [ref=e1416]:
+                    - text: μ
+                    - generic [ref=e1421]: i
+                  - generic [ref=e1425]:
+                    - text: )
+                    - generic [ref=e1430]: T
+        - paragraph [ref=e1434]:
+          - generic [ref=e1435]:
+            - math [ref=e1437]:
+              - generic [ref=e1439]:
+                - generic [ref=e1440]:
+                  - generic [ref=e1441]: π
+                  - generic [ref=e1442]: i
+                - generic [ref=e1443]: =
+                - generic [ref=e1444]:
+                  - generic [ref=e1445]: "1"
+                  - generic [ref=e1446]: "N"
+                - generic [ref=e1447]:
+                  - generic [ref=e1448]: ∑
+                  - generic [ref=e1449]:
+                    - generic [ref=e1450]: j
+                    - generic [ref=e1451]: =
+                    - generic [ref=e1452]: "1"
+                  - generic [ref=e1453]: "N"
+                - generic [ref=e1454]: P
+                - generic [ref=e1455]: (
+                - generic [ref=e1456]:
+                  - generic [ref=e1457]: θ
+                  - generic [ref=e1458]: i
+                - generic [ref=e1459]: ∣
+                - generic [ref=e1460]:
+                  - generic [ref=e1461]: x
+                  - generic [ref=e1462]: j
+                - generic [ref=e1463]: )
+            - generic [ref=e1464]:
+              - generic [ref=e1465]:
+                - generic [ref=e1466]:
+                  - text: π
+                  - generic [ref=e1471]: i
+                - text: =
+              - generic [ref=e1475]:
+                - generic [ref=e1480]:
+                  - generic [ref=e1482]: "N"
+                  - generic [ref=e1485]: "1"
+                - generic [ref=e1489]:
+                  - text: ∑
+                  - generic [ref=e1493]:
+                    - generic [ref=e1495]: j=1
+                    - generic [ref=e1497]: "N"
+                - text: P(
+                - generic [ref=e1501]:
+                  - text: θ
+                  - generic [ref=e1506]: i
+                - text: ∣
+                - generic [ref=e1510]:
+                  - text: x
+                  - generic [ref=e1515]: j
+                - text: )
+      - heading "K-Means Optimisation Formulation" [level=2] [ref=e1519]
+      - paragraph [ref=e1520]: ":::eli15 K-Means can be understood as minimising a cost function (sum of squared distances from points to their assigned centres) using alternating optimisation. You fix the centres and optimise assignments, then fix assignments and optimise centres. Each sub-problem has a closed-form solution: assignments go to the nearest centre, and centres become the mean of assigned points. This “block coordinate descent” guarantees the cost never increases."
+      - paragraph [ref=e1521]: ":::"
+      - paragraph [ref=e1522]: ":::eli20 The K-means algorithm derives from minimising:"
+      - paragraph [ref=e1523]:
+        - generic [ref=e1524]:
+          - math [ref=e1526]:
+            - generic [ref=e1528]:
+              - generic [ref=e1529]: J
+              - generic [ref=e1530]: =
+              - generic [ref=e1531]:
+                - generic [ref=e1532]: ∑
+                - generic [ref=e1533]:
+                  - generic [ref=e1534]: "n"
+                  - generic [ref=e1535]: =
+                  - generic [ref=e1536]: "1"
+                - generic [ref=e1537]: "N"
+              - generic [ref=e1538]:
+                - generic [ref=e1539]: ∑
+                - generic [ref=e1540]:
+                  - generic [ref=e1541]: k
+                  - generic [ref=e1542]: =
+                  - generic [ref=e1543]: "1"
+                - generic [ref=e1544]: K
+              - generic [ref=e1545]:
+                - generic [ref=e1546]: r
+                - generic [ref=e1547]:
+                  - generic [ref=e1548]: "n"
+                  - generic [ref=e1549]: k
+              - generic [ref=e1550]: ∥
+              - generic [ref=e1551]:
+                - generic [ref=e1552]: x
+                - generic [ref=e1553]: "n"
+              - generic [ref=e1554]: −
+              - generic [ref=e1555]:
+                - generic [ref=e1556]: μ
+                - generic [ref=e1557]: k
+              - generic [ref=e1558]:
+                - generic [ref=e1559]: ∥
+                - generic [ref=e1560]: "2"
+          - generic [ref=e1561]:
+            - generic [ref=e1562]: J =
+            - generic [ref=e1563]:
+              - generic [ref=e1564]:
+                - text: ∑
+                - generic [ref=e1568]:
+                  - generic [ref=e1570]: n=1
+                  - generic [ref=e1572]: "N"
+              - generic [ref=e1576]:
+                - text: ∑
+                - generic [ref=e1580]:
+                  - generic [ref=e1582]: k=1
+                  - generic [ref=e1584]: K
+              - generic [ref=e1588]:
+                - text: r
+                - generic [ref=e1594]: nk
+              - text: ∥
+              - generic [ref=e1598]:
+                - text: x
+                - generic [ref=e1603]: "n"
+              - text: −
+            - generic [ref=e1607]:
+              - generic [ref=e1608]:
+                - generic [ref=e1610]: μ
+                - generic [ref=e1615]: k
+              - generic [ref=e1619]:
+                - text: ∥
+                - generic [ref=e1624]: "2"
+      - paragraph [ref=e1625]:
+        - text: subject to
+        - generic [ref=e1626]:
+          - math [ref=e1628]:
+            - generic [ref=e1630]:
+              - generic [ref=e1631]:
+                - generic [ref=e1632]: r
+                - generic [ref=e1633]:
+                  - generic [ref=e1634]: "n"
+                  - generic [ref=e1635]: k
+              - generic [ref=e1636]: ∈
+              - generic [ref=e1637]: "{"
+              - generic [ref=e1638]: "0"
+              - generic [ref=e1639]: ","
+              - generic [ref=e1640]: "1"
+              - generic [ref=e1641]: "}"
+          - generic [ref=e1642]:
+            - generic [ref=e1643]:
+              - generic [ref=e1644]:
+                - text: r
+                - generic [ref=e1650]: nk
+              - text: ∈
+            - generic [ref=e1654]: "{0, 1}"
+        - text: and
+        - generic [ref=e1655]:
+          - math [ref=e1657]:
+            - generic [ref=e1659]:
+              - generic [ref=e1660]:
+                - generic [ref=e1661]: ∑
+                - generic [ref=e1662]: k
+              - generic [ref=e1663]:
+                - generic [ref=e1664]: r
+                - generic [ref=e1665]:
+                  - generic [ref=e1666]: "n"
+                  - generic [ref=e1667]: k
+              - generic [ref=e1668]: =
+              - generic [ref=e1669]: "1"
+          - generic [ref=e1670]:
+            - generic [ref=e1671]:
+              - generic [ref=e1672]:
+                - text: ∑
+                - generic [ref=e1677]: k
+              - generic [ref=e1681]:
+                - text: r
+                - generic [ref=e1687]: nk
+              - text: =
+            - generic [ref=e1691]: "1"
+        - text: .
+      - paragraph [ref=e1692]:
+        - text: This is a
+        - strong [ref=e1693]: block coordinate descent
+        - text: "(alternating minimisation):"
+      - table [ref=e1694]:
+        - rowgroup [ref=e1695]:
+          - row "Step Fix Minimise w.r.t. Solution" [ref=e1696]:
+            - columnheader "Step" [ref=e1697]
+            - columnheader "Fix" [ref=e1698]
+            - columnheader "Minimise w.r.t." [ref=e1699]
+            - columnheader "Solution" [ref=e1700]
+        - rowgroup [ref=e1701]:
+          - row "Assign (independent per pixel)" [ref=e1702]:
+            - cell "Assign" [ref=e1703]
+            - cell [ref=e1704]:
+              - generic [ref=e1705]:
+                - math [ref=e1707]:
+                  - generic [ref=e1710]:
+                    - generic [ref=e1711]: μ
+                    - generic [ref=e1712]: k
+                - generic [ref=e1715]:
+                  - text: μ
+                  - generic [ref=e1720]: k
+            - cell [ref=e1724]:
+              - generic [ref=e1725]:
+                - math [ref=e1727]:
+                  - generic [ref=e1730]:
+                    - generic [ref=e1731]: r
+                    - generic [ref=e1732]:
+                      - generic [ref=e1733]: "n"
+                      - generic [ref=e1734]: k
+                - generic [ref=e1737]:
+                  - text: r
+                  - generic [ref=e1743]: nk
+            - cell "(independent per pixel)" [ref=e1747]:
+              - generic [ref=e1748]:
+                - math [ref=e1750]:
+                  - generic [ref=e1752]:
+                    - generic [ref=e1753]:
+                      - generic [ref=e1754]: k
+                      - generic [ref=e1755]: ∗
+                    - generic [ref=e1756]: =
+                    - generic [ref=e1757]: arg
+                    - generic: ⁡
+                    - generic [ref=e1758]:
+                      - generic [ref=e1759]:
+                        - generic [ref=e1760]: min
+                        - generic: ⁡
+                      - generic [ref=e1761]: k
+                    - generic [ref=e1762]: ∥
+                    - generic [ref=e1763]:
+                      - generic [ref=e1764]: x
+                      - generic [ref=e1765]: "n"
+                    - generic [ref=e1766]: −
+                    - generic [ref=e1767]:
+                      - generic [ref=e1768]: μ
+                      - generic [ref=e1769]: k
+                    - generic [ref=e1770]:
+                      - generic [ref=e1771]: ∥
+                      - generic [ref=e1772]: "2"
+                - generic [ref=e1773]:
+                  - generic [ref=e1774]:
+                    - generic [ref=e1775]:
+                      - text: k
+                      - generic [ref=e1780]: ∗
+                    - text: =
+                  - generic [ref=e1781]:
+                    - generic [ref=e1782]: arg
+                    - generic [ref=e1783]:
+                      - text: min
+                      - generic [ref=e1788]: k
+                    - text: ∥
+                    - generic [ref=e1792]:
+                      - text: x
+                      - generic [ref=e1797]: "n"
+                    - text: −
+                  - generic [ref=e1801]:
+                    - generic [ref=e1802]:
+                      - text: μ
+                      - generic [ref=e1807]: k
+                    - generic [ref=e1811]:
+                      - text: ∥
+                      - generic [ref=e1816]: "2"
+              - text: (independent per pixel)
+          - row "Update (derivative of quadratic = 0)" [ref=e1817]:
+            - cell "Update" [ref=e1818]
+            - cell [ref=e1819]:
+              - generic [ref=e1820]:
+                - math [ref=e1822]:
+                  - generic [ref=e1825]:
+                    - generic [ref=e1826]: r
+                    - generic [ref=e1827]:
+                      - generic [ref=e1828]: "n"
+                      - generic [ref=e1829]: k
+                - generic [ref=e1832]:
+                  - text: r
+                  - generic [ref=e1838]: nk
+            - cell [ref=e1842]:
+              - generic [ref=e1843]:
+                - math [ref=e1845]:
+                  - generic [ref=e1848]:
+                    - generic [ref=e1849]: μ
+                    - generic [ref=e1850]: k
+                - generic [ref=e1853]:
+                  - text: μ
+                  - generic [ref=e1858]: k
+            - cell "(derivative of quadratic = 0)" [ref=e1862]:
+              - generic [ref=e1863]:
+                - math [ref=e1865]:
+                  - generic [ref=e1867]:
+                    - generic [ref=e1868]:
+                      - generic [ref=e1869]: μ
+                      - generic [ref=e1870]: k
+                    - generic [ref=e1871]: =
+                    - generic [ref=e1872]:
+                      - generic [ref=e1873]:
+                        - generic [ref=e1874]:
+                          - generic [ref=e1875]: ∑
+                          - generic [ref=e1876]: "n"
+                        - generic [ref=e1877]:
+                          - generic [ref=e1878]: r
+                          - generic [ref=e1879]:
+                            - generic [ref=e1880]: "n"
+                            - generic [ref=e1881]: k
+                        - generic [ref=e1882]:
+                          - generic [ref=e1883]: x
+                          - generic [ref=e1884]: "n"
+                      - generic [ref=e1885]:
+                        - generic [ref=e1886]:
+                          - generic [ref=e1887]: ∑
+                          - generic [ref=e1888]: "n"
+                        - generic [ref=e1889]:
+                          - generic [ref=e1890]: r
+                          - generic [ref=e1891]:
+                            - generic [ref=e1892]: "n"
+                            - generic [ref=e1893]: k
+                - generic [ref=e1894]:
+                  - generic [ref=e1895]:
+                    - generic [ref=e1896]:
+                      - text: μ
+                      - generic [ref=e1901]: k
+                    - text: =
+                  - generic [ref=e1910]:
+                    - generic [ref=e1912]:
+                      - generic [ref=e1913]:
+                        - text: ∑
+                        - generic [ref=e1918]: "n"
+                      - generic [ref=e1922]:
+                        - text: r
+                        - generic [ref=e1928]: nk
+                    - generic [ref=e1934]:
+                      - generic [ref=e1935]:
+                        - text: ∑
+                        - generic [ref=e1940]: "n"
+                      - generic [ref=e1944]:
+                        - text: r
+                        - generic [ref=e1950]: nk
+                      - generic [ref=e1954]:
+                        - text: x
+                        - generic [ref=e1959]: "n"
+              - text: (derivative of quadratic = 0)
+      - paragraph [ref=e1966]: ":::"
+      - heading "GMM Log-Likelihood Objective" [level=2] [ref=e1967]
+      - paragraph [ref=e1968]: :::eli15 The GMM log-likelihood measures how probable the observed pixel values are under the current model. Since pixels are assumed independent, the joint probability is the product of individual probabilities, and taking the log converts it to a sum. However, each term contains a log of a sum (over mixture components), which has no closed-form maximum. This is why the EM algorithm is needed — it optimises a tractable lower bound instead.
+      - paragraph [ref=e1969]: ":::"
+      - paragraph [ref=e1970]: ":::eli20 Under i.i.d. assumption, the joint observation probability:"
+      - paragraph [ref=e1971]:
+        - generic [ref=e1972]:
+          - math [ref=e1974]:
+            - generic [ref=e1976]:
+              - generic [ref=e1977]: P
+              - generic [ref=e1978]: (
+              - generic [ref=e1979]:
+                - generic [ref=e1980]: x
+                - generic [ref=e1981]: "1"
+              - generic [ref=e1982]: ","
+              - generic [ref=e1983]: …
+              - generic [ref=e1984]: ","
+              - generic [ref=e1985]:
+                - generic [ref=e1986]: x
+                - generic [ref=e1987]: "N"
+              - generic [ref=e1988]: ∣
+              - generic [ref=e1989]: θ
+              - generic [ref=e1990]: )
+              - generic [ref=e1991]: =
+              - generic [ref=e1992]:
+                - generic [ref=e1993]: ∏
+                - generic [ref=e1994]:
+                  - generic [ref=e1995]: j
+                  - generic [ref=e1996]: =
+                  - generic [ref=e1997]: "1"
+                - generic [ref=e1998]: "N"
+              - generic [ref=e1999]: P
+              - generic [ref=e2000]: (
+              - generic [ref=e2001]:
+                - generic [ref=e2002]: x
+                - generic [ref=e2003]: j
+              - generic [ref=e2004]: ∣
+              - generic [ref=e2005]: θ
+              - generic [ref=e2006]: )
+              - generic [ref=e2007]: =
+              - generic [ref=e2008]:
+                - generic [ref=e2009]: ∏
+                - generic [ref=e2010]:
+                  - generic [ref=e2011]: j
+                  - generic [ref=e2012]: =
+                  - generic [ref=e2013]: "1"
+                - generic [ref=e2014]: "N"
+              - generic [ref=e2015]:
+                - generic [ref=e2016]: ∑
+                - generic [ref=e2017]:
+                  - generic [ref=e2018]: i
+                  - generic [ref=e2019]: =
+                  - generic [ref=e2020]: "1"
+                - generic [ref=e2021]: M
+              - generic [ref=e2022]:
+                - generic [ref=e2023]: π
+                - generic [ref=e2024]: i
+              - generic [ref=e2025]: g
+              - generic [ref=e2026]: (
+              - generic [ref=e2027]:
+                - generic [ref=e2028]: x
+                - generic [ref=e2029]: j
+              - generic [ref=e2030]: ∣
+              - generic [ref=e2031]:
+                - generic [ref=e2032]: θ
+                - generic [ref=e2033]: i
+              - generic [ref=e2034]: )
+          - generic [ref=e2035]:
+            - generic [ref=e2036]:
+              - text: P(
+              - generic [ref=e2037]:
+                - text: x
+                - generic [ref=e2042]: "1"
+              - text: ", … ,"
+              - generic [ref=e2046]:
+                - text: x
+                - generic [ref=e2051]: "N"
+              - text: ∣θ) =
+            - generic [ref=e2055]:
+              - generic [ref=e2056]:
+                - text: ∏
+                - generic [ref=e2060]:
+                  - generic [ref=e2062]: j=1
+                  - generic [ref=e2064]: "N"
+              - text: P(
+              - generic [ref=e2068]:
+                - text: x
+                - generic [ref=e2073]: j
+              - text: ∣θ) =
+            - generic [ref=e2077]:
+              - generic [ref=e2078]:
+                - text: ∏
+                - generic [ref=e2082]:
+                  - generic [ref=e2084]: j=1
+                  - generic [ref=e2086]: "N"
+              - generic [ref=e2090]:
+                - text: ∑
+                - generic [ref=e2094]:
+                  - generic [ref=e2096]: i=1
+                  - generic [ref=e2098]: M
+              - generic [ref=e2102]:
+                - text: π
+                - generic [ref=e2107]: i
+              - text: g(
+              - generic [ref=e2111]:
+                - text: x
+                - generic [ref=e2116]: j
+              - text: ∣
+              - generic [ref=e2120]:
+                - text: θ
+                - generic [ref=e2125]: i
+              - text: )
+      - paragraph [ref=e2129]: "Log-likelihood to maximise:"
+      - paragraph [ref=e2130]:
+        - generic [ref=e2131]:
+          - math [ref=e2133]:
+            - generic [ref=e2135]:
+              - generic [ref=e2136]: L
+              - generic [ref=e2137]: (
+              - generic [ref=e2138]: θ
+              - generic [ref=e2139]: )
+              - generic [ref=e2140]: =
+              - generic [ref=e2141]:
+                - generic [ref=e2142]: ∑
+                - generic [ref=e2143]:
+                  - generic [ref=e2144]: j
+                  - generic [ref=e2145]: =
+                  - generic [ref=e2146]: "1"
+                - generic [ref=e2147]: "N"
+              - generic [ref=e2148]: log
+              - generic: ⁡
+              - generic [ref=e2149]:
+                - generic [ref=e2150]: (
+                - generic [ref=e2151]:
+                  - generic [ref=e2152]: ∑
+                  - generic [ref=e2153]:
+                    - generic [ref=e2154]: i
+                    - generic [ref=e2155]: =
+                    - generic [ref=e2156]: "1"
+                  - generic [ref=e2157]: M
+                - generic [ref=e2158]:
+                  - generic [ref=e2159]: π
+                  - generic [ref=e2160]: i
+                - generic [ref=e2161]: g
+                - generic [ref=e2162]: (
+                - generic [ref=e2163]:
+                  - generic [ref=e2164]: x
+                  - generic [ref=e2165]: j
+                - generic [ref=e2166]: ∣
+                - generic [ref=e2167]:
+                  - generic [ref=e2168]: θ
+                  - generic [ref=e2169]: i
+                - generic [ref=e2170]: )
+                - generic [ref=e2171]: )
+          - generic [ref=e2172]:
+            - generic [ref=e2173]: L(θ) =
+            - generic [ref=e2174]:
+              - generic [ref=e2175]:
+                - text: ∑
+                - generic [ref=e2179]:
+                  - generic [ref=e2181]: j=1
+                  - generic [ref=e2183]: "N"
+              - generic [ref=e2187]: log
+              - generic [ref=e2188]:
+                - generic [ref=e2189]: (
+                - generic [ref=e2190]:
+                  - text: ∑
+                  - generic [ref=e2194]:
+                    - generic [ref=e2196]: i=1
+                    - generic [ref=e2198]: M
+                - generic [ref=e2202]:
+                  - text: π
+                  - generic [ref=e2207]: i
+                - text: g(
+                - generic [ref=e2211]:
+                  - text: x
+                  - generic [ref=e2216]: j
+                - text: ∣
+                - generic [ref=e2220]:
+                  - text: θ
+                  - generic [ref=e2225]: i
+                - text: )
+                - generic [ref=e2229]: )
+      - paragraph [ref=e2230]: Direct maximisation is intractable (log of sum) → use EM algorithm.
+      - paragraph [ref=e2231]: ":::"
+      - 'heading "EM Algorithm: Conceptual Derivation" [level=2] [ref=e2232]'
+      - paragraph [ref=e2233]: :::eli15 The EM algorithm works because directly maximising the log-likelihood is intractable due to the log-of-sum structure. By introducing a latent variable (which component generated each point), we can construct a lower bound on the log-likelihood using Jensen’s inequality. EM alternates between tightening this bound (E-step) and maximising it (M-step), guaranteeing monotonic improvement. This same framework underlies Variational Autoencoders.
+      - paragraph [ref=e2234]: ":::"
+      - generic [ref=e2235]:
+        - table [ref=e2236]:
+          - rowgroup [ref=e2237]:
+            - row "Concept Detail" [ref=e2238]:
+              - columnheader "Concept" [ref=e2239]
+              - columnheader "Detail" [ref=e2240]
+          - rowgroup [ref=e2241]:
+            - row "Problem Log-likelihood has log(sum) — hard to optimise directly" [ref=e2242]:
+              - cell "Problem" [ref=e2243]
+              - cell "Log-likelihood has log(sum) — hard to optimise directly" [ref=e2244]
+            - row "Idea Introduce latent variable (which Gaussian generated each pixel)" [ref=e2245]:
+              - cell "Idea" [ref=e2246]
+              - cell "Introduce latent variable (which Gaussian generated each pixel)" [ref=e2247]:
+                - text: Introduce latent variable
+                - generic [ref=e2248]:
+                  - math [ref=e2250]:
+                    - generic [ref=e2253]: z
+                  - generic [ref=e2255]: z
+                - text: (which Gaussian generated each pixel)
+            - row "Jensen’s inequality → gives a lower bound" [ref=e2256]:
+              - cell "Jensen’s inequality" [ref=e2257]
+              - cell "→ gives a lower bound" [ref=e2258]:
+                - generic [ref=e2259]:
+                  - math [ref=e2261]:
+                    - generic [ref=e2263]:
+                      - generic [ref=e2264]: log
+                      - generic: ⁡
+                      - generic [ref=e2265]: E
+                      - generic [ref=e2266]: "["
+                      - generic [ref=e2267]: "Y"
+                      - generic [ref=e2268]: "]"
+                      - generic [ref=e2269]: ≥
+                      - generic [ref=e2270]: E
+                      - generic [ref=e2271]: "["
+                      - generic [ref=e2272]: log
+                      - generic: ⁡
+                      - generic [ref=e2273]: "Y"
+                      - generic [ref=e2274]: "]"
+                  - generic [ref=e2275]:
+                    - generic [ref=e2276]:
+                      - generic [ref=e2277]: log
+                      - text: E[Y] ≥
+                    - generic [ref=e2278]:
+                      - text: E[
+                      - generic [ref=e2279]: log
+                      - text: Y]
+                - text: → gives a lower bound
+            - row "EM optimises This lower bound alternately w.r.t. and" [ref=e2280]:
+              - cell "EM optimises" [ref=e2281]
+              - cell "This lower bound alternately w.r.t. and" [ref=e2282]:
+                - text: This lower bound alternately w.r.t.
+                - generic [ref=e2283]:
+                  - math [ref=e2285]:
+                    - generic [ref=e2287]:
+                      - generic [ref=e2288]: q
+                      - generic [ref=e2289]: (
+                      - generic [ref=e2290]: z
+                      - generic [ref=e2291]: )
+                  - generic [ref=e2293]: q(z)
+                - text: and
+                - generic [ref=e2294]:
+                  - math [ref=e2296]:
+                    - generic [ref=e2299]: θ
+                  - generic [ref=e2301]: θ
+            - row "Guarantee Log-likelihood increases monotonically at each iteration" [ref=e2302]:
+              - cell "Guarantee" [ref=e2303]
+              - cell "Log-likelihood increases monotonically at each iteration" [ref=e2304]
+        - paragraph [ref=e2305]: This framework is reused in Variational Autoencoders (VAEs).
+      - heading "K-Means vs GMM" [level=2] [ref=e2306]
+      - paragraph [ref=e2307]: :::eli15 K-Means makes hard binary assignments and assumes spherical clusters of equal size. GMM makes soft probabilistic assignments and can model elliptical clusters of different sizes and orientations via covariance matrices. K-Means is faster and simpler, while GMM provides richer information (class probabilities rather than just labels). Mathematically, K-Means is a limiting case of GMM where all covariances shrink to zero.
+      - paragraph [ref=e2308]: ":::"
+      - table [ref=e2310]:
+        - rowgroup [ref=e2311]:
+          - row "Aspect K-Means GMM + EM" [ref=e2312]:
+            - columnheader "Aspect" [ref=e2313]
+            - columnheader "K-Means" [ref=e2314]
+            - columnheader "GMM + EM" [ref=e2315]
+        - rowgroup [ref=e2316]:
+          - row "Assignment Hard (binary ) Soft (probability $P(\\theta_i" [ref=e2317]:
+            - cell "Assignment" [ref=e2318]
+            - cell "Hard (binary )" [ref=e2319]:
+              - text: Hard (binary
+              - generic [ref=e2320]:
+                - math [ref=e2322]:
+                  - generic [ref=e2325]:
+                    - generic [ref=e2326]: r
+                    - generic [ref=e2327]:
+                      - generic [ref=e2328]: "n"
+                      - generic [ref=e2329]: k
+                - generic [ref=e2332]:
+                  - text: r
+                  - generic [ref=e2338]: nk
+              - text: )
+            - cell "Soft (probability $P(\\theta_i" [ref=e2342]
+          - row "Cluster shape Spherical only Arbitrary (via )" [ref=e2343]:
+            - cell "Cluster shape" [ref=e2344]
+            - cell "Spherical only" [ref=e2345]
+            - cell "Arbitrary (via )" [ref=e2346]:
+              - text: Arbitrary (via
+              - generic [ref=e2347]:
+                - math [ref=e2349]:
+                  - generic [ref=e2352]: Σ
+                - generic [ref=e2354]: Σ
+              - text: )
+          - row "Output Cluster labels Class probabilities" [ref=e2355]:
+            - cell "Output" [ref=e2356]
+            - cell "Cluster labels" [ref=e2357]
+            - cell "Class probabilities" [ref=e2358]
+          - row "Parameters Only means , ," [ref=e2359]:
+            - cell "Parameters" [ref=e2360]
+            - cell "Only means" [ref=e2361]:
+              - text: Only means
+              - generic [ref=e2362]:
+                - math [ref=e2364]:
+                  - generic [ref=e2367]:
+                    - generic [ref=e2368]: μ
+                    - generic [ref=e2369]: k
+                - generic [ref=e2372]:
+                  - text: μ
+                  - generic [ref=e2377]: k
+            - cell ", ," [ref=e2381]:
+              - generic [ref=e2382]:
+                - math [ref=e2384]:
+                  - generic [ref=e2387]:
+                    - generic [ref=e2388]: μ
+                    - generic [ref=e2389]: i
+                - generic [ref=e2392]:
+                  - text: μ
+                  - generic [ref=e2397]: i
+              - text: ","
+              - generic [ref=e2401]:
+                - math [ref=e2403]:
+                  - generic [ref=e2406]:
+                    - generic [ref=e2407]: Σ
+                    - generic [ref=e2408]: i
+                - generic [ref=e2411]:
+                  - text: Σ
+                  - generic [ref=e2416]: i
+              - text: ","
+              - generic [ref=e2420]:
+                - math [ref=e2422]:
+                  - generic [ref=e2425]:
+                    - generic [ref=e2426]: π
+                    - generic [ref=e2427]: i
+                - generic [ref=e2430]:
+                  - text: π
+                  - generic [ref=e2435]: i
+          - row "Speed Faster Slower per iteration" [ref=e2439]:
+            - cell "Speed" [ref=e2440]
+            - cell "Faster" [ref=e2441]
+            - cell "Slower per iteration" [ref=e2442]
+          - row "Mean update Only assigned pixels contribute ALL pixels contribute (weighted by posterior)" [ref=e2443]:
+            - cell "Mean update" [ref=e2444]
+            - cell "Only assigned pixels contribute" [ref=e2445]
+            - cell "ALL pixels contribute (weighted by posterior)" [ref=e2446]
+          - row "K-Means as special case — GMM with ," [ref=e2447]:
+            - cell "K-Means as special case" [ref=e2448]
+            - cell "—" [ref=e2449]
+            - cell "GMM with ," [ref=e2450]:
+              - text: GMM with
+              - generic [ref=e2451]:
+                - math [ref=e2453]:
+                  - generic [ref=e2455]:
+                    - generic [ref=e2456]: Σ
+                    - generic [ref=e2457]: =
+                    - generic [ref=e2458]:
+                      - generic [ref=e2459]: σ
+                      - generic [ref=e2460]: "2"
+                    - generic [ref=e2461]: I
+                - generic [ref=e2462]:
+                  - generic [ref=e2463]: Σ =
+                  - generic [ref=e2464]:
+                    - generic [ref=e2465]:
+                      - text: σ
+                      - generic [ref=e2470]: "2"
+                    - text: I
+              - text: ","
+              - generic [ref=e2471]:
+                - math [ref=e2473]:
+                  - generic [ref=e2475]:
+                    - generic [ref=e2476]: σ
+                    - generic [ref=e2477]: →
+                    - generic [ref=e2478]: "0"
+                - generic [ref=e2479]:
+                  - generic [ref=e2480]: σ →
+                  - generic [ref=e2481]: "0"
+      - heading "HSV Colour Space for Segmentation" [level=2] [ref=e2482]
+      - paragraph [ref=e2483]: :::eli15 When segmenting images by colour, the HSV colour space is preferred over RGB because the Hue channel encodes colour identity as a single angular value (0-360 degrees), independent of brightness or saturation. In RGB, a colour like “red” is spread across all three channels and changes with lighting. HSV separates chromatic information (H) from intensity (V), making colour-based clustering with K-Means more effective and less sensitive to illumination changes.
+      - paragraph [ref=e2484]: ":::"
+      - paragraph [ref=e2485]: ":::eli20 Convert RGB → HSV; use Hue channel for clustering:"
+      - list [ref=e2486]:
+        - listitem [ref=e2487]:
+          - strong [ref=e2488]: "H (Hue):"
+          - text: represents colour as single angle (0–360°)
+        - listitem [ref=e2489]:
+          - strong [ref=e2490]: "S (Saturation):"
+          - text: colour vividness
+        - listitem [ref=e2491]:
+          - strong [ref=e2492]: "V (Value):"
+          - text: brightness
+      - paragraph [ref=e2493]: Hue encodes colour information in one number vs. three in RGB — more representative for colour-based segmentation.
+      - paragraph [ref=e2494]: ":::"
+      - heading "Advanced Segmentation Techniques" [level=2] [ref=e2495]
+      - paragraph [ref=e2496]: :::eli15 Modern deep learning offers three increasingly detailed segmentation tasks. Semantic segmentation assigns a class label to every pixel but cannot distinguish between multiple objects of the same class. Instance segmentation separates individual countable objects (e.g., two different cars). Panoptic segmentation combines both — it handles countable objects with instance labels and uncountable “stuff” regions (sky, grass) with semantic labels.
+      - paragraph [ref=e2497]: ":::"
+      - generic [ref=e2498]:
+        - table [ref=e2499]:
+          - rowgroup [ref=e2500]:
+            - row "Method Definition Output" [ref=e2501]:
+              - columnheader "Method" [ref=e2502]
+              - columnheader "Definition" [ref=e2503]
+              - columnheader "Output" [ref=e2504]
+          - rowgroup [ref=e2505]:
+            - 'row "Semantic segmentation Assign class label per pixel Pixel → {cat, dog, sky, …}" [ref=e2506]':
+              - cell "Semantic segmentation" [ref=e2507]
+              - cell "Assign class label per pixel" [ref=e2508]
+              - 'cell "Pixel → {cat, dog, sky, …}" [ref=e2509]'
+            - 'row "Instance segmentation Semantic + distinguish individuals Pixel → {cat #1, cat #2, …}" [ref=e2510]':
+              - cell "Instance segmentation" [ref=e2511]
+              - cell "Semantic + distinguish individuals" [ref=e2512]
+              - 'cell "Pixel → {cat #1, cat #2, …}" [ref=e2513]'
+            - row "Panoptic segmentation Combines both Countable instances + amorphous regions" [ref=e2514]:
+              - cell "Panoptic segmentation" [ref=e2515]
+              - cell "Combines both" [ref=e2516]
+              - cell "Countable instances + amorphous regions" [ref=e2517]
+        - list [ref=e2518]:
+          - listitem [ref=e2519]:
+            - strong [ref=e2520]: Countable objects
+            - text: "(cars, people): instance segmentation"
+          - listitem [ref=e2521]:
+            - strong [ref=e2522]: Amorphous regions
+            - text: "(sky, sea, grass): semantic segmentation only"
+      - heading "Key Assumptions and Limitations" [level=2] [ref=e2523]
+      - paragraph [ref=e2524]: :::eli15 Both K-Means and GMM assume pixels are independent and identically distributed (i.i.d.), which ignores spatial relationships — a pixel’s neighbours give strong clues about its segment, but these methods do not use that information. The number of clusters K must be chosen in advance (a model selection problem with no universal solution). Both methods are sensitive to initialisation and may converge to different solutions depending on starting conditions.
+      - paragraph [ref=e2525]: ":::"
+      - list [ref=e2527]:
+        - listitem [ref=e2528]:
+          - strong [ref=e2529]: "i.i.d. assumption:"
+          - text: pixels treated as independent — ignores spatial relationships
+        - listitem [ref=e2530]:
+          - strong [ref=e2531]: "Number of clusters:"
+          - text: must be specified in advance (model selection problem)
+        - listitem [ref=e2532]:
+          - strong [ref=e2533]: "Initialisation:"
+          - text: both methods sensitive to initial parameters
+      - group [ref=e2534]:
+        - generic "Practice" [ref=e2535] [cursor=pointer]
+      - navigation "Page navigation" [ref=e2536]:
+        - link "Next → Image Features" [ref=e2537] [cursor=pointer]:
+          - /url: /comp3029/02-features
+          - generic [ref=e2538]: Next →
+          - generic [ref=e2539]: Image Features

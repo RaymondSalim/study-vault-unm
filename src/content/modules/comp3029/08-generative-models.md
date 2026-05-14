@@ -14,11 +14,13 @@ This topic covers two big ideas. Generative models are AI systems that can creat
 :::
 
 :::eli15
+
 Generative models learn the underlying distribution of training data and can create new, realistic samples. GANs achieve this through adversarial training between a generator and discriminator. Vision Transformers (ViT) adapt the self-attention mechanism from NLP to images, replacing convolutional layers with global attention over image patches. ViTs lack the built-in spatial biases of CNNs but excel when trained on very large datasets, achieving state-of-the-art performance on image classification.
 
 :::
 
 :::eli20
+
 Generative models learn to create new data samples resembling the training distribution. Vision Transformers apply attention mechanisms from NLP to image understanding.
 
 :::
@@ -32,11 +34,13 @@ A GAN is like a forger and a detective playing a game. The forger (generator) tr
 :::
 
 :::eli15
+
 GANs consist of two neural networks trained in opposition. The generator takes random noise and produces images, trying to fool the discriminator. The discriminator receives both real and generated images, trying to classify them correctly. Through this adversarial game, the generator learns to produce increasingly realistic images. At equilibrium, the generator's output distribution matches the real data distribution. Key challenges include mode collapse (generator produces limited variety), training instability, and difficulty evaluating quality.
 
 :::
 
 :::eli20
+
 ### Architecture
 
 Two networks trained adversarially:
@@ -104,11 +108,13 @@ Vision Transformers treat an image like a sentence. They chop the image into sma
 :::
 
 :::eli15
+
 Vision Transformers (ViT) apply the transformer architecture from NLP to images by splitting them into fixed-size patches (e.g., 16x16) which serve as "tokens." Each patch is linearly projected into an embedding, positional information is added, and the sequence is processed by standard transformer encoder blocks with self-attention and MLPs. Unlike CNNs, ViTs have a global receptive field from the first layer and minimal inductive bias about image structure. This means they require massive datasets (or strong pre-training) to excel, but scale better with data and compute.
 
 :::
 
 :::eli20
+
 ### Motivation: CNN Limitations
 
 | Limitation | Detail |

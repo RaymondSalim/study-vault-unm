@@ -14,11 +14,13 @@ CNNs are special neural networks designed for images. Instead of connecting ever
 :::
 
 :::eli15
+
 Convolutional Neural Networks exploit the spatial structure of images through three key principles: local connectivity (each neuron sees only a small patch), weight sharing (the same filter is applied at every position), and hierarchical feature learning (simple features combine into complex ones across layers). This dramatically reduces parameters compared to fully-connected networks and builds in useful inductive biases about image structure -- nearby pixels are related, and the same pattern can appear anywhere.
 
 :::
 
 :::eli20
+
 CNNs exploit the spatial structure of images through local connectivity, weight sharing, and hierarchical feature learning.
 
 :::
@@ -32,11 +34,13 @@ A CNN has three main types of layers. Convolutional layers slide small filters o
 :::
 
 :::eli15
+
 CNNs are built from three layer types. Convolutional layers apply learned filters (kernels) that slide over the input, producing feature maps that highlight where specific patterns occur. The output size depends on kernel size, stride, and padding. Pooling layers reduce spatial dimensions (typically 2x halving) while preserving channel count, providing some translation invariance. Fully connected layers at the end flatten all feature maps and perform classification. Convolution is volumetric (spans all input channels) while pooling is purely spatial.
 
 :::
 
 :::eli20
+
 ### Convolutional Layer
 
 | Property | Detail |
@@ -96,11 +100,13 @@ Over the years, people built bigger and better CNNs. AlexNet (2012) proved that 
 :::
 
 :::eli15
+
 CNN architectures have evolved rapidly. AlexNet (2012) demonstrated deep learning dominance on ImageNet with 8 layers, using ReLU and dropout. VGGNet (2014) showed that stacking small 3x3 filters achieves the same receptive field as larger filters with fewer parameters and more non-linearity. ResNet (2015) solved the degradation problem in very deep networks by introducing skip connections (residual learning), enabling training of 152+ layer networks. Each generation roughly halved the error rate on ImageNet.
 
 :::
 
 :::eli20
+
 | Architecture | Year | Depth | Top-5 Error | Key Innovation |
 |-------------|------|-------|-------------|----------------|
 | LeNet-5 | 1998 | 5 | -- | First successful CNN (digits) |
@@ -166,11 +172,13 @@ Transfer learning is like using knowledge from one subject to help with another.
 :::
 
 :::eli15
+
 Transfer learning reuses features learned on a large dataset (typically ImageNet with 1.2M images) for new tasks with limited data. Early CNN layers learn generic visual features (edges, textures, colour blobs) that transfer well across domains. For small target datasets, you freeze the pre-trained convolutional layers and only train a new classification head. With more data, you can fine-tune some or all layers with a small learning rate. This dramatically reduces the data needed for good performance.
 
 :::
 
 :::eli20
+
 Use features learned on large dataset (ImageNet) for new tasks.
 
 ### Strategies
@@ -198,11 +206,13 @@ There are different flavours of convolution for different needs. A 1x1 convoluti
 :::
 
 :::eli15
+
 Several convolution variants address specific needs. 1x1 convolutions mix channel information without spatial interaction, serving as bottlenecks to reduce dimensionality. Depthwise separable convolutions (MobileNet) factor standard convolution into a per-channel spatial filter and a channel-mixing 1x1 filter, reducing computation by a factor of K^2. Dilated/atrous convolutions insert gaps between filter elements to expand the receptive field without adding parameters. Group convolutions split channels into independent groups, reducing computation by factor G. Inception modules apply multiple filter sizes in parallel.
 
 :::
 
 :::eli20
+
 ### 1x1 Convolution
 
 Mixes channel information only — no spatial interaction. Used as a "bottleneck" to reduce channel dimensionality before expensive operations.
@@ -274,11 +284,13 @@ Good CNNs follow a pattern: use small (3x3) filters stacked deep rather than big
 :::
 
 :::eli15
+
 Modern CNN design follows established principles. Small 3x3 filters are preferred because stacking them achieves the same receptive field as larger filters with fewer parameters and more non-linearity. Channel count increases with depth to provide capacity for increasingly abstract features. Spatial dimensions decrease with depth (via pooling or strided convolutions) to reduce computation. Batch normalisation, skip connections, and global average pooling (replacing large FC layers) are standard components in modern architectures.
 
 :::
 
 :::eli20
+
 | Principle | Rationale |
 |-----------|-----------|
 | Small filters (3x3) | More non-linearity, fewer parameters |
@@ -299,11 +311,13 @@ The receptive field is how much of the original image a single neuron in a later
 :::
 
 :::eli15
+
 The receptive field is the region of the input image that influences a particular neuron's output. Each convolutional layer expands the receptive field by (kernel_size - 1) pixels. For L layers of FxF filters with stride 1, the total receptive field is L*(F-1)+1. Pooling and strided convolutions multiply the effective receptive field growth. Understanding receptive fields helps design networks that can "see" enough context for their task -- object detection needs larger receptive fields than edge detection.
 
 :::
 
 :::eli20
+
 The receptive field is the input region that influences a particular output neuron.
 
 For $L$ layers of $F \times F$ filters with stride 1:

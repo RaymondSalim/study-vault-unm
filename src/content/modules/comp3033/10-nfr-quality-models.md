@@ -14,11 +14,13 @@ This section shows you how exam questions look and how to answer them. It connec
 :::
 
 :::eli15
+
 This section provides worked examples of the major exam question types: identifying faults, errors, and failures in code; designing tests using input space partitioning and path testing with cyclomatic complexity; analysing code for security vulnerabilities; selecting appropriate performance test types for scenarios; and distinguishing organisational-level from project-level SQA activities.
 
 :::
 
 :::eli20
+
 ### 1. Fault → Error → Failure Analysis
 
 Given the `countZeroes` method:
@@ -107,11 +109,13 @@ All the topics in this module fit together like a chain. First you define what q
 :::
 
 :::eli15
+
 The module forms a coherent pipeline: quality is defined through models (ISO 25010, McCall), which informs writing specific NFRs, which drives test design (partitioning, path testing), which gets automated (JUnit, Espresso), which runs in CI/CD pipelines (with SAST, SCA, DAST, and performance tests), all managed through SQA plans and measured with metrics for continuous process improvement.
 
 :::
 
 :::eli20
+
 ```
 Quality Definition (ISO 25010, McCall)
         ↓

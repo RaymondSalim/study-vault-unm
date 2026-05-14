@@ -14,11 +14,13 @@ A perceptron is the simplest artificial "brain cell." It takes some inputs, mult
 :::
 
 :::eli15
+
 The perceptron is a single-layer linear classifier that predicts by computing a weighted sum of inputs plus a bias, then applying a sign function. If it misclassifies a point, it updates its weights toward the correct direction. It is guaranteed to converge only when the data is linearly separable. The famous XOR problem demonstrated that a single perceptron cannot model non-linear relationships, which motivated the development of multi-layer networks.
 
 :::
 
 :::eli20
+
 ### Model
 
 $$\hat{y} = \text{sign}(\mathbf{w}^T \mathbf{x} + b)$$
@@ -45,11 +47,13 @@ An MLP is like stacking many perceptrons in layers. The first layer looks at the
 :::
 
 :::eli15
+
 A Multi-Layer Perceptron has an input layer, one or more hidden layers, and an output layer. Each layer applies a linear transformation (weights and bias) followed by a non-linear activation function. Data flows forward through the network: each hidden layer transforms its input into a more useful representation. The hidden layers allow the network to learn complex, non-linear relationships. The number of layers and neurons per layer are architecture choices that affect the model's capacity.
 
 :::
 
 :::eli20
+
 ### Architecture
 
 ```
@@ -79,11 +83,13 @@ Activation functions are like on/off switches (or dimmer switches) for each neur
 :::
 
 :::eli15
+
 Activation functions introduce non-linearity into the network, which is essential for learning complex patterns. Without them, any number of stacked linear layers would collapse into a single linear transformation. The most common modern choice is ReLU (Rectified Linear Unit), which simply outputs zero for negative inputs and passes positive inputs unchanged. It trains faster than older choices (sigmoid, tanh) because it avoids the "vanishing gradient" problem for positive values. The output layer uses sigmoid (binary classification) or softmax (multi-class).
 
 :::
 
 :::eli20
+
 | Function | Formula | Range | Derivative | Use |
 |----------|---------|-------|-----------|-----|
 | Sigmoid | $\frac{1}{1+e^{-z}}$ | $(0,1)$ | $\sigma(z)(1-\sigma(z))$ | Binary output |
@@ -115,11 +121,13 @@ Backpropagation is how a neural network learns from its mistakes. After the netw
 :::
 
 :::eli15
+
 Backpropagation efficiently computes how much each weight contributed to the error by applying the chain rule of calculus backwards through the network. First, the forward pass produces a prediction. Then, the error is computed and propagated backward: for each layer, the algorithm calculates the gradient of the error with respect to that layer's weights. These gradients tell gradient descent which direction to adjust each weight to reduce the error. The key insight is that gradients from later layers can be reused when computing gradients for earlier layers, making the computation efficient.
 
 :::
 
 :::eli20
+
 ### Chain Rule Application
 
 For cost $J$ and layer $l$:
@@ -147,11 +155,13 @@ Before training starts, the network needs starting values for all its weights. I
 :::
 
 :::eli15
+
 Weight initialisation sets the starting point for training. Zeros cause a "symmetry problem" -- all neurons compute the same thing and get the same gradient, so they never differentiate. Random initialisation breaks this symmetry. However, the scale matters: too large and signals explode; too small and they vanish. Xavier initialisation (scaled by 1/sqrt(fan-in)) works well with sigmoid/tanh activations. He initialisation (scaled by sqrt(2/fan-in)) is designed for ReLU and is the modern default.
 
 :::
 
 :::eli20
+
 | Method | Formula | When |
 |--------|---------|------|
 | Xavier (Glorot) | $W \sim \mathcal{N}(0, \frac{1}{n_{in}})$ | Sigmoid/Tanh |
@@ -169,11 +179,13 @@ This theorem says that a neural network with just one hidden layer (if it is wid
 :::
 
 :::eli15
+
 The Universal Approximation Theorem proves that a feedforward network with a single hidden layer of sufficient width can approximate any continuous function on a bounded region to arbitrary precision. However, this is an existence result -- it does not guarantee that training will find those weights, nor that a single wide layer is efficient. In practice, deeper networks (more layers with fewer neurons each) often learn better representations than very wide shallow ones, which motivated deep learning.
 
 :::
 
 :::eli20
+
 A feedforward network with a single hidden layer of sufficient width can approximate any continuous function on a compact set to arbitrary accuracy.
 
 > Does **not** say it is easy to find such weights or that one layer is efficient.

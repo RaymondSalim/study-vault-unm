@@ -14,11 +14,13 @@ Imagine you have a colouring book picture, but you need to figure out which part
 :::
 
 :::eli15
+
 Image segmentation divides an image into meaningful regions by grouping pixels with similar properties. Simple approaches include thresholding (splitting by brightness) and K-means clustering (grouping pixels into K colour clusters). More advanced methods use probability models (GMMs with EM algorithm) to softly assign pixels to clusters, or deep learning to label every pixel with a semantic class like "car" or "sky."
 
 :::
 
 :::eli20
+
 Image segmentation partitions an image into meaningful regions by grouping pixels according to local properties (intensity, colour, texture, spectral profiles).
 
 | Approach | Type | Key Idea |
@@ -40,11 +42,13 @@ K-Means is like sorting your crayons into K piles by colour. You pick K starting
 :::
 
 :::eli15
+
 K-Means clustering splits data into K groups by repeatedly assigning each point to its nearest cluster centre, then recalculating each centre as the average of its assigned points. For images, each pixel's colour (or other feature) is the data point. The algorithm minimises the total squared distance between points and their assigned centres. It always converges but may find only a local optimum depending on initialisation.
 
 :::
 
 :::eli20
+
 **Goal:** Split N data points into K groups minimising the objective function:
 
 $$J = \sum_{n=1}^{N} \sum_{k=1}^{K} r_{nk} \| \mathbf{x}_n - \boldsymbol{\mu}_k \|^2$$
@@ -86,11 +90,13 @@ Instead of forcing every pixel into exactly one group (like K-Means does), GMM s
 :::
 
 :::eli15
+
 A Gaussian Mixture Model represents the distribution of pixel values as a weighted combination of multiple Gaussian (bell curve) distributions. Each Gaussian represents one cluster/segment with its own mean and spread. Unlike K-Means which forces hard assignments, GMM gives each pixel a probability of belonging to each cluster (soft assignment). This allows overlapping clusters and non-spherical shapes, making it more flexible for real image data.
 
 :::
 
 :::eli20
+
 A GMM models pixel values as drawn from a mixture of M Gaussians:
 
 $$p(x) = \sum_{i=1}^{M} \pi_i \, g(x | \theta_i)$$
@@ -116,11 +122,13 @@ The EM algorithm is like a guessing game with two steps you repeat. First (E-ste
 :::
 
 :::eli15
+
 The Expectation-Maximisation (EM) algorithm fits a GMM when you cannot directly solve for the best parameters. In the E-step, you compute the probability that each Gaussian generated each data point (soft assignments). In the M-step, you update each Gaussian's parameters (mean, covariance, weight) using those probabilities as weights. Each iteration is guaranteed to improve (or maintain) the likelihood, converging to a local maximum.
 
 :::
 
 :::eli20
+
 | Step | Name | Action |
 |------|------|--------|
 | 1 | Init | Set initial $M$, $\mu_i$, $\Sigma_i$, $\pi_i$ |
@@ -155,11 +163,13 @@ K-Means works by solving a puzzle in two alternating steps: first, assign each p
 :::
 
 :::eli15
+
 K-Means can be understood as minimising a cost function (sum of squared distances from points to their assigned centres) using alternating optimisation. You fix the centres and optimise assignments, then fix assignments and optimise centres. Each sub-problem has a closed-form solution: assignments go to the nearest centre, and centres become the mean of assigned points. This "block coordinate descent" guarantees the cost never increases.
 
 :::
 
 :::eli20
+
 The K-means algorithm derives from minimising:
 
 $$J = \sum_{n=1}^{N} \sum_{k=1}^{K} r_{nk} \| \mathbf{x}_n - \boldsymbol{\mu}_k \|^2$$
@@ -184,11 +194,13 @@ To train a GMM, we need a way to score how well our bell curves explain the data
 :::
 
 :::eli15
+
 The GMM log-likelihood measures how probable the observed pixel values are under the current model. Since pixels are assumed independent, the joint probability is the product of individual probabilities, and taking the log converts it to a sum. However, each term contains a log of a sum (over mixture components), which has no closed-form maximum. This is why the EM algorithm is needed -- it optimises a tractable lower bound instead.
 
 :::
 
 :::eli20
+
 Under i.i.d. assumption, the joint observation probability:
 
 $$P(x_1, \ldots, x_N | \theta) = \prod_{j=1}^{N} P(x_j | \theta) = \prod_{j=1}^{N} \sum_{i=1}^{M} \pi_i \, g(x_j | \theta_i)$$
@@ -210,11 +222,13 @@ The reason EM works is clever math: since the hard problem (log of a sum) cannot
 :::
 
 :::eli15
+
 The EM algorithm works because directly maximising the log-likelihood is intractable due to the log-of-sum structure. By introducing a latent variable (which component generated each point), we can construct a lower bound on the log-likelihood using Jensen's inequality. EM alternates between tightening this bound (E-step) and maximising it (M-step), guaranteeing monotonic improvement. This same framework underlies Variational Autoencoders.
 
 :::
 
 :::eli20
+
 | Concept | Detail |
 |---------|--------|
 | Problem | Log-likelihood has log(sum) — hard to optimise directly |
@@ -236,11 +250,13 @@ K-Means is like putting each crayon into exactly one box -- simple and fast. GMM
 :::
 
 :::eli15
+
 K-Means makes hard binary assignments and assumes spherical clusters of equal size. GMM makes soft probabilistic assignments and can model elliptical clusters of different sizes and orientations via covariance matrices. K-Means is faster and simpler, while GMM provides richer information (class probabilities rather than just labels). Mathematically, K-Means is a limiting case of GMM where all covariances shrink to zero.
 
 :::
 
 :::eli20
+
 | Aspect | K-Means | GMM + EM |
 |--------|---------|----------|
 | Assignment | Hard (binary $r_{nk}$) | Soft (probability $P(\theta_i|x_j)$) |
@@ -262,11 +278,13 @@ RGB describes colours using three numbers (red, green, blue amounts). HSV is a d
 :::
 
 :::eli15
+
 When segmenting images by colour, the HSV colour space is preferred over RGB because the Hue channel encodes colour identity as a single angular value (0-360 degrees), independent of brightness or saturation. In RGB, a colour like "red" is spread across all three channels and changes with lighting. HSV separates chromatic information (H) from intensity (V), making colour-based clustering with K-Means more effective and less sensitive to illumination changes.
 
 :::
 
 :::eli20
+
 Convert RGB → HSV; use Hue channel for clustering:
 - **H (Hue):** represents colour as single angle (0–360°)
 - **S (Saturation):** colour vividness
@@ -285,11 +303,13 @@ There are different levels of "understanding" an image. Semantic segmentation la
 :::
 
 :::eli15
+
 Modern deep learning offers three increasingly detailed segmentation tasks. Semantic segmentation assigns a class label to every pixel but cannot distinguish between multiple objects of the same class. Instance segmentation separates individual countable objects (e.g., two different cars). Panoptic segmentation combines both -- it handles countable objects with instance labels and uncountable "stuff" regions (sky, grass) with semantic labels.
 
 :::
 
 :::eli20
+
 | Method | Definition | Output |
 |--------|-----------|--------|
 | Semantic segmentation | Assign class label per pixel | Pixel → {cat, dog, sky, ...} |
@@ -310,11 +330,13 @@ These methods have some weaknesses. They treat each pixel as independent -- they
 :::
 
 :::eli15
+
 Both K-Means and GMM assume pixels are independent and identically distributed (i.i.d.), which ignores spatial relationships -- a pixel's neighbours give strong clues about its segment, but these methods do not use that information. The number of clusters K must be chosen in advance (a model selection problem with no universal solution). Both methods are sensitive to initialisation and may converge to different solutions depending on starting conditions.
 
 :::
 
 :::eli20
+
 - **i.i.d. assumption:** pixels treated as independent -- ignores spatial relationships
 - **Number of clusters:** must be specified in advance (model selection problem)
 - **Initialisation:** both methods sensitive to initial parameters

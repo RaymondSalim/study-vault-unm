@@ -1,0 +1,158 @@
+- generic [ref=e1]:
+  - navigation [ref=e2]:
+    - link "Study Portal" [ref=e3] [cursor=pointer]:
+      - /url: /
+    - generic [ref=e4]: /
+    - generic [ref=e5]: COMP3029 - Computer Vision
+    - button "Search" [ref=e6] [cursor=pointer]:
+      - img [ref=e7]
+      - generic [ref=e10]: Search
+      - generic [ref=e11]: ⌘K
+    - button "Toggle theme" [ref=e12] [cursor=pointer]:
+      - img [ref=e13]
+  - generic [ref=e19]:
+    - complementary [ref=e20]:
+      - generic [ref=e21]:
+        - heading "Topics" [level=4] [ref=e22]
+        - list [ref=e23]:
+          - listitem [ref=e24]:
+            - link "Image Segmentation" [ref=e25] [cursor=pointer]:
+              - /url: /comp3029/01-segmentation
+          - listitem [ref=e26]:
+            - link "Image Features" [ref=e27] [cursor=pointer]:
+              - /url: /comp3029/02-features
+          - listitem [ref=e28]:
+            - link "Point Features" [ref=e29] [cursor=pointer]:
+              - /url: /comp3029/03-point-features
+          - listitem [ref=e30]:
+            - link "Object Recognition" [ref=e31] [cursor=pointer]:
+              - /url: /comp3029/04-object-recognition
+          - listitem [ref=e32]:
+            - link "Viola-Jones Face Detection" [ref=e33] [cursor=pointer]:
+              - /url: /comp3029/05-viola-jones
+          - listitem [ref=e34]:
+            - link "Neural Networks" [ref=e35] [cursor=pointer]:
+              - /url: /comp3029/06-neural-networks
+          - listitem [ref=e36]:
+            - link "Convolutional Neural Networks" [ref=e37] [cursor=pointer]:
+              - /url: /comp3029/07-cnns
+          - listitem [ref=e38]:
+            - link "Generative Models & Vision Transformers" [ref=e39] [cursor=pointer]:
+              - /url: /comp3029/08-generative-models
+          - listitem [ref=e40]:
+            - link "3D Vision & Camera Models" [ref=e41] [cursor=pointer]:
+              - /url: /comp3029/09-3d-vision
+          - listitem [ref=e42]:
+            - link "Stereo Vision & Motion" [ref=e43] [cursor=pointer]:
+              - /url: /comp3029/10-stereo-motion
+      - generic [ref=e44]:
+        - heading "Resources" [level=4] [ref=e45]
+        - list [ref=e46]:
+          - listitem [ref=e47]:
+            - link "Exam Solution 2010-2011" [ref=e48] [cursor=pointer]:
+              - /url: /comp3029/solution-2010-2011
+          - listitem [ref=e49]:
+            - link "Exam Solution 2011-2012" [ref=e50] [cursor=pointer]:
+              - /url: /comp3029/solution-2011-2012
+          - listitem [ref=e51]:
+            - link "Exam Solution 2012-2013" [ref=e52] [cursor=pointer]:
+              - /url: /comp3029/solution-2012-2013
+          - listitem [ref=e53]:
+            - link "Exam Solution 2013-2014" [ref=e54] [cursor=pointer]:
+              - /url: /comp3029/solution-2013-2014
+          - listitem [ref=e55]:
+            - link "Exam Solution 2014-2015" [ref=e56] [cursor=pointer]:
+              - /url: /comp3029/solution-2014-2015
+          - listitem [ref=e57]:
+            - link "Exam Solution 2014-2015 (UK)" [ref=e58] [cursor=pointer]:
+              - /url: /comp3029/solution-2014-2015-uk
+          - listitem [ref=e59]:
+            - link "Exam Solution 2015-2016 (UK)" [ref=e60] [cursor=pointer]:
+              - /url: /comp3029/solution-2015-2016
+          - listitem [ref=e61]:
+            - link "Exam Strategy" [ref=e62] [cursor=pointer]:
+              - /url: /comp3029/exam-strategy
+          - listitem [ref=e63]:
+            - link "Exam Traps" [ref=e64] [cursor=pointer]:
+              - /url: /comp3029/exam-traps
+          - listitem [ref=e65]:
+            - link "Flashcards" [ref=e66] [cursor=pointer]:
+              - /url: /comp3029/flashcards
+          - listitem [ref=e67]:
+            - link "Glossary" [ref=e68] [cursor=pointer]:
+              - /url: /comp3029/glossary
+          - listitem [ref=e69]:
+            - link "Past Papers" [ref=e70] [cursor=pointer]:
+              - /url: /comp3029/past-papers
+          - listitem [ref=e71]:
+            - link "Prerequisites" [ref=e72] [cursor=pointer]:
+              - /url: /comp3029/prerequisites
+          - listitem [ref=e73]:
+            - link "Quick Reference" [ref=e74] [cursor=pointer]:
+              - /url: /comp3029/quick-reference
+          - listitem [ref=e75]:
+            - link "Slides Index" [ref=e76] [cursor=pointer]:
+              - /url: /comp3029/slides-index
+          - listitem [ref=e77]:
+            - 'link "Solution: 2020-2021 Exam" [ref=e78] [cursor=pointer]':
+              - /url: /comp3029/solution-2020-2021
+          - listitem [ref=e79]:
+            - 'link "Solution: 2021-2022 Exam" [ref=e80] [cursor=pointer]':
+              - /url: /comp3029/solution-2021-2022
+          - listitem [ref=e81]:
+            - 'link "Solution: 2022-2023 Exam" [ref=e82] [cursor=pointer]':
+              - /url: /comp3029/solution-2022-2023
+          - listitem [ref=e83]:
+            - 'link "Solution: 2023-2024 Exam" [ref=e84] [cursor=pointer]':
+              - /url: /comp3029/solution-2023-2024
+          - listitem [ref=e85]:
+            - link "Study Order" [ref=e86] [cursor=pointer]:
+              - /url: /comp3029/study-order
+    - main [ref=e87]:
+      - generic [ref=e88]:
+        - generic [ref=e89]: "Depth:"
+        - button "ELI10" [ref=e90] [cursor=pointer]
+        - button "ELI15" [active] [ref=e91] [cursor=pointer]
+        - button "ELI20" [ref=e92] [cursor=pointer]
+      - heading "Overview" [level=2] [ref=e93]
+      - paragraph [ref=e2564]: Image segmentation divides an image into meaningful regions by grouping pixels with similar properties. Simple approaches include thresholding (splitting by brightness) and K-means clustering (grouping pixels into K colour clusters). More advanced methods use probability models (GMMs with EM algorithm) to softly assign pixels to clusters, or deep learning to label every pixel with a semantic class like “car” or “sky.”
+      - heading "K-Means Clustering" [level=2] [ref=e123]
+      - paragraph [ref=e2566]: K-Means clustering splits data into K groups by repeatedly assigning each point to its nearest cluster centre, then recalculating each centre as the average of its assigned points. For images, each pixel’s colour (or other feature) is the data point. The algorithm minimises the total squared distance between points and their assigned centres. It always converges but may find only a local optimum depending on initialisation.
+      - heading "Gaussian Mixture Models (GMM)" [level=2] [ref=e541]
+      - paragraph [ref=e2568]: A Gaussian Mixture Model represents the distribution of pixel values as a weighted combination of multiple Gaussian (bell curve) distributions. Each Gaussian represents one cluster/segment with its own mean and spread. Unlike K-Means which forces hard assignments, GMM gives each pixel a probability of belonging to each cluster (soft assignment). This allows overlapping clusters and non-spherical shapes, making it more flexible for real image data.
+      - heading "EM Algorithm for GMM" [level=2] [ref=e814]
+      - paragraph [ref=e2570]: The Expectation-Maximisation (EM) algorithm fits a GMM when you cannot directly solve for the best parameters. In the E-step, you compute the probability that each Gaussian generated each data point (soft assignments). In the M-step, you update each Gaussian’s parameters (mean, covariance, weight) using those probabilities as weights. Each iteration is guaranteed to improve (or maintain) the likelihood, converging to a local maximum.
+      - heading "K-Means Optimisation Formulation" [level=2] [ref=e1511]
+      - paragraph [ref=e2572]: "K-Means can be understood as minimising a cost function (sum of squared distances from points to their assigned centres) using alternating optimisation. You fix the centres and optimise assignments, then fix assignments and optimise centres. Each sub-problem has a closed-form solution: assignments go to the nearest centre, and centres become the mean of assigned points. This “block coordinate descent” guarantees the cost never increases."
+      - heading "GMM Log-Likelihood Objective" [level=2] [ref=e1957]
+      - paragraph [ref=e2574]: The GMM log-likelihood measures how probable the observed pixel values are under the current model. Since pixels are assumed independent, the joint probability is the product of individual probabilities, and taking the log converts it to a sum. However, each term contains a log of a sum (over mixture components), which has no closed-form maximum. This is why the EM algorithm is needed — it optimises a tractable lower bound instead.
+      - 'heading "EM Algorithm: Conceptual Derivation" [level=2] [ref=e2220]'
+      - paragraph [ref=e2576]: The EM algorithm works because directly maximising the log-likelihood is intractable due to the log-of-sum structure. By introducing a latent variable (which component generated each point), we can construct a lower bound on the log-likelihood using Jensen’s inequality. EM alternates between tightening this bound (E-step) and maximising it (M-step), guaranteeing monotonic improvement. This same framework underlies Variational Autoencoders.
+      - heading "K-Means vs GMM" [level=2] [ref=e2292]
+      - paragraph [ref=e2578]: K-Means makes hard binary assignments and assumes spherical clusters of equal size. GMM makes soft probabilistic assignments and can model elliptical clusters of different sizes and orientations via covariance matrices. K-Means is faster and simpler, while GMM provides richer information (class probabilities rather than just labels). Mathematically, K-Means is a limiting case of GMM where all covariances shrink to zero.
+      - heading "HSV Colour Space for Segmentation" [level=2] [ref=e2466]
+      - paragraph [ref=e2580]: When segmenting images by colour, the HSV colour space is preferred over RGB because the Hue channel encodes colour identity as a single angular value (0-360 degrees), independent of brightness or saturation. In RGB, a colour like “red” is spread across all three channels and changes with lighting. HSV separates chromatic information (H) from intensity (V), making colour-based clustering with K-Means more effective and less sensitive to illumination changes.
+      - heading "Advanced Segmentation Techniques" [level=2] [ref=e2477]
+      - paragraph [ref=e2582]: Modern deep learning offers three increasingly detailed segmentation tasks. Semantic segmentation assigns a class label to every pixel but cannot distinguish between multiple objects of the same class. Instance segmentation separates individual countable objects (e.g., two different cars). Panoptic segmentation combines both — it handles countable objects with instance labels and uncountable “stuff” regions (sky, grass) with semantic labels.
+      - heading "Key Assumptions and Limitations" [level=2] [ref=e2503]
+      - paragraph [ref=e2584]: Both K-Means and GMM assume pixels are independent and identically distributed (i.i.d.), which ignores spatial relationships — a pixel’s neighbours give strong clues about its segment, but these methods do not use that information. The number of clusters K must be chosen in advance (a model selection problem with no universal solution). Both methods are sensitive to initialisation and may converge to different solutions depending on starting conditions.
+      - group [ref=e2512]:
+        - generic "Practice" [ref=e2513] [cursor=pointer]
+      - navigation "Page navigation" [ref=e2514]:
+        - link "Next → Image Features" [ref=e2515] [cursor=pointer]:
+          - /url: /comp3029/02-features
+          - generic [ref=e2516]: Next →
+          - generic [ref=e2517]: Image Features
+  - generic [ref=e2520]:
+    - button "Menu" [ref=e2521]:
+      - img [ref=e2523]
+      - generic: Menu
+    - button "Inspect" [ref=e2527]:
+      - img [ref=e2529]
+      - generic: Inspect
+    - button "Audit" [ref=e2531]:
+      - img [ref=e2533]
+      - generic: Audit
+    - button "Settings" [ref=e2536]:
+      - img [ref=e2538]
+      - generic: Settings

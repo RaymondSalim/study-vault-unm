@@ -14,11 +14,13 @@ Symmetric encryption is like having a secret language that you and your friend b
 :::
 
 :::eli15
+
 Symmetric encryption uses a single shared secret key for both encryption and decryption. It is fast and efficient, making it the workhorse of modern encryption. The main challenge is key distribution -- both parties must somehow securely agree on the same key before they can communicate. The number of keys needed grows quadratically with the number of participants: for n people, you need n(n-1)/2 unique keys.
 
 :::
 
 :::eli20
+
 Same key for encryption and decryption: $C = E_K(P)$, $P = D_K(C)$.
 
 | Property | Detail |
@@ -39,11 +41,13 @@ Imagine encrypting a letter. A block cipher is like putting the letter into a sp
 :::
 
 :::eli15
+
 Block ciphers encrypt data in fixed-size chunks (blocks), typically 128 bits. They are general-purpose and used in most file/network encryption. Stream ciphers encrypt data one bit or byte at a time, generating a pseudorandom keystream that is XORed with the plaintext. Stream ciphers are faster per bit and better suited for real-time communications where data arrives continuously. Errors in stream ciphers do not propagate to other parts of the message.
 
 :::
 
 :::eli20
+
 | | Block Cipher | Stream Cipher |
 |-|-------------|---------------|
 | Input | Fixed-size blocks (e.g., 128 bits) | One bit/byte at a time |
@@ -63,11 +67,13 @@ DES was once the lock that protected all important computer secrets. It uses a 5
 :::
 
 :::eli15
+
 DES is an older encryption standard that processes 64-bit blocks using a 56-bit key over 16 rounds of a Feistel network. In a Feistel network, each round splits the block in half and mixes one half with a round key, then swaps the halves. This elegant structure means the same hardware can encrypt and decrypt (just reversing the key order). DES is now considered broken because modern hardware can brute-force all 2^56 possible keys. Triple DES (3DES) applies DES three times with different keys to achieve 112-bit effective security, but it is slow and being phased out.
 
 :::
 
 :::eli20
+
 | Property | Value |
 |----------|-------|
 | Block size | 64 bits |
@@ -106,11 +112,13 @@ AES is the gold-standard lock used today to protect everything from bank transac
 :::
 
 :::eli15
+
 AES replaced DES as the encryption standard. Unlike DES's Feistel structure, AES uses a Substitution-Permutation Network (SPN), applying four operations each round: byte substitution (SubBytes) for non-linearity, row shifting (ShiftRows) and column mixing (MixColumns) for diffusion, and key XOR (AddRoundKey). These operations implement Shannon's principles of confusion (making the relationship between key and ciphertext complex) and diffusion (spreading plaintext influence across the ciphertext). AES supports 128, 192, or 256-bit keys with 10, 12, or 14 rounds respectively.
 
 :::
 
 :::eli20
+
 | Property | Value |
 |----------|-------|
 | Block size | 128 bits |
@@ -148,11 +156,13 @@ A block cipher only scrambles one small block at a time. But what if your messag
 :::
 
 :::eli15
+
 Block cipher modes determine how to securely encrypt messages longer than one block. The simplest mode, ECB, encrypts each block independently, which leaks patterns (the famous "ECB penguin"). CBC chains blocks together so each ciphertext block depends on the previous one, requiring an unpredictable IV. CTR mode turns the block cipher into a stream cipher by encrypting sequential counter values and XORing with plaintext -- it is parallelisable and does not require padding. GCM combines CTR with an authentication tag, providing both confidentiality and integrity (authenticated encryption). Never reuse a nonce/IV with the same key in CTR or GCM mode -- it completely breaks security.
 
 :::
 
 :::eli20
+
 | Mode | Name | Parallelisable (enc) | Error propagation | IV needed |
 |------|------|:---:|:---:|:---:|
 | ECB | Electronic Codebook | Yes | None | No |
@@ -205,6 +215,7 @@ The most important things to remember: never use ECB mode (it leaks patterns), n
 :::
 
 :::eli15
+
 Key takeaways for practice:
 - ECB mode is deterministic and leaks plaintext patterns -- never use it for real data.
 - Reusing a nonce/IV in CTR or GCM mode is catastrophic: it allows an attacker to XOR two ciphertexts and obtain the XOR of the plaintexts.
@@ -214,6 +225,7 @@ Key takeaways for practice:
 :::
 
 :::eli20
+
 | Concept | Remember |
 |---------|----------|
 | ECB is insecure | Deterministic -- leaks patterns |

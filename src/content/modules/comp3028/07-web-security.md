@@ -14,11 +14,13 @@ OWASP is a group that keeps a list of the 10 most dangerous web security problem
 :::
 
 :::eli15
+
 The OWASP Top 10 is an industry-standard awareness document listing the most critical web application security risks, updated every few years. The 2021 edition emphasises that broken access control is now the number-one risk (users accessing resources they should not), followed by cryptographic failures (exposing sensitive data) and injection attacks (SQL, command, LDAP). Newer entries include insecure design (flawed architecture before implementation even begins), software/data integrity failures (untrusted updates), and SSRF (server-side request forgery). Understanding these categories helps developers prioritise security efforts.
 
 :::
 
 :::eli20
+
 | # | Category | Key risk |
 |---|----------|----------|
 | 1 | Broken Access Control | Unauthorised access to resources |
@@ -43,11 +45,13 @@ Imagine a website asks for your username and puts it directly into a command to 
 :::
 
 :::eli15
+
 SQL injection occurs when user input is concatenated directly into SQL queries without sanitisation. An attacker can manipulate the query logic to bypass authentication, extract sensitive data, modify or delete records, or even execute system commands. Variants include classic (results visible), blind boolean-based (true/false differences), blind time-based (using SLEEP to infer data), and second-order (payload stored and triggered later). The primary defence is parameterised queries (prepared statements), which structurally separate SQL code from user data so the input is always treated as data, never as executable SQL. Additional layers include input validation, least-privilege database accounts, and WAFs.
 
 :::
 
 :::eli20
+
 ### How It Works
 
 Unsanitised user input is concatenated into SQL queries.
@@ -118,11 +122,13 @@ XSS is when a hacker sneaks their own code (JavaScript) onto a website that othe
 :::
 
 :::eli15
+
 Cross-Site Scripting (XSS) allows an attacker to inject malicious JavaScript into web pages viewed by other users. Reflected XSS puts the payload in a URL that victims click. Stored XSS saves the payload to the server database, executing for every visitor. DOM-based XSS manipulates client-side JavaScript without involving the server. Impact ranges from session hijacking (stealing cookies) to full account takeover. Key defences include output encoding (converting special characters to HTML entities), Content Security Policy headers (restricting where scripts can load from), HttpOnly cookies (inaccessible to JavaScript), and using modern frameworks like React that auto-escape output by default.
 
 :::
 
 :::eli20
+
 ### How It Works
 
 Attacker injects malicious JavaScript that executes in victim's browser.
@@ -183,11 +189,13 @@ CSRF tricks your browser into doing something you did not mean to do. If you are
 :::
 
 :::eli15
+
 CSRF exploits the fact that browsers automatically attach cookies to every request to a domain, regardless of where the request originated. If a victim is logged into a site and visits an attacker-controlled page, the attacker's page can trigger requests to the target site (via hidden forms, image tags, etc.) that carry the victim's session cookie. The server cannot distinguish these forged requests from legitimate ones. Defences include anti-CSRF tokens (unique random values embedded in forms that attackers cannot predict), SameSite cookie attributes (preventing cookies from being sent on cross-origin requests), and checking Origin/Referer headers. Unlike XSS, CSRF cannot read the response -- it can only trigger actions.
 
 :::
 
 :::eli20
+
 ### How It Works
 
 Victim's browser sends authenticated request to target site (exploiting existing session cookie).
@@ -240,11 +248,13 @@ There are many other ways websites can be attacked. Command injection tricks the
 :::
 
 :::eli15
+
 Beyond the "big three" (SQLi, XSS, CSRF), several other vulnerabilities are commonly exploited. Command injection passes user input directly to system shell commands. Path traversal uses "../" sequences to escape intended directories and access sensitive files. SSRF tricks the server into making requests to internal resources (cloud metadata endpoints, internal APIs). Insecure deserialisation allows attackers to manipulate serialised objects to achieve code execution. The common defence principle is to never trust user input -- validate, sanitise, and use safe APIs that separate data from commands or paths.
 
 :::
 
 :::eli20
+
 ### Command Injection
 
 ```python
@@ -287,11 +297,13 @@ Security headers are special instructions your website sends to browsers telling
 :::
 
 :::eli15
+
 HTTP security headers instruct browsers to enable built-in security features. Content-Security-Policy (CSP) is the most powerful -- it restricts which domains can serve scripts, styles, images, and other resources, effectively neutralising many XSS attacks. Strict-Transport-Security (HSTS) forces HTTPS for all future visits, preventing SSL-stripping attacks. X-Frame-Options prevents clickjacking by disallowing framing. X-Content-Type-Options prevents MIME sniffing attacks. These headers are easy to deploy and provide significant defence-in-depth against common web attacks.
 
 :::
 
 :::eli20
+
 | Header | Purpose | Example |
 |--------|---------|---------|
 | `Content-Security-Policy` | Restrict resource loading | `default-src 'self'` |

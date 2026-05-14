@@ -14,11 +14,13 @@ Clustering is like sorting a pile of LEGO bricks by colour without anyone tellin
 :::
 
 :::eli15
+
 Clustering is an unsupervised learning task where the goal is to partition data into groups such that items within a group are similar and items in different groups are different. Unlike classification, there are no labels -- the algorithm discovers the structure on its own. K-Means is the most popular algorithm: it assigns each point to the nearest centroid and then moves centroids to the centre of their assigned points, repeating until stable. Other methods include hierarchical clustering (builds a tree of merges/splits) and DBSCAN (finds dense regions of arbitrary shape).
 
 :::
 
 :::eli20
+
 ### K-Means
 
 **Algorithm:**
@@ -103,11 +105,13 @@ Imagine you have a 3D object and you want to draw it on a flat piece of paper. P
 :::
 
 :::eli15
+
 PCA (Principal Component Analysis) is a dimensionality reduction technique that finds the directions (principal components) along which the data varies the most. It then projects the data onto a smaller number of these directions, discarding the least informative ones. This reduces the number of features while keeping as much information as possible. The first principal component captures the most variance, the second captures the next most (perpendicular to the first), and so on. You choose how many to keep based on how much total variance you want to preserve (typically 95%).
 
 :::
 
 :::eli20
+
 ### Goal
 
 Find directions of maximum variance to reduce dimensionality while preserving as much information as possible.
@@ -154,11 +158,13 @@ Classification is like a teacher giving you labelled examples and asking you to 
 :::
 
 :::eli15
+
 Classification (supervised) learns from labelled training data to predict categories for new samples. Clustering (unsupervised) has no labels -- it discovers natural groupings based solely on similarity. They are evaluated differently: classification uses accuracy, F1, etc. against known labels, while clustering uses internal measures like silhouette score or external measures if ground truth is available. Clustering is useful for exploratory analysis, customer segmentation, and finding structure in unlabelled data.
 
 :::
 
 :::eli20
+
 | | Clustering | Classification |
 |-|-----------|---------------|
 | Labels | No labels (unsupervised) | Labelled data (supervised) |

@@ -14,11 +14,13 @@ Imagine studying for a test. Your textbook is the training set -- you learn from
 :::
 
 :::eli15
+
 Data is split into three parts. The training set is used to learn model parameters. The validation set is used to tune hyperparameters and choose between different models -- if you trained directly on validation data, you would not know how well the model generalises. The test set is held out completely until the very end for a final, unbiased estimate of performance. Typical splits are 60-80% train, 10-20% validation, and 10-20% test. Never use the test set to make decisions during development.
 
 :::
 
 :::eli20
+
 | Split | Purpose | Typical size |
 |-------|---------|-------------|
 | Training set | Learn parameters | 60-80% |
@@ -38,11 +40,13 @@ Cross-validation is like having 5 different practice tests instead of just one. 
 :::
 
 :::eli15
+
 K-Fold cross-validation splits the data into K equal parts (folds). The model is trained K times -- each time, one fold is held out for validation and the remaining K-1 folds are used for training. The final score is the average across all K evaluations. This gives a more reliable performance estimate than a single train/validation split, especially with limited data. Common choices are K=5 or K=10. Stratified K-Fold preserves class proportions in each fold, which is important for imbalanced datasets.
 
 :::
 
 :::eli20
+
 ### K-Fold Cross-Validation
 
 1. Split data into $K$ equal folds
@@ -72,11 +76,13 @@ Bias is like always aiming too far to the left when throwing darts -- your avera
 :::
 
 :::eli15
+
 Every model's error can be decomposed into three parts: bias (systematic error from oversimplifying), variance (sensitivity to the specific training data used), and irreducible noise. Simple models (like linear regression on complex data) have high bias but low variance -- they consistently make the same mistake. Complex models (like deep decision trees) have low bias but high variance -- they fit training data perfectly but perform inconsistently on new data. The goal is to find the sweet spot where total error (bias squared + variance) is minimised. Regularisation and model selection are the tools for navigating this tradeoff.
 
 :::
 
 :::eli20
+
 $$\text{Expected Error} = \text{Bias}^2 + \text{Variance} + \text{Irreducible Noise}$$
 
 | Term | Definition | Source |
@@ -104,11 +110,13 @@ Overfitting is like memorising the exact answers to practice questions instead o
 :::
 
 :::eli15
+
 Overfitting occurs when a model learns the training data too well, including its noise and random fluctuations, resulting in poor generalisation. Regularisation techniques penalise model complexity to prevent this. L2 (Ridge) adds a penalty proportional to squared weights, shrinking all weights toward zero. L1 (Lasso) adds a penalty proportional to absolute weights, which can drive some weights to exactly zero (performing feature selection). Dropout randomly disables neurons during training, creating an implicit ensemble. Early stopping halts training when validation performance starts degrading.
 
 :::
 
 :::eli20
+
 ### Regularisation Methods
 
 | Method | Penalty | Effect on weights |
@@ -148,11 +156,13 @@ After your model makes predictions, you need to grade it. Accuracy is the overal
 :::
 
 :::eli15
+
 Classification metrics go beyond accuracy to capture different aspects of performance. The confusion matrix shows all four outcomes: true positives, false positives, true negatives, and false negatives. From this, you can compute precision (how reliable are positive predictions), recall (how completely are positives found), and F1 (the balance of both). The ROC curve plots true positive rate vs false positive rate at various thresholds, and its AUC summarizes overall ranking quality. For imbalanced datasets, precision-recall curves are more informative than ROC.
 
 :::
 
 :::eli20
+
 ### Confusion Matrix
 
 |  | Predicted + | Predicted - |
@@ -192,11 +202,13 @@ For problems where the model predicts a number (not a category), you measure how
 :::
 
 :::eli15
+
 Regression metrics measure prediction error as a continuous quantity. Mean Squared Error (MSE) averages the squared differences, making it sensitive to large errors. Root Mean Squared Error (RMSE) is in the same units as the target variable, making it more interpretable. Mean Absolute Error (MAE) is more robust to outliers. R-squared indicates the proportion of variance in the target that the model explains -- a value of 1 means perfect prediction, 0 means no better than predicting the mean, and negative values mean worse than predicting the mean.
 
 :::
 
 :::eli20
+
 | Metric | Formula | Notes |
 |--------|---------|-------|
 | MSE | $\frac{1}{m}\sum(y_i - \hat{y}_i)^2$ | Penalises large errors more |
@@ -215,11 +227,13 @@ Learning curves are like tracking how a student improves as they study more and 
 :::
 
 :::eli15
+
 Learning curves plot training error and validation error as a function of training set size. They are a diagnostic tool for the bias-variance tradeoff. If both errors are high and converge together, the model has high bias (too simple) -- adding more data will not help; you need a more powerful model. If training error is low but validation error is much higher (a gap), the model has high variance (overfitting) -- adding more training data will help close the gap. This guides whether you should collect more data or change your model.
 
 :::
 
 :::eli20
+
 Plot training and validation error vs training set size:
 
 | Pattern | Diagnosis |

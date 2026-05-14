@@ -14,11 +14,13 @@ A profession is a special job where you need a lot of training and you promise t
 :::
 
 :::eli15
+
 A profession is more than just a job. It requires specialised knowledge gained through extensive education, adherence to a code of ethics, and a commitment to serving the public interest. Professions typically have certification or licensing requirements, professional associations, and mechanisms for holding members accountable. Computing is still debating whether it fully qualifies as a profession in this traditional sense.
 
 :::
 
 :::eli20
+
 > "A disciplined group of individuals who adhere to high ethical standards and uphold themselves to, and are accepted by, the public as possessing special knowledge and skills in a widely recognised, organised body of learning derived from education and training at a high level, and who are prepared to exercise this knowledge and these skills in the interest of others." — Australian Council of Professions
 
 ### Kultgen's Attributes of Professions
@@ -41,11 +43,13 @@ To become a professional, you go through steps like going to school, passing tes
 :::
 
 :::eli15
+
 The professional pathway typically involves: formal education at an accredited institution, certification (voluntary proof of competence) or licensing (mandatory government permission to practice), membership in a professional society, commitment to a code of ethics, and ongoing professional development. In computing, certifications like CCNA or AWS Solutions Architect demonstrate specialist competence, though most jurisdictions do not require a licence to write software.
 
 :::
 
 :::eli20
+
 ```
 Education → Accreditation → Certification → Licensing → Professional Society → Code of Ethics → Continuing Development
 ```
@@ -80,11 +84,13 @@ Some software engineers need a special licence, just like a doctor needs one. Th
 :::
 
 :::eli15
+
 Software engineering licensing is required when working on safety-critical systems whose failure could endanger the public (medical devices, aviation, infrastructure). Licensed engineers must hold a degree, pass professional exams, demonstrate work experience, maintain good moral character, and continue their education. This is more common in traditional engineering fields, but the debate is growing as software becomes more safety-critical.
 
 :::
 
 :::eli20
+
 Required when working on systems whose failure could affect the public.
 
 Requirements: Degree + Engineering exam + Work experience + Good moral character + Continuing education + Principles and practice exam
@@ -100,11 +106,13 @@ Professional associations are clubs for people in the same profession. Members h
 :::
 
 :::eli15
+
 Professional associations like IEEE and ACM bring computing professionals together, set ethical standards, publish research, and advocate for the profession. They provide codes of conduct, organise conferences, and offer resources for professional development. Membership signals commitment to professional standards and ongoing learning.
 
 :::
 
 :::eli20
+
 | Organisation | Members | Focus |
 |-------------|---------|-------|
 | IEEE (Institute of Electrical and Electronic Engineers) | 420,000+ in 160+ countries | Electrical/electronic/computing engineering |
@@ -122,11 +130,13 @@ Software engineers have a set of eight promises they make. The most important pr
 :::
 
 :::eli15
+
 The Software Engineering Code of Ethics has eight principles covering obligations to the public, clients, product quality, professional judgment, management, the profession itself, colleagues, and self-development. The public interest is paramount: if your employer asks you to do something that could harm users, the code says you should prioritise public safety. The code should be read as a whole rather than cherry-picking individual clauses.
 
 :::
 
 :::eli20
+
 ### Preamble
 - Software engineers have opportunities to do good or harm
 - Should be committed to doing good
@@ -173,11 +183,13 @@ There are also simpler rules professionals can follow: be fair, do not hide impo
 :::
 
 :::eli15
+
 Beyond formal codes, several fundamental principles guide professional conduct: impartiality (balance public, company, and personal interests), disclosure (do not let others be harmed by hidden information), respect for rights (privacy, property), just treatment (fair wages, credit, no discrimination), responsibility (for actions and inactions), knowledge-sharing, integrity, continuous improvement, and responsible supervision.
 
 :::
 
 :::eli20
+
 | Principle | Description |
 |-----------|-------------|
 | Be impartial | Public good = company good = personal good |
@@ -201,11 +213,13 @@ Imagine Dan finds something illegal on a coworker's computer while doing his job
 :::
 
 :::eli15
+
 In the worked example, Dan discovers illegal material on an employee's computer. The analysis involves multiple principles: Dan violated company privacy policy to find it, but now has knowledge of potential criminal activity. The code requires him to disclose the information to appropriate authorities while recognising that his own breach of policy was wrong and that the files alone do not prove guilt (someone else could have stored them). This shows how multiple principles interact in real scenarios.
 
 :::
 
 :::eli20
+
 ### Scenario: Dan finds illegal material on an employee's computer
 
 **Step 1**: Identify relevant principles → Be impartial, Respect rights, Treat justly, Maintain integrity
@@ -229,11 +243,13 @@ In Malaysia, computing professionals have their own set of six promises: be hone
 :::
 
 :::eli15
+
 The Malaysian National Computer Confederation (MNCC) Code of Ethics has six principles specific to Malaysian computing professionals: act with integrity and competence, maintain confidentiality, provide impartial advice while disclosing conflicts of interest, accept full responsibility for work undertaken, continuously develop professional knowledge, and conduct oneself properly without seeking personal advantage at the expense of the organisation.
 
 :::
 
 :::eli20
+
 Six principles:
 1. Act with **integrity** and competence
 2. Act with **discretion** regarding confidential information

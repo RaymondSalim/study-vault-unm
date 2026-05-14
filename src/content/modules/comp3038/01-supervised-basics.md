@@ -14,11 +14,13 @@ Supervised learning is like a teacher showing you flashcards with questions and 
 :::
 
 :::eli15
+
 In supervised learning, you give the model a training set of input-output pairs. The model learns a function that maps inputs to outputs. There are two main types: regression (predicting continuous values like temperature or price) and classification (predicting categories like spam/not-spam). The model makes a hypothesis -- essentially a formula -- that takes in features and produces a prediction, and the goal is to make this hypothesis as accurate as possible on new, unseen data.
 
 :::
 
 :::eli20
+
 | Concept | Description |
 |---------|-------------|
 | Training set | Labelled data $(x^{(i)}, y^{(i)})$ for $i = 1, \ldots, m$ |
@@ -37,11 +39,13 @@ Linear regression draws the best straight line through a bunch of dots on a grap
 :::
 
 :::eli15
+
 Linear regression models the relationship between input features and a continuous output as a weighted sum. Each feature gets a weight (coefficient), and the model predicts by multiplying each feature by its weight and adding them up (plus a bias term). The "cost function" measures how wrong the predictions are on average -- specifically, it uses the mean squared error between predicted and actual values. The model's job is to find the weights that minimize this error.
 
 :::
 
 :::eli20
+
 ### Model
 
 $$h_\theta(x) = \theta_0 + \theta_1 x_1 + \theta_2 x_2 + \cdots + \theta_n x_n = \boldsymbol{\theta}^T \mathbf{x}$$
@@ -68,11 +72,13 @@ Gradient descent is like being blindfolded on a hill and trying to get to the bo
 :::
 
 :::eli15
+
 Gradient descent is an optimization algorithm that iteratively adjusts the model's parameters to minimize the cost function. At each step, it calculates the slope (gradient) of the cost function and moves the parameters in the direction that reduces the error. The "learning rate" controls how big each step is -- too small and it takes forever, too large and you might overshoot the minimum. There are variants: batch (uses all data per step), stochastic (uses one sample), and mini-batch (uses a small group of samples).
 
 :::
 
 :::eli20
+
 ### Update Rule
 
 $$\theta_j := \theta_j - \alpha \frac{\partial}{\partial \theta_j} J(\boldsymbol{\theta})$$
@@ -106,11 +112,13 @@ Instead of slowly walking downhill (gradient descent), the normal equation is li
 :::
 
 :::eli15
+
 The normal equation is a direct mathematical formula that solves for the optimal weights in one computation, without any iteration. It works by solving a system of linear equations using matrix algebra. The trade-off is that it requires inverting a matrix, which becomes very expensive (slow) when you have many features (more than about 10,000). For smaller problems, it is often simpler than gradient descent because there is no learning rate to tune.
 
 :::
 
 :::eli20
+
 $$\boldsymbol{\theta} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}$$
 
 | Gradient Descent | Normal Equation |
@@ -131,11 +139,13 @@ Imagine one feature is measured in millimetres (like 1000mm) and another in kilo
 :::
 
 :::eli15
+
 Feature scaling ensures all input features are on a similar numerical range. Without it, features with larger values dominate the cost function, and gradient descent takes a zigzag path instead of going straight to the minimum. Two common methods are min-max normalisation (rescaling to [0,1]) and standardisation (rescaling so the mean is 0 and standard deviation is 1). This significantly speeds up convergence.
 
 :::
 
 :::eli20
+
 Ensure features are on similar scales to speed up gradient descent.
 
 | Method | Formula | Range |
@@ -154,11 +164,13 @@ Sometimes the best fit is not a straight line but a curve. Polynomial regression
 :::
 
 :::eli15
+
 When the relationship between inputs and output is not linear, you can add polynomial features (like x squared, x cubed) to capture curved patterns. The model itself is still linear in its parameters -- you are just giving it richer features to work with. However, polynomial features can grow very large in magnitude, making feature scaling critical. Higher-degree polynomials risk overfitting if not regularised.
 
 :::
 
 :::eli20
+
 Create new features from existing ones:
 
 $$h_\theta(x) = \theta_0 + \theta_1 x + \theta_2 x^2 + \theta_3 x^3$$

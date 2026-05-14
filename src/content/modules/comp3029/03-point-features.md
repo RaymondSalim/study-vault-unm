@@ -14,11 +14,13 @@ Point features are special spots in an image that are easy to find again even if
 :::
 
 :::eli15
+
 Point features (keypoints) are distinctive image locations that can be reliably detected across different views of the same scene. Each keypoint gets a descriptor -- a numerical vector summarising the local appearance. Good point features are invariant to scale, rotation, translation, and illumination changes. They enable applications like image stitching, object recognition, 3D reconstruction, and tracking by matching keypoints between images.
 
 :::
 
 :::eli20
+
 Point features are distinctive image locations (keypoints) with associated descriptors, used for matching between views, tracking, and recognition.
 
 **Desirable properties:** invariance to scale, translation, rotation, and illumination changes.
@@ -34,11 +36,13 @@ A corner is where two edges meet -- like the corner of a window in a photo. The 
 :::
 
 :::eli15
+
 The Harris corner detector identifies points where intensity changes significantly in all directions. It works by examining how the sum of squared differences (SSD) changes when a window is shifted. This is summarised by a 2x2 structure tensor whose eigenvalues reveal the local geometry: two large eigenvalues indicate a corner (high change in all directions), one large eigenvalue indicates an edge, and two small eigenvalues indicate a flat region. Harris corners are rotation-invariant but not scale-invariant.
 
 :::
 
 :::eli20
+
 ### Key Insight
 
 A **corner** is a point where shifting a window in any direction causes a large intensity change (unlike flat regions or edges).
@@ -86,11 +90,13 @@ SIFT is a super-clever way to find and describe special points in an image that 
 :::
 
 :::eli15
+
 SIFT (Scale Invariant Feature Transform) detects keypoints that are invariant to scale, rotation, and illumination. It works in four stages: (1) find blob-like structures at multiple scales using Difference-of-Gaussians, (2) localise and filter keypoints to keep only stable corners, (3) assign a dominant orientation to each keypoint for rotation invariance, and (4) compute a 128-dimensional descriptor from local gradient histograms. SIFT features are highly distinctive and widely used for matching and recognition.
 
 :::
 
 :::eli20
+
 Lowe 2004 -- over 31,000 citations. Provides invariance to scale, rotation, translation, and illumination.
 
 ### SIFT Pipeline
@@ -179,11 +185,13 @@ Once you have description cards for special points in two photos, you need to fi
 :::
 
 :::eli15
+
 Feature matching connects keypoints between images by comparing their descriptors using Euclidean distance. The nearest-neighbour approach finds the closest descriptor in the second image for each descriptor in the first. Lowe's ratio test improves reliability by accepting a match only when the best match is significantly closer than the second-best (ratio < 0.8), filtering out ambiguous matches. RANSAC then removes remaining outliers by fitting a geometric model and keeping only consistent matches.
 
 :::
 
 :::eli20
+
 ### Nearest-Neighbour Matching
 
 For descriptor $d_A$ in image A, find closest descriptor $d_B$ in image B using Euclidean distance.
@@ -217,11 +225,13 @@ There are several methods for finding and describing special points. Harris is f
 :::
 
 :::eli15
+
 Different point feature methods trade off between speed, invariance properties, and descriptor type. Harris is fast but only detects corners (no scale invariance, no descriptor). SIFT is the gold standard for accuracy with full scale and rotation invariance but is moderately slow. SURF approximates SIFT more efficiently. ORB uses binary descriptors (256-bit) enabling extremely fast matching via Hamming distance, making it suitable for real-time applications on mobile devices.
 
 :::
 
 :::eli20
+
 | Method | Speed | Scale Inv. | Rotation Inv. | Descriptor |
 |--------|-------|-----------|---------------|------------|
 | Harris | Fast | No | Yes | N/A (detector only) |
@@ -240,11 +250,13 @@ Point features let computers do amazing things: stitch photos together into pano
 :::
 
 :::eli15
+
 Point features enable numerous computer vision applications. Image stitching matches keypoints across overlapping photos to compute the transformation for panorama creation. Object recognition matches features against a database of known objects. 3D reconstruction uses correspondences across multiple views to triangulate 3D structure. Visual SLAM (Simultaneous Localisation and Mapping) uses feature tracking for real-time robot navigation.
 
 :::
 
 :::eli20
+
 - Image stitching / panorama creation
 - Object recognition (match to known templates)
 - 3D reconstruction (multi-view geometry)

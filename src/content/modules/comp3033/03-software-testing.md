@@ -14,11 +14,13 @@ Verification is like checking that you followed the recipe exactly. Validation i
 :::
 
 :::eli15
+
 Verification asks "are we building the product right?" -- it checks that the software matches its specification through reviews, inspections, and testing. Validation asks "are we building the right product?" -- it checks that the software meets actual user needs through user testing and acceptance testing. Verification requires technical knowledge; validation requires domain knowledge. Both are needed to establish confidence the system is fit for purpose.
 
 :::
 
 :::eli20
+
 | | Verification | Validation |
 |-|-------------|-----------|
 | **Definition (IEEE)** | Products of a phase fulfil established requirements | Software meets intended usage at end of development |
@@ -40,11 +42,13 @@ Think of it like dominoes: A fault is a mistake someone wrote in the code (like 
 :::
 
 :::eli15
+
 A fault is a static defect in the code -- the actual incorrect line written by the developer. An error is an incorrect internal state that occurs at runtime when that faulty code executes. A failure is the externally observable wrong behaviour that the user sees. The causal chain is Fault leads to Error leads to Failure. Importantly, not every fault leads to a failure because the faulty code may never be reached during execution.
 
 :::
 
 :::eli20
+
 | Term | Definition | Example (banking app: `i <= 5` instead of `i < 5`) |
 |------|-----------|--------------------------------------------------|
 | **Fault** | Static defect in code (coding mistake) | The `i <= 5` in the for-loop |
@@ -74,11 +78,13 @@ Software testing is like a teacher giving a test to a student -- you give the so
 :::
 
 :::eli15
+
 Software testing means executing software under controlled conditions to check whether it produces expected results. A key limitation is that testing can only show the presence of failures, never their absence -- you cannot prove a system is bug-free through testing alone. Additionally, finding and fixing bugs becomes exponentially more expensive in later development phases, so detecting faults early (during requirements and design) is far cheaper than catching them in production.
 
 :::
 
 :::eli20
+
 **Definition**: Executing software under controlled conditions to find whether it produces expected results.
 
 ### Key Limitations
@@ -108,11 +114,13 @@ Testing happens in layers, like checking a LEGO build. First you check each indi
 :::
 
 :::eli15
+
 Testing is organised into levels that correspond to development phases. Unit testing checks individual functions/methods (done by developers). Integration testing checks that modules interact correctly. System testing verifies the assembled system against requirements (done by QA). Acceptance testing confirms the software meets user needs (done with users). Regression testing ensures updates do not break previously working functionality.
 
 :::
 
 :::eli20
+
 | Level | Tests... | Done by | Corresponds to... |
 |-------|----------|---------|-------------------|
 | **Unit testing** | Individual methods/functions | Developers | Implementation |

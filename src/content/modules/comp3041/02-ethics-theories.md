@@ -14,11 +14,13 @@ There are three main ways people decide what is right and wrong. One way looks a
 :::
 
 :::eli15
+
 Ethics has three major frameworks. Consequentialism judges actions by their outcomes (maximise benefit, minimise harm). Deontology judges actions by whether they follow moral rules or duties, regardless of outcome. Virtue ethics focuses on developing good character traits and asks "what would a person of integrity do?" Each framework gives different answers to the same dilemma.
 
 :::
 
 :::eli20
+
 | Framework | Central Question | Key Figure |
 |-----------|-----------------|------------|
 | **Consequentialism** | What are the outcomes? | Bentham, Mill |
@@ -36,11 +38,13 @@ This way of thinking says: pick the choice that makes the most people happy. If 
 :::
 
 :::eli15
+
 Consequentialism (especially utilitarianism) says that the morally right action is the one that produces the best overall outcome. You weigh all the benefits against all the harms and choose whichever maximises net good. It is practical and results-focused, but it can justify harming individuals if the majority benefits, and predicting all consequences is often impossible.
 
 :::
 
 :::eli20
+
 ### Core Principle
 The morality of an action is determined solely by its outcomes — maximise good consequences, minimise bad ones.
 
@@ -80,11 +84,13 @@ This way of thinking says: some things are always wrong, even if breaking the ru
 :::
 
 :::eli15
+
 Deontology says morality is about following duties and rules, not about outcomes. Kant's "categorical imperative" asks: could you make your action a universal law for everyone? If not, it is wrong. This protects individual rights (you cannot sacrifice one person to save five), but it can be rigid when rules conflict with each other.
 
 :::
 
 :::eli20
+
 ### Core Principle
 Morality is based on whether an action follows rules/duties — the intent and action itself matter, not consequences.
 
@@ -129,11 +135,13 @@ This way of thinking asks: "What kind of person do I want to be?" Instead of fol
 :::
 
 :::eli15
+
 Virtue ethics focuses on character rather than rules or outcomes. It asks what traits (virtues) a good person would cultivate: honesty, courage, fairness, humility. For computing professionals, this means asking "would a responsible, honest engineer do this?" rather than just "is this legal?" or "does this maximise profit?" It is flexible but can be vague when you need a concrete answer.
 
 :::
 
 :::eli20
+
 ### Core Principle
 Morality is about developing a virtuous **character** — not following rules or calculating outcomes.
 
@@ -176,11 +184,13 @@ There are other ways people decide right from wrong: some follow religious teach
 :::
 
 :::eli15
+
 Beyond the three main frameworks, other theories include: Divine Command (morality comes from God's commands), Cultural Relativism (morality depends on your society), Natural Law (human nature determines good/bad), Ethics of Justice by Rawls (design rules as if you did not know your position in society), and Ethics of Caring (morality through empathy and relationships). Each has strengths but also significant limitations.
 
 :::
 
 :::eli20
+
 | Theory | Core Idea | Strengths | Weaknesses |
 |--------|-----------|-----------|------------|
 | **Divine Command** | God's commands determine morality | Clear authority | Different scriptures disagree; secular society; doesn't address modern problems |
@@ -200,11 +210,13 @@ When you face a tricky decision, you can use all three ways of thinking like dif
 :::
 
 :::eli15
+
 In practice, you apply multiple frameworks to the same scenario to get a richer picture. For an AI hiring tool: a consequentialist asks if it produces better hiring outcomes overall, a deontologist asks whether it respects candidates' rights and follows anti-discrimination law, and virtue ethics asks whether deploying it reflects fairness and responsibility. Real ethical reasoning often combines insights from all three.
 
 :::
 
 :::eli20
+
 | Scenario | Consequentialist | Deontological | Virtue Ethics |
 |----------|-----------------|---------------|---------------|
 | AI Hiring Tool | Is it accurate? Does it maximise good outcomes? | Does it follow the law? | Does it act with justice and fairness? |

@@ -14,11 +14,13 @@ Traditional software building tries to plan everything perfectly upfront, like w
 :::
 
 :::eli15
+
 Traditional software engineering assumes early modelling and analysis can identify problems and minimise costs. In reality, customers often cannot fully express their needs and requirements keep changing. Agile acknowledges that software is "soft" -- change is inevitable. Core principles include: YAGNI (do not build what you do not need yet), prioritise a running system early, replace non-executable documents with executable tests, and accept that outdated models are worse than no models at all.
 
 :::
 
 :::eli20
+
 ### Why Agile?
 
 Traditional software engineering assumes:
@@ -46,11 +48,13 @@ TDD flips things backwards: you write the test FIRST (before writing the actual 
 :::
 
 :::eli15
+
 In TDD, you write a failing test before writing any implementation code. Then you write the minimum code needed to make the test pass, refactor to clean up, and repeat. Tests serve two roles: they define (specify) the software's behaviour and they evaluate whether it behaves correctly. Key principles include tests-first, minimal code, high coverage, and treating tests as the living specification.
 
 :::
 
 :::eli20
+
 ### The TDD Cycle
 
 ```
@@ -96,11 +100,13 @@ A user story is a simple sentence describing what someone wants to do, like "As 
 :::
 
 :::eli15
+
 A user story captures what a user needs in their own language (e.g., "As a user, I want to reset my password so I can regain access"). It has few details and serves as a basis for tests, then is discarded. The workflow is: write a user story, write a user acceptance test (which will fail), write TDD unit tests and implement minimal functionality iteratively until the acceptance test passes, then move to the next story.
 
 :::
 
 :::eli20
+
 ### User Story
 
 A sentence capturing what a user needs to do:
@@ -126,11 +132,13 @@ Continuous Integration is like a strict teacher who checks everyone's homework t
 :::
 
 :::eli15
+
 Continuous Integration requires developers to frequently push code to a shared repository. A CI server automatically builds the system and runs the full test suite after each push. If the build or any test fails, the team is notified immediately. This provides fast feedback, catches integration problems early, and forms a core part of the Agile test infrastructure.
 
 :::
 
 :::eli20
+
 ### CI Principle
 
 1. Start with clean development environment
@@ -156,11 +164,13 @@ A test case is like a detailed recipe for checking one specific thing. It has an
 :::
 
 :::eli15
+
 Formal test cases have a structured format with defined fields: a unique ID, description of the objective, pre-conditions that must be met, step-by-step procedure, test data to use, expected result, and actual result (filled after execution to determine pass/fail). This structure ensures tests are repeatable, traceable, and unambiguous. Test cases are derived from user stories or requirements.
 
 :::
 
 :::eli20
+
 ### Test Case Structure
 
 | Field | Description |

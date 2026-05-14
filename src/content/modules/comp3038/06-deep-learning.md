@@ -14,11 +14,13 @@ CNNs are designed to understand images. Instead of looking at every single pixel
 :::
 
 :::eli15
+
 Convolutional Neural Networks exploit the spatial structure of images. A convolutional layer slides small learnable filters across the input, detecting local patterns (edges, textures). Pooling layers then downsample the result, making the representation smaller and somewhat invariant to small shifts. Stacking multiple convolutional and pooling layers builds a hierarchy: early layers detect simple features, deeper layers detect complex objects composed of those simpler features. CNNs have far fewer parameters than fully-connected networks on images because weights are shared across spatial positions.
 
 :::
 
 :::eli20
+
 ### Key Idea
 
 Exploit **spatial structure** in data (images) using local connectivity and weight sharing.
@@ -94,11 +96,13 @@ RNNs are designed for sequences -- like sentences, music, or time series. They r
 :::
 
 :::eli15
+
 Recurrent Neural Networks process sequential data by maintaining a hidden state that gets updated at each time step. The same weights are applied at every step, and the hidden state carries information from previous inputs. This allows the network to model dependencies across time (e.g., understanding context in language). However, vanilla RNNs struggle with long sequences because gradients either vanish (making it impossible to learn long-range patterns) or explode (causing unstable training). This led to LSTM and GRU architectures.
 
 :::
 
 :::eli20
+
 ### Key Idea
 
 Process **sequential data** by maintaining a hidden state across time steps.
@@ -128,11 +132,13 @@ An LSTM is like giving the RNN a notebook. It can choose to write important thin
 :::
 
 :::eli15
+
 LSTM networks solve the vanishing gradient problem by introducing a "cell state" -- a separate memory channel that flows through time with only minor modifications. Three gates control it: the forget gate decides what to erase, the input gate decides what new information to write, and the output gate decides what to read out. Because the cell state is modified by addition rather than repeated multiplication, gradients flow through it much more easily over long sequences. GRU is a simpler variant with two gates that achieves similar performance with fewer parameters.
 
 :::
 
 :::eli20
+
 ### Gates
 
 | Gate | Formula | Purpose |
@@ -168,11 +174,13 @@ Transformers are the technology behind ChatGPT and modern AI. Instead of reading
 :::
 
 :::eli15
+
 Transformers replaced RNNs for most sequence tasks by using a "self-attention" mechanism. Instead of processing one element at a time, attention lets each position directly look at every other position and decide how much to focus on it. This solves the long-range dependency problem and allows full parallelisation during training (unlike sequential RNNs). The attention score between two positions is computed as a scaled dot product of their query and key vectors, and the result is used to weight their value vectors. Multi-head attention runs several attention mechanisms in parallel to capture different types of relationships.
 
 :::
 
 :::eli20
+
 ### Self-Attention
 
 $$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right) V$$

@@ -14,11 +14,13 @@ There are two main ways to build software. The "waterfall" way is like following
 :::
 
 :::eli15
+
 Software development follows either a plan-driven or adaptive approach. Waterfall is linear and sequential, with testing at the end (the V-Model links each development phase to a test phase). Agile is iterative and incremental, with testing integrated continuously via CI/CD. Each approach integrates quality assurance differently -- waterfall has distinct V&V phases, while agile tests continuously.
 
 :::
 
 :::eli20
+
 | Model | Approach | SQA Integration |
 |-------|----------|----------------|
 | **Waterfall** | Plan-driven, linear, sequential | V&V phase at end; V-Model links test design to each phase |
@@ -47,11 +49,13 @@ McCall's model is like a report card for software with three sections: "How well
 :::
 
 :::eli15
+
 McCall's Quality Model organises software quality into three categories with 11 factors. Product operation covers how well the software runs (correctness, reliability, efficiency, integrity, usability). Product revision covers maintainability, flexibility, and testability. Product transition covers portability, reusability, and interoperability. This model helps teams systematically evaluate quality from multiple angles.
 
 :::
 
 :::eli20
+
 Three categories, 11 factors:
 
 | Category | Factors | Question |
@@ -71,11 +75,13 @@ ISO 25000 is like an international grading system for software. One part grades 
 :::
 
 :::eli15
+
 ISO/IEC 25000 provides two complementary quality models. The Product Quality Model (ISO 25010) evaluates the software from a developer's perspective across 8 characteristics: functional suitability, performance, compatibility, usability, reliability, security, maintainability, and portability. The Quality in Use Model (ISO 25019) evaluates from the user's perspective: effectiveness, efficiency, satisfaction, freedom from risk, and context coverage.
 
 :::
 
 :::eli20
+
 ### Product Quality Model (ISO/IEC 25010:2023)
 
 Evaluates the software product itself — the **developer's** view.
@@ -114,11 +120,13 @@ A bad rule is "run fast" because nobody knows what "fast" means. A good rule is 
 :::
 
 :::eli15
+
 Non-functional requirements (NFRs) must be specific, measurable, and verifiable to be useful. Vague statements like "the system should be fast" or "the system must be secure" cannot be tested. Good NFRs include precise conditions and thresholds, such as "dashboard renders in under 2 seconds for 95% of requests under 500 concurrent users" or "all PII encrypted at rest using AES-256."
 
 :::
 
 :::eli20
+
 | Bad NFR (vague) | Good NFR (testable) |
 |----------------|-------------------|
 | "The system should be fast" | "Under 500 concurrent users, dashboard renders in < 2s for 95% of requests" |

@@ -14,11 +14,13 @@ Access control is like having rules about who can go where in a building. A "sub
 :::
 
 :::eli15
+
 Access control governs which subjects (users, processes) can perform which actions (read, write, execute) on which objects (files, databases, resources). It is the mechanism that enforces security policy after authentication has established who the user is. The reference monitor is the trusted component that intercepts all access requests and decides whether to allow or deny them based on the configured policy. Different access control models (DAC, MAC, RBAC, ABAC) offer different trade-offs between flexibility, security, and manageability.
 
 :::
 
 :::eli20
+
 | Concept | Definition |
 |---------|-----------|
 | Subject | Entity requesting access (user, process) |
@@ -38,11 +40,13 @@ There are different ways to set up the rules. In DAC, the owner of a file decide
 :::
 
 :::eli15
+
 The main access control models differ in who decides permissions and how flexible they are. Discretionary Access Control (DAC) lets resource owners set their own permissions -- flexible but vulnerable to users granting too much access. Mandatory Access Control (MAC) has a central authority assign immutable security labels -- very restrictive but used where security is paramount. Role-Based Access Control (RBAC) assigns permissions to roles rather than individuals, making it scalable for organisations. Attribute-Based Access Control (ABAC) evaluates dynamic rules based on attributes of the subject, object, and environment for fine-grained decisions.
 
 :::
 
 :::eli20
+
 ### Discretionary Access Control (DAC)
 
 Owner of a resource decides who gets access.
@@ -130,11 +134,13 @@ Security models are strict math rules about how information can flow. Bell-LaPad
 :::
 
 :::eli15
+
 Formal security models provide mathematical guarantees about information flow. Bell-LaPadula (BLP) protects confidentiality with "no read up, no write down" -- information can only flow from low to high classification, preventing leaks. Biba protects integrity with "no read down, no write up" -- preventing low-integrity data from corrupting high-integrity resources. These two models are duals of each other and conflict when applied simultaneously (BLP's "no write down" contradicts Biba's "no write up"). The Chinese Wall model is dynamic -- your access rights change based on what you have previously accessed, preventing conflicts of interest.
 
 :::
 
 :::eli20
+
 ### Bell-LaPadula (BLP) -- Confidentiality
 
 **Goal**: Prevent unauthorised disclosure (protect secrecy).
@@ -197,11 +203,13 @@ In Linux/Unix, every file has permissions for three groups: the owner, the group
 :::
 
 :::eli15
+
 Unix file permissions use a three-tier model: owner, group, and others, each with read/write/execute bits. These are expressed in octal (e.g., 755 = rwxr-xr-x). Special permission bits add extra functionality: SUID makes a program run as the file owner (used by passwd to write to /etc/shadow), SGID makes it run as the group owner or inherits group on new files in directories, and the Sticky bit on a directory means only a file's owner can delete it (used on /tmp). This is a classic DAC implementation where the file owner controls access.
 
 :::
 
 :::eli20
+
 ```
 rwxr-x--- = 750
 ```

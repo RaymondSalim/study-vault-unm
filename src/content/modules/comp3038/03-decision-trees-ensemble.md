@@ -14,11 +14,13 @@ A decision tree works like a game of 20 questions. It asks simple yes/no questio
 :::
 
 :::eli15
+
 Decision trees partition the feature space by asking a series of threshold-based questions on individual features. At each node, the tree picks the question (feature + threshold) that best separates the data into purer groups. "Purity" is measured by criteria like entropy (information gain) or Gini impurity. Trees are easy to interpret but prone to overfitting -- they can memorise the training data by growing too deep. Pruning techniques (limiting depth, requiring minimum samples per leaf) help control this.
 
 :::
 
 :::eli20
+
 ### How They Work
 
 Recursively split the feature space using axis-aligned thresholds to create rectangular decision regions.
@@ -64,11 +66,13 @@ Imagine asking one friend for advice versus asking 100 friends and going with th
 :::
 
 :::eli15
+
 Ensemble methods combine multiple "weak" models to create a stronger overall model. The two main strategies are bagging and boosting. Bagging (like Random Forests) trains many models independently on random subsets of the data and averages their predictions -- this reduces variance (overfitting). Boosting (like XGBoost) trains models one after another, where each new model focuses on fixing the mistakes of the previous ones -- this reduces bias (underfitting). Ensembles almost always outperform individual models.
 
 :::
 
 :::eli20
+
 > Combine multiple weak learners to create a strong learner.
 
 ### Bagging (Bootstrap Aggregating)

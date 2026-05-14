@@ -14,11 +14,13 @@ Viola-Jones is a super-fast method for detecting faces in photos, used in almost
 :::
 
 :::eli15
+
 The Viola-Jones method (2001) achieved real-time face detection through three innovations: (1) Haar-like features that capture simple intensity patterns relevant to faces, (2) integral images that enable computing any rectangular sum in constant time, and (3) a cascade of increasingly complex classifiers trained with AdaBoost that rapidly rejects non-face regions in early stages. This combination allows scanning hundreds of thousands of image windows per second.
 
 :::
 
 :::eli20
+
 The Viola-Jones method (2001) was a breakthrough in real-time object detection, primarily applied to face detection. Three key contributions:
 
 | Contribution | Purpose |
@@ -38,11 +40,13 @@ Haar features are like very simple stencils you place on a part of the image. Ea
 :::
 
 :::eli15
+
 Haar-like features measure contrast between adjacent rectangular regions within a detection window. Four basic types capture horizontal, vertical, centre-surround, and diagonal patterns. Each feature computes the sum of pixels in one region minus the sum in another. With ~160,000 possible features in a 24x24 window (varying position, size, and type), they over-represent the space but include highly relevant face-structure features -- like the brightness difference between the nose bridge and eye sockets.
 
 :::
 
 :::eli20
+
 ### Feature Types
 
 Four basic rectangular feature types computed over a 24x24 sub-window:
@@ -75,11 +79,13 @@ The integral image is a clever shortcut. Normally, adding up all the pixels in a
 :::
 
 :::eli15
+
 The integral image is a pre-computed table where each entry stores the sum of all pixels above and to the left of that position. Once computed (one pass over the image), the sum of any rectangular region can be calculated with exactly 4 array lookups regardless of rectangle size. This transforms Haar feature computation from O(pixels-in-rectangle) to O(1), making it feasible to evaluate hundreds of thousands of features per window in real time.
 
 :::
 
 :::eli20
+
 The integral image enables O(1) computation of any rectangular sum.
 
 ### Definition
@@ -114,11 +120,13 @@ AdaBoost is like assembling a team of weak players who each know one small trick
 :::
 
 :::eli15
+
 AdaBoost (Adaptive Boosting) builds a strong classifier by iteratively combining weak classifiers, each of which thresholds a single Haar feature. In each round, it selects the feature with lowest weighted error, increases the weight of misclassified examples (so the next classifier focuses on hard cases), and assigns a confidence weight to the selected classifier. The final decision is a weighted vote of all selected weak classifiers. From 160,000 candidate features, only ~200 are typically needed for 95% accuracy.
 
 :::
 
 :::eli20
+
 ### Key Idea
 
 Combine many weak classifiers (each slightly better than chance) into a strong ensemble classifier.
@@ -160,11 +168,13 @@ The cascade is like a series of security checkpoints. Most windows in an image a
 :::
 
 :::eli15
+
 The cascade classifier organises detection as a series of increasingly strict stages. Early stages use very few features and are designed for high recall (catch all faces) with moderate precision (allow some false positives through). Later stages use more features for higher precision. Any stage can reject a window, and rejection is final. Since ~95% of windows are rejected in the first few stages (using just 2-5 features), the detector spends minimal time on obvious negatives, achieving real-time performance of 15+ fps.
 
 :::
 
 :::eli20
+
 ### Motivation
 
 - 95% accuracy not good enough for detection
@@ -209,11 +219,13 @@ Viola-Jones combines four ideas: simple contrast patterns (Haar features), a fas
 :::
 
 :::eli15
+
 The Viola-Jones framework succeeds through the synergy of its four components: Haar features provide simple, interpretable measurements of local contrast; integral images make computing these features near-instantaneous; AdaBoost selects the most discriminative features and combines them; and the cascade structure ensures sub-linear average computation by rejecting easy negatives immediately. Although superseded by deep learning for accuracy, the concepts (especially integral images and cascaded classifiers) remain influential in modern systems.
 
 :::
 
 :::eli20
+
 | Component | Role | Key Benefit |
 |-----------|------|-------------|
 | Haar features | Simple, interpretable features | Fast to compute |

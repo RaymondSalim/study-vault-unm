@@ -14,11 +14,13 @@ Neural networks are computer programs inspired by the brain. They have layers of
 :::
 
 :::eli15
+
 Neural networks are parameterised models that learn feature representations and classifiers directly from data, replacing the hand-crafted feature pipelines (HoG, SIFT, etc.) of classical computer vision. They consist of layers of neurons applying weighted sums followed by non-linear activation functions. Training adjusts all weights simultaneously via backpropagation (gradient descent through the chain rule), optimising a loss function that measures prediction error. Deep networks with multiple hidden layers can learn hierarchical representations.
 
 :::
 
 :::eli20
+
 Neural networks learn feature representations and classifiers end-to-end from data, replacing hand-crafted feature pipelines.
 
 :::
@@ -32,11 +34,13 @@ A perceptron is the simplest building block -- like a single brain cell. It take
 :::
 
 :::eli15
+
 The perceptron is a single neuron that computes a weighted sum of its inputs, adds a bias, and passes the result through an activation function. Geometrically, it implements a linear classifier -- its decision boundary is a hyperplane in the input space. This limits it to linearly separable problems; it famously cannot solve XOR where the two classes are interleaved. Stacking perceptrons with non-linear activations overcomes this limitation.
 
 :::
 
 :::eli20
+
 ### Single Neuron
 
 $$y = f\left(\sum_{i=1}^{n} w_i x_i + b\right) = f(\mathbf{w}^T \mathbf{x} + b)$$
@@ -66,11 +70,13 @@ An MLP stacks multiple layers of perceptrons together, like a sandwich with hidd
 :::
 
 :::eli15
+
 A Multi-Layer Perceptron adds one or more hidden layers between input and output, with non-linear activation functions at each layer. This enables learning non-linear decision boundaries -- the hidden layers transform the input into a representation where the classes become linearly separable. The Universal Approximation Theorem guarantees that a single hidden layer with enough neurons can approximate any continuous function, though deep networks are typically more parameter-efficient for complex functions.
 
 :::
 
 :::eli20
+
 ### Architecture
 
 | Layer | Function |
@@ -96,11 +102,13 @@ Activation functions decide whether a neuron "fires" or not, and by how much. Th
 :::
 
 :::eli15
+
 Activation functions introduce non-linearity, which is essential for learning complex patterns. Sigmoid squashes values to (0,1) but suffers from vanishing gradients when saturated. Tanh is similar but zero-centred. ReLU (max(0,x)) is the modern default -- it is fast, does not saturate for positive inputs, and produces sparse activations. Softmax is used at the output layer for multi-class classification, converting raw scores into a probability distribution that sums to 1.
 
 :::
 
 :::eli20
+
 | Function | Formula | Range | Properties |
 |----------|---------|-------|------------|
 | Sigmoid | $\sigma(x) = \frac{1}{1+e^{-x}}$ | $(0, 1)$ | Smooth, saturates, vanishing gradient |
@@ -120,11 +128,13 @@ A loss function is like a "score of wrongness." It tells the network how far off
 :::
 
 :::eli15
+
 Loss functions quantify prediction error and provide the signal that drives learning. For classification, cross-entropy loss measures how far the predicted probability distribution is from the true (one-hot) distribution -- it heavily penalises confident wrong predictions. For regression, Mean Squared Error penalises predictions proportional to the square of their error. The choice of loss function affects training dynamics and what the network optimises for.
 
 :::
 
 :::eli20
+
 | Task | Loss Function | Formula |
 |------|--------------|---------|
 | Binary classification | Binary Cross-Entropy | $-[y\log(\hat{y}) + (1-y)\log(1-\hat{y})]$ |
@@ -142,11 +152,13 @@ Backpropagation is how the network learns from its mistakes. After making a pred
 :::
 
 :::eli15
+
 Backpropagation computes the gradient of the loss with respect to every weight in the network using the chain rule of calculus. The forward pass computes the output layer by layer. The backward pass propagates error signals from the output back through each layer, computing how much each weight contributed to the total error. Each weight's gradient is the product of the back-propagated error signal and the forward-pass activation at that connection. These gradients then guide weight updates via gradient descent.
 
 :::
 
 :::eli20
+
 ### Forward Pass
 
 Compute output layer by layer:
@@ -185,11 +197,13 @@ Training a network is like finding the lowest point in a hilly landscape while b
 :::
 
 :::eli15
+
 Optimisation algorithms update network weights to minimise the loss. Basic SGD follows the gradient with a fixed learning rate, but converges slowly on complex surfaces. Momentum accumulates velocity to smooth updates and escape shallow local minima. Adaptive methods (AdaGrad, RMSProp, Adam) adjust the learning rate per-parameter based on gradient history -- parameters with consistently large gradients get smaller learning rates, and vice versa. Adam combines momentum with adaptive rates and is the most popular default optimiser.
 
 :::
 
 :::eli20
+
 ### Gradient Descent Variants
 
 $$\theta_{t+1} = \theta_t - \eta \nabla_\theta L$$
@@ -249,11 +263,13 @@ The "landscape" that the network navigates during training is not a simple valle
 :::
 
 :::eli15
+
 The loss landscape of deep networks is complex and high-dimensional. True local minima are extremely rare; most critical points are saddle points (some directions curve up, others down). The probability of a random critical point being a true local minimum drops exponentially with dimensionality. SGD noise helps escape saddle points by providing random perturbations. Ill-conditioned curvature (different steepness in different directions) causes oscillation, which momentum helps smooth out.
 
 :::
 
 :::eli20
+
 | Property | Detail |
 |----------|--------|
 | Saddle points | Dominate in high dimensions; probability of true local minimum $\approx (1/3)^d$ |
@@ -272,11 +288,13 @@ Batch normalisation is like re-centering and rescaling the values flowing throug
 :::
 
 :::eli15
+
 Batch normalisation stabilises training by normalising the activations within each mini-batch to zero mean and unit variance, then applying a learnable scale and shift. This prevents internal covariate shift (the distribution of layer inputs changing during training) and allows higher learning rates. During training, it uses batch statistics; during inference, it uses accumulated running averages. This behavioural difference is why switching to evaluation mode (model.eval()) before inference is critical.
 
 :::
 
 :::eli20
+
 Normalises activations within each mini-batch to stabilise and accelerate training:
 
 $$\hat{x} = \frac{x - \mu_B}{\sqrt{\sigma_B^2 + \epsilon}}$$
@@ -302,11 +320,13 @@ Dropout is like randomly sending some neurons on holiday during training. At eac
 :::
 
 :::eli15
+
 Dropout is a regularisation technique that randomly zeros out neuron activations during training with a specified probability. This prevents neurons from co-adapting (becoming dependent on specific other neurons) and forces the network to learn redundant, distributed representations. Effectively, each training step trains a different random sub-network, and the final model acts like an ensemble of exponentially many sub-networks. During inference, all neurons are active (with scaled weights), and no dropout is applied.
 
 :::
 
 :::eli20
+
 During training, randomly set activations to zero with probability $(1-p)$:
 
 | Phase | Behaviour |
@@ -328,11 +348,13 @@ Training neural networks well requires several tricks. You need to prevent the n
 :::
 
 :::eli15
+
 Successful neural network training requires managing overfitting and convergence. Regularisation techniques (L2 weight decay, dropout, data augmentation, early stopping) prevent the model from memorising training data. Batch normalisation stabilises training dynamics. Key hyperparameters include learning rate (often decayed over training), batch size (32-256), network depth and width, and number of training epochs. These are typically tuned via validation set performance.
 
 :::
 
 :::eli20
+
 ### Regularisation
 
 | Technique | Purpose |
@@ -364,11 +386,13 @@ Deep networks have some common problems. Vanishing gradients happen when error s
 :::
 
 :::eli15
+
 Deep networks face several challenges. Vanishing gradients occur when sigmoid/tanh activations saturate, causing error signals to shrink exponentially through layers (solved by ReLU and skip connections). Exploding gradients happen when multiplicative effects amplify signals (solved by gradient clipping and careful initialisation). Overfitting arises from having more parameters than necessary (solved by regularisation and more data). Slow convergence due to poor learning rate choices is addressed by adaptive optimisers and learning rate scheduling.
 
 :::
 
 :::eli20
+
 | Problem | Cause | Solution |
 |---------|-------|----------|
 | Vanishing gradients | Sigmoid/tanh saturation | ReLU, residual connections |

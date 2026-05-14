@@ -14,11 +14,13 @@ Features are like a "fingerprint" for a part of an image. Just as you might desc
 :::
 
 :::eli15
+
 Image features are numerical measurements extracted from image regions that serve as compact, descriptive representations for tasks like matching, recognition, and tracking. A feature vector combines multiple measurements (colour distribution, texture patterns, edge orientations) into a single array of numbers. Good features are distinctive (different objects produce different vectors) and robust (the same object produces similar vectors despite changes in lighting or viewpoint).
 
 :::
 
 :::eli20
+
 Features are numerical descriptions of image regions/patches used for matching, recognition, and tracking. A **feature vector** concatenates multiple descriptive measurements.
 
 | Feature Type | Describes | Example |
@@ -38,11 +40,13 @@ A colour histogram is like counting how many Skittles of each colour are in a ba
 :::
 
 :::eli15
+
 Colour histograms count the frequency of each colour in an image region, creating a distribution that characterises the region's appearance. They are naturally invariant to translation and rotation (since position does not matter, only counts), and partially robust to occlusion and scale changes. Key design choices include the colour space (RGB, HSV), whether to build a joint 3D histogram or separate per-channel histograms, and the number of bins (more bins = more discriminative but less robust to noise).
 
 :::
 
 :::eli20
+
 ### Colour Histograms
 
 Colour histograms count pixel colour occurrences in a region.
@@ -78,11 +82,13 @@ LBP is like a game where you look at each pixel and its 8 neighbours. For each n
 :::
 
 :::eli15
+
 Local Binary Patterns (LBP) encode texture by comparing each pixel to its 8 neighbours, producing an 8-bit binary code (0-255) that captures the local intensity pattern. These codes are histogrammed over image cells to create a texture descriptor. LBP is computationally cheap, invariant to monotonic illumination changes (since it only uses relative comparisons), and effective for texture classification and face recognition.
 
 :::
 
 :::eli20
+
 LBP captures local texture patterns around each pixel.
 
 ### Algorithm
@@ -120,11 +126,13 @@ An image gradient tells you where brightness changes quickly -- like where a dar
 :::
 
 :::eli15
+
 The image gradient is a vector at each pixel pointing in the direction of steepest intensity increase, with magnitude proportional to how rapidly intensity changes. Edges (boundaries between regions) produce large gradient magnitudes because intensity changes sharply. The gradient direction is perpendicular to the edge itself. Gradients are computed using filters like the Sobel operator, which approximates partial derivatives using differences between neighbouring pixel values.
 
 :::
 
 :::eli20
+
 The image gradient $\nabla f = \left(\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}\right)$ is a **vector** at each pixel:
 
 | Property | Detail |
@@ -162,11 +170,13 @@ HoG is like describing a silhouette by the directions of its edges. You divide t
 :::
 
 :::eli15
+
 Histogram of Oriented Gradients (HoG) captures the distribution of edge directions within an image region. The image is divided into small cells, and for each cell a histogram of gradient orientations (weighted by magnitude) is computed. Cells are grouped into overlapping blocks for normalisation, making the descriptor robust to illumination changes. HoG effectively encodes shape and silhouette information and was the key feature behind the Dalal-Triggs pedestrian detector.
 
 :::
 
 :::eli20
+
 HoG captures edge/gradient structure and is widely used for object detection (Dalal & Triggs, CVPR 2005).
 
 ### Gradient Computation
@@ -212,11 +222,13 @@ Different features are good for different jobs. Colour histograms are great for 
 :::
 
 :::eli15
+
 Each feature type captures different image properties and suits different tasks. Colour histograms excel at object tracking and retrieval because they are position-invariant, but they ignore spatial layout entirely. LBP is effective for texture and face recognition and handles illumination changes well, but is noise-sensitive. HoG captures shape information for detection tasks but is not scale-invariant. In practice, features are often combined for better performance.
 
 :::
 
 :::eli20
+
 | Feature | Best For | Invariant To | Limitation |
 |---------|----------|--------------|------------|
 | Colour histogram | Object tracking, retrieval | Translation, rotation | Ignores spatial layout |

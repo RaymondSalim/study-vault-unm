@@ -14,11 +14,13 @@ Privacy does not mean you are hiding something bad. It means that different peop
 :::
 
 :::eli15
+
 Privacy is not simply about keeping secrets. Modern understanding defines privacy as the appropriate flow of personal information. Different contexts (medical, educational, social) have different norms about what information is appropriate to share and with whom. A privacy violation occurs not when information is shared, but when it flows outside the norms of the context in which it was provided.
 
 :::
 
 :::eli20
+
 ### Traditional Definitions
 - Seclusion (being alone)
 - Secrecy (hiding information)
@@ -38,11 +40,13 @@ Some people say "if you have nothing to hide, you should not mind being watched.
 :::
 
 :::eli15
+
 The "nothing to hide" argument claims that surveillance is only a problem for wrongdoers. This is flawed for several reasons: innocent information can be taken out of context to persecute people, data collected today might be misused under future governments or policies, constant surveillance creates a "chilling effect" where people self-censor, and accepting surveillance normalises ever-expanding intrusion into private life.
 
 :::
 
 :::eli20
+
 ### The Argument
 "If you have nothing to hide, you have nothing to fear" — used to defend mass surveillance.
 
@@ -66,11 +70,13 @@ Websites say "do you agree?" before using your data, but the agreements are so l
 :::
 
 :::eli15
+
 Informed consent is supposed to give users control over their data, but in practice it fails. Privacy policies are thousands of words long (information overload), use confusing legal language, employ dark patterns that push users toward sharing more, and offer no negotiation (it is "agree or leave"). Because genuine informed consent is nearly impossible in the digital world, we need additional ethical frameworks beyond just "the user clicked agree."
 
 :::
 
 :::eli20
+
 | Myth | Reality |
 |------|---------|
 | Users read privacy policies | Information overload (thousands of words) |
@@ -90,11 +96,13 @@ Think of your life as different rooms: a doctor's room, a classroom, a chat with
 :::
 
 :::eli15
+
 Nissenbaum's Contextual Integrity framework says privacy is violated when information flows in ways that breach the norms of the context where it was originally shared. Every context (healthcare, education, commerce) has specific actors, information types, and rules about how data can be transmitted. A fitness app sharing your health data with an insurance company violates CI because the information has moved from a wellness context to a financial risk context without appropriate norms being met.
 
 :::
 
 :::eli20
+
 ### Core Philosophy
 Privacy is not secrecy — it is the **appropriate flow of personal information according to context-specific norms**. A violation occurs when information flows in a way that breaches expected norms.
 
@@ -150,11 +158,13 @@ Computers mix up the "rooms" of your life. Something you "liked" on social media
 :::
 
 :::eli15
+
 Digital technology breaks down the boundaries between life contexts. A "Like" on social media (social context) gets used to build a credit score (financial context). Browsing history (information-seeking context) gets sold to advertisers (commercial context). This "context collapse" destroys the norms that previously governed information flow, enabling profiling where algorithms combine data points to make predictions the subject never consented to.
 
 :::
 
 :::eli20
+
 - Digital systems extract, aggregate, and re-contextualise data
 - Example: Social media "Like" (social context) used to train credit scoring (financial context)
 - **Context collapse**: Distinct social contexts blur, destroying norms governing each
@@ -175,11 +185,13 @@ To protect privacy, app builders should only collect the information they actual
 :::
 
 :::eli15
+
 Designing for contextual integrity means building systems that respect the boundaries between contexts. Key principles include data minimisation (collect only what is needed), purpose limitation (do not repurpose data), and contextual isolation (architecture prevents blending data from different life domains). Technical tools like differential privacy, federated learning, and encryption help enforce these principles at the system level.
 
 :::
 
 :::eli20
+
 | Principle | Description |
 |-----------|-------------|
 | Data minimisation | Collect only what's necessary for the immediate context |
@@ -202,11 +214,13 @@ Laws exist to protect your personal information. They say companies must tell yo
 :::
 
 :::eli15
+
 Data protection laws formalise privacy principles into legal requirements. They define types of privacy invasion (appropriation, intrusion, public disclosure, false light), establish individual rights (access, correction, deletion, portability), and impose obligations on data controllers (lawfulness, transparency, minimisation, security). Major frameworks include the EU's GDPR and Malaysia's PDPA 2010, each with their own specific principles and enforcement mechanisms.
 
 :::
 
 :::eli20
+
 ### Invasion of Privacy — Four Types
 1. **Appropriation**: Using someone's identity without consent
 2. **Intrusion upon seclusion**: Intruding on private affairs

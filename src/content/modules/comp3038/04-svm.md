@@ -14,11 +14,13 @@ Imagine you have red dots and blue dots on a table and you need to put a ruler b
 :::
 
 :::eli15
+
 A Support Vector Machine finds the decision boundary (hyperplane) that separates two classes with the largest possible margin. The margin is the gap between the boundary and the nearest data points on either side. Maximising this margin tends to give better generalisation. In practice, data is rarely perfectly separable, so a "soft margin" SVM allows some points to be on the wrong side by introducing slack variables, controlled by a parameter C. Large C means fewer violations (possible overfitting); small C means wider margin (possible underfitting).
 
 :::
 
 :::eli20
+
 ### Intuition
 
 Find the hyperplane that maximises the **margin** -- the distance between the decision boundary and the closest data points (support vectors).
@@ -66,11 +68,13 @@ What if the red and blue dots are all mixed together and no straight line can se
 :::
 
 :::eli15
+
 When data is not linearly separable, the kernel trick allows an SVM to find non-linear decision boundaries. The idea is to map data into a higher-dimensional space where a linear separator exists. Instead of computing this expensive mapping explicitly, kernels compute the dot product in the higher-dimensional space directly using a formula on the original data. Common kernels include polynomial (for polynomial boundaries) and RBF/Gaussian (for complex, smooth boundaries). The RBF kernel effectively maps to infinite dimensions.
 
 :::
 
 :::eli20
+
 ### Dual Formulation
 
 The SVM optimisation can be rewritten so it only depends on **dot products** $\langle \mathbf{x}^{(i)}, \mathbf{x}^{(j)} \rangle$.
@@ -111,11 +115,13 @@ SVMs are designed to separate two groups, but what if you have more than two? Yo
 :::
 
 :::eli15
+
 Since SVMs are inherently binary classifiers, multi-class problems require combining multiple SVMs. One-vs-Rest trains K classifiers (one per class, each separating that class from all others). One-vs-One trains a classifier for every pair of classes and uses majority voting. One-vs-One requires more classifiers but each one trains on less data, which can be faster for large datasets.
 
 :::
 
 :::eli20
+
 | Strategy | Classifiers | Prediction |
 |----------|------------|------------|
 | One-vs-Rest (OvR) | $K$ classifiers | Highest score |
@@ -132,11 +138,13 @@ Both SVM and logistic regression draw a line between groups, but they have diffe
 :::
 
 :::eli15
+
 SVM and logistic regression are both linear classifiers, but differ in their loss functions and outputs. Logistic regression outputs probabilities and uses log loss, making it naturally suited for problems where you need confidence estimates. SVM uses hinge loss and maximises margin, which often gives better generalisation with fewer support points. SVM also naturally supports the kernel trick for non-linear boundaries. For high-dimensional, sparse data, both work well; SVM tends to be more robust to outliers due to its dependence on only the support vectors.
 
 :::
 
 :::eli20
+
 | | SVM | Logistic Regression |
 |-|-----|---------------------|
 | Loss | Hinge loss | Log loss |

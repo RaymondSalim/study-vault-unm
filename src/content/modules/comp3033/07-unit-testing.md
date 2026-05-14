@@ -14,11 +14,13 @@ Measuring software is like measuring how healthy you are. You cannot just say "I
 :::
 
 :::eli15
+
 Software metrics provide objective, quantitative indicators for three purposes: comparing products/processes against standards, predicting quality outcomes, and improving quality over time. External attributes (like maintainability and reliability) are hard to measure directly, so we use internal metrics (like cyclomatic complexity and lines of code) as predictors of those external qualities.
 
 :::
 
 :::eli20
+
 Metrics are objective, quantitative indicators that enable us to:
 
 | Purpose | Description |
@@ -49,11 +51,13 @@ Lines of Code (LOC) is the simplest way to measure how big a program is -- just 
 :::
 
 :::eli15
+
 LOC measures program size in two variants: NCLOC (all lines except blanks and comments) and CLOC (comment lines only). However, LOC has significant issues: it depends on programmer style and language, has an unclear relationship to quality, and creates a perverse incentive to write verbose code. Despite its simplicity, it is an unreliable quality indicator on its own.
 
 :::
 
 :::eli20
+
 | Variant | Measures |
 |---------|----------|
 | **NCLOC** | All lines except blank/comment lines |
@@ -77,11 +81,13 @@ Cyclomatic complexity counts how many different paths your code can take. Think 
 :::
 
 :::eli15
+
 McCabe's Cyclomatic Complexity estimates the number of linearly independent paths through a control flow graph using the formula M = E - N + 2 (edges minus nodes plus 2) or equivalently M = P + 1 (predicate nodes plus 1). It serves three purposes: guiding refactoring (methods above M=10 should be simplified), determining the minimum number of test cases needed, and directly indicating maintainability.
 
 :::
 
 :::eli20
+
 Estimates the number of linearly independent paths through a CFG.
 
 $$M = E - N + 2 \quad \text{or} \quad M = P + 1$$
@@ -111,11 +117,13 @@ These are six ways to measure how well-organised your classes (blueprints for ob
 :::
 
 :::eli15
+
 The Chidamber and Kemerer suite provides six metrics for object-oriented code. WMC (Weighted Methods per Class) measures total method complexity. DIT (Depth of Inheritance Tree) measures inheritance depth. NOC (Number of Children) counts subclasses. CBO (Coupling Between Objects) counts dependencies on other classes. RFC (Response For a Class) counts callable methods. LCOM (Lack of Cohesion) measures whether a class is doing too many unrelated things and should be split.
 
 :::
 
 :::eli20
+
 ### 1. Weighted Methods per Class (WMC)
 
 $$WMC = \sum_{i=1}^{n} c_i$$
@@ -175,11 +183,13 @@ Coupling is about how much classes depend on each other -- like friends who cann
 :::
 
 :::eli15
+
 Coupling measures how closely connected separate classes are -- high coupling means changes in one class ripple through others, making maintenance difficult. Cohesion measures how closely related elements within a single class are -- low cohesion means the class handles unrelated responsibilities and should be split. The goal is to minimise coupling between classes and maximise cohesion within classes.
 
 :::
 
 :::eli20
+
 | Coupling (between classes) | Cohesion (within a class) |
 |---------------------------|--------------------------|
 | How closely connected separate classes are | How closely related elements of one class are |
@@ -197,11 +207,13 @@ Metrics are helpful but not perfect. Just like knowing someone's height does not
 :::
 
 :::eli15
+
 Software metrics have important limitations. You can only make limited assumptions from code measures. What a metric predicts varies by programming language, making cross-project comparisons difficult. Metrics are only useful as predictors after being correlated with past project success. Companies must adopt and calibrate metrics that work for their specific context over time.
 
 :::
 
 :::eli20
+
 - Can only make limited assumptions from code measures
 - What a metric predicts depends on the language used
 - Hard to compare across projects using different languages
