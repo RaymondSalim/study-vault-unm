@@ -7,6 +7,20 @@ tags: ["propositional-logic", "first-order-logic", "inference", "knowledge-base"
 
 ## Knowledge-Based Agents
 
+:::eli10
+
+A knowledge-based agent is like a detective that keeps a notebook of facts and uses logic to figure out new things. You can tell it facts ("the sky is blue") and ask it questions ("is the sky blue?"). It can even figure out things you never told it directly, by combining what it knows.
+
+:::
+
+:::eli15
+
+A knowledge-based agent stores information in a formal knowledge base (KB) and uses logical inference to derive new facts and decide actions. You interact with it via TELL (add facts) and ASK (query). The power is that inference can derive conclusions that were never explicitly stated -- for example, if you know "all cats are mammals" and "Tom is a cat," it can conclude "Tom is a mammal."
+
+:::
+
+:::eli20
+
 A **knowledge-based agent** maintains a **knowledge base** (KB) — a set of sentences in a formal language — and uses **inference** to derive new facts and decide actions.
 
 | Operation | Meaning |
@@ -15,9 +29,25 @@ A **knowledge-based agent** maintains a **knowledge base** (KB) — a set of sen
 | ASK | Query the KB (derive conclusions) |
 | Inference | Derive new sentences from existing ones |
 
+:::
+
 ---
 
 ## Propositional Logic
+
+:::eli10
+
+Propositional logic is like a language with simple true/false statements and connecting words: AND, OR, NOT, IF-THEN. "If it is raining AND I go outside, THEN I will get wet." You can build up complex statements from simple ones and figure out what must be true.
+
+:::
+
+:::eli15
+
+Propositional logic is the simplest formal logic. Propositions are atomic true/false statements (P, Q, R) connected by logical operators: NOT, AND, OR, IMPLIES, IF-AND-ONLY-IF. Truth tables define the meaning of each operator. Important equivalences (like De Morgan's laws and implication elimination) allow you to transform expressions. The key insight: "P implies Q" is false only when P is true and Q is false.
+
+:::
+
+:::eli20
 
 ### Syntax
 
@@ -53,9 +83,25 @@ A **knowledge-based agent** maintains a **knowledge base** (KB) — a set of sen
 | Distributivity | $P \lor (Q \land R) \equiv (P \lor Q) \land (P \lor R)$ |
 | Distributivity | $P \land (Q \lor R) \equiv (P \land Q) \lor (P \land R)$ |
 
+:::
+
 ---
 
 ## Entailment and Inference
+
+:::eli10
+
+Entailment means "if these facts are true, then this other thing MUST also be true." Inference is the process of working out what is entailed. A good inference system only derives truths (sound) and finds all truths (complete).
+
+:::
+
+:::eli15
+
+Entailment (KB |= alpha) means alpha is true in every possible world where the KB is true -- it is a semantic concept about truth. Derivation (KB |- alpha) means alpha can be produced by applying inference rules -- it is a syntactic process. A sound system only derives entailed sentences. A complete system can derive every entailed sentence. Key inference rules include Modus Ponens ("if P then Q; P is true; therefore Q") and Resolution (the basis for automated provers).
+
+:::
+
+:::eli20
 
 **Entailment**: $\text{KB} \models \alpha$ means $\alpha$ is true in **every** model where KB is true.
 
@@ -75,9 +121,25 @@ A **knowledge-based agent** maintains a **knowledge base** (KB) — a set of sen
 | **And-elimination** | $P \land Q \;\;\vdash\;\; P$ | Extract from conjunction |
 | **Resolution** | $P \lor Q, \; \neg P \lor R \;\;\vdash\;\; Q \lor R$ | Key rule for automated provers |
 
+:::
+
 ---
 
 ## Resolution
+
+:::eli10
+
+Resolution is a powerful trick: if you know "A or B" and "not A or C," you can conclude "B or C" (since A is either true or false, one of the other things must hold). By converting everything into this format and applying resolution repeatedly, computers can prove anything that logically follows.
+
+:::
+
+:::eli15
+
+Resolution is a single inference rule that is complete for propositional logic when sentences are in Conjunctive Normal Form (CNF -- a conjunction of disjunctions). To prove something, you assume its negation, convert everything to CNF, and apply resolution until you derive the empty clause (contradiction), proving the original statement. This "proof by contradiction" approach is the basis of automated theorem provers.
+
+:::
+
+:::eli20
 
 **Resolution** is a single, complete inference rule for propositional logic (when sentences are in CNF).
 
@@ -120,9 +182,25 @@ To prove $\text{KB} \models \alpha$:
 **Conclusion**: Contradiction derived, so $\text{KB} \models R$. ✓
 </details>
 
+:::
+
 ---
 
 ## First-Order Logic (FOL)
+
+:::eli10
+
+Propositional logic can only say "this fact is true or false." First-order logic is more powerful -- it can talk about objects, their properties, and relationships. You can say things like "all dogs are animals" or "there exists a dog named Rex" using special words (for-all and there-exists).
+
+:::
+
+:::eli15
+
+First-order logic extends propositional logic with the ability to talk about objects, properties, relations, and quantities. It adds constants (specific objects like "John"), variables (generic objects like x), predicates (properties/relations like Brother(x,y)), functions (mappings like Father(x)), and quantifiers (for-all and there-exists). This lets you express general rules like "every student who studies passes" rather than listing individual facts.
+
+:::
+
+:::eli20
 
 Propositional logic cannot express relationships or quantify over objects. FOL adds:
 
@@ -156,9 +234,25 @@ $$\forall x \; \text{Cat}(x) \Rightarrow \text{Black}(x) \quad \text{← CORRECT
 | $\exists x \; \exists y$ | $\equiv \exists y \; \exists x$ (order doesn't matter) |
 | $\forall x \; \exists y$ | $\not\equiv \exists y \; \forall x$ (order MATTERS!) |
 
+:::
+
 ---
 
 ## FOL Inference
+
+:::eli10
+
+In FOL, you can plug in specific things for variables. If you know "all dogs bark," you can conclude "Rex barks" (for any specific dog). Unification is matching up expressions to find what substitutions make them the same, which is how the computer chains together logical steps.
+
+:::
+
+:::eli15
+
+FOL inference uses Universal Instantiation (from "for all x, P(x)" infer P(a) for any specific a), Existential Instantiation (from "there exists x, P(x)" introduce a new constant c where P(c)), and Unification (finding substitutions that make two expressions identical). Unification is the engine that drives FOL inference -- it matches predicates together so that inference rules like resolution can be applied.
+
+:::
+
+:::eli20
 
 ### Universal Instantiation (UI)
 
@@ -178,9 +272,25 @@ Finding a substitution $\theta$ that makes two expressions identical:
 | Knows(John, x) | Knows(y, Bill) | {x/Bill, y/John} |
 | Knows(John, x) | Knows(x, Jane) | **Fail** (x cannot be both John and Jane) |
 
+:::
+
 ---
 
 ## Comparison
+
+:::eli10
+
+Propositional logic is simple but limited -- you can only state individual facts. First-order logic is much more expressive -- you can talk about objects and general rules. The trade-off is that FOL is harder for computers to work with (sometimes impossible to solve completely).
+
+:::
+
+:::eli15
+
+Propositional logic is decidable (you can always determine truth) but limited in what it can express. First-order logic is far more expressive (objects, relations, quantifiers) but only semi-decidable -- if something is true, you can eventually prove it, but if it is false, the prover might run forever. For practical AI systems, the choice depends on the domain's complexity and the guarantees you need.
+
+:::
+
+:::eli20
 
 | Feature | Propositional Logic | First-Order Logic |
 |---------|--------------------|--------------------|
@@ -205,3 +315,5 @@ This says "there exists an x such that if x is a king then x is greedy." Due to 
 
 **Correct version**: $\exists x \; \text{King}(x) \land \text{Greedy}(x)$ — "there exists a greedy king."
 </details>
+
+:::

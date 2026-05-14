@@ -7,6 +7,20 @@ tags: ["software-engineering", "requirements", "user-stories", "MoSCoW", "elicit
 
 ## Requirements Engineering Process
 
+:::eli10
+
+Requirements engineering is figuring out what a program needs to do before you build it. It is like making a wish list for a birthday party -- you have to ask everyone what they want, check what is actually possible, write it all down clearly, and make sure you did not miss anything.
+
+:::
+
+:::eli15
+
+Requirements engineering is a structured process of discovering, documenting, and managing what a software system should do. It involves gathering needs from stakeholders (elicitation), resolving conflicts and assessing feasibility (analysis), writing them formally (specification), checking they are correct (validation), and tracking changes over time (management). Poor requirements are the leading cause of project failure.
+
+:::
+
+:::eli20
+
 | Phase | Activity | Output |
 |-------|----------|--------|
 | Elicitation | Gather needs from stakeholders | Raw requirements |
@@ -15,9 +29,25 @@ tags: ["software-engineering", "requirements", "user-stories", "MoSCoW", "elicit
 | Validation | Check correctness & completeness | Validated requirements |
 | Management | Track changes over time | Traceability matrix |
 
+:::
+
 ---
 
 ## Functional vs Non-Functional Requirements
+
+:::eli10
+
+Functional requirements are WHAT the system does (like "users can log in"). Non-functional requirements are HOW WELL it does things (like "the login page loads in under 2 seconds"). One describes features, the other describes quality.
+
+:::
+
+:::eli15
+
+Functional requirements describe specific behaviours or features the system must have (what it does). Non-functional requirements describe quality attributes (how well it performs). Functional requirements are tested by checking if a feature works; non-functional requirements are tested by measuring performance, reliability, or usability against quantifiable targets. The FURPS+ model categorises NFRs into functionality, usability, reliability, performance, and supportability.
+
+:::
+
+:::eli20
 
 | Aspect | Functional (FR) | Non-Functional (NFR) |
 |--------|-----------------|---------------------|
@@ -37,9 +67,25 @@ tags: ["software-engineering", "requirements", "user-stories", "MoSCoW", "elicit
 | **S**upportability | Maintainability, portability, testability |
 | **+** | Design constraints, implementation, interface, physical |
 
+:::
+
 ---
 
 ## Elicitation Techniques
+
+:::eli10
+
+Elicitation means finding out what people need. You can ask them (interviews), give them a survey (questionnaires), watch them work (observation), get them in a room together (workshops), or show them a rough version to react to (prototyping). Each way has pros and cons.
+
+:::
+
+:::eli15
+
+Elicitation techniques are methods for gathering requirements from stakeholders. Interviews give deep understanding but are time-consuming. Questionnaires reach many people but lack depth. Observation reveals real workflows but can be influenced by the observer's presence. Workshops build consensus but are hard to schedule. Prototyping clarifies UI expectations but can set unrealistic goals. The choice depends on stakeholder availability, project complexity, and what kind of information you need.
+
+:::
+
+:::eli20
 
 | Technique | Best For | Limitations |
 |-----------|----------|------------|
@@ -51,9 +97,25 @@ tags: ["software-engineering", "requirements", "user-stories", "MoSCoW", "elicit
 | Document analysis | Understanding existing processes | May be outdated |
 | Brainstorming | Generating creative solutions | Dominant personalities |
 
+:::
+
 ---
 
 ## User Stories (Agile)
+
+:::eli10
+
+A user story is a short sentence describing what someone wants to do with the software and why. It follows the pattern: "As a [who], I want [what], so that [why]." It is like writing a sentence about what one person needs from the program.
+
+:::
+
+:::eli15
+
+User stories are the primary way Agile teams capture requirements. They follow the format "As a [role], I want [feature], so that [benefit]" and are deliberately brief -- details are negotiated in conversation. Good stories follow the INVEST criteria (Independent, Negotiable, Valuable, Estimable, Small, Testable). Acceptance criteria using Given-When-Then format define when a story is done.
+
+:::
+
+:::eli20
 
 ### Format
 
@@ -91,9 +153,25 @@ When they click "Forgot Password" and enter their email
 Then a reset link is sent to that email within 60 seconds
 ```
 
+:::
+
 ---
 
 ## MoSCoW Prioritisation
+
+:::eli10
+
+MoSCoW is a way to sort requirements by importance. "Must have" means the system cannot work without it. "Should have" is important but you could survive without it. "Could have" is nice but optional. "Won't have" means not this time. It helps teams decide what to build first.
+
+:::
+
+:::eli15
+
+MoSCoW is a prioritisation framework that classifies requirements into four categories. "Must have" items are essential for the minimum viable product (about 60% of effort). "Should have" items are important but the system can launch without them (about 20%). "Could have" items are desirable nice-to-haves (about 20%). "Won't have (this time)" explicitly scopes out items acknowledged for future releases. This prevents scope creep and helps stakeholders make trade-offs.
+
+:::
+
+:::eli20
 
 | Priority | Meaning | Guidance |
 |----------|---------|----------|
@@ -111,9 +189,25 @@ Then a reset link is sent to that email within 60 seconds
 | Social media login (OAuth) | Could | Convenience feature |
 | Biometric login | Won't | Future enhancement |
 
+:::
+
 ---
 
 ## Requirements Specification Quality
+
+:::eli10
+
+Good requirements are clear, measurable, and realistic. "The system should be fast" is bad because it is vague. "Pages load in under 2 seconds" is good because anyone can test whether it is true. Requirements should be like a clear recipe, not a fuzzy wish.
+
+:::
+
+:::eli15
+
+High-quality requirements follow the SMART criteria: Specific, Measurable, Achievable, Relevant, and Time-bound. Common problems include ambiguity (multiple interpretations), inconsistency (contradictions), incompleteness (gaps), gold plating (unnecessary complexity), and infeasibility (technically impossible). A well-written requirement has a single clear interpretation and a defined way to verify it has been met.
+
+:::
+
+:::eli20
 
 ### SMART Requirements
 
@@ -135,9 +229,13 @@ Then a reset link is sent to that email within 60 seconds
 | Gold plating | Unnecessary detail/features | Wasted effort |
 | Infeasibility | Technically impossible | Project failure |
 
+:::
+
 ---
 
 ## Practice Questions
+
+:::eli20
 
 <details>
 <summary>Q: Classify these requirements as Functional or Non-Functional: (a) The system shall allow users to search products by name. (b) The system shall handle 1000 concurrent users. (c) The system shall encrypt passwords using bcrypt. (d) The system shall be available 99.95% of the time.</summary>
@@ -201,3 +299,5 @@ Then the "Add to Cart" button is disabled
 
 This transforms the vague NFR into measurable, testable requirements.
 </details>
+
+:::

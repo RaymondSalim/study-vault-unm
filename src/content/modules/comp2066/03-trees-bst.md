@@ -7,6 +7,28 @@ tags: ["trees", "bst", "traversals", "binary-trees"]
 
 ## Tree Terminology
 
+:::eli10
+
+A tree is like a family tree — there's one person at the top (the root), and everyone below branches out. A "leaf" is someone with no children. The "height" is how many generations there are. Every person except the root has exactly one parent.
+
+:::
+
+:::eli15
+
+A tree is a hierarchical data structure made of nodes connected by edges, with no cycles. Key terms:
+
+- **Root**: The top node (no parent)
+- **Leaf**: A node with no children
+- **Height**: Longest path from a node down to a leaf
+- **Depth**: Distance from the root down to a node
+- **Subtree**: Any node plus all its descendants forms a smaller tree
+
+Trees are used everywhere in CS: file systems, DOM, decision trees, search structures, etc.
+
+:::
+
+:::eli20
+
 | Term | Definition |
 |------|-----------|
 | Root | Node with no parent |
@@ -20,7 +42,32 @@ tags: ["trees", "bst", "traversals", "binary-trees"]
 | Ancestor | Node on path from root to node |
 | Descendant | Node in subtree rooted at node |
 
+:::
+
 ## Binary Trees
+
+:::eli10
+
+A binary tree is a tree where each person can have at most 2 children — a left child and a right child. Some binary trees are nicely balanced (short and wide), while others can be long and thin like a chain.
+
+:::
+
+:::eli15
+
+A **binary tree** restricts each node to at most 2 children (left and right).
+
+Important variants:
+- **Full**: Every node has either 0 or 2 children (never 1)
+- **Complete**: All levels fully filled except possibly the last, which fills left-to-right
+- **Perfect**: Every internal node has 2 children and all leaves are at the same depth
+- **Balanced**: Height is $O(\log n)$ — ensures efficient operations
+- **Degenerate**: Essentially a linked list (height = $n-1$)
+
+A perfect binary tree of height $h$ has $2^{h+1} - 1$ nodes.
+
+:::
+
+:::eli20
 
 A tree where each node has **at most 2 children** (left and right).
 
@@ -44,7 +91,27 @@ A tree where each node has **at most 2 children** (left and right).
 | Leaves in full binary tree with $n$ internal nodes | $n + 1$ |
 | Edges | $n - 1$ (for $n$ nodes) |
 
+:::
+
 ## Binary Search Tree (BST)
+
+:::eli10
+
+A Binary Search Tree is like a number guessing game. At each step, you ask "is it bigger or smaller?" and go left for smaller or right for bigger. This lets you find any number really quickly — you only need about $\log n$ guesses instead of checking every single number.
+
+:::
+
+:::eli15
+
+A **BST** is a binary tree where every node satisfies: all keys in its left subtree are smaller, and all keys in its right subtree are larger. This ordering property lets you search by comparing with the current node and going left or right — like binary search but on a tree structure.
+
+- **Search, Insert, Delete** all take $O(\log n)$ on average (when balanced)
+- **Worst case** $O(n)$: when the tree degenerates into a linked list (e.g., inserting sorted data)
+- Deletion with two children: replace with the in-order successor (next largest value), then delete the successor
+
+:::
+
+:::eli20
 
 A binary tree satisfying the **BST property**:
 
@@ -126,7 +193,30 @@ findMin(node):                findMax(node):
 - If node has right subtree: successor = leftmost node in right subtree
 - Otherwise: successor = lowest ancestor for which node is in left subtree
 
+:::
+
 ## Tree Traversals
+
+:::eli10
+
+Tree traversals are different ways to visit every node in a tree. "In-order" visits left, then current, then right — in a BST this gives you everything in sorted order. "Pre-order" visits current first (good for copying a tree). "Level-order" goes row by row from top to bottom, like reading a book.
+
+:::
+
+:::eli15
+
+There are four standard ways to visit all nodes in a binary tree:
+
+- **In-order** (Left, Root, Right): Produces sorted output from a BST
+- **Pre-order** (Root, Left, Right): Visits the root first — useful for copying/serializing
+- **Post-order** (Left, Right, Root): Visits root last — useful for deletion or evaluating expressions
+- **Level-order** (BFS): Visits nodes level by level using a queue
+
+In-order, pre-order, and post-order use recursion (or an explicit stack). Level-order uses a queue.
+
+:::
+
+:::eli20
 
 | Traversal | Order | Use Case |
 |-----------|-------|----------|
@@ -259,3 +349,5 @@ Result:
 ```
 
 </details>
+
+:::

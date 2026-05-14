@@ -7,6 +7,20 @@ tags: ["multi-objective", "fitness-landscape", "benchmark", "diversity"]
 
 ## Multi-Objective Optimisation
 
+:::eli10
+
+Sometimes you want to optimise multiple things at once that conflict with each other — like wanting a car that's both fast AND fuel-efficient. You can't usually have the best of both. Multi-objective optimisation finds a set of compromise solutions showing the trade-offs: if you want more speed, you sacrifice fuel economy. The set of best compromises is called the Pareto front.
+
+:::
+
+:::eli15
+
+Many real problems have multiple conflicting objectives (e.g., minimise cost AND maximise quality). No single solution is best at everything, so we seek the set of Pareto-optimal solutions — solutions where you can't improve one objective without worsening another. Solution A dominates B if A is at least as good in all objectives and strictly better in at least one. Approaches include weighted sums (combine objectives into one — but misses concave regions), epsilon-constraint (optimise one, constrain others), and Pareto-based EAs like NSGA-II which find an approximation of the entire Pareto front in a single run using non-dominated sorting and crowding distance for diversity.
+
+:::
+
+:::eli20
+
 Many real problems have conflicting objectives:
 
 $$\text{min } \mathbf{f}(x) = [f_1(x), f_2(x), \ldots, f_k(x)]$$
@@ -51,7 +65,23 @@ $$a \prec b \iff \forall i: f_i(a) \leq f_i(b) \text{ AND } \exists j: f_j(a) < 
 | IGD (Inverted Generational Distance) | Distance from true front to approximation |
 | Spread/Spacing | Uniformity of distribution |
 
+:::
+
 ## Fitness Landscapes
+
+:::eli10
+
+A fitness landscape is an imaginary 3D map where each point is a possible solution and its height shows how good it is. A smooth landscape with one peak is easy — just walk uphill. A spiky landscape with millions of peaks is hard — you keep getting stuck on short hills. Understanding the landscape tells you which search method will work best.
+
+:::
+
+:::eli15
+
+The fitness landscape metaphor visualises the search space as terrain where elevation represents solution quality. Key properties include ruggedness (many local optima — hard for hill climbers), neutrality (flat plateaux — no gradient guidance), deceptiveness (the gradient points away from the optimum), modality (number of optima — unimodal is easy, highly multimodal is hard), and separability (whether variables interact). Landscape analysis metrics like autocorrelation and fitness-distance correlation (FDC) help predict which algorithms will perform well. FDC near -1 means easy, near 0 means hard, and near +1 means deceptive.
+
+:::
+
+:::eli20
 
 The fitness landscape metaphor: solutions as points in space, fitness as elevation.
 
@@ -81,7 +111,23 @@ The fitness landscape metaphor: solutions as points in space, fitness as elevati
 | $\rho \approx 0$ | Difficult (no correlation) |
 | $\rho \approx +1$ | Deceptive (fitness misleads) |
 
+:::
+
 ## Benchmark Functions
+
+:::eli10
+
+Benchmark functions are test problems with known answers used to compare algorithms fairly. Some are easy (Sphere — one smooth hill), some are hard (Rastrigin — millions of little bumps), and some are tricky (Rosenbrock — a narrow winding valley). If your algorithm works well on many different benchmarks, it's probably good at real problems too.
+
+:::
+
+:::eli15
+
+Benchmark functions are standardised test problems with known optima, used to fairly compare algorithm performance. In continuous optimisation: Sphere is simple and unimodal (baseline test); Rosenbrock has a narrow valley that's easy to find but hard to follow; Rastrigin is massively multimodal with a regular grid of local optima; Ackley is multimodal and non-separable; Schwefel is deceptive (global optimum far from local ones). Combinatorial benchmarks include TSPLIB instances, QAP, MAX-SAT, and bin packing. Using standard benchmarks enables fair comparison between algorithms across publications.
+
+:::
+
+:::eli20
 
 ### Continuous Optimisation
 
@@ -110,7 +156,23 @@ The fitness landscape metaphor: solutions as points in space, fitness as elevati
 | MAX-SAT | Satisfiability | Competition benchmarks |
 | Bin Packing | Packing | Lower bounds known |
 
+:::
+
 ## Diversity Management
+
+:::eli10
+
+If all the solutions in your population become too similar (like everyone moving to the same hill), the algorithm gets stuck. Diversity management fights this by discouraging crowding, keeping subgroups in different areas, or using separate "islands" that occasionally share solutions. The goal is maintaining variety so you keep exploring while still improving.
+
+:::
+
+:::eli15
+
+Maintaining population diversity is crucial to avoid premature convergence (the entire population converging to one local optimum). Techniques include fitness sharing (reduce fitness of individuals in crowded regions), crowding (replace the most similar existing individual), niching (maintain subpopulations in distinct regions), island models (parallel populations with occasional migration), and speciation (group similar individuals and compete within groups). The fundamental trade-off is exploration (discovering new regions via high diversity) versus exploitation (refining known good solutions via convergence). Too much of either is harmful.
+
+:::
+
+:::eli20
 
 | Technique | Mechanism |
 |-----------|-----------|
@@ -130,7 +192,23 @@ The fitness landscape metaphor: solutions as points in space, fitness as elevati
 
 **Balance is key**: Too much exploration = slow convergence. Too much exploitation = premature convergence.
 
+:::
+
 ## Advanced EA Variants
+
+:::eli10
+
+There are many variations on the evolutionary algorithm idea. Evolution Strategies focus on real numbers and let mutation rates evolve themselves. Differential Evolution uses differences between solutions to guide changes. Genetic Programming evolves computer programs. Memetic Algorithms combine evolution with local search — creating children (exploration) and then refining each one (exploitation) — often giving the best results.
+
+:::
+
+:::eli15
+
+Beyond standard GAs, several EA variants specialise for different domains. Evolution Strategies (ES) use real-valued representations with self-adaptive mutation (the step sizes evolve alongside the solutions). Evolutionary Programming drops crossover entirely, relying only on mutation. Differential Evolution creates mutations by adding scaled differences between population members — very effective for continuous optimisation. Genetic Programming evolves tree-structured programs. Memetic Algorithms hybridise GAs with local search: the GA explores globally while local search (HC, SA) refines each individual — often significantly outperforming either approach alone.
+
+:::
+
+:::eli20
 
 | Variant | Key difference from standard GA |
 |---------|-------------------------------|
@@ -182,3 +260,5 @@ Rastrigin requires population-based or restart methods to reliably find the glob
 NSGA-II provides the decision maker with a set of trade-off solutions to choose from after the fact.
 
 </details>
+
+:::

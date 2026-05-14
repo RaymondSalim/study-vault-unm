@@ -9,6 +9,20 @@ tags: ["propositional logic", "predicate logic", "truth tables", "logical equiva
 
 ## Propositional Logic
 
+:::eli10
+
+Propositional logic is about statements that are either true or false, and how to combine them. "AND" means both must be true. "OR" means at least one must be true. "NOT" flips true to false. "If...then" is like a promise: it is only broken if you promised something true but delivered something false.
+
+:::
+
+:::eli15
+
+Propositional logic deals with propositions (statements with a definite truth value) and logical connectives that combine them. The key connectives are NOT (negation), AND (conjunction), OR (disjunction), implication (if-then), and biconditional (if and only if). Each connective has precise rules defined by truth tables. The most counterintuitive one is implication: "if P then Q" is only false when P is true and Q is false.
+
+:::
+
+:::eli20
+
 ### Connectives
 
 | Connective | Symbol | Read as | True when... |
@@ -39,7 +53,23 @@ tags: ["propositional logic", "predicate logic", "truth tables", "logical equiva
 | Inverse | $\lnot p \to \lnot q$ | Equivalent to converse |
 | Contrapositive | $\lnot q \to \lnot p$ | **Equivalent to original** |
 
+:::
+
 ## Key Logical Equivalences
+
+:::eli10
+
+Logical equivalences are like math shortcuts that let you rewrite statements in different ways without changing their meaning. Just like you can rewrite 2+3 as 3+2, you can rewrite "not (A and B)" as "not A or not B."
+
+:::
+
+:::eli15
+
+Logical equivalences are pairs of expressions that always have the same truth value. They are used to simplify complex logical expressions. Key ones include De Morgan's laws (for distributing negation over AND/OR), the implication rule (rewriting if-then as OR), distributive laws, and absorption. Memorising these is essential for simplifying proofs and boolean expressions.
+
+:::
+
+:::eli20
 
 | Name | Equivalence |
 |------|-------------|
@@ -54,13 +84,45 @@ tags: ["propositional logic", "predicate logic", "truth tables", "logical equiva
 | Absorption | $p \land (p \lor q) \equiv p$ |
 | Idempotent | $p \lor p \equiv p$, $p \land p \equiv p$ |
 
+:::
+
 ## Tautology and Contradiction
+
+:::eli10
+
+A tautology is a statement that is ALWAYS true no matter what, like "it is either raining or not raining." A contradiction is ALWAYS false, like "it is raining and not raining at the same time." A contingency is a normal statement that can be true or false depending on the situation.
+
+:::
+
+:::eli15
+
+A tautology is a logical formula that evaluates to true for every possible combination of variable values. A contradiction is one that is always false. A contingency is neither -- it depends on the values assigned. Recognising tautologies is important because they represent logical laws (things that are universally valid), while contradictions signal impossible scenarios.
+
+:::
+
+:::eli20
 
 - **Tautology**: always true regardless of variable values (e.g., $p \lor \lnot p$)
 - **Contradiction**: always false (e.g., $p \land \lnot p$)
 - **Contingency**: neither tautology nor contradiction
 
+:::
+
 ## Predicate Logic
+
+:::eli10
+
+Predicate logic adds "for all" and "there exists" to our logic toolbox. It lets you talk about whole groups: "every dog has a tail" or "there is at least one student who passed." To negate these, you flip the words: "not every dog has a tail" becomes "there exists a dog without a tail."
+
+:::
+
+:::eli15
+
+Predicate logic extends propositional logic with quantifiers that let you make statements about all or some elements in a domain. The universal quantifier (for all) claims a property holds for every element. The existential quantifier (there exists) claims at least one element satisfies the property. Negation swaps the quantifier type and negates the predicate. The order of nested quantifiers matters and can change the meaning entirely.
+
+:::
+
+:::eli20
 
 ### Quantifiers
 
@@ -83,7 +145,23 @@ $$\lnot(\forall x\, \exists y\, P(x,y)) \equiv \exists x\, \forall y\, \lnot P(x
 $$\forall x\, \exists y\, (x + y = 0) \quad \text{TRUE in } \mathbb{Z}$$
 $$\exists y\, \forall x\, (x + y = 0) \quad \text{FALSE in } \mathbb{Z}$$
 
+:::
+
 ## Arguments and Validity
+
+:::eli10
+
+An argument is valid if, whenever all the starting facts (premises) are true, the conclusion must also be true. There are named patterns for valid arguments, like "if it rains then the ground is wet; it is raining; therefore the ground is wet."
+
+:::
+
+:::eli15
+
+A valid logical argument is one where the conclusion follows necessarily from the premises. Several named rules of inference capture common valid patterns: Modus Ponens (if P then Q; P; therefore Q), Modus Tollens (if P then Q; not Q; therefore not P), Hypothetical Syllogism (chaining two implications), and others. These rules form the building blocks of formal proofs.
+
+:::
+
+:::eli20
 
 | Rule | Form |
 |------|------|
@@ -134,3 +212,5 @@ English: "There exists a real number $x$ such that for all natural numbers $n$, 
 Columns 3 and 6 match. Confirmed equivalent (contrapositive).
 
 </details>
+
+:::

@@ -7,6 +7,20 @@ tags: ["software-engineering", "use-cases", "UML", "actors", "scenarios"]
 
 ## Use Case Diagrams
 
+:::eli10
+
+A use case diagram is like a picture showing who uses a system and what they can do with it. Stick figures represent the people (actors), ovals represent the things they can do (use cases), and a box shows where the system starts and ends.
+
+:::
+
+:::eli15
+
+Use case diagrams capture WHAT a system does from the user's perspective, not HOW. Actors (people or external systems) are shown interacting with use cases (goals they achieve). Relationships include "include" (mandatory sub-behaviour always executed), "extend" (optional behaviour that may add to a use case), and generalisation (inheritance between actors or use cases). The system boundary rectangle shows what is inside versus outside the system.
+
+:::
+
+:::eli20
+
 Use case diagrams show **what** a system does from the user's perspective (not how).
 
 ### Elements
@@ -30,9 +44,25 @@ Use case diagrams show **what** a system does from the user's perspective (not h
 | Human | A person | Librarian, Student |
 | System/External | Another system | Database, API |
 
+:::
+
 ---
 
 ## Include vs Extend
+
+:::eli10
+
+"Include" means something that ALWAYS happens as part of another action (like always showing your ID before borrowing a library book). "Extend" means something that MIGHT happen optionally (like choosing to print a receipt after buying something). Include is mandatory; extend is optional.
+
+:::
+
+:::eli15
+
+The include relationship means the base use case ALWAYS executes the included sub-behaviour (it is mandatory and factored out for reuse). The arrow points FROM the base TO the included case. The extend relationship means an extension MAY optionally add to the base case under certain conditions. The arrow points FROM the extension TO the base case. A common mistake is confusing the arrow directions or using include for optional behaviour.
+
+:::
+
+:::eli20
 
 | Aspect | `<<include>>` | `<<extend>>` |
 |--------|---------------|--------------|
@@ -71,9 +101,25 @@ Use case diagrams show **what** a system does from the user's perspective (not h
 - "Place Order" always includes "Authenticate User" (mandatory)
 - "Apply Coupon" may extend "Place Order" (optional, only if customer has a coupon)
 
+:::
+
 ---
 
 ## Use Case Template (Fully Dressed)
+
+:::eli10
+
+A fully-dressed use case is like a detailed script for a play. It lists who is involved, what must be true before it starts, the step-by-step main story, what happens if things go wrong (alternative paths), and what is true when it finishes.
+
+:::
+
+:::eli15
+
+A fully-dressed use case documents a complete specification for one user goal. It includes the actors, preconditions (what must be true before), postconditions (what is true after), a numbered main success scenario (the happy path), and extensions for alternative and error paths. Extensions branch from specific steps and either return to the main flow or end in failure. This is the level of detail needed for implementation.
+
+:::
+
+:::eli20
 
 | Section | Content |
 |---------|---------|
@@ -119,9 +165,25 @@ Use case diagrams show **what** a system does from the user's perspective (not h
     6b.2 If still fails, display error and suggest retry later
 ```
 
+:::
+
 ---
 
 ## Scenarios
+
+:::eli10
+
+A scenario is one specific path through a use case -- one particular story of what happens. The "happy path" is when everything goes perfectly. But there are also alternative paths (different but valid choices) and exception paths (when something goes wrong).
+
+:::
+
+:::eli15
+
+A scenario is a single concrete instance of a use case -- one specific path from start to finish. The main success scenario is the "happy path" where everything works. Alternative scenarios are valid but different paths (e.g., using a different payment method). Exception scenarios cover errors and failures (e.g., payment declined). Identifying all scenarios ensures complete test coverage.
+
+:::
+
+:::eli20
 
 A **scenario** is a single path through a use case (one specific instance).
 
@@ -140,9 +202,25 @@ A **scenario** is a single path through a use case (one specific instance).
 | Payment fails then succeeds | Steps 1-2-3-4-5-6a-6-7-8-9 |
 | Payment gateway down | Steps 1-2-3-4-5-6b (ends with error) |
 
+:::
+
 ---
 
 ## Generalisation
+
+:::eli10
+
+Generalisation is like a family tree for actors or use cases. A "User" can be a parent, and "Admin," "Staff," and "Guest" are children who inherit everything the parent can do, plus maybe extra things of their own.
+
+:::
+
+:::eli15
+
+Generalisation in use case diagrams works like inheritance in OOP. Child actors inherit all use cases of the parent actor and may have additional ones. Similarly, child use cases inherit the behaviour of a parent use case and can override or extend it. This reduces duplication by factoring out common capabilities into a shared parent.
+
+:::
+
+:::eli20
 
 ### Actor Generalisation
 
@@ -174,9 +252,25 @@ A child use case inherits behaviour of a parent and can override/extend it.
   └────────┘ └────────┘ └──────────┘
 ```
 
+:::
+
 ---
 
 ## Common Mistakes in Use Case Diagrams
+
+:::eli10
+
+Common mistakes include drawing arrows between actors (they do not talk to each other through the system diagram), putting too much detail about HOW something works (use cases are about WHAT, not HOW), and getting the arrow directions for include and extend wrong.
+
+:::
+
+:::eli15
+
+Frequent mistakes in use case diagrams: drawing communication arrows between actors (actors interact with the system, not each other), writing implementation details instead of goals, creating too many fine-grained use cases, using include for optional behaviour (should be extend), getting the extend arrow backwards (it goes FROM extension TO base), and placing actors inside the system boundary (actors are always external).
+
+:::
+
+:::eli20
 
 | Mistake | Why It's Wrong | Correction |
 |---------|---------------|-----------|
@@ -187,9 +281,13 @@ A child use case inherits behaviour of a parent and can override/extend it.
 | Wrong arrow direction for extend | Extend arrow points TO base | Arrow: Extension → Base |
 | Actor inside system boundary | Actors are external | Place actors outside rectangle |
 
+:::
+
 ---
 
 ## Practice Questions
+
+:::eli20
 
 <details>
 <summary>Q: Draw (describe) a use case diagram for a library system with: Borrower (borrow book, return book, pay fine), Librarian (add book, remove book), both can search catalogue. Borrow book requires authentication.</summary>
@@ -267,3 +365,5 @@ Key distinction: include = "must do this every time"; extend = "might do this so
 - 5a. Email already registered: System suggests login/reset, return to step 3
 - 8a. Link expired (>24h): System offers to resend verification
 </details>
+
+:::

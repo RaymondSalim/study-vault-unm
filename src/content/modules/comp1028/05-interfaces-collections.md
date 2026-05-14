@@ -9,6 +9,20 @@ tags: ["java", "interfaces", "generics", "collections", "arraylist", "hashmap", 
 
 ## Interfaces
 
+:::eli10
+
+An interface is like a job contract. It says "if you want to be a Drawable, you MUST be able to draw yourself and tell your area." It doesn't say HOW to do it -- a circle draws itself differently than a square. A class can sign many contracts (implement many interfaces), unlike inheritance where you only have one parent.
+
+:::
+
+:::eli15
+
+An interface defines a contract -- a set of method signatures that implementing classes must provide. Unlike abstract classes, a class can implement multiple interfaces, enabling a form of multiple inheritance. Since Java 8, interfaces can also have `default` methods (with implementation) and `static` methods. Use interfaces for defining capabilities ("can do") rather than identity ("is a").
+
+:::
+
+:::eli20
+
 An interface defines a **contract** -- what a class must do, not how.
 
 ```java
@@ -90,9 +104,25 @@ for (Drawable d : shapes) {
 }
 ```
 
+:::
+
 ---
 
 ## Generics (Basics)
+
+:::eli10
+
+Generics are like a label on a box that says what type of thing goes inside. A `Box<String>` can only hold strings, and a `Box<Integer>` can only hold numbers. Without the label, you might accidentally put a number in a string box and things would break when you try to use it.
+
+:::
+
+:::eli15
+
+Generics allow you to write classes and methods that work with any type while maintaining type safety. Instead of using `Object` and casting (which can fail at runtime), you specify the type parameter (like `<T>`) and the compiler ensures only the correct type is used. This catches type errors at compile time rather than runtime.
+
+:::
+
+:::eli20
 
 Generics allow type-safe, reusable code:
 
@@ -137,9 +167,25 @@ public static <T extends Comparable<T>> T findMax(T[] arr) {
 }
 ```
 
+:::
+
 ---
 
 ## Collections Framework
+
+:::eli10
+
+Collections are like smart containers. An ArrayList is a stretchy list that can grow and shrink. A HashMap is like a dictionary -- you look up a word (key) and find its definition (value). Java gives you many types of containers for different situations.
+
+:::
+
+:::eli15
+
+The Collections Framework provides ready-made data structures. The main interfaces are: `List` (ordered, allows duplicates -- like ArrayList), `Set` (no duplicates -- like HashSet), `Queue` (FIFO ordering), and `Map` (key-value pairs -- like HashMap). These use generics for type safety and provide methods for adding, removing, searching, and iterating.
+
+:::
+
+:::eli20
 
 ### Hierarchy (simplified)
 
@@ -163,9 +209,25 @@ Map (key-value, NOT part of Collection)
   └── TreeMap (sorted keys)
 ```
 
+:::
+
 ---
 
 ## ArrayList
+
+:::eli10
+
+An ArrayList is like a magical list that grows when you add things and shrinks when you remove them. Unlike a regular array that is fixed in size, ArrayList handles the resizing for you. You can add items anywhere, remove them, search for them, and loop through them easily.
+
+:::
+
+:::eli15
+
+ArrayList is a resizable array implementation. Unlike arrays, it can grow dynamically. It stores objects (not primitives -- uses autoboxing for `int` to `Integer`). Key operations: `add()`, `get()`, `set()`, `remove()`, `size()`, `contains()`. It provides O(1) random access by index but O(n) insertion/removal in the middle due to shifting.
+
+:::
+
+:::eli20
 
 Dynamic resizable array.
 
@@ -217,9 +279,25 @@ nums.add(5);           // autoboxing: int -> Integer
 int x = nums.get(0);  // unboxing: Integer -> int
 ```
 
+:::
+
 ---
 
 ## HashMap
+
+:::eli10
+
+A HashMap is like a real dictionary or phone book. You have a word (the key) and its definition (the value). You can instantly look up any word without reading through the whole book. You can also add new entries, remove old ones, and check if a word exists.
+
+:::
+
+:::eli15
+
+HashMap stores key-value pairs with O(1) average time for put, get, and remove operations. Keys must be unique (adding a duplicate key overwrites the value). Keys should properly implement `hashCode()` and `equals()`. You can iterate over keys with `keySet()`, values with `values()`, or both with `entrySet()`. A common pattern is using HashMap as a frequency counter.
+
+:::
+
+:::eli20
 
 Key-value pairs with O(1) average lookup.
 
@@ -266,9 +344,25 @@ for (String word : words) {
 }
 ```
 
+:::
+
 ---
 
 ## Iterator
+
+:::eli10
+
+An Iterator is like a bookmark that moves through a list one item at a time. It can also safely remove items as it goes, which is something a regular for-each loop cannot do without crashing.
+
+:::
+
+:::eli15
+
+An Iterator provides a safe way to traverse and modify a collection during iteration. The for-each loop is convenient but throws `ConcurrentModificationException` if you add or remove elements during it. An Iterator's `remove()` method is the only safe way to remove elements while iterating. This is important for filtering collections.
+
+:::
+
+:::eli20
 
 ```java
 import java.util.Iterator;
@@ -287,9 +381,25 @@ while (it.hasNext()) {
 
 > **ConcurrentModificationException**: You cannot modify a collection (add/remove) during a for-each loop. Use an Iterator or collect items to remove separately.
 
+:::
+
 ---
 
 ## Comparable vs Comparator
+
+:::eli10
+
+Comparable is like a person knowing their own place in line (built-in ordering). Comparator is like a judge who decides the order from outside -- you can have different judges for different contests (sort by name, by age, by score).
+
+:::
+
+:::eli15
+
+`Comparable` defines the natural ordering of a class (implemented inside the class itself with `compareTo`). `Comparator` defines an external, custom ordering (useful when you want multiple sort orders or can't modify the class). You can pass a Comparator as a lambda to `sort()`. Use `Comparable` for the default sort and `Comparator` for alternatives.
+
+:::
+
+:::eli20
 
 | | Comparable | Comparator |
 |---|-----------|-----------|
@@ -364,3 +474,5 @@ int count = _________;
 **Answer:** `graph.get("A").size()` which returns `2`.
 
 </details>
+
+:::

@@ -7,9 +7,23 @@ tags: ["design patterns", "structural", "Adapter", "Decorator", "Facade", "Compo
 
 # Structural Design Patterns
 
-Structural patterns deal with object composition, creating relationships between objects to form larger structures.
-
 ## Pattern Overview
+
+:::eli10
+
+Structural patterns help you connect objects together in useful ways. Adapter is like a travel plug converter -- it makes two incompatible things work together. Decorator adds extra features to an object like stacking toppings on ice cream. Facade hides a complicated system behind one simple door. Composite lets you treat a group of things the same as a single thing (like a folder containing files and other folders).
+
+:::
+
+:::eli15
+
+Structural patterns deal with object composition and relationships. Adapter converts one interface to another so incompatible classes can work together. Decorator adds responsibilities dynamically by wrapping objects (avoiding subclass explosion). Facade provides a simplified interface to a complex subsystem. Composite creates tree structures where individual objects and groups are treated uniformly. These patterns focus on how classes and objects are composed to form larger structures.
+
+:::
+
+:::eli20
+
+Structural patterns deal with object composition, creating relationships between objects to form larger structures.
 
 | Pattern | Intent | When to use |
 |---------|--------|-------------|
@@ -18,9 +32,25 @@ Structural patterns deal with object composition, creating relationships between
 | **Facade** | Simplify a complex subsystem | Provide a unified high-level interface |
 | **Composite** | Treat individual and composite objects uniformly | Tree structures (files, UI) |
 
+:::
+
 ---
 
 ## Adapter
+
+:::eli10
+
+An Adapter is like a language translator. You have a class that speaks "French" (old interface) but your code only understands "English" (new interface). The Adapter sits in the middle and translates, so both sides can communicate without either one changing.
+
+:::
+
+:::eli15
+
+The Adapter pattern wraps an existing class (the Adaptee) with an incompatible interface behind a new class (the Adapter) that implements the interface the client expects (the Target). The adapter translates calls from the target interface to the adaptee's interface. In Java, object adapters (using composition) are preferred over class adapters (using inheritance) since Java does not support multiple inheritance. Common use: integrating legacy or third-party code.
+
+:::
+
+:::eli20
 
 ### UML Structure
 
@@ -86,9 +116,25 @@ DocumentManager manager = new DocumentManager(adapted);
 | Object Adapter | Composition (wraps adaptee) | Yes (preferred) |
 | Class Adapter | Multiple inheritance | No (Java has single inheritance) |
 
+:::
+
 ---
 
 ## Decorator
+
+:::eli10
+
+The Decorator pattern is like adding toppings to ice cream. You start with plain ice cream (the base object), then wrap it with chocolate sauce (one decorator), then sprinkles (another decorator). Each topping adds something new without changing the ice cream underneath. You can mix and match any combination of toppings.
+
+:::
+
+:::eli15
+
+The Decorator pattern adds behaviour to objects dynamically by wrapping them in decorator objects that share the same interface. Instead of creating subclasses for every combination (MilkSugarCoffee, MilkWhipCoffee, etc.), decorators can be stacked in any order. The key is that both the base component and decorators implement the same interface, so clients do not know whether they are dealing with a decorated or undecorated object. Java I/O streams are a classic real-world example.
+
+:::
+
+:::eli20
 
 ### UML Structure
 
@@ -198,9 +244,25 @@ DataInputStream data = new DataInputStream(
 );
 ```
 
+:::
+
 ---
 
 ## Facade
+
+:::eli10
+
+A Facade is like a TV remote control. Behind the scenes, a TV has complex circuits for video decoding, audio processing, and display management. But you just press one button ("play") and it handles everything. The Facade gives you one simple interface that hides all the complexity behind it.
+
+:::
+
+:::eli15
+
+The Facade pattern provides a simplified interface to a complex subsystem of classes. The facade does not add new functionality -- it just makes existing functionality easier to use by offering a single entry point that coordinates multiple subsystem operations. Clients interact with the facade instead of dealing with subsystem classes directly. The subsystem classes remain accessible for advanced use, but most clients only need the simplified facade interface.
+
+:::
+
+:::eli20
 
 ### UML Structure
 
@@ -267,9 +329,25 @@ MediaPlayerFacade player = new MediaPlayerFacade();
 player.play("movie.mp4");
 ```
 
+:::
+
 ---
 
 ## Composite
+
+:::eli10
+
+The Composite pattern lets you treat a single thing and a group of things the same way. Think of files and folders: a folder contains files and other folders. You can ask both a file and a folder for their size -- the folder just adds up all its contents. This works for any tree-like structure (menus with sub-menus, organisations with departments).
+
+:::
+
+:::eli15
+
+The Composite pattern creates tree structures where individual objects (leaves) and groups of objects (composites) implement the same interface. This allows clients to treat single objects and collections uniformly. A composite delegates operations to its children, which may themselves be composites. Classic examples: file systems (files and directories), UI components (widgets and containers), and menus (items and sub-menus). Operations like getSize() recursively aggregate results from all descendants.
+
+:::
+
+:::eli20
 
 ### UML Structure
 
@@ -342,6 +420,8 @@ root.add(new File("README.md", 100));
 root.display(""); // Treats files and directories uniformly
 root.getSize();   // Returns 900 (500 + 300 + 100)
 ```
+
+:::
 
 ---
 

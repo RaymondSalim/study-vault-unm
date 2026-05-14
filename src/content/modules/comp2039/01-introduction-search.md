@@ -7,6 +7,20 @@ tags: ["search", "optimisation", "complexity", "fundamentals"]
 
 ## What is AI?
 
+:::eli10
+
+Artificial Intelligence is about making computers that can do "smart" things — like learning from examples, making decisions, solving puzzles, and understanding language. Think of it as teaching a computer to think and solve problems the way people do, but often much faster.
+
+:::
+
+:::eli15
+
+Artificial Intelligence encompasses systems that exhibit intelligent behaviour, including learning from data, reasoning about knowledge, solving complex problems, and making decisions. Key subfields include machine learning (pattern recognition from data), search and optimisation (finding optimal solutions efficiently), knowledge representation (encoding domain information for reasoning), planning (determining action sequences), and natural language processing (understanding and generating human language).
+
+:::
+
+:::eli20
+
 Systems that exhibit intelligent behaviour — learning, reasoning, problem-solving, decision-making.
 
 ### AI Subfields
@@ -19,7 +33,23 @@ Systems that exhibit intelligent behaviour — learning, reasoning, problem-solv
 | Planning | Sequencing actions |
 | NLP | Processing language |
 
+:::
+
 ## Optimisation
+
+:::eli10
+
+Optimisation is like finding the best possible answer to a puzzle. Imagine you're trying to find the shortest route to deliver packages to 10 houses — there are millions of possible routes, and you want the best one. Optimisation is the science of finding that "best" without checking every single possibility.
+
+:::
+
+:::eli15
+
+Optimisation is the process of finding the best solution from a set of feasible solutions, measured by an objective function. Problems can be continuous (real-valued variables, smooth landscapes — solved with gradient methods) or discrete/combinatorial (integer variables, discrete search spaces — like TSP or scheduling, often solved with heuristics). Any minimisation problem can be flipped to maximisation by negating the objective function. Combinatorial problems tend to be much harder because the search space is non-smooth and often astronomically large.
+
+:::
+
+:::eli20
 
 Finding the best solution from a set of feasible solutions.
 
@@ -38,7 +68,23 @@ $$\text{min } f(x) = \text{max } (-f(x))$$
 
 Any minimisation problem can be converted to maximisation and vice versa.
 
+:::
+
 ## Computational Complexity
+
+:::eli10
+
+Some problems are easy for computers (like sorting a list), and some are incredibly hard (like finding the shortest route through 100 cities). Computational complexity classifies how hard problems are. For the really hard ones (NP-hard), there's no known way to guarantee finding the perfect answer quickly, so we settle for "good enough" answers found with clever shortcuts called heuristics.
+
+:::
+
+:::eli15
+
+Computational complexity classifies problems by how their solution time scales with input size. P problems have polynomial-time algorithms (efficient). NP problems have solutions that can be verified quickly but may take exponential time to find. NP-hard problems are at least as hard as any NP problem — no known polynomial algorithm exists for them. NP-complete problems are both NP-hard and in NP. The practical implication: for NP-hard problems (like TSP), we cannot guarantee finding optimal solutions in reasonable time, so we use heuristic methods that find good (but not provably optimal) solutions quickly.
+
+:::
+
+:::eli20
 
 | Class | Description | Example |
 |-------|-------------|---------|
@@ -55,7 +101,23 @@ $$P \subseteq NP$$
 
 Open question: Does $P = NP$? (Almost certainly no.)
 
+:::
+
 ## Search Paradigms
+
+:::eli10
+
+There are different strategies for searching for the best answer. Exhaustive search checks everything (guaranteed best but super slow). Constructive search builds a solution step by step. Perturbative search starts with a complete answer and keeps tweaking it. Population-based search evolves a whole group of answers at once, combining the best features of different solutions.
+
+:::
+
+:::eli15
+
+Search paradigms differ in how they explore the solution space. Exhaustive/exact methods (branch and bound) explore all possibilities — guaranteed optimal but exponentially slow. Constructive methods (greedy algorithms) build solutions incrementally — fast but often suboptimal. Perturbative methods (hill climbing) start with a complete solution and iteratively improve it. Population-based methods (genetic algorithms) maintain and evolve a set of solutions simultaneously, combining good features. Heuristic methods trade the guarantee of optimality for practical scalability to large problem instances.
+
+:::
+
+:::eli20
 
 | Paradigm | Mechanism | Example |
 |----------|-----------|---------|
@@ -73,7 +135,23 @@ Open question: Does $P = NP$? (Almost certainly no.)
 | Scalability | Small instances | Large instances |
 | Examples | Branch & bound, dynamic programming | SA, GA, tabu search |
 
+:::
+
 ## Search Space
+
+:::eli10
+
+The search space is all possible answers to a problem. Imagine a huge landscape of hills and valleys — each point is a possible solution, and its height is how good it is. You're trying to find the highest peak (or lowest valley). Local optima are smaller hills that seem like the top until you see a taller one nearby. The challenge is exploring this landscape efficiently.
+
+:::
+
+:::eli15
+
+The search space is the set of all possible solutions. Each solution is evaluated by an objective function (f) that assigns a quality value. The neighbourhood N(s) defines which solutions are reachable from s by a single move — this determines the structure of the fitness landscape. Key landscape features include: the global optimum (the overall best), local optima (best within their neighbourhood but not globally — these trap hill climbers), plateaux (flat regions where the objective gives no guidance), and ridges (narrow paths to good solutions that are hard to follow).
+
+:::
+
+:::eli20
 
 The set of all possible solutions to a problem.
 
@@ -110,3 +188,5 @@ Heuristic methods sacrifice the optimality guarantee for practical runtime on la
 | Binary search | P | $O(\log n)$ |
 
 </details>
+
+:::

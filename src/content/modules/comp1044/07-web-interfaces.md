@@ -9,9 +9,39 @@ tags: ["databases", "web", "html", "forms", "crud"]
 
 ## Overview
 
+:::eli10
+
+A web interface is a website that lets you interact with a database -- like a form where you type in your name and it saves it to the system, or a page that shows you a list of all students. It is the "face" of the database that normal people use instead of typing SQL directly.
+
+:::
+
+:::eli15
+
+Web interfaces provide browser-based access to databases through forms and pages. They map to CRUD operations: Create (forms to insert data), Read (pages displaying query results), Update (edit forms pre-filled with current data), and Delete (buttons with confirmation). The web server receives form data, validates it, executes SQL, and returns HTML responses. Security (especially SQL injection prevention) is critical.
+
+:::
+
+:::eli20
+
 A web interface provides users with a browser-based way to interact with a database through forms and pages, performing CRUD operations (Create, Read, Update, Delete).
 
+:::
+
 ## HTML Forms
+
+:::eli10
+
+HTML forms are like paper forms on a website. They have boxes to type in, dropdown menus to choose from, and a submit button. When you click submit, all the information gets sent to the server which saves it in the database.
+
+:::
+
+:::eli15
+
+HTML forms collect user input and submit it to a server. The form's `action` attribute specifies where data is sent, and `method` determines how (GET for reading/searching, POST for creating/modifying data). Input types provide different controls: text, email, number, date, select dropdowns, radio buttons, and checkboxes. The `name` attribute on each input determines the key used to access that data on the server.
+
+:::
+
+:::eli20
 
 Forms collect user input and send it to a server for processing.
 
@@ -95,7 +125,23 @@ Forms collect user input and send it to a server for processing.
 </form>
 ```
 
+:::
+
 ## CSS Basics for Forms
+
+:::eli10
+
+CSS makes forms look nice. Without CSS, forms look plain and ugly. With CSS, you can add colours, spacing, rounded corners, and make buttons change colour when you hover over them.
+
+:::
+
+:::eli15
+
+CSS styles forms for better usability: setting widths, padding, margins, borders, and focus states. Key practices include making labels block-level for stacking, giving inputs full width with proper padding, adding focus indicators (border colour changes, box-shadows) for accessibility, and styling submit buttons with hover/active states. Box-sizing: border-box ensures padding does not expand elements beyond their set width.
+
+:::
+
+:::eli20
 
 ```css
 /* Basic form styling */
@@ -141,7 +187,23 @@ button[type="submit"]:hover {
 }
 ```
 
+:::
+
 ## Connecting Forms to Database (Conceptual)
+
+:::eli10
+
+When you submit a form, here is what happens: your browser sends the data to the server, the server checks if it is valid, then the server runs SQL to save it in the database, and finally sends back a page showing the result. Each button on the website maps to a database action: forms create data, pages read data, edit forms update data, and delete buttons remove data.
+
+:::
+
+:::eli15
+
+The server-side flow is: receive HTTP request with form data, validate inputs (check types, required fields, constraints), execute parameterised SQL queries (NEVER concatenate user input into SQL!), and return an HTML response. CRUD maps to HTTP methods and SQL: Create uses POST/INSERT, Read uses GET/SELECT, Update uses POST or PUT/UPDATE, Delete uses POST or DELETE/DELETE. SQL injection is prevented by using parameterised queries that separate SQL code from data.
+
+:::
+
+:::eli20
 
 ### CRUD Mapping
 
@@ -205,7 +267,23 @@ execute(query, [user_input])
 | Parameterised queries | SAFE | `"... WHERE id = ?"` with parameters |
 | Stored procedures | SAFE | Pre-compiled SQL on server |
 
+:::
+
 ## Displaying Data in HTML Tables
+
+:::eli10
+
+To show database data on a web page, you create an HTML table with rows and columns. Each row from the database becomes a row in the table. You can also add buttons like "Edit" or "Delete" next to each row so users can modify the data.
+
+:::
+
+:::eli15
+
+Query results are typically displayed in HTML tables with thead (column headers) and tbody (data rows). Each row is dynamically generated from database results. Action columns contain links to edit pages or forms with delete buttons. Delete operations should use POST forms (not GET links) to prevent accidental deletion via bookmarks or crawlers. Confirmation dialogs add a safety layer.
+
+:::
+
+:::eli20
 
 ```html
 <table>
@@ -234,7 +312,23 @@ execute(query, [user_input])
 </table>
 ```
 
+:::
+
 ## Form Validation
+
+:::eli10
+
+Validation means checking that the data is correct before saving it. The browser can do quick checks (like "this field cannot be empty" or "this must be an email address"), but the server ALWAYS checks again because someone could bypass the browser checks.
+
+:::
+
+:::eli15
+
+Form validation happens at two levels. Client-side (HTML5 attributes like required, pattern, min/max, type="email") gives immediate feedback to users but can be bypassed. Server-side validation is mandatory and cannot be circumvented -- it checks required fields, data types, constraints (uniqueness, FK existence), and sanitizes input. Never trust client-side validation alone for security; it is purely a UX convenience.
+
+:::
+
+:::eli20
 
 ### Client-Side (HTML5)
 
@@ -255,7 +349,23 @@ Client-side validation improves UX but can be bypassed. **Always validate on the
 3. Check constraints (is the ID unique? Does the FK exist?)
 4. Sanitise input (escape special characters)
 
+:::
+
 ## Practice
+
+:::eli10
+
+Try these exercises about building web forms, understanding why server-side validation matters, and preventing SQL injection attacks.
+
+:::
+
+:::eli15
+
+These exercises cover creating HTML forms for specific CRUD operations, understanding the limitations of client-side validation, and explaining SQL injection with prevention strategies. Focus on the security aspects -- parameterised queries are the key defence.
+
+:::
+
+:::eli20
 
 <details>
 <summary>Q1: Create an HTML form for updating a student's email. The form should include the student ID (hidden, already known) and the new email.</summary>
@@ -322,3 +432,5 @@ execute(query, [username])
 The database treats the parameter as a literal value, never as SQL code.
 
 </details>
+
+:::

@@ -7,6 +7,20 @@ tags: ["software-engineering", "testing", "verification", "validation", "black-b
 
 ## Verification vs Validation (V&V)
 
+:::eli10
+
+Verification asks "did we build it correctly?" (does it match the plan). Validation asks "did we build the right thing?" (does it make the customer happy). You can build something perfectly according to the plan, but if the plan was wrong, the customer still will not be happy.
+
+:::
+
+:::eli15
+
+Verification checks that the system conforms to its specification (building the product right). Validation checks that the system meets the actual user needs (building the right product). Verification uses reviews, inspections, and walkthroughs against requirements documents. Validation uses testing, prototyping, and user acceptance testing against customer expectations. Both are needed: a system can pass verification (meets spec) but fail validation (spec was wrong).
+
+:::
+
+:::eli20
+
 | Aspect | Verification | Validation |
 |--------|-------------|-----------|
 | Question | "Are we building the product **right**?" | "Are we building the **right** product?" |
@@ -17,9 +31,25 @@ tags: ["software-engineering", "testing", "verification", "validation", "black-b
 
 **Mnemonic:** Verification = specification-conformance; Validation = customer-satisfaction.
 
+:::
+
 ---
 
 ## Testing Levels
+
+:::eli10
+
+Testing happens at different zoom levels. Unit testing checks one tiny piece (like testing one LEGO brick works). Integration testing checks that pieces fit together. System testing checks the whole thing end-to-end. Acceptance testing is when the customer checks if they are happy with it.
+
+:::
+
+:::eli15
+
+Software testing is organised in levels of increasing scope. Unit testing checks individual methods or classes in isolation. Integration testing checks that combined modules work together correctly at their interfaces. System testing validates the complete system end-to-end. Acceptance testing is performed by the customer to verify fitness for purpose. Integration strategies include big-bang (all at once), top-down (using stubs), bottom-up (using drivers), and sandwich (both directions).
+
+:::
+
+:::eli20
 
 | Level | Scope | Performed By | Tests |
 |-------|-------|-------------|-------|
@@ -37,9 +67,25 @@ tags: ["software-engineering", "testing", "verification", "validation", "black-b
 | Bottom-up | Start from bottom, use drivers | Tests foundations first | UI tested last |
 | Sandwich | Both directions | Balanced | Complex to manage |
 
+:::
+
 ---
 
 ## Black-Box vs White-Box Testing
+
+:::eli10
+
+Black-box testing is when you test something without looking inside -- you only check if the right input gives the right output, like testing a vending machine by pressing buttons. White-box testing is when you look at the code inside and make sure every path and branch is tested.
+
+:::
+
+:::eli15
+
+Black-box testing treats the system as opaque and tests based only on specifications (what should it do?). White-box testing examines the internal code structure and ensures adequate coverage of statements, branches, and paths. Black-box techniques include equivalence partitioning (dividing inputs into classes), boundary value analysis (testing at edges), and decision tables. White-box techniques measure statement, branch, condition, and path coverage.
+
+:::
+
+:::eli20
 
 | Aspect | Black-Box | White-Box |
 |--------|-----------|-----------|
@@ -121,9 +167,25 @@ void process(int x, int y) {
 | Branch | Need true AND false for each branch: (5,5), (-1,0), (5,1) → 3 tests |
 | Condition | Need x>0 T/F, y>0 T/F, x+y>10 T/F → may need 4+ tests |
 
+:::
+
 ---
 
 ## Test Types (Beyond Levels)
+
+:::eli10
+
+Beyond the basic levels, there are special types of testing. Regression testing re-runs old tests after changes to make sure nothing broke. Performance testing checks if the system is fast enough. Security testing looks for vulnerabilities. Smoke testing is a quick check that basic things work at all.
+
+:::
+
+:::eli15
+
+Beyond the four testing levels, specialised test types address specific concerns. Regression testing ensures changes do not break existing functionality. Smoke testing provides a quick sanity check. Performance, load, and stress testing examine behaviour under various demands. Security testing identifies vulnerabilities. Usability testing evaluates ease of use. Exploratory testing relies on tester intuition to find unexpected issues.
+
+:::
+
+:::eli20
 
 | Type | Purpose | Example |
 |------|---------|---------|
@@ -136,9 +198,25 @@ void process(int x, int y) {
 | **Usability** | Ease of use | Task completion time |
 | **Exploratory** | Unscripted, investigative | Tester's intuition & creativity |
 
+:::
+
 ---
 
 ## Test Case Design
+
+:::eli10
+
+A test case is a written plan for one specific test. It says what to do step by step, what should happen, and whether it passed or failed. It is like a recipe card: ingredients (preconditions), steps (actions), and what the dish should look like (expected result).
+
+:::
+
+:::eli15
+
+A well-structured test case has a unique ID, descriptive title, preconditions (required starting state), numbered steps to execute, expected results, and fields for recording actual results and pass/fail status. Good test cases are repeatable, independent, and trace back to specific requirements. They form the foundation of systematic testing.
+
+:::
+
+:::eli20
 
 | Component | Description | Example |
 |-----------|-------------|---------|
@@ -150,9 +228,25 @@ void process(int x, int y) {
 | **Actual Result** | What actually happened | (filled during execution) |
 | **Status** | Pass/Fail/Blocked | Pass |
 
+:::
+
 ---
 
 ## Testing in Agile
+
+:::eli10
+
+In Agile, testing is not saved for the end. Test-Driven Development (TDD) means you write the test FIRST (it fails because you have not built the feature yet), then build the feature to make the test pass. The test pyramid says: lots of small fast tests, fewer medium tests, and very few big slow tests.
+
+:::
+
+:::eli15
+
+Agile integrates testing throughout development rather than treating it as a phase at the end. TDD (Test-Driven Development) writes tests before code: write a failing test, implement just enough to pass, then refactor. Continuous Integration runs all tests automatically on every commit. The test pyramid recommends many fast unit tests at the base, fewer integration tests in the middle, and minimal slow end-to-end tests at the top. The Definition of Done includes "all tests pass."
+
+:::
+
+:::eli20
 
 | Practice | Description |
 |----------|------------|
@@ -174,9 +268,13 @@ void process(int x, int y) {
  /________________________\
 ```
 
+:::
+
 ---
 
 ## Practice Questions
+
+:::eli20
 
 <details>
 <summary>Q: Apply equivalence partitioning and boundary value analysis to a password field that requires 8-20 characters, at least one uppercase, one lowercase, and one digit.</summary>
@@ -240,3 +338,5 @@ Testing is inherently **incomplete** because:
 
 Therefore, passing all tests increases **confidence** but never provides **proof** of correctness. Formal verification (mathematical proof) is needed for absence-of-bugs guarantees, but is impractical for most software.
 </details>
+
+:::

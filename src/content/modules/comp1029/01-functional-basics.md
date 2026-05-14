@@ -9,6 +9,20 @@ tags: ["haskell", "functional", "types", "pattern-matching", "guards"]
 
 ## Core Concepts
 
+:::eli10
+
+Functional programming is like math class. A function always gives the same answer for the same input (2+3 is always 5). You never erase and rewrite values -- once you say x=5, it stays 5 forever. Haskell is lazy too: it only calculates things when it actually needs the answer, like a student who only does the homework problems that get graded.
+
+:::
+
+:::eli15
+
+Functional programming centers on pure functions (no side effects -- same input always gives same output), immutability (values never change once defined), and function composition. Haskell specifically uses lazy evaluation (expressions are only computed when their result is needed), which enables working with infinite data structures. The type system is static and strongly typed, with the compiler inferring types automatically.
+
+:::
+
+:::eli20
+
 | Concept | Description | Example |
 |---------|-------------|---------|
 | Pure function | No side effects, same input always gives same output | `double x = x * 2` |
@@ -16,7 +30,23 @@ tags: ["haskell", "functional", "types", "pattern-matching", "guards"]
 | Referential transparency | Expression can be replaced by its value | `double 3` is always `6` |
 | Lazy evaluation | Expressions only evaluated when needed | `take 5 [1..]` works on infinite list |
 
+:::
+
 ## Types
+
+:::eli10
+
+Types in Haskell are like labels that tell you what kind of thing something is. An `Int` is a whole number, a `Bool` is true or false, a `Char` is a single letter. Haskell is smart enough to figure out types on its own most of the time, but you can write them out to be clear.
+
+:::
+
+:::eli15
+
+Haskell is statically typed with type inference -- the compiler determines types at compile time without you always needing to write them. Basic types include `Int` (bounded integer), `Integer` (unlimited), `Float`/`Double` (decimals), `Bool`, `Char`, and `String` (which is just `[Char]`). Type signatures like `add :: Int -> Int -> Int` document the types of function arguments and return value. Functions are curried by default (multi-argument functions are actually chains of one-argument functions).
+
+:::
+
+:::eli20
 
 Haskell is **statically typed** with **type inference**. Every expression has a type known at compile time.
 
@@ -53,7 +83,23 @@ compare x y
   | otherwise = show y ++ " is greater or equal"
 ```
 
+:::
+
 ## Functions
+
+:::eli10
+
+Functions in Haskell are like math formulas. `square x = x * x` means "to square something, multiply it by itself." You can also match on specific values -- like saying "factorial of 0 is 1, factorial of anything else is that thing times factorial of one less."
+
+:::
+
+:::eli15
+
+Functions in Haskell are defined with equations. Pattern matching lets you define different behaviors for different input shapes (checked top to bottom). Guards are like if-else chains for boolean conditions. `where` introduces local definitions scoped to the whole equation, while `let-in` is an expression that can go anywhere. Haskell uses prefix notation by default (`add 3 4`) but operators can be used infix (`3 + 4`).
+
+:::
+
+:::eli20
 
 ### Defining Functions
 
@@ -162,7 +208,23 @@ classify n = if n < 0 then "negative"
              else "positive"
 ```
 
+:::
+
 ## Operators
+
+:::eli10
+
+Haskell has special operators: `++` glues two lists together, `:` sticks something on the front of a list, `.` chains functions together (do this, then do that), and `$` helps avoid writing too many parentheses.
+
+:::
+
+:::eli15
+
+Key Haskell operators: `++` concatenates lists, `:` (cons) prepends an element to a list, `.` composes functions (applies right function first, then left), and `$` is low-precedence function application (used to eliminate parentheses). Equality is `==` and inequality is `/=` (not `!=`). Logical operators are `&&` and `||`.
+
+:::
+
+:::eli20
 
 | Operator | Meaning | Example |
 |----------|---------|---------|
@@ -231,3 +293,5 @@ second _       = error "list too short"
 ```
 
 </details>
+
+:::

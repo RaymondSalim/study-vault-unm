@@ -9,6 +9,20 @@ tags: ["java", "algorithms", "searching", "sorting", "complexity", "binary-searc
 
 ## Complexity Summary
 
+:::eli10
+
+Different search and sort methods have different speeds. Linear search checks every item one by one (slow for big lists). Binary search cuts the list in half each time (much faster, but list must be sorted). Simple sorts like bubble sort compare neighbors and swap them, which is slow. Fast sorts like merge sort split the list, sort the halves, and combine them back together.
+
+:::
+
+:::eli15
+
+Algorithm efficiency is measured in Big-O notation. Searching: linear search is O(n) -- checks every element; binary search is O(log n) -- halves the search space each step but requires sorted data. Sorting: simple sorts (bubble, insertion, selection) are O(n^2) -- fine for small data; efficient sorts (merge sort, quicksort) are O(n log n) on average. The "stable" property means equal elements keep their original relative order.
+
+:::
+
+:::eli20
+
 | Algorithm | Best | Average | Worst | Space | Stable? |
 |-----------|------|---------|-------|-------|---------|
 | Linear Search | O(1) | O(n) | O(n) | O(1) | - |
@@ -21,9 +35,25 @@ tags: ["java", "algorithms", "searching", "sorting", "complexity", "binary-searc
 
 > **Stable** = preserves relative order of equal elements.
 
+:::
+
 ---
 
 ## Searching
+
+:::eli10
+
+Linear search is like looking through a pile of papers one by one until you find what you want. Binary search is like looking up a word in a dictionary -- you open to the middle, check if your word comes before or after, and repeat in the right half. Much faster, but the dictionary must be sorted alphabetically.
+
+:::
+
+:::eli15
+
+Linear search works on any data by checking each element sequentially -- O(n) time. Binary search only works on sorted data but is dramatically faster at O(log n) -- it eliminates half the remaining elements with each comparison. For 1 million elements, binary search needs at most 20 comparisons vs. up to 1 million for linear search.
+
+:::
+
+:::eli20
 
 ### Linear Search
 
@@ -85,9 +115,25 @@ Array: `[2, 5, 8, 12, 16, 23, 38, 56, 72, 91]`, target: `23`
 | 2 | 5 | 9 | 7 | 56 | 56 > 23, high = 6 |
 | 3 | 5 | 6 | 5 | 23 | Found at index 5 |
 
+:::
+
 ---
 
 ## Sorting
+
+:::eli10
+
+Sorting is putting things in order. Bubble sort is like bubbling the biggest item to the end over and over. Insertion sort is like sorting cards in your hand -- you pick up one at a time and slide it into the right spot. Merge sort is like splitting a deck in half, sorting each half separately, then merging them back together.
+
+:::
+
+:::eli15
+
+Sorting algorithms vary in speed, memory use, and stability. Simple O(n^2) sorts: Bubble sort swaps adjacent out-of-order elements (good for nearly-sorted data); Insertion sort builds a sorted portion one element at a time (fastest simple sort in practice); Selection sort finds the minimum each pass (always O(n^2)). Efficient O(n log n) sorts: Merge sort divides and merges (guaranteed fast, but needs extra memory); Quicksort partitions around a pivot (fastest on average, in-place, but O(n^2) worst case).
+
+:::
+
+:::eli20
 
 ### Bubble Sort
 
@@ -247,9 +293,25 @@ private static int partition(int[] arr, int low, int high) {
 
 **Key insight:** Average O(n log n), worst O(n^2) when pivot is always min/max (e.g., already sorted + last element pivot). In-place but not stable.
 
+:::
+
 ---
 
 ## Choosing an Algorithm
+
+:::eli10
+
+Use insertion sort for small lists (fewer than 20 items) or nearly-sorted data. Use merge sort when you need a guarantee of speed. Use binary search when your data is already sorted and you need to find something fast.
+
+:::
+
+:::eli15
+
+Algorithm choice depends on context: small arrays (n < 20) favor insertion sort due to low overhead. Nearly-sorted data also benefits from insertion sort (O(n) best case). When guaranteed O(n log n) is needed, use merge sort. Quicksort is often fastest in practice due to cache efficiency. For searching, always prefer binary search on sorted data (O(log n)) over linear search (O(n)).
+
+:::
+
+:::eli20
 
 | Scenario | Best Choice | Why |
 |----------|-------------|-----|
@@ -315,3 +377,5 @@ Place pivot: swap arr[3] with arr[5] -> [3,2,1,4,7,5]
 Fix: use median-of-three pivot selection or randomised pivot.
 
 </details>
+
+:::

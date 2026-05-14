@@ -9,6 +9,20 @@ tags: ["haskell", "lists", "recursion", "list-comprehension"]
 
 ## Lists in Haskell
 
+:::eli10
+
+A list in Haskell is like a chain of linked boxes. Each box holds one item and points to the next box. All items must be the same type. You can take the first item off (`head`), get everything except the first (`tail`), glue two chains together (`++`), or build new chains from old ones. Strings are just lists of characters.
+
+:::
+
+:::eli15
+
+Lists are Haskell's fundamental data structure -- homogeneous (all same type), built from the empty list `[]` and the cons operator `:`. Key operations: `head`/`tail` (first element / rest), `take`/`drop` (first n / skip n), `length`, `reverse`, `elem` (membership test), and `++` (concatenation). Ranges like `[1..10]` generate lists easily. Strings are just `[Char]`. Lists can be infinite thanks to lazy evaluation.
+
+:::
+
+:::eli20
+
 Lists are **homogeneous** (all elements same type) and built with `:` (cons) operator.
 
 ```haskell
@@ -50,7 +64,23 @@ Lists are **homogeneous** (all elements same type) and built with `:` (cons) ope
 [1..]         -- infinite list (lazy evaluation!)
 ```
 
+:::
+
 ## List Comprehensions
+
+:::eli10
+
+List comprehensions are like giving instructions: "Give me all the doubles of numbers from 1 to 10" or "Give me all numbers from 1 to 20 that divide evenly by 3." You describe what you want and Haskell builds the list for you -- like a magic recipe that creates a list based on rules.
+
+:::
+
+:::eli15
+
+List comprehensions provide a concise way to generate lists using the syntax `[expression | generators, guards]`. Generators (`x <- [1..10]`) draw values from a source list. Guards (boolean conditions) filter which values are kept. Multiple generators create nested loops. They're equivalent to combinations of `map` and `filter` but often more readable for complex transformations.
+
+:::
+
+:::eli20
 
 Syntax: `[expression | generators, guards]`
 
@@ -80,7 +110,23 @@ firsts :: [(a, b)] -> [a]
 firsts ps = [x | (x, _) <- ps]
 ```
 
+:::
+
 ## Recursion
+
+:::eli10
+
+Since Haskell has no loops, you use recursion instead -- a function that calls itself with a smaller input until it reaches the simplest case. Finding the length of a list: an empty list has length 0, and any other list has length 1 + the length of everything after the first item. That's recursion.
+
+:::
+
+:::eli15
+
+Recursion replaces loops in functional programming. Every recursive function needs base cases (when to stop, usually empty list `[]` or zero) and recursive cases (break problem down, usually processing the head `x` and recursing on the tail `xs`). The accumulator pattern (tail recursion) improves efficiency by building the result as you go rather than after returning. Common patterns: process each element (map), keep/discard elements (filter), combine all elements (fold).
+
+:::
+
+:::eli20
 
 Recursion replaces loops in functional programming. Every recursive function needs:
 1. **Base case(s)** - when to stop
@@ -189,7 +235,23 @@ msort xs  = merge (msort left) (msort right)
     (left, right) = splitAt (length xs `div` 2) xs
 ```
 
+:::
+
 ## Tuples
+
+:::eli10
+
+A tuple is like a fixed-size container that can hold different types together. A pair `(1, "hello")` holds a number and a string together. Unlike lists (which must all be the same type and can be any length), tuples have a fixed size and can mix types.
+
+:::
+
+:::eli15
+
+Tuples hold a fixed number of values that can be different types -- contrast with lists which are variable-length but same type. Pairs (2-tuples) are the most common, with built-in `fst` and `snd` to extract elements. Pattern matching is the general way to extract tuple elements. Tuples are useful for returning multiple values from a function.
+
+:::
+
+:::eli20
 
 Unlike lists, tuples can hold **different types** but have **fixed length**.
 
@@ -285,3 +347,5 @@ product' xs = go 1 xs
 ```
 
 </details>
+
+:::

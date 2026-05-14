@@ -7,6 +7,20 @@ tags: ["OS", "process", "memory-management", "file-system"]
 
 ## OS Functions
 
+:::eli10
+
+An operating system (like Windows, macOS, or Linux) is the manager of your computer. It decides which program gets to use the CPU, gives programs memory to work in, organises your files, talks to hardware devices, and keeps things secure. Without it, programs would fight over resources.
+
+:::
+
+:::eli15
+
+The operating system manages all hardware resources and provides services to applications. Its core functions include process management (creating, scheduling, and terminating programs), memory management (allocating RAM and implementing virtual memory), file system management (organising persistent storage), I/O management (interfacing with hardware devices), security (access control), and providing a user interface (command line or graphical shell).
+
+:::
+
+:::eli20
+
 | Function | Role |
 |----------|------|
 | Process management | Create, schedule, terminate processes |
@@ -16,7 +30,23 @@ tags: ["OS", "process", "memory-management", "file-system"]
 | Security | Access control, authentication |
 | User interface | CLI / GUI shell |
 
+:::
+
 ## Process Management
+
+:::eli10
+
+A process is a program that is running. The OS juggles many processes at once by giving each one a short turn on the CPU. A process can be in different states: waiting for its turn (ready), currently running, waiting for something like a file to load (blocked), or finished (terminated).
+
+:::
+
+:::eli15
+
+A process is an instance of a running program. It transitions through states: New (being created), Ready (waiting for CPU), Running (executing on CPU), Waiting/Blocked (waiting for I/O or an event), and Terminated (done). The OS scheduler decides which ready process gets the CPU next, using algorithms like FCFS, Shortest Job First, Round Robin (which gives each process a fixed time slice), or Priority scheduling. Context switching (saving/restoring register state) has overhead.
+
+:::
+
+:::eli20
 
 ### Process States
 
@@ -46,7 +76,23 @@ New → Ready → Running → Terminated
 
 **Context switch**: Save registers of current process, load registers of next process. Has overhead cost.
 
+:::
+
 ## Memory Management
+
+:::eli10
+
+Memory management is how the OS shares RAM between programs. Paging divides memory into equal-sized blocks (pages) so programs can use non-contiguous chunks of RAM. Virtual memory lets programs think they have more RAM than physically exists by swapping unused pages to the hard drive.
+
+:::
+
+:::eli15
+
+The OS manages how physical memory is shared among processes. Paging divides both logical memory (into pages) and physical memory (into frames) into fixed-size blocks. A page table maps each process's logical pages to physical frames. Virtual memory extends RAM by using disk as overflow: pages not currently needed are stored on disk, loaded on demand (causing page faults). Page replacement algorithms (FIFO, LRU, Optimal) decide which page to evict when memory is full.
+
+:::
+
+:::eli20
 
 | Technique | Description |
 |-----------|-------------|
@@ -75,7 +121,23 @@ New → Ready → Running → Terminated
 | LRU | Replace least recently used | Near-optimal |
 | Optimal | Replace page not needed longest | Yes (theoretical) |
 
+:::
+
 ## File Systems
+
+:::eli10
+
+A file system is how the computer organises your files on a hard drive -- like a filing cabinet with folders and documents. Each file has a name, a location, and extra info (like when it was created). There are different ways to store files physically on the disk, each with trade-offs.
+
+:::
+
+:::eli15
+
+The file system provides an organised way to store and retrieve data persistently. Files are named collections of data; directories organise files hierarchically. Metadata includes name, size, permissions, and timestamps. Storage allocation methods include contiguous (fast sequential access but fragmentation), linked (no fragmentation but slow random access), and indexed/i-node (fast random access with some overhead).
+
+:::
+
+:::eli20
 
 | Concept | Description |
 |---------|-------------|
@@ -92,7 +154,23 @@ New → Ready → Running → Terminated
 | Linked | No fragmentation | Slow random access |
 | Indexed (i-node) | Fast random access | Index block overhead |
 
+:::
+
 ## Kernel vs User Mode
+
+:::eli10
+
+The computer has two modes: kernel mode (the OS has full power over everything) and user mode (regular programs run with restrictions to keep them safe). When a program needs to do something privileged (like accessing hardware), it asks the OS through a system call, which temporarily switches to kernel mode.
+
+:::
+
+:::eli15
+
+Modern CPUs have two privilege levels. Kernel mode gives full hardware access and is used by the OS kernel for critical operations. User mode restricts what programs can do, preventing them from directly accessing hardware or other processes' memory. When a user program needs OS services (file access, network, etc.), it makes a system call (trap instruction) which switches to kernel mode. After the OS handles the request, control returns to user mode.
+
+:::
+
+:::eli20
 
 | Aspect | Kernel mode | User mode |
 |--------|-------------|-----------|
@@ -139,3 +217,5 @@ The offset stays the same; only the page/frame number changes.
 
 Total page faults: **7**
 </details>
+
+:::

@@ -9,6 +9,20 @@ tags: ["databases", "sql", "ddl", "dml", "queries"]
 
 ## SQL Sub-Languages
 
+:::eli10
+
+SQL has different "modes." DDL is for building the structure (creating tables), DML is for working with the actual data (adding, changing, deleting, and finding records), DCL is for permissions (who can do what), and TCL is for managing safe operations (making sure changes either fully happen or do not happen at all).
+
+:::
+
+:::eli15
+
+SQL is divided into sub-languages by purpose. DDL (Data Definition Language) creates and modifies the structure of tables -- CREATE, ALTER, DROP. DML (Data Manipulation Language) handles the data itself -- INSERT, UPDATE, DELETE, SELECT. DCL controls access permissions, and TCL manages transactions. Understanding which sub-language a command belongs to helps clarify what it does.
+
+:::
+
+:::eli20
+
 | Sub-Language | Purpose | Commands |
 |-------------|---------|----------|
 | **DDL** (Data Definition Language) | Define/modify schema | CREATE, ALTER, DROP |
@@ -16,7 +30,23 @@ tags: ["databases", "sql", "ddl", "dml", "queries"]
 | **DCL** (Data Control Language) | Permissions | GRANT, REVOKE |
 | **TCL** (Transaction Control Language) | Manage transactions | COMMIT, ROLLBACK, SAVEPOINT |
 
+:::
+
 ## Data Definition Language (DDL)
+
+:::eli10
+
+DDL commands build the "skeleton" of your database. CREATE TABLE makes a new table with columns and rules. You specify what kind of data goes in each column (numbers, text, dates) and what rules to enforce (like "this cannot be empty" or "this must be unique").
+
+:::
+
+:::eli15
+
+DDL defines database structure. CREATE TABLE specifies column names, data types, and constraints. Common data types include INT (whole numbers), VARCHAR(n) (variable-length text), DATE, DECIMAL(precision, scale), and BOOLEAN. Constraints enforce data integrity: PRIMARY KEY (unique identifier), FOREIGN KEY (referential link), NOT NULL, UNIQUE, CHECK (custom rules), and DEFAULT values. ALTER TABLE modifies existing tables; DROP TABLE removes them entirely.
+
+:::
+
+:::eli20
 
 ### CREATE TABLE
 
@@ -71,7 +101,23 @@ ALTER TABLE Student ADD CONSTRAINT chk_gpa CHECK (GPA >= 0 AND GPA <= 4.0);
 DROP TABLE Student;
 ```
 
+:::
+
 ## Data Manipulation Language (DML)
+
+:::eli10
+
+DML commands let you work with the data inside tables. INSERT adds new rows, UPDATE changes existing rows, DELETE removes rows, and SELECT finds and displays data. Be careful with UPDATE and DELETE -- if you forget to say WHICH rows, it changes or deletes ALL of them!
+
+:::
+
+:::eli15
+
+DML commands manipulate the actual data. INSERT adds rows (you can specify all values or just some columns). UPDATE modifies existing rows matching a WHERE condition -- always include WHERE unless you intentionally want to change every row. DELETE removes rows matching a condition -- again, forgetting WHERE deletes everything. SELECT is the most complex, querying data with filtering, sorting, and various options.
+
+:::
+
+:::eli20
 
 ### INSERT
 
@@ -118,7 +164,23 @@ DELETE FROM Student;
 
 > **Warning:** Forgetting the `WHERE` clause deletes ALL rows!
 
+:::
+
 ## SELECT Queries
+
+:::eli10
+
+SELECT is how you ask the database questions. You say which columns you want, which table to look in, and optionally add filters (WHERE), remove duplicates (DISTINCT), or sort the results (ORDER BY). It is like asking "show me the names of all students in department 1, sorted by name."
+
+:::
+
+:::eli15
+
+SELECT retrieves data from tables. The basic syntax is SELECT columns FROM table WHERE condition ORDER BY column. You can use aliases (AS) for readable column names, DISTINCT to remove duplicates, and various WHERE operators for filtering (comparison, BETWEEN, IN, LIKE for pattern matching, IS NULL). ORDER BY sorts results ascending (default) or descending. LIMIT restricts the number of rows returned.
+
+:::
+
+:::eli20
 
 ### Basic Syntax
 
@@ -203,7 +265,23 @@ ORDER BY GPA DESC
 LIMIT 5;
 ```
 
+:::
+
 ## NULL Handling
+
+:::eli10
+
+NULL means "we do not know" -- it is not zero and not an empty word. You cannot compare things to NULL using = because "unknown equals unknown" is not true. Instead, you use the special IS NULL check.
+
+:::
+
+:::eli15
+
+NULL represents missing or unknown data. It behaves unusually: any arithmetic with NULL gives NULL, any comparison with NULL gives UNKNOWN (not true or false), and even NULL = NULL is not true. You must use IS NULL / IS NOT NULL to test for it. This is a common source of bugs -- using WHERE column = NULL will never match any rows.
+
+:::
+
+:::eli20
 
 - NULL means "unknown" or "missing" — it is NOT zero or empty string
 - Any arithmetic with NULL yields NULL: `5 + NULL = NULL`
@@ -218,7 +296,23 @@ SELECT * FROM Student WHERE Email = NULL;
 SELECT * FROM Student WHERE Email IS NULL;
 ```
 
+:::
+
 ## Practice
+
+:::eli10
+
+Try these SQL exercises -- create tables, write queries, and watch out for common mistakes with NULL values.
+
+:::
+
+:::eli15
+
+These exercises cover CREATE TABLE with appropriate constraints, writing filtered and sorted queries, understanding NULL behaviour, and using UPDATE with conditions. Pay special attention to NULL handling -- it is one of the most common sources of SQL bugs.
+
+:::
+
+:::eli20
 
 <details>
 <summary>Q1: Write a CREATE TABLE for a Book table with: ISBN (PK, 13 chars), Title, Author, Price (decimal), PublishDate, InStock (boolean defaulting to true).</summary>
@@ -283,3 +377,5 @@ WHERE DeptID = 3;
 ```
 
 </details>
+
+:::

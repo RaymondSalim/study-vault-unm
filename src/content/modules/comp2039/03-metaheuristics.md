@@ -7,6 +7,20 @@ tags: ["simulated-annealing", "tabu-search", "iterated-local-search", "metaheuri
 
 ## What are Metaheuristics?
 
+:::eli10
+
+Metaheuristics are smarter versions of hill climbing that can escape traps. Hill climbing gets stuck on small hills because it only goes uphill. Metaheuristics sometimes accept "going downhill" to find a path to a taller hill. They're general-purpose problem-solving recipes that work on many different types of problems.
+
+:::
+
+:::eli15
+
+Metaheuristics are high-level problem-solving strategies that guide heuristic searches beyond local optima. Unlike hill climbing, they can accept worsening moves under certain conditions to escape traps. They are problem-independent (the same framework applies to TSP, scheduling, etc.), incomplete (no guarantee of finding the optimal), and stochastic (involve randomness). They come in two flavours: single-solution methods (SA, Tabu, ILS) that improve one solution at a time, and population-based methods (GA, PSO) that evolve a collection of solutions simultaneously.
+
+:::
+
+:::eli20
+
 Higher-level strategies that guide heuristic search — they escape local optima by accepting worsening moves.
 
 | Property | Description |
@@ -24,7 +38,23 @@ Higher-level strategies that guide heuristic search — they escape local optima
 | Population-based | Evolve set of solutions | GA, PSO, ACO |
 | Trajectory-based | Follow path through search space | SA, Tabu |
 
+:::
+
 ## Simulated Annealing (SA)
+
+:::eli10
+
+Simulated Annealing is inspired by metalworking — when you heat metal and cool it slowly, atoms settle into a perfect structure. SA starts "hot" (accepting almost any move, even bad ones) and gradually "cools down" (becoming pickier). Early on, it explores freely; later, it settles into a good solution. If you cool too fast, you get stuck (like brittle metal); cool slowly and you get a better answer.
+
+:::
+
+:::eli15
+
+Simulated Annealing borrows from thermodynamics: at high temperature, particles move freely; at low temperature, they settle into low-energy states. SA always accepts improving moves but also accepts worsening moves with probability e^(-delta/T). At high temperature, most moves are accepted (random exploration). As temperature decreases following a cooling schedule (typically geometric: T = alpha * T), acceptance of bad moves decreases until the algorithm behaves like hill climbing. Key parameters are initial temperature (controls exploration), cooling rate (controls the exploration-exploitation transition), and iterations per temperature level. Theoretically, infinitely slow cooling guarantees the global optimum — but in practice, you use a schedule that balances quality and runtime.
+
+:::
+
+:::eli20
 
 Inspired by metallurgical annealing — cooling molten metal slowly to reach low-energy state.
 
@@ -75,7 +105,23 @@ $$P(\text{accept}) = e^{-\Delta / T}$$
 
 If cooling is *sufficiently slow* (logarithmic schedule), SA converges to global optimum with probability 1. In practice, this is too slow to be useful.
 
+:::
+
 ## Tabu Search (TS)
+
+:::eli10
+
+Tabu Search has a memory — it remembers recent moves and forbids ("taboos") repeating them. This forces the algorithm to explore new territory instead of going in circles. It always moves to the best available neighbour (even if it's worse), as long as that move isn't on the "banned list." After a while, banned moves expire and become available again.
+
+:::
+
+:::eli15
+
+Tabu Search uses memory to guide the search and prevent cycling. At each step, it moves to the best neighbour that isn't "tabu" (forbidden). The tabu list stores recent moves (or solution attributes) for a number of iterations (the tabu tenure), preventing immediate reversal. An aspiration criterion can override the tabu status — typically if a tabu move leads to a solution better than the best ever found. Tabu Search also supports intensification (focusing search on promising areas) and diversification (forcing exploration of unvisited regions). The tabu tenure is critical: too short allows cycling; too long restricts the search excessively.
+
+:::
+
+:::eli20
 
 Uses memory to avoid revisiting recently explored solutions.
 
@@ -120,7 +166,23 @@ Uses memory to avoid revisiting recently explored solutions.
 | Random | Random value in range $[a, b]$ |
 | Adaptive | Increase when cycling, decrease otherwise |
 
+:::
+
 ## Iterated Local Search (ILS)
+
+:::eli10
+
+Iterated Local Search works like this: first, you hill climb to a local peak. Then you give the solution a "kick" (perturbation) — changing it enough to escape the current peak but not so much that you lose all the good structure. Then you hill climb again from the kicked position. Repeat, keeping the best answer. It's like jumping to a new hill and checking if it's taller.
+
+:::
+
+:::eli15
+
+Iterated Local Search (ILS) combines local search with perturbation. It first applies local search (e.g., hill climbing) to reach a local optimum. Then it applies a perturbation (a small number of random changes) to escape the current basin of attraction, followed by another round of local search from the perturbed solution. The acceptance criterion decides whether to continue from the new local optimum or stay with the old one. Perturbation strength is critical: too weak and you land back in the same basin; too strong and it becomes random restart. Medium-strength perturbation (3-5 moves) usually provides the best balance.
+
+:::
+
+:::eli20
 
 Repeatedly applies local search from perturbed solutions.
 
@@ -183,3 +245,5 @@ Optimal tenure is problem-dependent; adaptive tenure often works best.
 | Strength | Simple, theoretical backing | Exploits structure | Simple, effective |
 
 </details>
+
+:::

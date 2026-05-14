@@ -9,12 +9,42 @@ tags: ["probability", "distributions", "binomial", "poisson", "normal", "expecta
 
 ## Random Variables
 
+:::eli10
+
+A random variable is a number that comes from a random process. If you roll a die, the number you get is a random variable. Discrete random variables give you countable results (like 1, 2, 3, 4, 5, 6). Continuous random variables can be any number in a range (like exactly how tall someone is).
+
+:::
+
+:::eli15
+
+A random variable assigns numerical values to outcomes of a random experiment. Discrete random variables have countable outcomes described by a probability mass function (PMF). Continuous random variables take values in intervals, described by a probability density function (PDF) where probabilities are areas under the curve. Each type has formulas for expectation (average outcome) and variance (spread).
+
+:::
+
+:::eli20
+
 | Type | Definition | Example |
 |------|-----------|---------|
 | Discrete | Countable outcomes | Number of heads in 10 flips |
 | Continuous | Uncountable outcomes (intervals) | Height, time |
 
+:::
+
 ## Expectation & Variance
+
+:::eli10
+
+Expectation (or expected value) is the average outcome you would get if you repeated the experiment many times. Variance measures how spread out the results are -- high variance means outcomes vary a lot, low variance means they cluster near the average.
+
+:::
+
+:::eli15
+
+Expectation E[X] is the weighted average of all outcomes (each outcome weighted by its probability). It represents the long-run average. Variance Var(X) measures the average squared deviation from the mean -- how spread out the distribution is. Key properties: expectation is linear (E[aX + b] = aE[X] + b, E[X + Y] = E[X] + E[Y] always), variance scales quadratically (Var(aX) = a^2 Var(X)), and for independent variables, Var(X + Y) = Var(X) + Var(Y).
+
+:::
+
+:::eli20
 
 | Measure | Discrete | Continuous |
 |---------|----------|-----------|
@@ -31,7 +61,23 @@ tags: ["probability", "distributions", "binomial", "poisson", "normal", "expecta
 | Variance scaling | $\text{Var}(aX + b) = a^2 \text{Var}(X)$ |
 | Independent sum | $\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y)$ (if independent) |
 
+:::
+
 ## Discrete Distributions
+
+:::eli10
+
+Common discrete distributions model specific real-world scenarios. A Bernoulli is a single coin flip. A Binomial counts successes in multiple flips. A Poisson counts rare events (like how many emails arrive per hour). A Geometric counts how many tries until your first success.
+
+:::
+
+:::eli15
+
+Key discrete distributions model common situations. Bernoulli(p): single trial with success probability p. Binomial(n, p): number of successes in n independent trials. Poisson(lambda): count of events in a fixed interval (good for rare events; approximates Binomial when n is large and p is small). Geometric(p): number of trials until the first success. Each has known formulas for expectation and variance that save you from computing from scratch.
+
+:::
+
+:::eli20
 
 ### Bernoulli($p$)
 
@@ -75,7 +121,23 @@ Number of trials until first success.
 | $E[X]$ | $1/p$ |
 | $\text{Var}(X)$ | $(1-p)/p^2$ |
 
+:::
+
 ## Continuous Distributions
+
+:::eli10
+
+Continuous distributions describe things that can take any value in a range. The Uniform distribution is like spinning a fair wheel -- every position is equally likely. The Exponential distribution models waiting times. The Normal (bell curve) distribution appears everywhere in nature -- heights, test scores, and measurement errors all follow it.
+
+:::
+
+:::eli15
+
+Key continuous distributions: Uniform(a,b) gives equal probability to all values in [a,b]. Exponential(lambda) models time between events (memoryless: past waiting does not affect future probability). Normal(mu, sigma^2) is the famous bell curve -- characterized by mean mu and variance sigma^2. The Central Limit Theorem explains why the Normal appears so often: averages of many random variables tend toward Normal regardless of the original distribution.
+
+:::
+
+:::eli20
 
 ### Uniform($a, b$)
 
@@ -114,7 +176,23 @@ Time between Poisson events.
 | $\mu \pm 2\sigma$ | 95.4% |
 | $\mu \pm 3\sigma$ | 99.7% |
 
+:::
+
 ## Hypothesis Testing (Overview)
+
+:::eli10
+
+Hypothesis testing is a way to use data to make decisions. You start with an assumption (like "this coin is fair"), collect data, and check whether the data is too surprising to be explained by your assumption. If it is, you reject the assumption.
+
+:::
+
+:::eli15
+
+Hypothesis testing formalises statistical decision-making. You state a null hypothesis H0 (status quo) and an alternative H1. Choose a significance level alpha (typically 0.05 = 5% chance of rejecting H0 when it is true). Compute a test statistic from your data and compare to what is expected under H0. If the result is too extreme (p-value < alpha), reject H0. Type I errors reject a true H0; Type II errors fail to reject a false H0. Power = 1 - beta is the probability of correctly detecting a real effect.
+
+:::
+
+:::eli20
 
 | Step | Action |
 |------|--------|
@@ -166,3 +244,5 @@ $P(X > 175) = P(Z > 1) = 1 - \Phi(1) = 1 - 0.8413 = 0.1587$
 About 15.87% of people are taller than 175 cm.
 
 </details>
+
+:::

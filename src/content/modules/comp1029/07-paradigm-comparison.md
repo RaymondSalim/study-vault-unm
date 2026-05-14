@@ -9,6 +9,20 @@ tags: ["paradigms", "imperative", "functional", "logic", "comparison"]
 
 ## Overview of Paradigms
 
+:::eli10
+
+There are three big ways to write programs. Imperative (like Python) is like giving step-by-step cooking instructions. Functional (like Haskell) is like writing math formulas that transform inputs into outputs. Logic (like Prolog) is like stating clues and letting a detective figure out the answers. Each approach is better for different kinds of problems.
+
+:::
+
+:::eli15
+
+The three main paradigms differ fundamentally in how they model computation. Imperative programming uses sequences of commands that modify state (variables change over time). Functional programming evaluates expressions without state changes (values are immutable, functions are pure). Logic programming declares relationships and lets the system search for solutions. Most modern languages blend paradigms -- Python has map/filter, Scala combines OOP and functional.
+
+:::
+
+:::eli20
+
 | Aspect | Imperative (Python/C) | Functional (Haskell) | Logic (Prolog) |
 |--------|----------------------|---------------------|----------------|
 | Core idea | Sequence of commands | Evaluation of expressions | Declaration of relationships |
@@ -19,7 +33,23 @@ tags: ["paradigms", "imperative", "functional", "logic", "comparison"]
 | Side effects | Common | Restricted (pure) | Via assert/retract |
 | Types | Often dynamic | Strong, static, inferred | Untyped (terms) |
 
+:::
+
 ## The Same Problem in Three Paradigms
+
+:::eli10
+
+Here's the same problems solved three different ways. Notice how imperative uses loops and changing variables, functional uses recursion and pattern matching, and logic states what's true and lets Prolog figure out the calculation.
+
+:::
+
+:::eli15
+
+Comparing the same algorithm across paradigms reveals their different approaches. Imperative uses loops with mutable state. Functional uses recursion with pattern matching (or higher-order functions like fold). Logic states base cases and recursive relationships, with Prolog handling the execution order. Each has trade-offs in readability, efficiency, and expressiveness for different problem types.
+
+:::
+
+:::eli20
 
 ### Factorial
 
@@ -178,7 +208,23 @@ member(X, [_|T]) :- member(X, T).
 % X = a ; X = b ; X = c.
 ```
 
+:::
+
 ## Key Differences
+
+:::eli10
+
+The biggest difference is what "variable" means. In Python, a variable is a box you can keep changing. In Haskell, it's a permanent label (once x=5, it's always 5). In Prolog, it's an unknown that gets filled in once. Another big difference: Prolog can work backwards -- given the answer, it can figure out the inputs.
+
+:::
+
+:::eli15
+
+Key paradigm differences: (1) Variables -- imperative allows reassignment, functional binds immutably, logic binds through unification (once). (2) Direction -- imperative/functional are one-directional (inputs to outputs), logic is multi-directional (any argument can be input or output). (3) Evaluation -- imperative is eager, Haskell is lazy (enables infinite structures), Prolog uses depth-first search with backtracking.
+
+:::
+
+:::eli20
 
 ### Variable Binding
 
@@ -221,7 +267,23 @@ take 5 naturals  -- [0,1,2,3,4]
 head [1, undefined, 3]  -- 1 (never evaluates undefined)
 ```
 
+:::
+
 ## Strengths and Weaknesses
+
+:::eli10
+
+Imperative programming is the easiest to learn and fastest to run, but harder to keep bug-free with all those changing variables. Functional is great for correct, testable code but has a steeper learning curve. Logic is amazing for search and relationship problems but isn't great for general-purpose programming.
+
+:::
+
+:::eli15
+
+Each paradigm excels in different domains. Imperative: efficient, hardware-close, intuitive for sequential tasks, but mutation causes bugs. Functional: concise, testable, parallelizable (no shared state), but steeper learning curve. Logic: incredibly concise for search/constraint problems and multi-directional queries, but performance is unpredictable. Modern practice often combines paradigms -- using functional transformations within imperative frameworks.
+
+:::
+
+:::eli20
 
 | Paradigm | Strengths | Weaknesses |
 |----------|-----------|------------|
@@ -229,7 +291,23 @@ head [1, undefined, 3]  -- 1 (never evaluates undefined)
 | Functional | Concise, composable, easy to test/reason, parallelizable | Steeper learning curve, can be less efficient |
 | Logic | Extremely concise for search/relation problems, multi-directional | Performance unpredictable, limited I/O, not general purpose |
 
+:::
+
 ## When to Use Each
+
+:::eli10
+
+Use imperative for building apps and games. Use functional for processing and transforming data. Use logic for solving puzzles and searching through possibilities. Many modern languages let you mix and match.
+
+:::
+
+:::eli15
+
+Paradigm choice depends on the problem domain. Systems programming and GUIs suit imperative. Data pipelines, parsers, and concurrent systems suit functional. Search problems, databases, and expert systems suit logic. Hybrid languages (Python with map/filter, Scala with FP+OOP) let you use the best approach for each part of your program.
+
+:::
+
+:::eli20
 
 | Use Case | Best Paradigm | Why |
 |----------|--------------|-----|
@@ -297,3 +375,5 @@ filter_evens_gt5([_|T], R) :-
 Answer: Run a computation "backwards" - e.g., given a result, find the inputs. In Prolog, `append(X, Y, [1,2,3])` generates all ways to split the list. In Haskell, you'd need to explicitly write a function to generate all splits.
 
 </details>
+
+:::

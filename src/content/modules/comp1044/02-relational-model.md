@@ -9,6 +9,20 @@ tags: ["databases", "relational-model", "keys", "relational-algebra"]
 
 ## Fundamental Concepts
 
+:::eli10
+
+A relational database stores data in tables (like spreadsheets). Each table has columns (the types of information, like Name or Age) and rows (the actual data entries). Every table has a unique name, every column has a unique name, and no two rows are exactly the same.
+
+:::
+
+:::eli15
+
+The relational model represents all data as tables (formally called "relations"). Each row (tuple) is a record, each column (attribute) is a field with a specific data type (domain). Key properties: no duplicate rows, order of rows and columns does not matter, and all values must be atomic (no lists or nested structures in a cell). This structured approach enables powerful querying and integrity enforcement.
+
+:::
+
+:::eli20
+
 The relational model represents data as a collection of **relations** (tables).
 
 | Term | Formal Name | Informal Name |
@@ -20,7 +34,23 @@ The relational model represents data as a collection of **relations** (tables).
 | Degree | Degree | Number of columns |
 | Cardinality | Cardinality | Number of rows |
 
+:::
+
 ## Properties of Relations
+
+:::eli10
+
+Tables have a few important rules: no column has the same name as another, every cell has a single value (no lists), and you cannot have two identical rows. The order of rows and columns does not matter.
+
+:::
+
+:::eli15
+
+Relations have strict properties that distinguish them from arbitrary spreadsheets: unique relation and attribute names, all values from the same domain in a column, no duplicate tuples, and all values must be atomic (first normal form). The ordering of rows and columns carries no meaning -- data is accessed by column name, not position.
+
+:::
+
+:::eli20
 
 1. Each relation has a **unique name**
 2. Each attribute has a **distinct name** within the relation
@@ -30,7 +60,23 @@ The relational model represents data as a collection of **relations** (tables).
 6. Order of attributes is **irrelevant**
 7. All attribute values are **atomic** (no repeating groups)
 
+:::
+
 ## Keys
+
+:::eli10
+
+A key is like a student ID number -- it uniquely identifies one specific row in a table. A primary key is the chosen main identifier. A foreign key is when one table references another table's primary key, creating a link between them.
+
+:::
+
+:::eli15
+
+Keys are attributes (or combinations) that uniquely identify rows. A super key is any combination that provides uniqueness. A candidate key is a minimal super key (remove any attribute and uniqueness is lost). The primary key is the chosen candidate key for the table. Foreign keys reference the primary key of another table, establishing relationships between tables. Two important rules: primary keys can never be NULL (entity integrity), and foreign keys must match an existing primary key or be NULL (referential integrity).
+
+:::
+
+:::eli20
 
 | Key Type | Definition | Example |
 |----------|-----------|---------|
@@ -46,7 +92,23 @@ The relational model represents data as a collection of **relations** (tables).
 - **Entity Integrity:** No primary key attribute may be NULL
 - **Referential Integrity:** Every foreign key value must match an existing primary key value in the referenced table, or be NULL
 
+:::
+
 ## Relational Algebra
+
+:::eli10
+
+Relational algebra is a set of operations you can do on tables to get new tables. You can filter rows (selection), pick certain columns (projection), or combine two tables together (join). It is the mathematical foundation behind SQL queries.
+
+:::
+
+:::eli15
+
+Relational algebra provides the theoretical foundation for SQL. Operations take relations as input and produce new relations. Unary operations work on one table: selection (filter rows by condition, like WHERE), projection (choose columns, like SELECT specific columns), and rename. Binary operations combine tables: union, intersection, difference (set operations), Cartesian product (all combinations), and various joins (combining tables on matching columns).
+
+:::
+
+:::eli20
 
 Relational algebra provides a formal foundation for SQL queries. Operations take one or more relations as input and produce a new relation.
 
@@ -121,7 +183,23 @@ R ÷ S returns tuples in R that are associated with **every** tuple in S.
 Enrolment[StudentID, ModuleCode] ÷ Module[ModuleCode]
 ```
 
+:::
+
 ## Relational Algebra Expression Examples
+
+:::eli10
+
+Here are examples of how you combine the operations to answer questions like "find the names of students in a specific module" by filtering, joining, and selecting columns step by step.
+
+:::
+
+:::eli15
+
+Complex queries are built by composing simple operations. To find "names of students in COMP1044": first filter Enrolment for that module code (selection), join with Student on StudentID, then project only the Name column. To find "students not enrolled in anything": take all StudentIDs minus those that appear in Enrolment. Each step produces a new relation that feeds into the next.
+
+:::
+
+:::eli20
 
 **Query:** Find names of students enrolled in 'COMP1044'
 
@@ -140,7 +218,23 @@ Step by step:
 π_{StudentID}(Student) − π_{StudentID}(Enrolment)
 ```
 
+:::
+
 ## Practice
+
+:::eli10
+
+Try these questions to practise working with the relational model -- identifying keys, writing relational algebra expressions, and understanding how joins work.
+
+:::
+
+:::eli15
+
+These exercises cover natural joins, writing relational algebra for multi-table queries, understanding the difference between key types, and recognizing when set operations can and cannot be applied.
+
+:::
+
+:::eli20
 
 <details>
 <summary>Q1: Given relations R(A, B, C) and S(C, D, E), what is the result of R ⋈ S?</summary>
@@ -193,3 +287,5 @@ While both have degree 3, the domains don't correspond (INT vs CHAR, VARCHAR vs 
 In practice, you'd only union relations representing the same kind of data (e.g., two sets of student records).
 
 </details>
+
+:::

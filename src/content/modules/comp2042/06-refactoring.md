@@ -9,6 +9,20 @@ tags: ["refactoring", "code smells", "God class", "feature envy", "extract metho
 
 ## What is Refactoring?
 
+:::eli10
+
+Refactoring is cleaning up your code without changing what it does. It is like rearranging your room -- everything still works the same, but now it is tidier and easier to find things. The key rules are: always have tests first (so you know nothing breaks), make small changes one at a time, and never add new features at the same time as refactoring.
+
+:::
+
+:::eli15
+
+Refactoring is the disciplined process of restructuring existing code without changing its external behaviour. Key principles: always have passing tests before starting (safety net), make small incremental changes, run tests after each change, and never combine refactoring with feature development. Refactoring improves internal quality (readability, maintainability, extensibility) while preserving functionality. It is the primary weapon against software entropy and technical debt.
+
+:::
+
+:::eli20
+
 > Refactoring is improving the internal structure of code without changing its external behaviour.
 
 **Key principles:**
@@ -17,9 +31,25 @@ tags: ["refactoring", "code smells", "God class", "feature envy", "extract metho
 - Run tests after each change
 - Never refactor and add features simultaneously
 
+:::
+
 ---
 
 ## Code Smells
+
+:::eli10
+
+Code smells are warning signs that something in your code might be wrong -- like a bad smell in the kitchen means something is off. A method that is too long, a class that does too many things, or code that is duplicated in multiple places are all "smells." They do not mean the code is broken, but they suggest it could be improved.
+
+:::
+
+:::eli15
+
+Code smells are surface-level indicators of potential deeper problems in code. They are grouped into categories: Bloaters (things that have grown too large), OO Abusers (misuse of object-oriented features), Change Preventers (structures that make changes difficult), Dispensables (unnecessary code), and Couplers (excessive dependencies between classes). Each smell has one or more standard refactoring techniques to address it. Recognising smells is the first step toward targeted improvement.
+
+:::
+
+:::eli20
 
 ### Bloaters
 
@@ -67,9 +97,25 @@ tags: ["refactoring", "code smells", "God class", "feature envy", "extract metho
 | **Message Chains** | `a.getB().getC().getD().doSomething()` | Hide Delegate |
 | **Middle Man** | Class only delegates to another | Remove Middle Man |
 
+:::
+
 ---
 
 ## Key Refactoring Techniques
+
+:::eli10
+
+The most common refactoring moves are: Extract Method (pull a chunk of code into its own named method), Move Method (put a method in the class whose data it uses most), Replace Conditional with Polymorphism (replace if/switch on type with proper subclasses), Extract Class (split a big class into smaller focused ones), and Introduce Parameter Object (bundle related parameters into one object).
+
+:::
+
+:::eli15
+
+Key refactoring techniques address specific code smells: Extract Method breaks long methods into smaller named pieces. Move Method relocates methods to the class that owns the data they use (fixes Feature Envy). Replace Conditional with Polymorphism eliminates type-checking conditionals by using inheritance. Extract Class splits God Classes into focused classes (enforces SRP). Introduce Parameter Object groups related parameters into a dedicated object. Replace Inheritance with Delegation fixes Refused Bequest. Each technique has a well-defined, reversible procedure.
+
+:::
+
+:::eli20
 
 ### 1. Extract Method
 
@@ -251,9 +297,25 @@ public class Stack<E> {
 }
 ```
 
+:::
+
 ---
 
 ## Refactoring Workflow
+
+:::eli10
+
+The refactoring workflow is simple: make sure tests exist and pass, find the smell, pick the right fix, apply it in small steps, run tests after each step, and save your work when tests pass. Never skip the testing steps -- that is how bugs sneak in.
+
+:::
+
+:::eli15
+
+The safe refactoring workflow is: (1) ensure comprehensive tests exist and pass, (2) identify the specific code smell, (3) choose the appropriate refactoring technique, (4) apply the refactoring in small incremental steps, (5) run tests after each step to catch regressions immediately, (6) commit when tests pass. This disciplined approach minimises risk and ensures external behaviour is preserved. Automated refactoring tools in IDEs (rename, extract method, etc.) provide additional safety.
+
+:::
+
+:::eli20
 
 | Step | Action |
 |------|--------|
@@ -263,6 +325,8 @@ public class Stack<E> {
 | 4 | Apply refactoring in small steps |
 | 5 | Run tests after each step |
 | 6 | Commit when tests pass |
+
+:::
 
 ---
 

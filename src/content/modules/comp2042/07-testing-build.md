@@ -9,6 +9,20 @@ tags: ["JUnit", "testing", "unit test", "mocking", "Maven", "Gradle", "CI", "TDD
 
 ## Unit Testing with JUnit 5
 
+:::eli10
+
+Unit testing means writing small automatic checks for each piece of your code. It is like a robot assistant that runs through a checklist every time you change something: "Does addition still work? Does it handle zero correctly? Does it catch errors?" JUnit 5 is the tool Java programmers use to write these checks. If a test fails, you know exactly what broke and where.
+
+:::
+
+:::eli15
+
+Unit testing verifies individual components (methods, classes) in isolation. JUnit 5 is Java's standard testing framework. Tests follow the Arrange-Act-Assert (AAA) pattern: set up the test state, execute the action under test, and verify the expected outcome. Key features include lifecycle methods (@BeforeEach, @AfterEach), parameterised tests (running the same test with multiple inputs), nested test classes (logical grouping), and various assertion methods. Tests serve as both verification and documentation.
+
+:::
+
+:::eli20
+
 ### Test Structure (AAA Pattern)
 
 ```java
@@ -161,9 +175,25 @@ class StackTest {
 }
 ```
 
+:::
+
 ---
 
 ## Mocking with Mockito
+
+:::eli10
+
+Mocking is creating fake versions of things your code depends on (like a fake database or a fake email service) so you can test just your code in isolation. It is like testing a play where some actors are replaced by stand-ins who just say their lines -- you are only checking whether the main actor does their part right.
+
+:::
+
+:::eli15
+
+Mocking isolates the unit under test from its dependencies (databases, APIs, email services). Mockito creates fake objects that simulate dependency behaviour without real side effects. You define what the mock should return (`when(...).thenReturn(...)`) and verify that expected interactions occurred (`verify(mock).method(...)`). Mock external services and slow/non-deterministic operations; do not mock the class under test, simple value objects, or data structures.
+
+:::
+
+:::eli20
 
 ### Purpose
 
@@ -222,9 +252,25 @@ class OrderServiceTest {
 | Non-deterministic (time, random) | Data structures (List, Map) |
 | Dependencies with side effects | Pure functions |
 
+:::
+
 ---
 
 ## Test-Driven Development (TDD)
+
+:::eli10
+
+TDD is writing the test BEFORE the code. First you write a test that fails (because the code does not exist yet). Then you write the minimum code to make it pass. Then you clean up the code. Repeat. It is like drawing the shape first and then colouring inside the lines.
+
+:::
+
+:::eli15
+
+Test-Driven Development follows a strict Red-Green-Refactor cycle: write a failing test first (Red), write the minimum code to pass (Green), then improve the code without changing behaviour (Refactor). This ensures 100% test coverage by construction, drives simple design (only write code needed to pass tests), and provides confidence for future changes. TDD works best for well-understood logic; it is less suited for exploratory or UI-heavy work.
+
+:::
+
+:::eli20
 
 | Step | Colour | Action |
 |------|--------|--------|
@@ -236,9 +282,25 @@ class OrderServiceTest {
 Red → Green → Refactor → Red → Green → Refactor → ...
 ```
 
+:::
+
 ---
 
 ## Build Tools
+
+:::eli10
+
+Build tools automate the boring stuff: downloading libraries, compiling code, running tests, and packaging your application. Maven and Gradle are the two big ones for Java. Maven uses XML configuration and follows strict conventions. Gradle uses code (Groovy/Kotlin) and is faster but harder to learn. Both save you from doing all those steps by hand.
+
+:::
+
+:::eli15
+
+Build tools automate compilation, dependency management, testing, and packaging. Maven and Gradle are Java's primary build tools. Maven uses XML configuration (pom.xml) and favours convention over configuration with a fixed lifecycle (validate, compile, test, package, verify, install, deploy). Gradle uses Groovy/Kotlin DSL (build.gradle), offers more flexibility, and is faster through incremental builds and caching. Both download dependencies from central repositories and integrate with CI pipelines.
+
+:::
+
+:::eli20
 
 ### Maven vs Gradle
 
@@ -335,9 +397,25 @@ test {
 | Run | `mvn exec:java` | `gradle run` |
 | Dependencies | `mvn dependency:tree` | `gradle dependencies` |
 
+:::
+
 ---
 
 ## Continuous Integration (CI)
+
+:::eli10
+
+Continuous Integration means that every time someone saves their code, an automatic system checks it: compiles it, runs all the tests, and reports whether everything is okay. It is like having a teacher who marks your homework the instant you hand it in. If something breaks, everyone knows immediately and can fix it before things get worse.
+
+:::
+
+:::eli15
+
+Continuous Integration (CI) automates building, testing, and analysing code on every commit or pull request. A CI pipeline typically: triggers on push/PR, checks out code, compiles, runs unit and integration tests, performs static analysis and coverage checks, and packages the artifact. Best practices: commit frequently (at least daily), keep builds fast (under 10 minutes), fix broken builds immediately, automate everything, and maintain test coverage above 80%. CI catches integration issues early and provides rapid feedback.
+
+:::
+
+:::eli20
 
 ### CI Pipeline Steps
 
@@ -358,6 +436,8 @@ test {
 - Fix broken builds immediately
 - Automate everything (build, test, deploy)
 - Maintain test coverage > 80%
+
+:::
 
 ---
 

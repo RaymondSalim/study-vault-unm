@@ -7,9 +7,23 @@ tags: ["design patterns", "creational", "Singleton", "Factory Method", "Abstract
 
 # Creational Design Patterns
 
-Creational patterns deal with object creation mechanisms, abstracting the instantiation process.
-
 ## Pattern Overview
+
+:::eli10
+
+Creational patterns are recipes for creating objects in smart ways. Singleton ensures only one copy of something exists (like one school principal). Factory Method lets subclasses decide which object to create (like ordering "a drink" and the shop decides which one). Abstract Factory creates families of related objects (like choosing a whole theme). Builder constructs complex objects step by step (like customising a pizza topping by topping).
+
+:::
+
+:::eli15
+
+Creational patterns abstract the instantiation process, making systems independent of how objects are created. Singleton guarantees a single instance of a class (useful for shared resources). Factory Method defers object creation to subclasses (useful when the exact type is not known at compile time). Abstract Factory creates families of related objects without specifying concrete classes (useful for platform/theme independence). Builder separates complex object construction from representation (useful for objects with many optional parameters).
+
+:::
+
+:::eli20
+
+Creational patterns deal with object creation mechanisms, abstracting the instantiation process.
 
 | Pattern | Intent | When to use |
 |---------|--------|-------------|
@@ -18,9 +32,25 @@ Creational patterns deal with object creation mechanisms, abstracting the instan
 | **Abstract Factory** | Create families of related objects | Need platform/theme-independent creation |
 | **Builder** | Construct complex objects step by step | Object has many optional parameters |
 
+:::
+
 ---
 
 ## Singleton
+
+:::eli10
+
+The Singleton pattern makes sure only one instance of a class ever exists, like having one headteacher for the whole school. It hides the constructor so nobody can create a second one, and provides a special method to get the single instance. Be careful though -- it can make testing hard because everything shares the same global object.
+
+:::
+
+:::eli15
+
+Singleton ensures a class has exactly one instance by making the constructor private and exposing a static `getInstance()` method. Eager initialisation creates the instance at class loading (simple and thread-safe). Lazy initialisation delays creation until first use (saves resources but needs synchronisation for thread safety). Trade-offs: controlled access and lazy initialisation are benefits, but global state, tight coupling, and difficulty in unit testing are drawbacks.
+
+:::
+
+:::eli20
 
 ### UML Structure
 
@@ -73,9 +103,25 @@ public class DatabaseConnection {
 | Lazy initialisation possible | Hard to unit test (tight coupling) |
 | Thread-safe with proper implementation | Violates SRP (controls own lifecycle) |
 
+:::
+
 ---
 
 ## Factory Method
+
+:::eli10
+
+The Factory Method pattern is like ordering "a notification" without specifying exactly what kind. The factory decides whether to make an email, SMS, or push notification based on which factory subclass you are using. This way, you can add new types of notifications without changing the code that uses them.
+
+:::
+
+:::eli15
+
+Factory Method defines an interface for creating objects but lets subclasses decide which class to instantiate. The creator class declares an abstract factory method; concrete creator subclasses override it to produce specific products. This decouples client code from concrete product classes and follows the Open/Closed Principle -- adding new products only requires adding new creator subclasses. A simpler parameterised variant uses a switch/match statement instead of subclasses.
+
+:::
+
+:::eli20
 
 ### UML Structure
 
@@ -154,9 +200,25 @@ public class NotificationFactory {
 }
 ```
 
+:::
+
 ---
 
 ## Abstract Factory
+
+:::eli10
+
+Abstract Factory is like choosing a whole theme pack. If you pick "Dark Theme," everything you create (buttons, text fields, menus) comes in dark colours. If you pick "Light Theme," everything is light. You swap the whole factory and all the products change together, without changing any of the code that uses them.
+
+:::
+
+:::eli15
+
+Abstract Factory creates families of related objects without specifying their concrete classes. Each concrete factory produces a consistent set of products (e.g., all UI components in one theme). Client code depends only on abstract factory and product interfaces, so switching the entire product family (e.g., from light to dark theme) requires only changing which factory is injected. It is more complex than Factory Method but ensures consistency across related objects.
+
+:::
+
+:::eli20
 
 ### UML Structure
 
@@ -241,9 +303,25 @@ public class Application {
 | Extensibility | Add new creator subclass | Add new factory implementation |
 | Complexity | Simpler | More complex |
 
+:::
+
 ---
 
 ## Builder
+
+:::eli10
+
+The Builder pattern is for creating objects with lots of options, like customising a pizza. Instead of a constructor with 10 parameters (confusing!), you call methods one by one: `.sauce("bbq").topping("pepperoni").extraLarge(true)` and then `.build()` to finish. This makes complex object creation readable and prevents mistakes.
+
+:::
+
+:::eli15
+
+The Builder pattern separates the construction of a complex object from its representation. It is ideal when an object has many parameters (especially optional ones) and you want immutability. A static inner Builder class accumulates settings through method chaining (fluent API), then produces the final object with `.build()`. This avoids telescoping constructors, provides clear readable construction code, and allows validation before object creation.
+
+:::
+
+:::eli20
 
 ### UML Structure
 
@@ -329,6 +407,8 @@ Pizza pizza = new Pizza.Builder("thin crust")
 | Constructor | Few parameters, all required |
 | Setters | Mutable object, optional fields |
 | Builder | Many parameters, immutable object, complex validation |
+
+:::
 
 ---
 

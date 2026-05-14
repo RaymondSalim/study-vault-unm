@@ -9,6 +9,20 @@ tags: ["prolog", "lists", "recursion", "cut", "arithmetic"]
 
 ## List Notation
 
+:::eli10
+
+Lists in Prolog work like a chain. You can split any list into its first item (head) and the rest (tail) using `[H|T]`. So `[1,2,3]` splits into head `1` and tail `[2,3]`. The empty list `[]` is where the chain ends. This head-tail splitting is how Prolog processes lists one item at a time.
+
+:::
+
+:::eli15
+
+Prolog lists are built from the empty list `[]` and the head-tail operator `|`. The notation `[H|T]` destructures a list into its first element (H) and remaining list (T). Multiple elements can be extracted: `[X,Y|Z]` gets the first two elements and the rest. This pattern is the basis for all recursive list processing in Prolog, analogous to Haskell's `(x:xs)` pattern.
+
+:::
+
+:::eli20
+
 Lists in Prolog are built from `[]` (empty) and `[Head|Tail]` (cons).
 
 ```prolog
@@ -24,7 +38,23 @@ Lists in Prolog are built from `[]` (empty) and `[Head|Tail]` (cons).
 [X|_] = [hello]       % X = hello
 ```
 
+:::
+
 ## Basic List Operations
+
+:::eli10
+
+Prolog has built-in tricks for lists. `member` checks if something is in a list. `append` glues two lists together. `reverse` flips a list around. The cool thing is these work in multiple directions -- you can use `append` to split a list into all possible pairs.
+
+:::
+
+:::eli15
+
+Core list predicates work through recursion: `member/2` checks if an element is in a list (base: head matches; recursive: check tail). `append/3` concatenates lists and is multi-directional (can split a list too). `reverse/2` has a naive O(n^2) version and an efficient O(n) accumulator version. `last/2` and `nth/3` access specific positions. These form the building blocks for all Prolog list processing.
+
+:::
+
+:::eli20
 
 ### Member
 
@@ -106,7 +136,23 @@ nth(N, [_|T], X) :- N > 1, N1 is N - 1, nth(N1, T, X).
 % X = b.
 ```
 
+:::
+
 ## List Processing Patterns
+
+:::eli10
+
+You can transform lists by doing something to each item (like doubling every number), or by keeping only certain items (like only positive numbers). The pattern is always: handle the empty list, then handle one item and recurse on the rest.
+
+:::
+
+:::eli15
+
+Common Prolog list patterns mirror functional programming: map-like (transform each element by processing head and recursing on tail), filter-like (keep/discard based on a condition with two clauses), and accumulator pattern (carry a running result through recursion for efficiency). The structure is always: base case for `[]`, recursive case for `[H|T]`.
+
+:::
+
+:::eli20
 
 ### Map-like (Apply to Each)
 
@@ -151,7 +197,23 @@ max_acc([H|T], CurMax, Max) :-
     max_acc(T, NewMax, Max).
 ```
 
+:::
+
 ## Arithmetic in Prolog
+
+:::eli10
+
+You can do math in Prolog too -- factorial, Fibonacci, and other calculations. The pattern is similar to other languages: define the base case (factorial of 0 is 1), then the recursive case (factorial of N is N times factorial of N-1). But in Prolog you use `is` to calculate and extra variables for intermediate results.
+
+:::
+
+:::eli15
+
+Arithmetic recursion in Prolog follows the same base-case/recursive-case pattern but requires explicit use of `is` for evaluation and intermediate variables for computed values. Unlike Haskell, the arithmetic guard (`N > 0`) must be included to prevent infinite recursion on negative inputs. Results are passed through additional arguments rather than return values.
+
+:::
+
+:::eli20
 
 ```prolog
 % Factorial
@@ -178,7 +240,23 @@ gcd(X, 0, X) :- X > 0.
 gcd(X, Y, G) :- Y > 0, R is X mod Y, gcd(Y, R, G).
 ```
 
+:::
+
 ## Sorting
+
+:::eli10
+
+You can sort lists in Prolog too. Insertion sort puts each item in the right spot one at a time. Quicksort picks one item (the pivot), splits the rest into smaller and bigger groups, sorts each group, and glues them back together.
+
+:::
+
+:::eli15
+
+Prolog sorting algorithms follow the same logic as in other languages but are expressed declaratively. Insertion sort recursively sorts the tail then inserts the head into the correct position. Quicksort partitions around a pivot, recursively sorts both halves, and appends the results. The partition predicate splits elements into those less-than and greater-than the pivot.
+
+:::
+
+:::eli20
 
 ```prolog
 % Insertion sort
@@ -204,7 +282,23 @@ partition(Pivot, [H|T], Less, [H|Greater]) :-
     H > Pivot, partition(Pivot, T, Less, Greater).
 ```
 
+:::
+
 ## Cut (`!`)
+
+:::eli10
+
+The cut (`!`) is like telling Prolog "stop looking for other answers -- I'm happy with this path." Without it, Prolog might waste time exploring options you know won't work. But be careful -- cutting off too much can make Prolog give wrong answers.
+
+:::
+
+:::eli15
+
+The cut `!` prunes Prolog's search tree, preventing backtracking past the cut point. Green cuts improve efficiency without changing results (just avoiding unnecessary search). Red cuts change program semantics by eliminating valid solutions (used for if-then-else patterns). Danger: cuts can cause incorrect answers if misused -- the classic example is a `max` predicate that gives wrong results when called with unexpected argument patterns.
+
+:::
+
+:::eli20
 
 The **cut** prunes the search tree. Once a cut is passed, Prolog will not backtrack past it for the current goal.
 
@@ -259,7 +353,23 @@ not(_).
 % Same as \+ operator
 ```
 
+:::
+
 ## Generate and Test
+
+:::eli10
+
+A common Prolog trick is to generate possible answers and then test which ones are correct. It's like trying every combination and keeping only the ones that work -- Prolog's backtracking handles this naturally.
+
+:::
+
+:::eli15
+
+Generate-and-test is a common Prolog pattern where you first generate candidate solutions (using a predicate that produces multiple answers through backtracking), then test them against constraints. While not always efficient, it's natural in Prolog due to built-in backtracking. Examples include finding numbers in a range satisfying conditions, or permutation sort (generate all permutations, test which is sorted).
+
+:::
+
+:::eli20
 
 A common Prolog pattern: generate candidates, then test them.
 
@@ -275,7 +385,23 @@ is_sorted([_]).
 is_sorted([X,Y|T]) :- X =< Y, is_sorted([Y|T]).
 ```
 
+:::
+
 ## Useful Built-in Predicates
+
+:::eli10
+
+Prolog comes with many helpful built-in tools: `write` prints things, `findall` collects all answers to a question into a list, `sort` puts a list in order, and `length` tells you how long a list is.
+
+:::
+
+:::eli15
+
+Key built-in predicates: `findall(X, Goal, List)` collects all solutions into a list, `write/1` and `nl` for output, type-checking predicates (`atom/1`, `number/1`, `var/1`), `assert/retract` to modify the knowledge base at runtime, `between/3` for generating integers in a range, and `sort/2`/`msort/2` for sorting lists.
+
+:::
+
+:::eli20
 
 | Predicate | Description |
 |-----------|-------------|
@@ -388,3 +514,5 @@ foo([_,_|_]) :- write('many'), nl.
 Answer: `many` (matches third clause: head, second element, and rest)
 
 </details>
+
+:::

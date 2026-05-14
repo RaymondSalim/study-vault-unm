@@ -9,6 +9,20 @@ tags: ["MVC", "MVP", "GUI", "JavaFX", "Swing", "event handling", "separation of 
 
 ## Why GUI Code is Hard to Maintain
 
+:::eli10
+
+GUI code gets messy because people tend to put everything in one place: the look of the screen, the logic of the application, and the data storage all tangled together. This makes it impossible to test the logic without opening a window, and any change to the appearance might break the calculations. The solution is to separate these concerns into different parts.
+
+:::
+
+:::eli15
+
+GUI code is particularly prone to maintenance problems because: business logic gets mixed into UI event handlers (making it untestable without launching the GUI), state is scattered across widgets (leading to inconsistencies), event handlers become God methods doing everything, the code becomes tightly coupled to the specific UI framework (cannot swap), and there are no clear boundaries (shotgun surgery for any change). The solution is architectural patterns like MVC and MVP that enforce separation of concerns.
+
+:::
+
+:::eli20
+
 | Problem | Consequence |
 |---------|-------------|
 | Business logic mixed with UI code | Can't test logic without launching GUI |
@@ -17,9 +31,25 @@ tags: ["MVC", "MVP", "GUI", "JavaFX", "Swing", "event handling", "separation of 
 | State scattered across widgets | Inconsistent display, race conditions |
 | No clear boundaries | Shotgun surgery for changes |
 
+:::
+
 ---
 
 ## MVC for GUI Applications
+
+:::eli10
+
+MVC splits a GUI application into three parts. The Model stores the data and knows the rules (like a calculator's memory). The View is what you see on screen (buttons, labels, text fields). The Controller is the middleman that connects actions (button clicks) to the model and tells the view to update. This way you can test the model without any GUI and swap the view without changing the logic.
+
+:::
+
+:::eli15
+
+In GUI MVC: the Model holds all data and business logic (completely independent of the UI), the View handles display and input capture (observes the model for changes), and the Controller coordinates between them (handles user input, updates model, selects views). Key benefit: the Model can be fully unit tested without any GUI framework. The View can be swapped (desktop, web, mobile) without changing business logic. JavaFX supports this through FXML (declarative views), property binding, and controller classes.
+
+:::
+
+:::eli20
 
 ### Component Responsibilities
 
@@ -118,9 +148,25 @@ public class App extends Application {
 }
 ```
 
+:::
+
 ---
 
 ## MVP (Model-View-Presenter)
+
+:::eli10
+
+MVP is like MVC but the View is even simpler -- it just displays what it is told and reports button clicks, nothing else. All the thinking is done by the Presenter. This makes the View so simple you can replace it with a fake for testing. The Presenter can be tested completely without any real screen.
+
+:::
+
+:::eli15
+
+MVP (Model-View-Presenter) makes the View completely passive ("dumb"): it only displays data and forwards user actions to the Presenter. The Presenter contains all presentation logic and explicitly updates the View. Unlike MVC (where the View observes the Model directly), in MVP the View only talks to the Presenter. This makes testing much easier because the View can be mocked -- you can test all Presenter logic without any GUI. MVP is preferred when testability is a priority.
+
+:::
+
+:::eli20
 
 ### MVC vs MVP
 
@@ -189,9 +235,25 @@ void testIncrementUpdatesView() {
 }
 ```
 
+:::
+
 ---
 
 ## Event Handling Best Practices
+
+:::eli10
+
+The biggest mistake in GUI programming is putting all the logic inside the button click handler. Instead, the handler should just say "hey controller, the button was clicked" and the controller handles everything else. This keeps the GUI code simple and the logic testable.
+
+:::
+
+:::eli15
+
+Event handlers should be thin -- they should only delegate to a controller or presenter method, not contain business logic, validation, database calls, or complex calculations. Bad: a button handler that validates input, calculates tax, saves to database, and sends email (untestable, unmaintainable). Good: a handler that calls `controller.handleCalculate()` which orchestrates the logic through properly separated services. This enables testing logic without GUI and keeps event handlers trivially simple.
+
+:::
+
+:::eli20
 
 ### Bad: Logic in Event Handler
 
@@ -232,9 +294,25 @@ public class OrderController {
 }
 ```
 
+:::
+
 ---
 
 ## Separating Concerns in JavaFX
+
+:::eli10
+
+JavaFX lets you separate the look (FXML files -- like HTML for your app) from the behaviour (Java controller classes). You can also use property binding so that when data in the model changes, the screen updates automatically without you writing extra code. This keeps things clean and maintainable.
+
+:::
+
+:::eli15
+
+JavaFX supports separation of concerns through FXML (declarative XML view definitions, similar to HTML), controller classes linked to FXML, and property binding (automatic UI updates when model data changes). FXML separates view structure from Java logic. Property binding (`label.textProperty().bind(model.property().asString())`) eliminates manual update code. CSS handles styling separately. These mechanisms together enable a clean MVC/MVP architecture in JavaFX applications.
+
+:::
+
+:::eli20
 
 ### FXML for Separation
 
@@ -286,9 +364,25 @@ countLabel.textProperty().bind(model.countProperty().asString());
 // Now label updates automatically when model changes!
 ```
 
+:::
+
 ---
 
 ## Testing GUI Code
+
+:::eli10
+
+The secret to testing GUI code is to put all the logic in the Model and Presenter/Controller (which can be tested easily without a screen) and keep the View so simple it barely needs testing. You test the Model with normal JUnit, test the Presenter with mocked Views, and only use special GUI testing tools for checking that things look right.
+
+:::
+
+:::eli15
+
+A testable GUI architecture allows most logic to be verified without launching the GUI. Unit test the Model with plain JUnit (no UI dependencies). Unit test the Presenter/Controller with a mock View interface (verifying it calls the right View methods). Use integration testing tools (TestFX for JavaFX) only for verifying visual behaviour and component interaction. The key architectural requirement: the Model must have zero GUI dependencies, the View must be a passive mockable interface, and event handlers must be thin delegates.
+
+:::
+
+:::eli20
 
 | Approach | What it tests | Tool |
 |----------|---------------|------|
@@ -306,6 +400,8 @@ countLabel.textProperty().bind(model.countProperty().asString());
 | View is passive | No business logic, only display |
 | Event handlers are thin | Delegate to controller immediately |
 | State is in model | View reflects model, not vice versa |
+
+:::
 
 ---
 

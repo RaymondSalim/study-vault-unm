@@ -7,12 +7,42 @@ tags: ["use-cases", "activity-diagrams", "domain-model", "class-diagrams", "DFD"
 
 ## Purpose of Analysis & Modelling
 
+:::eli10
+
+After collecting raw information from people, you need to organise it into clear pictures and structured descriptions. This is like taking messy notes from a conversation and turning them into neat diagrams that everyone can understand. It helps find missing pieces, contradictions, and things nobody thought about yet.
+
+:::
+
+:::eli15
+
+Analysis and modelling transform raw elicited information into structured, unambiguous specifications. The goals are: detecting conflicts, gaps, and redundancies; communicating requirements visually to diverse stakeholders; and providing a basis for validation and verification. Different models (use cases, activity diagrams, domain models, DFDs) capture different aspects of the system.
+
+:::
+
+:::eli20
+
 - Transform raw elicited information into structured, unambiguous specifications
 - Detect conflicts, gaps, and redundancies
 - Communicate requirements visually to stakeholders and developers
 - Provide a basis for validation and verification
 
+:::
+
 ## Use Cases
+
+:::eli10
+
+A use case is a story about how a person uses the system to achieve a goal. It has a main happy path (everything goes right), alternative paths (different choices), and exception paths (things go wrong). It is like writing out the script for every possible way a scene in a movie could play out.
+
+:::
+
+:::eli15
+
+Use cases describe interactions between actors and the system to achieve a goal. They specify preconditions, triggers, step-by-step flows (main success scenario, alternative flows for variations, exception flows for errors), and postconditions. Unlike user stories (brief, conversational), use cases are comprehensive structured documents. They are particularly useful in plan-driven development for formal documentation.
+
+:::
+
+:::eli20
 
 ### Use Case vs User Story
 
@@ -84,7 +114,23 @@ tags: ["use-cases", "activity-diagrams", "domain-model", "class-diagrams", "DFD"
     8a.3 Use case ends or returns to step 1.
 ```
 
+:::
+
 ## Use Case Diagrams (UML)
+
+:::eli10
+
+A use case diagram is a simple picture with stick figures (the people/systems that interact) and ovals (the things the system does). Lines connect the actors to the use cases they participate in. Some use cases always include another (like "checkout" always includes "validate payment"), and some optionally extend another (like "apply discount code").
+
+:::
+
+:::eli15
+
+UML use case diagrams show the system boundary (rectangle), actors (stick figures for external entities), and use cases (ovals for system functions). Relationships include: association (actor participates), include (mandatory sub-behaviour that is always executed), extend (optional/conditional behaviour), and generalisation (inheritance between actors or use cases). These diagrams give a high-level visual overview of who does what with the system.
+
+:::
+
+:::eli20
 
 Elements:
 - **Actors** — stick figures (external entities)
@@ -102,7 +148,23 @@ Elements:
 **<<include>>** = mandatory sub-behaviour (e.g., "Place Order" includes "Validate Payment")
 **<<extend>>** = optional/conditional (e.g., "Place Order" extended by "Apply Discount Code")
 
+:::
+
 ## Activity Diagrams
+
+:::eli10
+
+Activity diagrams are fancy flowcharts. They show the steps in a process with diamonds for decisions (like "if yes, go left; if no, go right") and thick bars for things that happen at the same time. Swimlanes show who is responsible for each step, like lanes in a swimming pool.
+
+:::
+
+:::eli15
+
+Activity diagrams model the flow of activities in a process, similar to flowcharts but with support for parallel execution (fork/join bars) and responsibility assignment (swimlanes). They use: filled circles for start, rounded rectangles for actions, diamonds for decisions, thick bars for parallel splits/joins, and bordered circles for end. They are useful for complex business workflows with branching and concurrency, often created before detailed use cases.
+
+:::
+
+:::eli20
 
 Model the **flow of activities** in a process (like a flowchart but with support for concurrency).
 
@@ -117,7 +179,23 @@ Model the **flow of activities** in a process (like a flowchart but with support
 
 **When to use:** Complex workflows with branching/parallel paths; clarifying business processes before writing use cases.
 
+:::
+
 ## Domain Modelling
+
+:::eli10
+
+A domain model is a picture of the important "things" in the problem you are solving and how they relate. For a library, those things might be Book, Member, and Loan, connected by relationships like "a Member makes a Loan of a Book." It helps everyone understand the problem before thinking about the software solution.
+
+:::
+
+:::eli15
+
+A domain model captures key concepts (entities) in the problem domain and their relationships -- it is an analysis tool, NOT a software design. You identify candidate concepts from nouns in requirements, add associations (relationships between concepts from verbs), attributes (properties of concepts), and multiplicity (how many of each). It builds shared understanding of the problem space without prescribing implementation details.
+
+:::
+
+:::eli20
 
 A domain model captures key **concepts** (entities) in the problem domain and their relationships — NOT a software design.
 
@@ -139,7 +217,23 @@ A domain model captures key **concepts** (entities) in the problem domain and th
 | Loan | dueDate, returnDate | links Member to Copy |
 | Reservation | dateRequested, status | links Member to Book |
 
+:::
+
 ## Class Diagrams (Analysis Level)
+
+:::eli10
+
+At the analysis level, class diagrams sort things into three types: entity classes (store data, like "Order" or "Customer"), boundary classes (the screens and interfaces users interact with), and control classes (the coordinators that connect everything together). It is like sorting characters in a play into leads, stage crew, and directors.
+
+:::
+
+:::eli15
+
+Analysis-level class diagrams categorise classes into three stereotypes: entity classes (domain objects with data, like Order or Customer), boundary classes (system interfaces like screens or API endpoints), and control classes (process coordinators like OrderProcessor). This separation of concerns helps identify responsibilities early and maps to architectural patterns like MVC. It is an analysis technique, not detailed design.
+
+:::
+
+:::eli20
 
 At analysis level, class diagrams show:
 - **Entity classes** (domain objects with data)
@@ -152,7 +246,23 @@ At analysis level, class diagrams show:
 | <<boundary>> | System interface | LoginScreen, APIEndpoint |
 | <<control>> | Coordinates behaviour | OrderProcessor, AuthController |
 
+:::
+
 ## Data Flow Diagrams (DFD)
+
+:::eli10
+
+A data flow diagram shows how information moves through a system -- where it comes from, what processes transform it, where it gets stored, and where it goes. It is like a plumbing diagram showing how water (data) flows through pipes (arrows), gets processed at stations, and collects in tanks (data stores).
+
+:::
+
+:::eli15
+
+Data Flow Diagrams (DFDs) show how data moves through a system at various levels of detail. Level 0 (context diagram) shows the entire system as one process with external entities. Level 1 decomposes into main processes. Level 2+ provides further detail. Elements include: rectangles (external entities), circles/rounded rectangles (processes), open-ended rectangles (data stores), and arrows (data flows). DFDs must follow rules: every process needs input and output, data stores cannot talk directly to external entities, and all flows must be labelled.
+
+:::
+
+:::eli20
 
 | Level | Content |
 |-------|---------|
@@ -175,7 +285,23 @@ At analysis level, class diagrams show:
 - Data flows must be labelled
 - Processes are numbered hierarchically (1, 1.1, 1.2, ...)
 
+:::
+
 ## Choosing the Right Model
+
+:::eli10
+
+Different diagrams are good for different things. Use cases show how people interact with the system. Activity diagrams show complex workflows. Domain models show the important "things." DFDs show how data moves. Pick the one that best answers the question you are trying to answer.
+
+:::
+
+:::eli15
+
+The choice of model depends on what you need to communicate. Use cases are best for describing user interactions. Activity diagrams clarify complex workflows with branching and parallelism. Domain models capture problem-space concepts and relationships. DFDs show data movement. Class diagrams show object relationships. Context diagrams define system boundaries. Most projects use a combination of models to capture different aspects of requirements.
+
+:::
+
+:::eli20
 
 | Situation | Recommended Model |
 |-----------|------------------|
@@ -244,3 +370,5 @@ Which relationships apply?
 - Register Account is a separate use case (no include/extend relationship with Place Order — but Place Order may <<include>> Authenticate User)
 
 </details>
+
+:::

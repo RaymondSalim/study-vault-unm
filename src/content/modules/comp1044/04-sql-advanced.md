@@ -9,6 +9,20 @@ tags: ["databases", "sql", "joins", "subqueries", "aggregation"]
 
 ## Joins
 
+:::eli10
+
+Joins combine data from two or more tables. An INNER JOIN only keeps rows that match in both tables. A LEFT JOIN keeps everything from the left table even if there is no match (filling in blanks with NULL). Think of it like matching students to their clubs -- an inner join only shows students who are in a club, while a left join shows ALL students even if they have not joined one.
+
+:::
+
+:::eli15
+
+Joins combine rows from multiple tables based on related columns. INNER JOIN returns only matching rows. LEFT JOIN returns all rows from the left table plus matches from the right (NULL where no match). RIGHT JOIN is the reverse. FULL OUTER JOIN returns all rows from both sides. CROSS JOIN produces every possible combination. Self-joins allow a table to be joined with itself (useful for hierarchies like employee-manager relationships).
+
+:::
+
+:::eli20
+
 Joins combine rows from two or more tables based on a related column.
 
 ### Join Types Summary
@@ -103,7 +117,23 @@ FROM Employee e
 LEFT JOIN Employee m ON e.ManagerID = m.EmployeeID;
 ```
 
+:::
+
 ## Aggregate Functions
+
+:::eli10
+
+Aggregate functions do maths on a whole column of data: COUNT counts how many, SUM adds them up, AVG finds the average, MIN finds the smallest, and MAX finds the biggest. They squash many rows down into one answer.
+
+:::
+
+:::eli15
+
+Aggregate functions compute a single value from multiple rows. COUNT(*) counts all rows, COUNT(column) counts non-NULL values, SUM/AVG/MIN/MAX compute on numeric columns. An important detail: all aggregate functions ignore NULL values except COUNT(*). These functions are often used with GROUP BY to compute aggregates per group rather than for the whole table.
+
+:::
+
+:::eli20
 
 | Function | Purpose | Example |
 |----------|---------|---------|
@@ -117,7 +147,23 @@ LEFT JOIN Employee m ON e.ManagerID = m.EmployeeID;
 
 > **Important:** Aggregate functions ignore NULL values (except `COUNT(*)`).
 
+:::
+
 ## GROUP BY
+
+:::eli10
+
+GROUP BY splits your data into groups and lets you do calculations on each group separately. For example, "find the average GPA in each department" groups students by department and then computes AVG(GPA) for each group.
+
+:::
+
+:::eli15
+
+GROUP BY partitions rows into groups sharing the same value(s) for specified columns, then applies aggregate functions to each group independently. A critical rule: every column in SELECT must either be in the GROUP BY clause or inside an aggregate function. This ensures unambiguous results -- you cannot select a specific FirstName when multiple rows are grouped together.
+
+:::
+
+:::eli20
 
 Groups rows sharing a value and applies aggregate functions per group.
 
@@ -150,7 +196,23 @@ FROM Student
 GROUP BY DeptID;
 ```
 
+:::
+
 ## HAVING
+
+:::eli10
+
+HAVING is like WHERE but for groups. WHERE filters individual rows before grouping; HAVING filters entire groups after the calculations. For example, "show me departments with an average GPA above 3.5" uses HAVING because you need to compute the average first.
+
+:::
+
+:::eli15
+
+HAVING filters groups after aggregation, while WHERE filters individual rows before grouping. You cannot use aggregate functions in WHERE (the groups do not exist yet), but you can in HAVING. The full query execution order is: FROM/JOIN, then WHERE (filter rows), then GROUP BY (form groups), then HAVING (filter groups), then SELECT, then ORDER BY, then LIMIT.
+
+:::
+
+:::eli20
 
 Filters **groups** (after aggregation), whereas WHERE filters **rows** (before aggregation).
 
@@ -184,7 +246,23 @@ HAVING COUNT(*) > 50;
 | 7 | ORDER BY | Sort results |
 | 8 | LIMIT | Restrict output |
 
+:::
+
 ## Subqueries
+
+:::eli10
+
+A subquery is a question inside another question. "Find students with a GPA above average" first needs to find the average (inner query), then uses that answer in the outer query. Subqueries can go in WHERE, FROM, or even SELECT.
+
+:::
+
+:::eli15
+
+Subqueries are SELECT statements nested inside another query. They can appear in WHERE (to filter based on a computed value or set), in FROM (as a derived table), or in SELECT (as a computed column). Correlated subqueries reference the outer query and execute once per outer row. Key patterns include: comparison with a single value (=, >), membership testing (IN, NOT IN), and existence testing (EXISTS, NOT EXISTS).
+
+:::
+
+:::eli20
 
 A subquery is a SELECT statement nested inside another query.
 
@@ -250,7 +328,23 @@ FROM (
 ) AS DeptAverages;
 ```
 
+:::
+
 ## Set Operations
+
+:::eli10
+
+Set operations combine the results of two queries. UNION merges them (removing duplicates), INTERSECT keeps only rows in both, and EXCEPT keeps rows in the first but not the second.
+
+:::
+
+:::eli15
+
+Set operations combine results from two compatible queries. UNION returns all rows from both queries (removing duplicates; use UNION ALL to keep them). INTERSECT returns only rows present in both results. EXCEPT (or MINUS) returns rows in the first result but not the second. Both queries must have the same number of columns with compatible types.
+
+:::
+
+:::eli20
 
 ```sql
 -- Students in COMP1044 OR COMP2055
@@ -271,7 +365,23 @@ SELECT StudentID FROM Enrolment WHERE ModuleCode = 'COMP2055';
 
 > `UNION` removes duplicates. Use `UNION ALL` to keep them.
 
+:::
+
 ## Practice
+
+:::eli10
+
+Try these exercises to practise writing complex SQL queries with joins, subqueries, and aggregate functions.
+
+:::
+
+:::eli15
+
+These exercises cover finding unmatched rows (LEFT JOIN with NULL check or NOT EXISTS), correlated subqueries for per-group maximums, the distinction between WHERE and HAVING, and the universal quantification pattern ("for all" via NOT EXISTS with a negated condition).
+
+:::
+
+:::eli20
 
 <details>
 <summary>Q1: Write a query to find the names of students who are NOT enrolled in any module.</summary>
@@ -359,3 +469,5 @@ WHERE NOT EXISTS (
 This uses the "for all" pattern: "there does NOT EXIST a student with grade ≤ 60" is equivalent to "ALL students have grade > 60."
 
 </details>
+
+:::

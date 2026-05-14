@@ -7,6 +7,20 @@ tags: ["software-engineering", "UML", "class-diagrams", "OOP", "relationships"]
 
 ## Class Diagram Notation
 
+:::eli10
+
+A class diagram is like a blueprint for objects in your program. Each class is a box divided into three parts: the name at the top, the data it stores in the middle, and the actions it can perform at the bottom. Symbols like + and - show who is allowed to see each part.
+
+:::
+
+:::eli15
+
+UML class diagrams model the static structure of a system. Each class is represented as a three-compartment box: class name, attributes (data), and methods (behaviour). Visibility modifiers (+ public, - private, # protected, ~ package) control access. Attributes include their type and optional default values. Methods show their parameters and return types. Abstract members are shown in italics, static members are underlined.
+
+:::
+
+:::eli20
+
 A class is represented as a box with three compartments:
 
 ```
@@ -44,9 +58,25 @@ A class is represented as a box with three compartments:
 | *`italic`* or `{abstract}` | *`calculateArea()`* | Abstract method |
 | <u>`underline`</u> | <u>`getInstance(): Singleton`</u> | Static member |
 
+:::
+
 ---
 
 ## Relationships
+
+:::eli10
+
+Classes are connected by lines that show how they relate. A solid line means "knows about." A diamond means "has" (hollow diamond = shared, filled diamond = owns completely). A triangle means "is a type of." Different lines show different strengths of connection.
+
+:::
+
+:::eli15
+
+Relationships between classes range from weak to strong. Dependency (dashed arrow) is the weakest: temporary usage. Association (solid line) means one class knows about another. Aggregation (hollow diamond) means "has-a" with independent lifecycles. Composition (filled diamond) means "owns" with dependent lifecycles. Inheritance (solid line + hollow triangle) means "is-a." Realisation (dashed line + hollow triangle) means "implements an interface."
+
+:::
+
+:::eli20
 
 ### Relationship Types Summary
 
@@ -157,9 +187,25 @@ A structural relationship where one class uses or knows about another.
 - Weakest relationship (temporary usage)
 - Typically: method parameter, local variable, or return type
 
+:::
+
 ---
 
 ## Multiplicity
+
+:::eli10
+
+Multiplicity tells you how many objects can be on each side of a relationship. "1" means exactly one, "0..*" means zero or more, "1..*" means at least one. It is like saying "a school has many students" or "each student has exactly one student ID."
+
+:::
+
+:::eli15
+
+Multiplicity notation specifies how many instances of one class can be associated with one instance of another. Common values: 1 (exactly one), 0..1 (optional), * or 0..* (zero or more), 1..* (one or more). Read multiplicity from the opposite end: the number next to a class tells how many of that class relate to one instance of the other class. Getting multiplicity right is crucial for database design.
+
+:::
+
+:::eli20
 
 | Notation | Meaning |
 |----------|---------|
@@ -182,9 +228,25 @@ Read: "One Company has zero or more Employees" and "Each Employee works for exac
 
 **Tip:** Read multiplicity from the opposite end. The number near Employee (`0..*`) tells how many Employees one Company can have.
 
+:::
+
 ---
 
 ## Abstract Classes & Interfaces
+
+:::eli10
+
+An abstract class is like an incomplete template: it provides some things but leaves others for subclasses to fill in. An interface is a contract that says "any class implementing me must have these methods" without providing any code at all. A class can have only one parent class but can follow multiple interfaces.
+
+:::
+
+:::eli15
+
+Abstract classes can contain both concrete and abstract methods plus attributes. They cannot be instantiated directly and serve as partial templates. Interfaces declare only method signatures (no implementation, no attributes beyond constants). A class can extend one abstract class but implement multiple interfaces. In UML, abstract classes use italic names or {abstract}, while interfaces use the <<interface>> stereotype.
+
+:::
+
+:::eli20
 
 | Feature | Abstract Class | Interface |
 |---------|---------------|-----------|
@@ -206,9 +268,25 @@ Read: "One Company has zero or more Employees" and "Each Employee works for exac
 └───────────────────────┘     └─────────────────────┘
 ```
 
+:::
+
 ---
 
 ## Complete Example
+
+:::eli10
+
+Here is a full diagram showing a University that owns Departments (composition -- departments cannot exist without the university), Departments that have Lecturers (aggregation -- lecturers can exist independently), and Departments implementing a Printable interface.
+
+:::
+
+:::eli15
+
+This example combines multiple relationship types in one diagram. University composes Departments (strong ownership, lifecycle dependency). Department aggregates Lecturers (lecturers exist independently). Department realises the Printable interface (must implement the print method). Multiplicities show one university has one or more departments, and one department has one or more lecturers.
+
+:::
+
+:::eli20
 
 ```
 ┌──────────────────┐          ┌──────────────────┐
@@ -247,9 +325,13 @@ Relationships shown:
 - Department **aggregates** Lecturers (◇) - lecturers can exist independently
 - Department **realises** Printable interface
 
+:::
+
 ---
 
 ## Practice Questions
+
+:::eli20
 
 <details>
 <summary>Q: Model a class diagram for: A Library has many Books. Each Book has one or more Authors. A Book can be a PhysicalBook or an EBook (both are Books). Members can borrow PhysicalBooks.</summary>
@@ -294,3 +376,5 @@ Relationships shown:
 - **(b) Student * ── * Module:** Many-to-many; a student takes multiple modules, a module has multiple students.
 - **(c) Order 1 ── 1..* OrderLine:** An order must have at least one line; each line belongs to exactly one order. (Composition relationship)
 </details>
+
+:::

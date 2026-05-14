@@ -9,6 +9,20 @@ tags: ["SOLID", "OOP", "coupling", "cohesion", "GRASP", "design principles", "Ja
 
 ## SOLID Principles Summary
 
+:::eli10
+
+SOLID is a set of five rules for writing clean code. S = each class does one job. O = you can add new features without changing old code. L = a child class can always replace its parent. I = do not force classes to implement things they do not need. D = depend on general promises (interfaces), not specific implementations. Following these rules makes code easier to change and fix.
+
+:::
+
+:::eli15
+
+The SOLID principles are five fundamental guidelines for maintainable object-oriented design. Single Responsibility means each class has one reason to change. Open/Closed means extending behaviour without modifying existing code (using polymorphism). Liskov Substitution means subtypes must honour the contracts of their parent types. Interface Segregation means splitting large interfaces into focused ones. Dependency Inversion means high-level code depends on abstractions, not concrete implementations. Together they reduce coupling and increase flexibility.
+
+:::
+
+:::eli20
+
 | Principle | Name | One-liner |
 |-----------|------|-----------|
 | **S** | Single Responsibility | A class should have only one reason to change |
@@ -210,9 +224,25 @@ public class NotificationService {
 }
 ```
 
+:::
+
 ---
 
 ## Coupling and Cohesion
+
+:::eli10
+
+Coupling is how tangled up different parts of your code are with each other. Less tangling is better because changing one thing will not break other things. Cohesion is how focused a single class or module is -- everything inside should be working toward the same job. Think of coupling as ropes tying boxes together (fewer is better) and cohesion as whether everything in a box belongs together.
+
+:::
+
+:::eli15
+
+Coupling measures the degree of interdependence between modules (aim for low/loose coupling). Types range from worst (content coupling -- directly accessing another module's internals) to best (message coupling -- communicating only through events). Cohesion measures how related the elements within a module are (aim for high). Types range from worst (coincidental -- unrelated elements grouped together) to best (functional -- all elements contribute to a single well-defined task). Low coupling + high cohesion = maintainable code.
+
+:::
+
+:::eli20
 
 ### Coupling (aim: LOW)
 
@@ -239,9 +269,25 @@ public class NotificationService {
 | Logical | Elements are logically related but functionally different | Poor |
 | Coincidental | Elements have no meaningful relationship | Worst |
 
+:::
+
 ---
 
 ## GRASP Principles
+
+:::eli10
+
+GRASP principles help you decide which class should be responsible for what. The main idea is: give the job to the class that has the most information to do it (Information Expert), and keep classes focused (High Cohesion) with few connections to others (Low Coupling). It is like assigning chores to the family member best suited for each one.
+
+:::
+
+:::eli15
+
+GRASP (General Responsibility Assignment Software Patterns) provides guidelines for assigning responsibilities to classes. Key principles include: Information Expert (assign to the class with the data), Creator (B creates A if B contains/uses A), Controller (handle events in a non-UI class), Low Coupling and High Cohesion (fundamental quality goals), Polymorphism (handle type variations through overriding), Pure Fabrication (invent non-domain classes for better design), Indirection (use intermediaries to decouple), and Protected Variations (wrap instability behind interfaces).
+
+:::
+
+:::eli20
 
 | Principle | Guideline |
 |-----------|-----------|
@@ -255,9 +301,25 @@ public class NotificationService {
 | **Indirection** | Assign responsibility to an intermediate object to decouple |
 | **Protected Variations** | Wrap instability behind an interface |
 
+:::
+
 ---
 
 ## UML Class Relationships
+
+:::eli10
+
+UML class diagrams show how classes are related. The weakest connection is dependency (uses temporarily). Stronger ones are association (knows about), aggregation (has-a, parts can exist alone), and composition (has-a, parts cannot exist without the whole). The strongest are inheritance (is-a) and realisation (implements an interface). Understanding these helps you read and draw design diagrams.
+
+:::
+
+:::eli15
+
+UML class relationships indicate different strengths of connection between classes, from weakest to strongest: dependency (temporary usage, dashed arrow), association (knows-about relationship, solid arrow), aggregation (whole-part where parts can exist independently, hollow diamond), composition (whole-part where parts cannot exist independently, filled diamond), inheritance (is-a relationship, hollow triangle), and realisation (implements interface, dashed triangle). Preferring weaker relationships leads to more maintainable designs.
+
+:::
+
+:::eli20
 
 | Relationship | Arrow | Meaning | Strength |
 |--------------|-------|---------|----------|
@@ -289,3 +351,5 @@ public class NotificationService {
 5. Classes communicate only through events → **Message coupling**
 
 </details>
+
+:::

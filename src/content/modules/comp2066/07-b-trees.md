@@ -7,6 +7,26 @@ tags: ["b-trees", "balanced-trees", "disk-storage", "multiway-trees"]
 
 ## B-Tree Definition
 
+:::eli10
+
+A B-tree is like a wide bookshelf where each shelf can hold many books (not just two like a binary tree). Because it's so wide, it's very short — you only need a few steps to find anything. B-trees are designed for storing huge amounts of data on hard drives, where each "step" is expensive because the disk has to spin to the right place.
+
+:::
+
+:::eli15
+
+A **B-tree** is a balanced search tree where each node can store multiple keys and have many children (not just 2). The "minimum degree" $t$ controls how wide nodes are:
+
+- Each node has between $t-1$ and $2t-1$ keys (root can have fewer)
+- A node with $k$ keys has exactly $k+1$ children
+- All leaves are at the same depth
+
+The key benefit: very low height. A B-tree with $t=1000$ and a billion keys has height at most 3. This matters for disk-based storage where each tree level requires a separate disk read.
+
+:::
+
+:::eli20
+
 A B-tree of **minimum degree** $t$ (order $2t$) is a balanced multiway search tree satisfying:
 
 | Property | Constraint |
@@ -32,7 +52,30 @@ $$h \leq \log_t \frac{n+1}{2}$$
 
 A B-tree with $t=1000$ and $n=10^9$ keys has height $\leq 3$.
 
+:::
+
 ## Why B-Trees?
+
+:::eli10
+
+Reading from a hard drive is thousands of times slower than reading from memory. B-trees are designed to minimize how many times you read from the disk. Because each node is so wide (storing many keys), the tree is very short, so you only need a handful of disk reads to find any item among billions.
+
+:::
+
+:::eli15
+
+B-trees are optimised for **disk-based storage** where each disk read fetches a fixed-size block:
+
+- A BST/AVL tree with 1 billion keys needs about 30 disk reads (height $\approx \log_2 n$)
+- A B-tree with $t=1000$ needs only about 3 disk reads (height $\approx \log_t n$)
+
+The trick is matching node size to disk block size, so each node read fetches one block. Higher branching factor means a shorter tree and fewer expensive disk reads.
+
+B-trees are the backbone of databases and file systems.
+
+:::
+
+:::eli20
 
 | Problem | Solution |
 |---------|----------|
@@ -47,7 +90,30 @@ A B-tree with $t=1000$ and $n=10^9$ keys has height $\leq 3$.
 | Disk reads per search | $O(\log_2 n)$ | $O(\log_t n)$ |
 | Optimised for | RAM | Disk/SSD |
 
+:::
+
 ## Search
+
+:::eli10
+
+Searching a B-tree is like looking through an encyclopaedia. At each node you scan the keys to figure out which "chapter" (child pointer) to follow next. Since each node has many keys, you narrow down quickly. Each step down means one disk read.
+
+:::
+
+:::eli15
+
+B-tree search works like binary search tree search, but at each node you scan through multiple keys to find the right child pointer:
+
+1. At the current node, scan keys left to right until you find the key or pass it
+2. If found, return it
+3. If not found and at a leaf, key doesn't exist
+4. If not found and at an internal node, recurse into the appropriate child
+
+Cost: $O(\log_t n)$ disk reads (one per level), with $O(t)$ comparisons per node (or $O(\log t)$ if you binary search within the node).
+
+:::
+
+:::eli20
 
 ```
 search(node, key):
@@ -63,7 +129,29 @@ search(node, key):
 
 **Time**: $O(\log_t n)$ disk reads, $O(t \log_t n)$ total comparisons.
 
+:::
+
 ## Insert
+
+:::eli10
+
+Inserting into a B-tree is like adding a word to an encyclopaedia. If the page has room, just slide it in. If the page is full, you split it in half and push the middle word up to the table of contents. This might cause the table of contents page to split too — if even the root splits, the tree grows one level taller.
+
+:::
+
+:::eli15
+
+B-tree insertion uses a **proactive splitting** strategy:
+
+1. If the root is full, split it first (this is the only way the tree grows taller)
+2. Walk down to the appropriate leaf, but split any full node you encounter along the way
+3. By the time you reach the leaf, it's guaranteed to have room — insert the key
+
+**Splitting** a full node (with $2t-1$ keys): take the middle key and push it up to the parent, creating two nodes with $t-1$ keys each. This always works because we guaranteed the parent has room (we split it if needed).
+
+:::
+
+:::eli20
 
 **Key insight**: Never insert into a full node. Split full nodes proactively on the way down.
 
@@ -114,7 +202,29 @@ Actually [3, 4] has room (max 3 keys for t=2), so insert 5:
       [1]   [3, 4, 5]
 ```
 
+:::
+
 ## Delete
+
+:::eli10
+
+Deleting from a B-tree is the trickiest operation. You might need to borrow a key from a sibling (like borrowing a book from the next shelf) or merge two half-empty shelves together. The rule is: every shelf (except the root) must always stay at least half full.
+
+:::
+
+:::eli15
+
+B-tree deletion ensures nodes never go below the minimum ($t-1$ keys). Three cases:
+
+1. **Key is in a leaf**: Just remove it (if the leaf has enough keys)
+2. **Key is in an internal node**: Replace with predecessor or successor from a child that has $\geq t$ keys, or merge children if both have exactly $t-1$
+3. **Key is deeper down**: Before recursing into a child with only $t-1$ keys, ensure it has $\geq t$ by rotating from a sibling or merging with a sibling
+
+These rules guarantee that by the time you reach the key, the containing node can afford to lose it.
+
+:::
+
+:::eli20
 
 Three cases depending on where the key is:
 
@@ -143,7 +253,30 @@ Before recursing into child $c_i$ with only $t-1$ keys:
 
 Combine two siblings (each with $t-1$ keys) and parent's separator key into one node with $2t-1$ keys.
 
+:::
+
 ## Operations Summary
+
+:::eli10
+
+All B-tree operations (search, insert, delete) take about $\log_t n$ steps, where $t$ can be hundreds or thousands. That means even with billions of items, you only need 3-4 steps. Each step costs one disk read, which is what matters most.
+
+:::
+
+:::eli15
+
+| Operation | Disk reads | Why |
+|-----------|-----------|-----|
+| Search | $O(\log_t n)$ | One read per level |
+| Insert | $O(\log_t n)$ | Walk down + possible splits |
+| Delete | $O(\log_t n)$ | Walk down + possible merges/rotations |
+| Split/Merge | $O(1)$ | Local operation within a node |
+
+The CPU work per operation is $O(t \log_t n)$ (scanning within each node), but disk I/O dominates in practice.
+
+:::
+
+:::eli20
 
 | Operation | Disk I/O | CPU |
 |-----------|----------|-----|
@@ -153,7 +286,27 @@ Combine two siblings (each with $t-1$ keys) and parent's separator key into one 
 | Split | $O(1)$ | $O(t)$ |
 | Merge | $O(1)$ | $O(t)$ |
 
+:::
+
 ## B-Tree Variants
+
+:::eli10
+
+A **B+ tree** is a popular variant where all the actual data lives in the bottom (leaf) level, and the leaves are linked together like a chain. This makes it super easy to read data in order — you just walk along the chain at the bottom. Databases like MySQL use B+ trees.
+
+:::
+
+:::eli15
+
+Two important variants:
+
+- **B+ Tree**: Only leaves hold actual data; internal nodes just store "signpost" keys for navigation. Leaves are linked in a list, making range queries (e.g., "find all values between 50 and 100") extremely efficient — just find the start and walk the linked list. Used in almost all databases and file systems.
+
+- **B* Tree**: Nodes must be at least 2/3 full (instead of 1/2). Delays splitting by redistributing keys to siblings first — results in better space utilisation.
+
+:::
+
+:::eli20
 
 | Variant | Difference |
 |---------|-----------|
@@ -239,3 +392,5 @@ $$= \frac{\log_{10} 500000}{\log_{10} 100} = \frac{5.7}{2} \approx 2.85$$
 So height $\leq 2$ (integer). With just 3 levels of disk reads, we can search among 1 million keys!
 
 </details>
+
+:::

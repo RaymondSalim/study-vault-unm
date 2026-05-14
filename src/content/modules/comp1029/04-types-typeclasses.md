@@ -9,6 +9,20 @@ tags: ["haskell", "types", "typeclasses", "algebraic-data-types", "maybe", "eith
 
 ## Algebraic Data Types (ADTs)
 
+:::eli10
+
+You can invent your own types in Haskell. A "Direction" might be North, South, East, or West -- pick one (that's a sum type, like multiple choice). A "Person" has a name AND an age -- you need both (that's a product type, like filling out a form). You can even make types that contain themselves, like a tree where each branch splits into more branches.
+
+:::
+
+:::eli15
+
+Algebraic Data Types let you define custom types. Sum types (using `|`) represent alternatives (a value is ONE of the options, like an enum). Product types represent combinations (a value contains ALL the fields). Types can be parameterized with type variables for polymorphism (like `Maybe a`). Recursive types reference themselves in their definition (like trees and linked lists). Record syntax auto-generates accessor functions.
+
+:::
+
+:::eli20
+
 Custom types defined with `data` keyword. Two kinds: **sum types** (OR) and **product types** (AND).
 
 ### Enumeration (Sum Type)
@@ -105,7 +119,23 @@ natToInt Zero     = 0
 natToInt (Succ n) = 1 + natToInt n
 ```
 
+:::
+
 ## Type Aliases and Newtypes
+
+:::eli10
+
+A type alias is like a nickname -- `String` is just a nickname for `[Char]`. It makes code easier to read but doesn't create a truly new type. A `newtype` wraps an existing type to make it distinct -- so the compiler can tell apart things that have the same underlying data but different meanings.
+
+:::
+
+:::eli15
+
+`type` creates an alias (just another name for an existing type -- fully interchangeable). `newtype` creates a genuinely new type that wraps an existing one with zero runtime overhead. Use `type` for readability (like `type Name = String`) and `newtype` when you want the compiler to distinguish between things of the same underlying type (like `newtype StudentId = StudentId Int`).
+
+:::
+
+:::eli20
 
 ```haskell
 -- Type alias: just a synonym, no new type
@@ -122,7 +152,23 @@ newtype StudentId = StudentId Int
 -- Distinction from data: newtype is strict wrapper, no overhead
 ```
 
+:::
+
 ## Type Classes
+
+:::eli10
+
+Type classes are like clubs with membership requirements. The "Eq club" requires that members know how to check if two things are equal. The "Ord club" requires knowing how to put things in order. When you define a new type, you can join these clubs by implementing the required abilities, or ask Haskell to do it automatically with `deriving`.
+
+:::
+
+:::eli15
+
+A type class defines a set of functions that types can implement, similar to interfaces in OOP. Common type classes: `Eq` (equality), `Ord` (ordering), `Show` (convert to string), `Num` (numeric operations). You can derive standard instances automatically or write custom ones with `instance`. Type class constraints in function signatures (like `Eq a =>`) restrict which types can be used, ensuring the necessary operations exist.
+
+:::
+
+:::eli20
 
 A type class defines a set of functions that must be implemented for a type. Like interfaces in OOP.
 
@@ -190,7 +236,23 @@ showMax :: (Ord a, Show a) => a -> a -> String
 showMax x y = show (max x y)
 ```
 
+:::
+
 ## Maybe
+
+:::eli10
+
+`Maybe` is Haskell's way of saying "I might have an answer, or I might not." Instead of crashing when something goes wrong (like taking the head of an empty list), you return `Nothing` (no answer) or `Just x` (here's the answer, it's x). It forces you to handle both cases so your program never crashes unexpectedly.
+
+:::
+
+:::eli15
+
+`Maybe a` represents an optional value -- either `Nothing` (absence/failure) or `Just x` (a present value). It replaces null/exceptions for representing failure. Functions like `safeHead`, `safeDiv`, and `lookup` return `Maybe` instead of crashing on invalid input. Pattern matching or helper functions like `fromMaybe` extract the value while handling the Nothing case.
+
+:::
+
+:::eli20
 
 Represents an optional value. Used instead of null/exceptions.
 
@@ -226,7 +288,23 @@ process s = case safeHead s of
   Just c  -> if c == '0' then Just 0 else Nothing
 ```
 
+:::
+
 ## Either
+
+:::eli10
+
+`Either` is like `Maybe` but when something goes wrong, it also tells you WHY. Instead of just "no answer" (Nothing), you get an error message on the `Left` side. The successful answer goes on the `Right` side (think "right" as in "correct").
+
+:::
+
+:::eli15
+
+`Either a b` represents a value that is one of two types -- conventionally `Left` for errors (with an error message/type) and `Right` for success (with the result). It's more informative than `Maybe` because the failure case carries data explaining what went wrong. Pattern match on `Left`/`Right` to handle each case.
+
+:::
+
+:::eli20
 
 Represents a value that is one of two types. Often used for error handling (`Left` = error, `Right` = success).
 
@@ -249,7 +327,23 @@ result = case safeDivE 10 0 of
   Right n  -> "Got: " ++ show n
 ```
 
+:::
+
 ## Type Class Hierarchy
+
+:::eli10
+
+Type classes build on each other like a pyramid. To be in the "Ord" club (comparing things), you must first be in the "Eq" club (checking equality). To compare two things, you need to know if they're equal first.
+
+:::
+
+:::eli15
+
+Type classes form a hierarchy where some require others as prerequisites. `Ord` requires `Eq` (you need equality to define ordering). Numeric classes build on `Num`. This hierarchy means that a type with an `Ord` instance automatically has `Eq` available. Understanding the hierarchy helps you know which constraints to use in type signatures.
+
+:::
+
+:::eli20
 
 ```
         Eq
@@ -337,3 +431,5 @@ instance Eq Colour where
 ```
 
 </details>
+
+:::

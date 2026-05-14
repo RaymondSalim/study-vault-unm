@@ -9,6 +9,20 @@ tags: ["java", "recursion", "base-case", "stack-frames", "factorial", "fibonacci
 
 ## Core Concept
 
+:::eli10
+
+Recursion is when a method calls itself to solve a smaller version of the same problem. Imagine Russian nesting dolls -- to open the big one, you open it and find a smaller one inside, which has an even smaller one, until you reach the tiniest doll (the base case) that doesn't have another inside.
+
+:::
+
+:::eli15
+
+A recursive method solves a problem by breaking it into smaller instances of the same problem and calling itself. Every recursive method needs a base case (when to stop) and a recursive case (how to reduce the problem). Each call creates a new stack frame with its own local variables. Without a proper base case, recursion runs forever until the stack overflows.
+
+:::
+
+:::eli20
+
 A recursive method calls itself to solve smaller subproblems.
 
 Every recursive method needs:
@@ -22,7 +36,23 @@ public static int factorial(int n) {
 }
 ```
 
+:::
+
 ## How the Call Stack Works
+
+:::eli10
+
+Every time a method calls itself, the computer puts a sticky note on a pile remembering where it was. When the smallest problem is solved, it picks up the sticky notes one by one and finishes each step. If there are too many sticky notes, the pile gets too tall and the program crashes (StackOverflowError).
+
+:::
+
+:::eli15
+
+Each recursive call adds a frame to the call stack, storing that call's local variables and return address. The frames stack up until the base case is reached, then unwind one by one as each call returns its result to the caller above. The stack has limited space, so very deep recursion (or infinite recursion from a missing base case) causes a StackOverflowError.
+
+:::
+
+:::eli20
 
 Each method call creates a **stack frame** containing local variables and return address.
 
@@ -46,7 +76,23 @@ factorial(4)
 
 > **StackOverflowError**: occurs when recursion is too deep (missing/wrong base case, or problem too large).
 
+:::
+
 ## Classic Examples
+
+:::eli10
+
+Recursion can calculate factorials (5! = 5 x 4 x 3 x 2 x 1), Fibonacci numbers (each number is the sum of the two before it), reverse strings (peel off the first letter, reverse the rest, stick the letter at the end), and search sorted lists by cutting them in half each time.
+
+:::
+
+:::eli15
+
+Common recursive problems include: factorial (multiply n by factorial of n-1), Fibonacci (sum of previous two values -- naive version is very slow due to redundant calculations, fixed with memoization), power calculation (can be optimized to O(log n) by squaring halves), binary search (halve the search space each step), and string operations like reversal and palindrome checking.
+
+:::
+
+:::eli20
 
 ### Factorial
 
@@ -155,7 +201,23 @@ public static boolean isPalindrome(String s, int left, int right) {
 }
 ```
 
+:::
+
 ## Recursion vs Iteration
+
+:::eli10
+
+Recursion and loops can often solve the same problems. Loops are like walking step by step -- simple and efficient. Recursion is like giving instructions to a chain of helpers, each doing one small task. Recursion is elegant for tree-like problems but uses more memory because each helper needs their own workspace.
+
+:::
+
+:::eli15
+
+Both recursion and iteration can solve repetitive problems, but they have trade-offs. Recursion is more natural for tree structures and divide-and-conquer problems, but uses O(n) stack memory and has function call overhead. Iteration uses O(1) memory and is faster for simple loops. Any recursive solution can be converted to iterative (often using an explicit stack).
+
+:::
+
+:::eli20
 
 | Aspect | Recursion | Iteration |
 |--------|-----------|-----------|
@@ -184,14 +246,46 @@ public static int factorialIter(int n) {
 }
 ```
 
+:::
+
 ## Designing Recursive Solutions
+
+:::eli10
+
+To solve a problem with recursion, ask yourself: "What is the simplest version of this problem?" (that's your base case) and "How can I make this problem a tiny bit smaller?" (that's your recursive step). Then trust that the smaller version will work correctly.
+
+:::
+
+:::eli15
+
+A four-step approach to writing recursive solutions: (1) Identify base cases -- the simplest inputs with obvious answers. (2) Identify the recursive case -- how to reduce the problem size. (3) Trust the recursion -- assume it works correctly for smaller input. (4) Ensure progress -- every recursive call must move closer to the base case. Common pitfalls include missing base cases, not returning the recursive result, and redundant computation.
+
+:::
+
+:::eli20
 
 1. **Identify the base case(s)**: What is the simplest input? What should it return?
 2. **Identify the recursive case**: How can you reduce the problem?
 3. **Trust the recursion**: Assume the recursive call works correctly for smaller input.
 4. **Ensure progress**: Each call must move toward the base case.
 
+:::
+
 ## Common Mistakes
+
+:::eli10
+
+The biggest mistake in recursion is forgetting to tell it when to stop (missing base case) -- it's like telling someone "ask the next person" forever with nobody being the last person. Another mistake is doing the same work over and over, like recalculating things you already figured out.
+
+:::
+
+:::eli15
+
+Common recursion mistakes: forgetting the base case (infinite recursion), having a base case that can never be reached, not returning the result of the recursive call (the answer is computed but lost), and redundant computation (like naive Fibonacci computing the same values repeatedly). Use memoization to cache results when subproblems overlap.
+
+:::
+
+:::eli20
 
 | Mistake | Consequence |
 |---------|-------------|
@@ -264,3 +358,5 @@ Trace: `countDigits(123)` -> `1 + countDigits(12)` -> `1 + 1 + countDigits(1)` -
 **Answer:** O(2^n). Each call branches into two sub-calls, creating an exponential tree. With memoisation it becomes O(n).
 
 </details>
+
+:::

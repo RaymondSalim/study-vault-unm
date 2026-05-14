@@ -7,6 +7,20 @@ tags: ["CSP", "backtracking", "arc-consistency", "forward-checking"]
 
 ## CSP Formulation
 
+:::eli10
+
+Imagine colouring a map so that no two neighbouring countries have the same colour. You have variables (the countries), possible colours for each, and rules (neighbours must differ). A CSP is any puzzle where you assign values to things while following rules like this.
+
+:::
+
+:::eli15
+
+A Constraint Satisfaction Problem has three parts: variables (things to assign values to), domains (the possible values for each variable), and constraints (rules about which combinations are allowed). Unlike regular search where states are "black boxes," CSPs have structured states that allow clever techniques to detect dead ends early and prune the search space dramatically.
+
+:::
+
+:::eli20
+
 A **Constraint Satisfaction Problem** is defined by:
 
 | Component | Description | Example (Map Colouring) |
@@ -43,9 +57,25 @@ graph TD
     NSW --- V
 ```
 
+:::
+
 ---
 
 ## Why CSP? (vs Standard Search)
+
+:::eli10
+
+CSPs are special because the computer can look at the rules and figure out early when something will not work, instead of blindly trying everything. It is like realising you cannot finish a jigsaw puzzle piece's area before placing every single piece.
+
+:::
+
+:::eli15
+
+Compared to standard search where states are opaque, CSPs expose structure that enables powerful general-purpose strategies. The system can detect constraint violations early (fail fast), use the constraint structure to guide variable and value selection, and propagate constraints to eliminate impossible values before trying them. This often makes CSPs dramatically more efficient than brute-force search.
+
+:::
+
+:::eli20
 
 | Standard Search | CSP |
 |----------------|-----|
@@ -53,9 +83,25 @@ graph TD
 | Domain-specific heuristics | General-purpose heuristics (from structure) |
 | Goal test is opaque | Can detect failure **early** (constraint violation) |
 
+:::
+
 ---
 
 ## Backtracking Search
+
+:::eli10
+
+Backtracking is like filling in a crossword puzzle: you write in a letter, and if it leads to a contradiction later, you erase it and try another letter. You assign one variable at a time and undo choices that break the rules.
+
+:::
+
+:::eli15
+
+Backtracking is the basic algorithm for solving CSPs. It assigns values to one variable at a time, checking constraints at each step. When it finds that the current partial assignment violates a constraint, it immediately backtracks (undoes the last assignment and tries the next value). Several heuristics improve its efficiency: choosing the most constrained variable first (MRV), choosing the least constraining value first (LCV), and looking ahead to detect failures early (forward checking, arc consistency).
+
+:::
+
+:::eli20
 
 Standard DFS for CSPs — assigns one variable at a time and backtracks when a constraint is violated.
 
@@ -82,9 +128,25 @@ function BACKTRACK(assignment, csp):
 | Forward checking | Inference | Remove inconsistent values from neighbours |
 | Arc consistency | Inference | Enforce consistency on all arcs |
 
+:::
+
 ---
 
 ## Variable Ordering: MRV
+
+:::eli10
+
+MRV means "pick the hardest variable first." If a country on your map only has one colour left that works, colour it now! If it has zero options, you know immediately that this path fails, saving time.
+
+:::
+
+:::eli15
+
+The Minimum Remaining Values heuristic selects the variable with the fewest legal values left in its domain. This is a "fail-first" strategy: by tackling the most constrained variable first, you either solve it quickly or detect failure early without wasting time on easier variables. If any variable has zero remaining values, you backtrack immediately.
+
+:::
+
+:::eli20
 
 **Minimum Remaining Values** (most constrained variable / fail-first):
 
@@ -98,17 +160,49 @@ function BACKTRACK(assignment, csp):
 **SA** — it has only 1 remaining value (MRV = 1). If it leads to conflict, we detect failure immediately without wasting time on WA or NT.
 </details>
 
+:::
+
 ---
 
 ## Value Ordering: LCV
+
+:::eli10
+
+When choosing a colour for a country, pick the one that leaves the most options open for its neighbours. That way, you are less likely to paint yourself into a corner.
+
+:::
+
+:::eli15
+
+The Least Constraining Value heuristic picks the value that eliminates the fewest choices from neighbouring variables' domains. The idea is to maximize flexibility for future assignments -- try the value that is least likely to cause problems down the road. While MRV helps you fail fast, LCV helps you succeed fast.
+
+:::
+
+:::eli20
 
 **Least Constraining Value**: Choose the value that eliminates the fewest values from neighbouring variables' domains.
 
 > Maximises future flexibility — try the value that leaves the most options open.
 
+:::
+
 ---
 
 ## Forward Checking
+
+:::eli10
+
+After you colour one country, forward checking immediately looks at its neighbours and crosses out that colour from their lists. If any neighbour has no colours left, you know right away that you need to backtrack.
+
+:::
+
+:::eli15
+
+Forward checking is a form of look-ahead. After assigning a value to a variable, it immediately removes inconsistent values from all neighbouring unassigned variables. If any domain becomes empty, the algorithm backtracks immediately without going deeper. This catches failures one step ahead rather than waiting until the empty-domain variable is selected.
+
+:::
+
+:::eli20
 
 After assigning $X_i = v$:
 - For every unassigned neighbour $X_j$ of $X_i$:
@@ -127,9 +221,25 @@ If any domain becomes **empty**, backtrack immediately.
 
 SA's domain is empty → **backtrack!**
 
+:::
+
 ---
 
 ## Arc Consistency (AC-3)
+
+:::eli10
+
+Arc consistency goes further than forward checking. It checks every pair of connected variables and removes any value that has no compatible partner on the other side. It keeps doing this until no more values can be removed. Think of it as a chain reaction of elimination.
+
+:::
+
+:::eli15
+
+An arc (Xi, Xj) is arc-consistent if for every value in Xi's domain, there exists at least one compatible value in Xj's domain. AC-3 enforces this for all arcs: when it removes a value from a domain, it re-checks all arcs pointing to that variable (since their consistency might be affected). This provides stronger pruning than forward checking but takes more time per step.
+
+:::
+
+:::eli20
 
 An arc $(X_i, X_j)$ is **arc-consistent** if for every value $x \in D_i$, there exists some value $y \in D_j$ that satisfies the constraint between $X_i$ and $X_j$.
 
@@ -172,9 +282,25 @@ Now if D(Y) = {1}:
 - D(X) = {2, 3}. Changed, so add neighbours of X back to queue.
 </details>
 
+:::
+
 ---
 
 ## Backtracking + Inference
+
+:::eli10
+
+Combining backtracking with forward checking or arc consistency is like having a partner who helps you spot dead ends ahead of time. The more your partner checks, the fewer wrong paths you go down.
+
+:::
+
+:::eli15
+
+You can combine backtracking with different levels of inference. Plain backtracking is naive and hits many dead ends. Adding forward checking detects failures one step ahead. Adding full arc consistency (called MAC -- Maintaining Arc Consistency) provides the strongest pruning, catching problems that ripple through the constraint network. MAC is more expensive per step but typically reduces the total search dramatically.
+
+:::
+
+:::eli20
 
 | Combination | Effect |
 |-------------|--------|
@@ -184,9 +310,25 @@ Now if D(Y) = {1}:
 
 **MAC** (Maintaining Arc Consistency): After each assignment, run AC-3 on affected arcs. More expensive per step but prunes far more.
 
+:::
+
 ---
 
 ## Local Search for CSPs
+
+:::eli10
+
+Instead of building up a solution from scratch, local search starts with a complete (possibly wrong) guess and keeps fixing the worst problems. It is like fixing a jigsaw puzzle by swapping pieces that do not fit rather than starting over. Amazingly, this works very well for huge puzzles.
+
+:::
+
+:::eli15
+
+The Min-Conflicts heuristic takes a different approach: start with a complete assignment (possibly violating some constraints), then iteratively fix violations by changing the value of a conflicted variable to the one that minimizes total conflicts. This works remarkably well for many CSPs -- for example, it can solve the million-queens problem in about 50 steps, whereas backtracking would be completely infeasible.
+
+:::
+
+:::eli20
 
 **Min-Conflicts** heuristic:
 1. Start with a complete (possibly inconsistent) assignment
@@ -212,3 +354,5 @@ Works surprisingly well for many CSPs (e.g., $n$-queens for large $n$).
 
 Solution: $Q_1=2, Q_2=4, Q_3=1, Q_4=3$ (one of two solutions).
 </details>
+
+:::

@@ -9,6 +9,20 @@ tags: ["java", "arrays", "methods", "parameters", "scope"]
 
 ## Arrays
 
+:::eli10
+
+An array is like a row of numbered boxes. You decide how many boxes when you create it, and each box holds one item of the same type. You access a box by its number (starting from 0). Once you decide the size, you cannot add or remove boxes -- the row is fixed.
+
+:::
+
+:::eli15
+
+An array is a fixed-size, ordered collection of elements of the same type, stored contiguously in memory. Arrays are zero-indexed (first element at position 0) and their size cannot change after creation. Accessing an out-of-bounds index throws a runtime exception. Java provides the `Arrays` utility class for common operations like sorting, searching, and comparing arrays.
+
+:::
+
+:::eli20
+
 ### Declaration & Initialisation
 
 ```java
@@ -100,9 +114,25 @@ Arrays.equals(arr1, arr2);           // compare contents
 int idx = Arrays.binarySearch(arr, 30); // array MUST be sorted first
 ```
 
+:::
+
 ---
 
 ## Methods
+
+:::eli10
+
+A method is like a recipe with a name. You give it some ingredients (parameters), it does something, and gives you back a result (return value). Once you write a recipe, you can use it as many times as you want without writing the steps again. If the recipe says `void`, it means it does something but doesn't give anything back.
+
+:::
+
+:::eli15
+
+Methods are reusable blocks of code with a name, optional parameters, and a return type. They promote code reuse and organization. Java supports method overloading (same name, different parameter lists). Parameters are always passed by value -- for primitives, a copy of the value is passed; for objects, a copy of the reference is passed (so you can modify the object but not reassign the caller's variable).
+
+:::
+
+:::eli20
 
 ### Method Anatomy
 
@@ -185,9 +215,25 @@ sum();               // 0
 
 > Varargs must be the last parameter. Only one varargs per method.
 
+:::
+
 ---
 
 ## Scope
+
+:::eli10
+
+Scope is about where a variable can be seen. A variable created inside a loop only exists inside that loop -- like a note written on a whiteboard that gets erased when the meeting ends. A variable in the class is like something posted on the wall -- everyone in the room can see it.
+
+:::
+
+:::eli15
+
+Scope defines where a variable is accessible. Java has three main scope levels: class/field scope (accessible throughout the class), method scope (only within that method), and block scope (only within the `{}` where declared, like a loop). A local variable can "shadow" a field with the same name -- use `this.fieldName` to access the field explicitly.
+
+:::
+
+:::eli20
 
 | Scope Level | Visibility |
 |-------------|-----------|
@@ -224,9 +270,25 @@ public class Counter {
 }
 ```
 
+:::
+
 ---
 
 ## Common Array Patterns
+
+:::eli10
+
+Finding the biggest number in a list is like going through a pile of cards one by one, always remembering the biggest one you've seen so far. Reversing an array is like having two people walk toward each other from opposite ends of a line, swapping whatever they're holding each time they meet.
+
+:::
+
+:::eli15
+
+Common array algorithms include: finding the maximum (track the largest value seen so far), reversing (swap elements from both ends moving inward), and counting occurrences (loop through and increment a counter). These patterns form the building blocks for more complex algorithms and appear frequently in exams.
+
+:::
+
+:::eli20
 
 ### Find Maximum
 
@@ -306,3 +368,5 @@ public static int getValue() {
 **Answer:** No. The compiler sees that `x` might not be initialised if the condition is false. Fix: add an `else { x = 0; }` or initialise `int x = 0;`.
 
 </details>
+
+:::

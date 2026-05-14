@@ -9,6 +9,20 @@ tags: ["maintenance", "technical debt", "Lehman's laws", "code quality", "softwa
 
 ## Types of Software Maintenance
 
+:::eli10
+
+Software maintenance is like looking after a house. Sometimes you fix broken things (corrective), sometimes you adapt to new weather or rules (adaptive), sometimes you add a new room or improve the kitchen (perfective), and sometimes you do preventive work like painting before the wood rots (preventive). Most of the cost of software comes from maintaining it, not building it.
+
+:::
+
+:::eli15
+
+Software maintenance is classified into four types: corrective (fixing bugs), adaptive (adjusting to environment changes like new OS versions), perfective (improving performance or adding features), and preventive (restructuring to prevent future problems). Maintenance typically consumes 60-80% of total software lifecycle cost, with perfective maintenance (improvements and new features) accounting for roughly half of all maintenance effort.
+
+:::
+
+:::eli20
+
 | Type | Purpose | Example | % of effort |
 |------|---------|---------|-------------|
 | **Corrective** | Fix defects/bugs | Patching a null pointer exception | ~20% |
@@ -18,7 +32,23 @@ tags: ["maintenance", "technical debt", "Lehman's laws", "code quality", "softwa
 
 > Maintenance typically accounts for **60-80%** of total software lifecycle cost.
 
+:::
+
 ## Lehman's Laws of Software Evolution
+
+:::eli10
+
+Lehman's laws are rules about how software changes over time. The two most important ones are: (1) if you stop updating software, it becomes less and less useful (like a map that never gets updated), and (2) every time you add something, the software gets more complicated unless you work hard to keep it simple.
+
+:::
+
+:::eli15
+
+Lehman's laws describe how real-world software systems inevitably evolve. Key laws include: software must be continually adapted or it becomes unsatisfactory (Law I), complexity increases unless actively reduced (Law II), and functional content must grow to maintain user satisfaction (Law VI). These laws explain why maintenance is unavoidable and why quality naturally declines without deliberate effort to counteract entropy.
+
+:::
+
+:::eli20
 
 | Law | Name | Statement |
 |-----|------|-----------|
@@ -31,7 +61,23 @@ tags: ["maintenance", "technical debt", "Lehman's laws", "code quality", "softwa
 | VII | Declining Quality | Quality will appear to decline unless rigorously maintained and adapted |
 | VIII | Feedback System | Evolution processes are multi-level, multi-loop, multi-agent feedback systems |
 
+:::
+
 ## Technical Debt
+
+:::eli10
+
+Technical debt is like borrowing money -- you take a shortcut now (borrow) and pay for it later with interest (extra work). Sometimes shortcuts are smart and deliberate; sometimes people take them without even realising. If you do not pay it back (fix the shortcuts), everything gets slower and harder over time.
+
+:::
+
+:::eli15
+
+Technical debt is the implied cost of future rework caused by choosing quick but limited solutions. It is categorised by a 2x2 matrix: deliberate vs inadvertent and prudent vs reckless. Deliberate/prudent debt ("we know this is a shortcut, we will fix it") is strategic; reckless debt ("what is layered architecture?") reflects lack of skill. Consequences include increasing bug rates, slower development, higher onboarding costs, and cascading failures in tightly coupled code.
+
+:::
+
+:::eli20
 
 Technical debt is the implied cost of future rework caused by choosing an easy but limited solution now.
 
@@ -51,7 +97,23 @@ Technical debt is the implied cost of future rework caused by choosing an easy b
 - Higher onboarding cost for new developers
 - Cascading failures when modifying tightly coupled code
 
+:::
+
 ## Code Quality Metrics
+
+:::eli10
+
+Code quality metrics are measurements that tell you how healthy your code is. Cyclomatic complexity counts how many different paths exist through a function (lower is simpler). Coupling measures how tangled things are (less is better). Cohesion measures how focused a piece of code is (more focused is better). It is like a health check-up for your code.
+
+:::
+
+:::eli15
+
+Code quality metrics provide objective measurements of code health. Cyclomatic complexity counts independent execution paths (aim for less than 10 per method). Coupling measures dependencies between modules (aim for low/loose). Cohesion measures how related elements within a module are (aim for high). Other useful metrics include code churn (change frequency) and test coverage (percentage exercised by tests, aim above 80%). These metrics help identify problem areas before they cause failures.
+
+:::
+
+:::eli20
 
 | Metric | What it measures | Good value |
 |--------|-----------------|------------|
@@ -88,7 +150,23 @@ public String classify(int score) {
 }
 ```
 
+:::
+
 ## Software Entropy
+
+:::eli10
+
+Software entropy means software naturally gets messier over time -- like a bedroom that gets untidy if you never clean it. Changing requirements, different coding styles, quick fixes, and missing documentation all contribute. Without active cleanup (refactoring), the mess keeps growing.
+
+:::
+
+:::eli15
+
+Software entropy is the tendency for software to become increasingly disordered over time. Contributing factors include: changing requirements, multiple developers with different styles, quick fixes under time pressure, lack of documentation, and insufficient testing. It parallels the second law of thermodynamics -- without active effort (refactoring, documentation, testing), disorder always increases. This connects directly to Lehman's Law II (Increasing Complexity).
+
+:::
+
+:::eli20
 
 Software entropy is the tendency for software to become disordered over time. Contributing factors:
 
@@ -118,3 +196,5 @@ Software entropy is the tendency for software to become disordered over time. Co
 4. "The system seems buggier even though we haven't introduced new bugs" → **Law VII (Declining Quality)**
 
 </details>
+
+:::

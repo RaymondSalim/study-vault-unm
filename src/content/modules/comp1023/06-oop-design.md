@@ -7,6 +7,20 @@ tags: ["software-engineering", "OOP", "SOLID", "design-patterns", "coupling", "c
 
 ## Four Pillars of OOP
 
+:::eli10
+
+Object-Oriented Programming has four big ideas. Encapsulation means hiding how something works inside (like a TV remote -- you press buttons without knowing the electronics). Abstraction means only showing the important parts. Inheritance means a new thing can copy everything from an existing thing and add more. Polymorphism means different things can respond to the same instruction in different ways.
+
+:::
+
+:::eli15
+
+The four pillars of OOP are encapsulation (bundling data with methods and controlling access to protect internal state), abstraction (exposing only essential features while hiding complexity), inheritance (creating new classes based on existing ones, sharing code and creating "is-a" hierarchies), and polymorphism (allowing different classes to respond to the same method call differently, enabling flexible and extensible code).
+
+:::
+
+:::eli20
+
 | Principle | Definition | Benefit |
 |-----------|-----------|---------|
 | **Encapsulation** | Bundling data + methods; hiding internal state | Reduces coupling, protects invariants |
@@ -47,9 +61,25 @@ for (Shape s : shapes) {
 }
 ```
 
+:::
+
 ---
 
 ## SOLID Principles
+
+:::eli10
+
+SOLID is a set of five rules for writing good code. S means each class does one job. O means you add new features without changing old code. L means a child class should work anywhere its parent works. I means do not force classes to use methods they do not need. D means depend on general rules, not specific details.
+
+:::
+
+:::eli15
+
+SOLID principles guide good object-oriented design. Single Responsibility: each class has one reason to change. Open/Closed: extend behaviour without modifying existing code. Liskov Substitution: subclasses must be usable wherever their parent class is expected without breaking anything. Interface Segregation: prefer small, focused interfaces over large ones. Dependency Inversion: depend on abstractions (interfaces) rather than concrete implementations.
+
+:::
+
+:::eli20
 
 | Principle | Full Name | Meaning | Violation Symptom |
 |-----------|-----------|---------|-------------------|
@@ -116,9 +146,25 @@ r.setHeight(3);
 assert r.area() == 15; // FAILS! area is 9
 ```
 
+:::
+
 ---
 
 ## Coupling & Cohesion
+
+:::eli10
+
+Coupling is how much one part of your program depends on another. Low coupling (good) means parts are independent -- changing one does not break others. Cohesion is how well the parts inside one module fit together. High cohesion (good) means everything in the module is related to one job.
+
+:::
+
+:::eli15
+
+Coupling measures interdependency between modules -- low coupling is desirable because changes in one module do not ripple to others. Cohesion measures how closely related the elements within a single module are -- high cohesion means the module has a single clear purpose. Good design aims for low coupling (modules are independent) and high cohesion (each module is focused). These two properties are the most important quality metrics for software architecture.
+
+:::
+
+:::eli20
 
 ### Coupling (Between Modules)
 
@@ -152,9 +198,25 @@ assert r.area() == 15; // FAILS! area is 9
 | Coupling | Low (loose) | High (tight) |
 | Cohesion | High (focused) | Low (unfocused) |
 
+:::
+
 ---
 
 ## Design Patterns (Introduction)
+
+:::eli10
+
+Design patterns are like tried-and-tested recipes for solving common problems in coding. Instead of inventing a solution from scratch, you can use a pattern that others have already figured out works well. For example, "Singleton" ensures only one copy of something exists, like having only one school principal.
+
+:::
+
+:::eli15
+
+Design patterns are reusable solutions to commonly occurring design problems. They are categorised as creational (how objects are made), structural (how objects are composed), and behavioural (how objects communicate). Key patterns include Singleton (one instance), Factory (flexible creation), Observer (event notification), Strategy (swappable algorithms), and Adapter (interface conversion). Knowing patterns helps you communicate design decisions and avoid reinventing solutions.
+
+:::
+
+:::eli20
 
 Design patterns are reusable solutions to common design problems.
 
@@ -207,9 +269,13 @@ class Logger implements Observer {
 }
 ```
 
+:::
+
 ---
 
 ## Practice Questions
+
+:::eli20
 
 <details>
 <summary>Q: Identify which SOLID principle is violated: A class `ReportGenerator` that generates reports AND sends them via email AND saves them to disk.</summary>
@@ -268,3 +334,5 @@ Any code expecting a `Bird` (which can fly) will break when given a `Penguin`. S
 - Strategy (preferred): `PaymentProcessor` holds a `PaymentStrategy` interface; swap implementations at runtime.
 - Inheritance (problematic): `CreditCardProcessor`, `PayPalProcessor`, `CryptoProcessor` - what if you also need `DomesticProcessor` and `InternationalProcessor`? Combinatorial explosion.
 </details>
+
+:::

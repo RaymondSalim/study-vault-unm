@@ -9,6 +9,20 @@ tags: ["calculus", "differentiation", "integration", "chain rule", "product rule
 
 ## Differentiation Rules
 
+:::eli10
+
+Differentiation tells you how fast something is changing. If you are on a roller coaster, the derivative tells you how steep the track is at any point. There are rules for finding derivatives of different kinds of expressions, like products, quotients, and chains of functions.
+
+:::
+
+:::eli15
+
+Differentiation computes the instantaneous rate of change of a function. The basic rules cover how to differentiate constants, powers, sums, products, quotients, and compositions of functions. The chain rule is the most important: it handles nested functions by multiplying the outer derivative by the inner derivative. These rules combine to let you differentiate any elementary function.
+
+:::
+
+:::eli20
+
 | Rule | Formula |
 |------|---------|
 | Constant | $\frac{d}{dx}[c] = 0$ |
@@ -19,7 +33,23 @@ tags: ["calculus", "differentiation", "integration", "chain rule", "product rule
 | Quotient | $\frac{d}{dx}\left[\frac{f}{g}\right] = \frac{f'g - fg'}{g^2}$ |
 | Chain | $\frac{d}{dx}[f(g(x))] = f'(g(x)) \cdot g'(x)$ |
 
+:::
+
 ## Common Derivatives
+
+:::eli10
+
+Some functions have derivatives that are good to memorise, like how the derivative of x-squared is 2x, and the derivative of e^x is just e^x again. These are the building blocks you use over and over.
+
+:::
+
+:::eli15
+
+These are the standard derivatives you should know by heart. They serve as building blocks: any more complex derivative can be computed by combining these with the differentiation rules (chain, product, quotient). Notably, e^x is its own derivative, and trigonometric functions cycle through each other.
+
+:::
+
+:::eli20
 
 | $f(x)$ | $f'(x)$ |
 |---------|----------|
@@ -31,7 +61,23 @@ tags: ["calculus", "differentiation", "integration", "chain rule", "product rule
 | $\cos x$ | $-\sin x$ |
 | $\tan x$ | $\sec^2 x$ |
 
+:::
+
 ## Applications of Derivatives
+
+:::eli10
+
+You can use derivatives to find the highest and lowest points on a curve. At these special points, the slope is zero (the curve is flat for a moment). The second derivative tells you whether it is a hilltop (maximum) or a valley bottom (minimum).
+
+:::
+
+:::eli15
+
+Derivatives have practical applications: finding stationary points (where the function is momentarily flat) and classifying them as local maxima or minima using the second derivative test. The derivative also gives the slope of the tangent line at any point, which is used for linear approximation and constructing tangent line equations.
+
+:::
+
+:::eli20
 
 ### Finding Stationary Points
 
@@ -47,13 +93,45 @@ At point $(a, f(a))$:
 
 $$y = f(a) + f'(a)(x - a)$$
 
+:::
+
 ## Integration
+
+:::eli10
+
+Integration is the reverse of differentiation. If differentiation tells you the speed from position, integration tells you the position from speed. It is like adding up lots of tiny pieces to find the total.
+
+:::
+
+:::eli15
+
+Integration is the inverse operation of differentiation. If F'(x) = f(x), then the integral of f(x) is F(x) + C (where C is an arbitrary constant). Integration computes accumulated quantities: area under curves, total distance from velocity, total quantity from a rate of change.
+
+:::
+
+:::eli20
 
 Integration is the reverse of differentiation.
 
 $$\int f'(x)\, dx = f(x) + C$$
 
+:::
+
 ## Common Integrals
+
+:::eli10
+
+Just like you memorise derivatives, there are standard integrals to know. They are basically the derivative rules in reverse. The integral of x^n is x^(n+1) divided by (n+1).
+
+:::
+
+:::eli15
+
+These standard integrals are the reverse of the common derivatives. When integrating, you add 1 to the power and divide by the new power. The constant of integration C is always needed for indefinite integrals because differentiation destroys constants. These form the toolkit you combine with integration techniques to handle more complex expressions.
+
+:::
+
+:::eli20
 
 | $f(x)$ | $\int f(x)\, dx$ |
 |---------|-------------------|
@@ -65,7 +143,23 @@ $$\int f'(x)\, dx = f(x) + C$$
 | $\cos x$ | $\sin x + C$ |
 | $\sec^2 x$ | $\tan x + C$ |
 
+:::
+
 ## Integration Techniques
+
+:::eli10
+
+Sometimes integrals are tricky and you need a technique. Substitution is like undoing the chain rule: you replace a complicated part with a simpler variable, do the integral, then swap back.
+
+:::
+
+:::eli15
+
+The main integration technique at this level is substitution (u-substitution), which reverses the chain rule. You identify an inner function u = g(x), compute du = g'(x)dx, and rewrite the integral in terms of u. For definite integrals, you apply the Fundamental Theorem of Calculus: evaluate the antiderivative at the upper and lower bounds and subtract.
+
+:::
+
+:::eli20
 
 ### Substitution (Chain Rule in Reverse)
 
@@ -84,7 +178,23 @@ where $F$ is an antiderivative of $f$.
 - $\int_a^b cf\, dx = c\int_a^b f\, dx$
 - $\int_a^c f\, dx = \int_a^b f\, dx + \int_b^c f\, dx$
 
+:::
+
 ## Applications of Integration
+
+:::eli10
+
+Integration can find the area of weird shapes. If you have a curve, integration adds up all the tiny slivers of area underneath it. You can also find the area between two curves by subtracting one from the other.
+
+:::
+
+:::eli15
+
+The definite integral computes the signed area between a function and the x-axis. When the function is positive, the integral gives the area directly. When it crosses the x-axis, you must split the region and take absolute values. The area between two curves equals the integral of the absolute difference of the two functions over the interval.
+
+:::
+
+:::eli20
 
 ### Area Under a Curve
 
@@ -96,7 +206,23 @@ If $f(x)$ crosses the $x$-axis, split at roots and take absolute values.
 
 $$\text{Area} = \int_a^b |f(x) - g(x)|\, dx$$
 
+:::
+
 ## Limits (Foundations)
+
+:::eli10
+
+A limit is what a value gets closer and closer to. If you keep halving the distance to a wall, your limit is the wall itself, even though you never quite reach it. L'Hopital's rule is a trick for when you get stuck with 0/0 -- you can take derivatives of the top and bottom instead.
+
+:::
+
+:::eli15
+
+Limits formalise the idea of "approaching a value." The rules for limits allow you to handle sums, products, and quotients by taking limits separately. When a quotient gives an indeterminate form (0/0 or infinity/infinity), L'Hopital's rule lets you differentiate the numerator and denominator separately and try the limit again.
+
+:::
+
+:::eli20
 
 | Rule | Statement |
 |------|-----------|
@@ -151,3 +277,5 @@ Let $u = x^2$, $du = 2x\, dx$, so $x\, dx = \frac{1}{2} du$.
 $$\int x \cdot e^{x^2}\, dx = \frac{1}{2}\int e^u\, du = \frac{1}{2}e^{x^2} + C$$
 
 </details>
+
+:::

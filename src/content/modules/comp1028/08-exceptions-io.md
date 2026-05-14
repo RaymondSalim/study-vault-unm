@@ -9,6 +9,20 @@ tags: ["java", "exceptions", "try-catch", "file-io", "checked-exceptions", "unch
 
 ## Exception Hierarchy
 
+:::eli10
+
+Exceptions are like alarm bells that go off when something goes wrong. Some alarms you must plan for (checked exceptions -- like "what if the file doesn't exist?"). Others are bugs in your code (unchecked -- like dividing by zero or using something that's null). Java forces you to handle the predictable alarms.
+
+:::
+
+:::eli15
+
+Java's exception system has two main categories. Checked exceptions (like `IOException`) represent predictable failures the compiler forces you to handle with try-catch or declare with `throws`. Unchecked exceptions (like `NullPointerException`) are programming errors that should be fixed in code rather than caught. The hierarchy: Throwable splits into Error (unrecoverable, don't catch) and Exception (recoverable), with RuntimeException being the unchecked branch.
+
+:::
+
+:::eli20
+
 ```
 Throwable
 ├── Error (unrecoverable -- don't catch these)
@@ -30,7 +44,23 @@ Throwable
             └── ...
 ```
 
+:::
+
 ## Checked vs Unchecked
+
+:::eli10
+
+Checked exceptions are like mandatory safety gear -- Java makes you deal with them or your code won't even compile. Unchecked exceptions are like tripping over your own shoelaces -- Java doesn't force you to plan for them because you should just tie your shoes properly (fix your code).
+
+:::
+
+:::eli15
+
+Checked exceptions must be either caught in a try-catch or declared in the method's `throws` clause -- the compiler enforces this. They represent external failures (file missing, network down). Unchecked exceptions extend RuntimeException and are not enforced by the compiler -- they represent programming bugs (null reference, bad array index) that should be prevented through proper code rather than caught.
+
+:::
+
+:::eli20
 
 | | Checked | Unchecked (Runtime) |
 |---|---------|---------------------|
@@ -40,7 +70,23 @@ Throwable
 | Examples | IOException, FileNotFoundException | NullPointerException, ArrayIndexOutOfBoundsException |
 | Fix strategy | Handle gracefully | Fix the code |
 
+:::
+
 ## Try-Catch-Finally
+
+:::eli10
+
+`try` is like saying "I'm going to try something that might go wrong." `catch` is like having a plan B ready. `finally` is like cleanup that always happens no matter what -- like putting your toys away whether you finished playing or not.
+
+:::
+
+:::eli15
+
+The try-catch-finally structure handles exceptions gracefully. Code that might throw goes in `try`. If an exception occurs, execution jumps to the matching `catch` block (more specific exceptions must be caught first). The `finally` block always executes -- even after a return statement -- making it ideal for cleanup. Java 7+ supports multi-catch (`catch (A | B e)`) for handling multiple exception types the same way.
+
+:::
+
+:::eli20
 
 ```java
 try {
@@ -76,7 +122,23 @@ e.printStackTrace()     // full stack trace to stderr
 e.getClass().getName()  // "java.lang.ArithmeticException"
 ```
 
+:::
+
 ## Throwing Exceptions
+
+:::eli10
+
+You can also create your own alarms. If someone tries to set an age to -5, that's obviously wrong, so you "throw" an exception that says "Hey! That's not a valid age!" This stops the bad operation from happening.
+
+:::
+
+:::eli15
+
+You can throw exceptions explicitly using the `throw` keyword to reject invalid inputs or states. For unchecked exceptions (like `IllegalArgumentException`), no declaration is needed. For checked exceptions, the method must declare them with `throws`. You can also create custom exception classes by extending `Exception` (checked) or `RuntimeException` (unchecked) to represent domain-specific error conditions.
+
+:::
+
+:::eli20
 
 ```java
 public void setAge(int age) {
@@ -123,7 +185,23 @@ public void withdraw(double amount) throws InsufficientFundsException {
 }
 ```
 
+:::
+
 ## Try-With-Resources (Java 7+)
+
+:::eli10
+
+Try-with-resources is like borrowing a library book and having it automatically returned when you're done reading, even if you fall asleep mid-chapter. Java automatically closes files and connections for you so you don't have to remember to do it yourself.
+
+:::
+
+:::eli15
+
+Try-with-resources automatically closes any resource that implements `AutoCloseable` when the try block finishes (whether normally or by exception). This eliminates the need for manual cleanup in `finally` blocks. Resources are declared in parentheses after `try` and are guaranteed to be closed in reverse declaration order. This prevents resource leaks (unclosed files, connections, etc.).
+
+:::
+
+:::eli20
 
 Automatically closes resources that implement `AutoCloseable`:
 
@@ -141,9 +219,25 @@ try (BufferedReader reader = new BufferedReader(new FileReader("data.txt"))) {
 
 > Preferred over manual `finally { reader.close(); }`.
 
+:::
+
 ---
 
 ## File I/O
+
+:::eli10
+
+File I/O is how your program reads from and writes to files on the computer. Reading a file is like opening a book and reading it line by line. Writing to a file is like writing in a notebook -- you can start fresh or add to what's already there (append mode).
+
+:::
+
+:::eli15
+
+Java provides several classes for file I/O. For reading: `Scanner` is simple and versatile (handles various data types); `BufferedReader` is more efficient for line-by-line text reading. For writing: `PrintWriter` offers familiar print/println methods; `BufferedWriter` is efficient for large writes. Always use try-with-resources to ensure files are closed. Files that don't exist will throw `FileNotFoundException` when reading, or be created when writing.
+
+:::
+
+:::eli20
 
 ### Reading a File
 
@@ -255,9 +349,25 @@ f.delete();           // delete the file
 f.mkdir();            // create directory
 ```
 
+:::
+
 ---
 
 ## Exception Handling Patterns
+
+:::eli10
+
+Common patterns include: safely converting text to numbers (catching the error if it's not a valid number), asking the user to try again when they type something wrong, and checking input before using it so exceptions don't happen in the first place.
+
+:::
+
+:::eli15
+
+Useful exception patterns include: safe parsing (catch `NumberFormatException` and return a default), retry loops (keep asking for input until valid), and input validation with `Scanner.hasNextInt()` to check before reading. The general principle is to prevent exceptions where possible (validate input), and catch them gracefully where prevention isn't feasible (file/network operations).
+
+:::
+
+:::eli20
 
 ### Parse with Validation
 
@@ -363,3 +473,5 @@ try {
 **Answer:** Compile error. `IOException` is a subclass of `Exception`, so it is already caught by the first catch block. The second catch is unreachable. Fix: put `IOException` catch first, or remove the `Exception` catch.
 
 </details>
+
+:::

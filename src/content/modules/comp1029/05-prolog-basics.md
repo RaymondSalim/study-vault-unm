@@ -9,6 +9,20 @@ tags: ["prolog", "logic-programming", "unification", "backtracking"]
 
 ## What is Logic Programming?
 
+:::eli10
+
+Logic programming is like playing detective. You give the computer facts ("Tom is Bob's parent") and rules ("X is a grandparent of Z if X is a parent of Y and Y is a parent of Z"). Then you ask questions and the computer figures out the answers by searching through what it knows. You tell it WHAT is true, not HOW to find the answer.
+
+:::
+
+:::eli15
+
+In logic programming, you declare facts (unconditional truths) and rules (conditional relationships), then ask queries. Prolog automatically searches for answers using unification (pattern matching with variable binding) and backtracking (trying alternative solutions when one path fails). You describe the problem declaratively -- what relationships hold -- rather than writing step-by-step procedures.
+
+:::
+
+:::eli20
+
 In logic programming, you describe **what** is true (facts and rules), not **how** to compute it. Prolog finds solutions via **search** (unification + backtracking).
 
 | Concept | Description |
@@ -19,7 +33,23 @@ In logic programming, you describe **what** is true (facts and rules), not **how
 | Unification | Pattern matching / variable binding |
 | Backtracking | Trying alternative solutions when one fails |
 
+:::
+
 ## Syntax Basics
+
+:::eli10
+
+In Prolog, lowercase words are fixed values (atoms) like names. Uppercase words are unknowns (variables) that Prolog fills in. Every statement ends with a period. The `:-` symbol means "if," and commas mean "and."
+
+:::
+
+:::eli15
+
+Prolog syntax: atoms (lowercase, fixed values like `john`), variables (uppercase like `X`, to be filled in), compound terms (structures like `date(2024,1,15)`), and lists (`[1,2,3]`). Clauses end with `.` (period). Rules use `:-` meaning "if." Conjunction (AND) is `,` and disjunction (OR) is `;`. The anonymous variable `_` matches anything without binding.
+
+:::
+
+:::eli20
 
 | Element | Convention | Example |
 |---------|-----------|---------|
@@ -34,7 +64,23 @@ In logic programming, you describe **what** is true (facts and rules), not **how
 | Conjunction | `,` (and) | `a, b` |
 | Disjunction | `;` (or) | `a ; b` |
 
+:::
+
 ## Facts
+
+:::eli10
+
+Facts are things you tell Prolog are simply true, no questions asked. "Tom is Bob's parent" or "Mary likes food" -- you just state them and Prolog remembers them.
+
+:::
+
+:::eli15
+
+Facts are ground truths in the knowledge base -- they have no conditions and are always true. They define the basic data that rules and queries operate on. Facts are written as predicates with arguments ending in a period. Multiple facts with the same predicate name define all instances of that relationship.
+
+:::
+
+:::eli20
 
 Facts are unconditional truths in the knowledge base.
 
@@ -57,7 +103,23 @@ likes(john, wine).
 likes(john, mary).
 ```
 
+:::
+
 ## Rules
+
+:::eli10
+
+Rules are like "if-then" statements for the detective. "X is a father of Y IF X is a parent of Y AND X is male." Prolog uses these rules to figure out things that aren't directly stated as facts.
+
+:::
+
+:::eli15
+
+Rules define relationships that depend on other conditions being true. The head (before `:-`) is what the rule concludes; the body (after `:-`) lists the conditions. Rules can be recursive (like `ancestor` calling itself). Prolog tries rules top-to-bottom and conditions left-to-right, using unification to bind variables.
+
+:::
+
+:::eli20
 
 Rules define relationships that depend on conditions. Read `:-` as "if".
 
@@ -79,7 +141,23 @@ ancestor(X, Y) :- parent(X, Y).
 ancestor(X, Y) :- parent(X, Z), ancestor(Z, Y).
 ```
 
+:::
+
 ## Queries
+
+:::eli10
+
+Queries are questions you ask Prolog. You can ask yes/no questions ("Is Tom Bob's parent?") or fill-in-the-blank questions ("Who are Tom's children?"). Prolog searches through its facts and rules to find all possible answers.
+
+:::
+
+:::eli15
+
+Queries ask questions about the knowledge base. Ground queries (no variables) return true/false. Queries with variables find all values that make the query true. Compound queries with `,` (and) require all parts to be satisfied simultaneously. Pressing `;` after an answer asks Prolog to find more solutions via backtracking.
+
+:::
+
+:::eli20
 
 Queries ask questions about the knowledge base.
 
@@ -108,7 +186,23 @@ Queries ask questions about the knowledge base.
 % X = pat.
 ```
 
+:::
+
 ## Unification
+
+:::eli10
+
+Unification is how Prolog matches things together. It tries to make two things look the same by filling in variables. If you ask "Does f(X) match f(apple)?", Prolog says "yes, if X = apple." If two things can't possibly match (like `cat` and `dog`), unification fails.
+
+:::
+
+:::eli15
+
+Unification is Prolog's pattern matching mechanism. Two terms unify if they can be made identical by substituting variables consistently. Constants unify only with themselves, variables unify with anything (and become bound), and compound terms unify if they have the same functor/arity and all arguments unify. A variable cannot be bound to two different values. Lists unify structurally: `[H|T] = [1,2,3]` binds `H=1, T=[2,3]`.
+
+:::
+
+:::eli20
 
 Unification is how Prolog matches terms. Two terms unify if they can be made identical by substituting variables.
 
@@ -145,7 +239,23 @@ Unification is how Prolog matches terms. Two terms unify if they can be made ide
 % X = 1, Y = 2, Z = [3, 4].
 ```
 
+:::
+
 ## Backtracking
+
+:::eli10
+
+Backtracking is Prolog's way of trying all possibilities. If one path doesn't work, it backs up and tries a different one, like navigating a maze by trying each fork and going back when you hit a dead end. This is how it finds multiple answers to a question.
+
+:::
+
+:::eli15
+
+When a goal fails, Prolog backtracks to the most recent choice point (where multiple clauses could match) and tries the next alternative. This depth-first search explores all possibilities systematically. Pressing `;` in the interactive prompt triggers manual backtracking. Understanding the search order (clauses top-to-bottom, goals left-to-right) is essential for predicting Prolog's behavior.
+
+:::
+
+:::eli20
 
 When a goal fails, Prolog **backtracks** to the most recent choice point and tries the next alternative.
 
@@ -195,7 +305,23 @@ Prolog uses **depth-first search** with **left-to-right** goal selection:
 2. Use clauses in the order they appear in the program (top to bottom)
 3. On failure, backtrack to most recent choice point
 
+:::
+
 ## Negation as Failure
+
+:::eli10
+
+Prolog's "not" works differently from normal logic. `\+ married(mary)` doesn't mean "Mary is unmarried" -- it means "I can't PROVE that Mary is married." If you never told Prolog that Mary is married, it assumes she isn't. This is called the "closed world assumption."
+
+:::
+
+:::eli15
+
+`\+` (negation as failure) succeeds when its argument cannot be proven true. It's based on the closed-world assumption: anything not provable is considered false. Important limitation: `\+` does not bind variables -- `\+ member(X, [1,2,3])` fails because `member(X, [1,2,3])` CAN be proven (with X=1). Always ensure variables are bound before using negation.
+
+:::
+
+:::eli20
 
 `\+` means "not provable" (closed-world assumption).
 
@@ -219,7 +345,23 @@ married(john).
 % false.  (because member(X, [1,2,3]) CAN be proven with X=1)
 ```
 
+:::
+
 ## Comparison and Arithmetic
+
+:::eli10
+
+Prolog handles math with the `is` keyword -- `X is 3 + 4` calculates the answer and puts 7 into X. For comparing numbers, you use `<`, `>`, `=:=` (equal), and `=\=` (not equal). Note that the right side of `is` must have all values known -- no unknowns allowed.
+
+:::
+
+:::eli15
+
+Arithmetic in Prolog uses `is/2` for evaluation (right side must be fully instantiated -- all variables must be bound to values). Comparison operators (`<`, `>`, `=:=`, `=\=`, `>=`, `=<`) compare arithmetic values. Note `=<` (not `<=`) for less-or-equal. The `=` operator performs unification (not arithmetic), while `=:=` performs arithmetic comparison. The `\=` operator means "does not unify" (structural), while `=\=` means "arithmetically not equal."
+
+:::
+
+:::eli20
 
 ```prolog
 % Arithmetic evaluation (is/2)
@@ -324,3 +466,5 @@ Answers:
 Answer: `A = a, B = b, C = c`
 
 </details>
+
+:::

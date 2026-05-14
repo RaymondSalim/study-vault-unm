@@ -7,9 +7,39 @@ tags: ["SRS", "IEEE-830", "IEEE-29148", "documentation", "specification-writing"
 
 ## What is an SRS?
 
+:::eli10
+
+An SRS (Software Requirements Specification) is the official rulebook for what the software must do. It is like a very detailed recipe that tells the builders exactly what to make, how well it should work, and all the rules it must follow. If there is a disagreement later, everyone looks at the SRS to settle it.
+
+:::
+
+:::eli15
+
+The SRS is a comprehensive document describing the intended purpose, behaviour, and constraints of a software system. It serves as the contract between stakeholders and the development team -- the authoritative reference for what must be built. It covers functional requirements, non-functional requirements, interfaces, constraints, and assumptions in a structured format that supports traceability and testing.
+
+:::
+
+:::eli20
+
 A **Software Requirements Specification** is a comprehensive description of the intended purpose, behaviour, and constraints of a software system. It serves as the contract between stakeholders and the development team.
 
+:::
+
 ## IEEE 830 vs IEEE 29148
+
+:::eli10
+
+IEEE 830 is an older standard that tells you how to write an SRS. IEEE 29148 is the newer version that covers the whole requirements process, not just the document. Most courses still teach 830 because it is simpler, but 29148 is the current official standard.
+
+:::
+
+:::eli15
+
+IEEE 830-1998 was the original SRS standard, now superseded by IEEE 29148:2018. The older standard focused solely on the SRS document structure; the newer standard covers the entire requirements engineering lifecycle and defines a layered document hierarchy (Stakeholder, System, and Software Requirements Specifications). IEEE 29148 also supports iterative and agile approaches rather than only plan-driven development.
+
+:::
+
+:::eli20
 
 | Aspect | IEEE 830-1998 | IEEE 29148:2018 |
 |--------|---------------|-----------------|
@@ -22,7 +52,23 @@ A **Software Requirements Specification** is a comprehensive description of the 
 **SyRS** = System Requirements Specification
 **SRS** = Software Requirements Specification
 
+:::
+
 ## SRS Template Structure (IEEE 830-based)
+
+:::eli10
+
+The SRS template has three main parts: Introduction (what this document is about), Overall Description (big picture of the system), and Specific Requirements (the detailed list of everything it must do). It is like a book with a preface, overview chapter, and then detailed chapters for each feature.
+
+:::
+
+:::eli15
+
+The IEEE 830-based SRS template has three main sections. Section 1 (Introduction) covers purpose, scope, definitions, and references. Section 2 (Overall Description) provides context: product perspective, major functions, user characteristics, constraints, and assumptions. Section 3 (Specific Requirements) contains the detailed specifications: interfaces, functional requirements, performance, design constraints, and quality attributes. This structure ensures completeness and aids navigation.
+
+:::
+
+:::eli20
 
 | Section | Content |
 |---------|---------|
@@ -47,7 +93,23 @@ A **Software Requirements Specification** is a comprehensive description of the 
 | 3.6 Other Requirements | Anything not covered above |
 | **Appendices** | Models, prototypes, analysis results |
 
+:::
+
 ## Organising Section 3 (Functional Requirements)
+
+:::eli10
+
+You can organise the detailed requirements list in different ways: by feature, by type of user, by use case, by system mode, or by trigger event. Pick whichever grouping makes it easiest for people to find what they need.
+
+:::
+
+:::eli15
+
+Section 3 (functional requirements) can be organised in several ways depending on the system: by feature (clear feature boundaries), by user class (distinct user types), by use case (use-case-driven development), by mode of operation (normal/maintenance/emergency modes), or by stimulus-response (event-driven systems). The choice affects how easily stakeholders can review and developers can implement from the document.
+
+:::
+
+:::eli20
 
 Several strategies:
 
@@ -59,7 +121,23 @@ Several strategies:
 | By mode of operation | System has distinct modes (normal, maintenance, emergency) |
 | By stimulus-response | Real-time / event-driven systems |
 
+:::
+
 ## Writing Individual Requirements
+
+:::eli10
+
+Each requirement should have an ID number, a clear description using "shall," a reason why it exists, a priority level, and a way to test whether it was built correctly. It is like writing a clear instruction that someone can check off: "Did we do this? Yes or No."
+
+:::
+
+:::eli15
+
+Each individual requirement needs: a unique ID, a clear description using "shall" (mandatory) / "should" (recommended) / "may" (optional), a rationale linking to business need, a priority, the source (who requested it), a fit criterion (how to verify), and dependencies. Avoid subjective terms ("user-friendly"), vague quantifiers ("quickly"), and design decisions disguised as requirements. One atomic requirement per numbered item.
+
+:::
+
+:::eli20
 
 ### Format
 
@@ -86,7 +164,23 @@ Each requirement should have:
 
 **Avoid:** "the system must be able to..." (use "shall"), subjective terms ("user-friendly"), vague quantifiers ("quickly", "many").
 
+:::
+
 ## Quality Criteria for an SRS
+
+:::eli10
+
+A good SRS is correct (matches what people actually want), clear (no confusion), complete (nothing missing), consistent (no contradictions), and testable (you can prove each requirement was met). If the SRS is bad, the whole project suffers.
+
+:::
+
+:::eli15
+
+An SRS document should be evaluated against eight quality criteria: correct (accurately reflects needs), unambiguous (single interpretation per requirement), complete (all requirements present, no TBDs), consistent (no contradictions), ranked (priorities assigned), verifiable (every requirement is testable), modifiable (structured for easy change), and traceable (requirements linked to sources and tests). These criteria are assessed during reviews and inspections.
+
+:::
+
+:::eli20
 
 | Criterion | Description |
 |-----------|-------------|
@@ -99,7 +193,23 @@ Each requirement should have:
 | Modifiable | Easy to change (structured, no redundancy) |
 | Traceable | Each requirement linked to source and forward to design/test |
 
+:::
+
 ## Common SRS Pitfalls
+
+:::eli10
+
+Common mistakes include: mixing HOW to build it with WHAT to build (putting design decisions in requirements), using vague words, forgetting to make requirements testable, not linking requirements together (so you cannot track changes), and hiding requirements inside long paragraphs instead of numbering them clearly.
+
+:::
+
+:::eli15
+
+Common SRS pitfalls include: embedding design decisions (constraining implementation unnecessarily), ambiguous language (lacking measurable criteria), incomplete NFRs (discovered too late in development), missing traceability (orphan requirements, missed tests), requirements buried in prose (hard to trace and test), and gold-plating (features without business justification). Each pitfall has specific remediation strategies focused on structure, precision, and linkage.
+
+:::
+
+:::eli20
 
 | Pitfall | Consequence | Fix |
 |---------|-------------|-----|
@@ -110,7 +220,23 @@ Each requirement should have:
 | Requirements in prose paragraphs | Hard to trace and test | One requirement per numbered item |
 | Gold-plating | Scope creep | Link every FR to a business requirement |
 
+:::
+
 ## SRS Review Checklist
+
+:::eli10
+
+Before declaring the SRS "done," check it against a list of quality checks: Does every requirement have an ID? Is every "shall" testable? Do any requirements contradict each other? Are all vague terms removed? This is like proofreading a school essay with a checklist.
+
+:::
+
+:::eli15
+
+An SRS review checklist ensures systematic quality checking: verify unique IDs, testable "shall" statements, no contradictions, measurable NFRs, resolved TBDs, consistent terminology, source traceability, no embedded design decisions, documented interfaces, and stated assumptions. This checklist is used during formal reviews and inspections to catch defects before they propagate into design and code.
+
+:::
+
+:::eli20
 
 - [ ] Every requirement has a unique ID
 - [ ] All "shall" statements are testable
@@ -157,3 +283,5 @@ Write a complete SRS entry (ID, description, rationale, priority, fit criterion)
 | Dependencies | FR-003 (Email service integration), FR-001 (User registration) |
 
 </details>
+
+:::

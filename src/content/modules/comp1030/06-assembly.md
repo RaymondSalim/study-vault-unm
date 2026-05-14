@@ -7,6 +7,20 @@ tags: ["assembly", "instruction-set", "stack", "subroutines", "ARM"]
 
 ## Assembly vs Machine Code
 
+:::eli10
+
+Assembly language is a human-readable way to write instructions the CPU understands. Instead of writing "1110 0000 1000..." (machine code), you write "ADD R0, R1, R2" which means "add what's in R1 and R2 and put the answer in R0." An assembler translates your readable text into the binary the CPU actually runs.
+
+:::
+
+:::eli15
+
+Assembly is a low-level language with a near 1-to-1 mapping to machine code. Each mnemonic (ADD, SUB, LDR) corresponds to one machine instruction. The assembler translates mnemonics to binary. Assembly gives direct control over hardware (registers, memory, flags) with no abstraction overhead. It's used for performance-critical code, device drivers, and understanding how high-level code actually executes on hardware.
+
+:::
+
+:::eli20
+
 | Level | Representation | Example |
 |-------|---------------|---------|
 | High-level | Human-readable | `x = a + b` |
@@ -15,9 +29,25 @@ tags: ["assembly", "instruction-set", "stack", "subroutines", "ARM"]
 
 **Assembler:** Translates assembly → machine code (1-to-1 mapping).
 
+:::
+
 ---
 
 ## Instruction Categories
+
+:::eli10
+
+Assembly instructions come in groups: arithmetic (add, subtract, multiply), logic (AND, OR), data movement (load from memory, store to memory), comparisons (is A bigger than B?), and jumps (go to a different line of code if some condition is true).
+
+:::
+
+:::eli15
+
+ARM-style assembly instructions fall into categories: arithmetic (ADD, SUB, MUL), logic (AND, ORR, EOR, shifts), data transfer (LDR loads from memory, STR stores to memory, MOV copies between registers), comparison (CMP sets flags without storing result), and branch (B for unconditional jump, BEQ/BNE etc. for conditional jumps based on flags). The CMP instruction is key -- it sets the condition flags that branches then check.
+
+:::
+
+:::eli20
 
 | Category | Operations | Examples |
 |----------|-----------|----------|
@@ -28,9 +58,25 @@ tags: ["assembly", "instruction-set", "stack", "subroutines", "ARM"]
 | Comparison | Compare, test | `CMP`, `TST` |
 | Stack | Push, pop | `PUSH`, `POP` |
 
+:::
+
 ---
 
 ## ARM-style Assembly (Common in COMP1030)
+
+:::eli10
+
+In ARM assembly, R0, R1, R2 etc. are registers (little storage boxes in the CPU). ADD R0, R1, R2 means "R0 = R1 + R2". LDR loads a value from memory into a register. STR saves a register's value to memory. CMP compares two values and sets invisible flags that branches then check.
+
+:::
+
+:::eli15
+
+ARM instructions typically have format: `OPERATION Destination, Source1, Source2`. Data processing instructions (ADD, SUB, AND, ORR) perform operations between registers. Memory access uses LDR (load register from memory) and STR (store register to memory) with various offset modes. CMP sets flags without storing a result, and conditional branches (BEQ, BNE, BGT, BLT) jump based on these flags. Shifts (LSL, LSR, ASR) multiply/divide by powers of 2.
+
+:::
+
+:::eli20
 
 ### Data Processing
 
@@ -72,9 +118,25 @@ tags: ["assembly", "instruction-set", "stack", "subroutines", "ARM"]
 | `BLE label` | Branch if less or equal |
 | `BL label` | Branch with Link (save return address in LR) |
 
+:::
+
 ---
 
 ## Condition Flags
+
+:::eli10
+
+After a comparison (CMP), the CPU sets invisible "flags" that remember the result. Z (Zero) means the values were equal. N (Negative) means the result was negative. Branches like BEQ (branch if equal) check these flags to decide whether to jump.
+
+:::
+
+:::eli15
+
+Condition flags are set by CMP, TST, or instructions with the S suffix. Z (Zero): result was 0. N (Negative): result MSB was 1. C (Carry): unsigned overflow occurred. V (Overflow): signed overflow occurred. Conditional branches check combinations of these flags: EQ checks Z=1, GT checks Z=0 AND N=V (positive non-zero result from signed comparison), LT checks N!=V.
+
+:::
+
+:::eli20
 
 Set by `CMP`, `TST`, or any instruction with `S` suffix (e.g., `ADDS`).
 
@@ -98,9 +160,25 @@ Set by `CMP`, `TST`, or any instruction with `S` suffix (e.g., `ADDS`).
 | HI | Higher (unsigned >) | C=1 and Z=0 |
 | LO | Lower (unsigned <) | C=0 |
 
+:::
+
 ---
 
 ## Stack Operations
+
+:::eli10
+
+The stack is like a pile of plates -- you add to the top (push) and take from the top (pop). The CPU uses it to save and restore values, especially when calling functions. The Stack Pointer (SP) keeps track of where the top of the pile is.
+
+:::
+
+:::eli15
+
+The stack grows downward (toward lower addresses). PUSH saves a register's value to the stack (decrement SP, store to memory). POP restores it (load from memory, increment SP). The stack is essential for function calls: save the return address (LR) and any registers the function will overwrite, so they can be restored when the function returns. Multiple registers can be pushed/popped in one instruction.
+
+:::
+
+:::eli20
 
 The stack grows **downward** (toward lower addresses) in most architectures.
 
@@ -111,9 +189,25 @@ The stack grows **downward** (toward lower addresses) in most architectures.
 | `PUSH {R4-R7, LR}` | Save multiple registers |
 | `POP {R4-R7, PC}` | Restore registers and return |
 
+:::
+
 ---
 
 ## Subroutines (Functions)
+
+:::eli10
+
+A subroutine is a reusable chunk of code -- like a recipe you can follow from different parts of your program. When you "call" it (BL), the CPU remembers where to come back to. When the subroutine is done, it "returns" to where it was called from. Arguments go in R0-R3, and the answer comes back in R0.
+
+:::
+
+:::eli15
+
+Subroutines are called with BL (Branch with Link), which saves the return address in LR (Link Register). The calling convention: arguments passed in R0-R3, return value in R0. The callee must save/restore any registers it modifies (using PUSH/POP). Nested calls require saving LR to the stack (since BL overwrites LR). The stack frame holds saved registers, local variables, and return address for each active function.
+
+:::
+
+:::eli20
 
 ### Calling Convention
 
@@ -141,9 +235,25 @@ High address
 Low address
 ```
 
+:::
+
 ---
 
 ## Common Patterns
+
+:::eli10
+
+Loops in assembly use a counter register, a comparison, and a branch back to the start. If-else uses a comparison followed by a branch that skips over one block of code. Accessing array elements uses a base address plus an offset (the index times the element size).
+
+:::
+
+:::eli15
+
+Common assembly patterns: loops use CMP + conditional branch (BGE/BLT to exit, B to repeat). If-else uses CMP then a conditional branch to skip one path. Array access calculates the offset (index x element size) and adds it to the base address. Shifts substitute for multiplication/division by powers of 2 (LSL #1 = multiply by 2, LSR #1 = divide by 2). These patterns directly mirror high-level constructs.
+
+:::
+
+:::eli20
 
 ### Loop (for i = 0 to 9)
 
@@ -180,9 +290,25 @@ done:
     LDR R3, [R0, R2]    @ R3 = array[3]
 ```
 
+:::
+
 ---
 
 ## Shifts as Multiplication/Division
+
+:::eli10
+
+Shifting bits left is the same as multiplying by 2 (each shift doubles the number). Shifting right divides by 2. So shifting left by 3 positions multiplies by 8 (2x2x2). This is much faster than actual multiplication in hardware.
+
+:::
+
+:::eli15
+
+Logical shift left (LSL) by n positions multiplies by 2^n (fills with zeros). Logical shift right (LSR) divides unsigned values by 2^n. Arithmetic shift right (ASR) divides signed values by 2^n (preserves the sign bit). Compilers use shifts instead of multiplication/division by powers of 2 because shifts execute in one cycle while multiply may take several.
+
+:::
+
+:::eli20
 
 | Operation | Equivalent | Example |
 |-----------|-----------|---------|
@@ -244,3 +370,5 @@ It's a loop that adds R1 to R0, incrementing R1 from 1 to 10.
 
 Solution: `PUSH {LR}` at the start of any function that calls other functions, and `POP {PC}` to return.
 </details>
+
+:::

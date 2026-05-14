@@ -7,6 +7,26 @@ tags: ["hashing", "collision-resolution", "hash-functions", "open-addressing"]
 
 ## Hash Table Concept
 
+:::eli10
+
+A hash table is like a magic filing cabinet. You give it any item, and a formula instantly tells you which drawer to put it in. Later, to find that item, you use the same formula and go straight to the right drawer — no searching needed. On average, storing and finding things takes just $O(1)$ time!
+
+:::
+
+:::eli15
+
+A hash table provides average $O(1)$ lookup, insertion, and deletion by using a **hash function** to map keys directly to array indices. The key components are:
+
+1. **Hash function**: Converts a key into an array index
+2. **Array of buckets**: Where the data is stored
+3. **Collision resolution**: Strategy for when two keys map to the same index
+
+The worst case is $O(n)$ (all keys collide into one slot), but with a good hash function and proper load management, this almost never happens.
+
+:::
+
+:::eli20
+
 Maps keys to values via a **hash function** $h(k)$ that computes an index into an array of **buckets/slots**.
 
 | Property | Value |
@@ -23,7 +43,31 @@ Maps keys to values via a **hash function** $h(k)$ that computes an index into a
 | Table (array) | Stores entries at computed indices |
 | Collision resolution | Handles multiple keys mapping to same index |
 
+:::
+
 ## Hash Functions
+
+:::eli10
+
+A hash function is like a recipe that turns any input into a number within a specific range. A good hash function spreads items evenly across the table (like dealing cards evenly to players) and always gives the same answer for the same input.
+
+:::
+
+:::eli15
+
+A good hash function should be:
+- **Deterministic**: Same key always produces the same index
+- **Uniform**: Distributes keys evenly across all slots (minimises collisions)
+- **Efficient**: Computes in $O(1)$ time
+
+Common approaches:
+- **Division method**: $k \mod m$ (use a prime $m$, avoid powers of 2)
+- **Multiplication method**: Multiply by an irrational constant, take fractional part, scale
+- **For strings**: Polynomial hash where each character is weighted by its position
+
+:::
+
+:::eli20
 
 ### Properties of Good Hash Functions
 
@@ -48,7 +92,30 @@ $$h(s) = \sum_{i=0}^{n-1} s[i] \cdot r^{n-1-i} \mod m$$
 
 where $r$ is a constant (e.g., 31 or 37).
 
+:::
+
 ## Load Factor
+
+:::eli10
+
+The load factor tells you how full the hash table is. If it gets too full (like a parking lot with almost no spaces left), collisions happen more often and things slow down. When the table is about 75% full, you should double its size to keep things fast.
+
+:::
+
+:::eli15
+
+The **load factor** $\alpha = n/m$ (number of elements divided by table size) measures how full the table is:
+
+- $\alpha < 0.5$: Lots of empty space — fast but wasteful
+- $0.5 \leq \alpha \leq 0.75$: The sweet spot — good performance with reasonable memory
+- $\alpha > 0.75$: Too dense — collisions increase significantly; time to resize
+- $\alpha > 1$: Only possible with chaining (multiple items per slot)
+
+When $\alpha$ exceeds a threshold, the table is resized (typically doubled) and all elements are rehashed.
+
+:::
+
+:::eli20
 
 $$\alpha = \frac{n}{m}$$
 
@@ -61,7 +128,29 @@ where $n$ = number of stored elements, $m$ = table size.
 | $> 0.75$ | Dense table | Resize (rehash) |
 | $> 1$ | Only possible with chaining | Performance degrades |
 
+:::
+
 ## Collision Resolution: Chaining
+
+:::eli10
+
+Chaining is the simplest way to handle collisions — when two items hash to the same slot, you just make a list at that slot. It's like a coat rack with hooks: if two people hang their coats on the same hook, they stack up. To find your coat, you look through all the coats on that hook.
+
+:::
+
+:::eli15
+
+With **chaining** (also called separate chaining), each table slot holds a linked list. When multiple keys hash to the same index, they are all stored in that list.
+
+- **Insert**: Always $O(1)$ — just add to the front of the list
+- **Search**: $O(1 + \alpha)$ average — go to the slot, then scan the list
+- **Delete**: $O(1 + \alpha)$ average — find in the list and remove
+
+Pros: Simple, handles high load factors, easy deletion. Cons: Extra memory for pointers, poor cache locality (pointer chasing).
+
+:::
+
+:::eli20
 
 Each slot holds a **linked list** (or other collection) of all elements that hash to that index.
 
@@ -91,7 +180,30 @@ search(key):
 | $\alpha$ can exceed 1 | Poor cache performance |
 | Delete is straightforward | Linked list overhead |
 
+:::
+
 ## Collision Resolution: Open Addressing
+
+:::eli10
+
+Open addressing stores everything directly in the table — no linked lists. When your spot is taken, you keep looking at the next spots until you find an empty one. It's like parking: if your spot is taken, you drive to the next one, and the next one, until you find an empty space.
+
+:::
+
+:::eli15
+
+In **open addressing**, all elements live directly in the table array. When a collision occurs, you "probe" — check alternative slots following a probe sequence.
+
+Three main probing strategies:
+- **Linear probing**: Check the next slot, then the next, and so on. Simple and cache-friendly, but causes "clustering" (long chains of occupied slots).
+- **Quadratic probing**: Steps grow as $1, 3, 6, 10, \ldots$ (reduces primary clustering but creates secondary clustering).
+- **Double hashing**: Uses a second hash function to determine the step size — best distribution, no clustering.
+
+The load factor must stay below 1 (table must have empty slots for probing to terminate).
+
+:::
+
+:::eli20
 
 All elements stored directly in the table. On collision, **probe** for next empty slot.
 
@@ -132,7 +244,30 @@ $$h(k, i) = (h_1(k) + i \cdot h_2(k)) \mod m$$
 | Clustering | No primary or secondary clustering |
 | Best among | Open addressing methods |
 
+:::
+
 ## Comparison of Collision Strategies
+
+:::eli10
+
+Each collision strategy has trade-offs. Chaining is simplest but uses extra memory. Linear probing is fast due to caching but creates traffic jams. Double hashing spreads things out best but is harder to implement. Choose based on your situation.
+
+:::
+
+:::eli15
+
+| Strategy | Pros | Cons |
+|----------|------|------|
+| Chaining | No clustering, $\alpha > 1$ OK, easy delete | Extra memory, poor cache |
+| Linear probing | Excellent cache, simple | Primary clustering at high loads |
+| Quadratic probing | Less clustering than linear | Secondary clustering, coverage issues |
+| Double hashing | No clustering at all | Two hash functions, poor cache |
+
+In practice, linear probing with a good hash function and low load factor is often fastest due to cache friendliness. Chaining is safest for unpredictable workloads.
+
+:::
+
+:::eli20
 
 | Strategy | Clustering | Cache | Space | Delete |
 |----------|-----------|-------|-------|--------|
@@ -141,7 +276,27 @@ $$h(k, i) = (h_1(k) + i \cdot h_2(k)) \mod m$$
 | Quadratic probing | Secondary | Good | None | Lazy |
 | Double hashing | None | Poor | None | Lazy |
 
+:::
+
 ## Deletion in Open Addressing
+
+:::eli10
+
+Deleting from open addressing is tricky — if you just erase an item, you might break the trail that other items used to find their spots. The solution is to leave a "deleted" marker (tombstone) so the search keeps going past it. Or you can rebuild the whole table, which is cleaner but slower.
+
+:::
+
+:::eli15
+
+You cannot simply empty a slot in open addressing — doing so would break probe chains for other elements that skipped past that slot during insertion.
+
+Two solutions:
+- **Tombstone**: Mark the slot as "deleted." Searches skip over it; inserts can reuse it. Simple but degrades performance over time as tombstones accumulate.
+- **Rehash**: Periodically rebuild the entire table from scratch, ignoring deleted entries. Expensive ($O(n)$) but restores optimal performance.
+
+:::
+
+:::eli20
 
 Cannot simply remove an element (breaks probe chains). Two approaches:
 
@@ -150,7 +305,29 @@ Cannot simply remove an element (breaks probe chains). Two approaches:
 | Tombstone (lazy) | Mark slot as "deleted"; skip during search, reuse on insert | Degrades performance over time |
 | Rehash | Rebuild table without deleted elements | Expensive but clean |
 
+:::
+
 ## Rehashing (Resizing)
+
+:::eli10
+
+When a hash table gets too full, you make a bigger table (usually double the size) and move everything over. You have to recalculate where each item goes because the formula depends on the table size. It's expensive once, but spread over many inserts, it averages out to $O(1)$ per insert.
+
+:::
+
+:::eli15
+
+When the load factor exceeds a threshold (typically 0.75), the table must be resized:
+
+1. Allocate a new table roughly double the size (pick the next prime)
+2. Recompute the hash of every existing element (since $h(k) = k \mod m$ changes with new $m$)
+3. Insert all elements into the new table
+
+This takes $O(n)$ for a single resize, but since you double the capacity each time, the **amortised cost** per insert remains $O(1)$ (same doubling argument as dynamic arrays).
+
+:::
+
+:::eli20
 
 When $\alpha$ exceeds threshold:
 1. Create new table of size $\approx 2m$ (pick next prime)
@@ -159,7 +336,28 @@ When $\alpha$ exceeds threshold:
 
 **Amortised cost**: $O(1)$ per operation (doubling argument).
 
+:::
+
 ## Expected Probe Counts
+
+:::eli10
+
+The fuller your hash table gets, the more attempts you need to find an empty spot. At half full, you typically need 2 tries for a miss. At 90% full, you might need 10 tries! This is why keeping the load factor below 0.75 is important.
+
+:::
+
+:::eli15
+
+For open addressing under the uniform hashing assumption:
+
+- **Unsuccessful search** (key not found): Expected probes = $\frac{1}{1-\alpha}$
+- **Successful search** (key found): Expected probes = $\frac{1}{\alpha} \ln \frac{1}{1-\alpha}$
+
+At $\alpha = 0.5$: about 2 probes for a miss, 1.4 for a hit. At $\alpha = 0.9$: about 10 probes for a miss, 2.6 for a hit. This exponential growth as $\alpha \to 1$ is why we resize well before the table is full.
+
+:::
+
+:::eli20
 
 For open addressing with load factor $\alpha$:
 
@@ -229,3 +427,5 @@ With $m = 7$ (prime):
 Prime $m$ ensures all probe sequences in quadratic/double hashing cover the full table.
 
 </details>
+
+:::

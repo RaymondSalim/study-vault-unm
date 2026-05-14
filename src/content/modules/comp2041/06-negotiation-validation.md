@@ -7,6 +7,20 @@ tags: ["MoSCoW", "Kano", "prioritisation", "validation", "review", "inspection",
 
 ## Requirements Negotiation
 
+:::eli10
+
+When different people want different things from the software and you cannot build everything, you need to negotiate. This is like dividing pizza fairly -- you figure out what everyone really needs, what they can live without, and find compromises that keep the most important people happy.
+
+:::
+
+:::eli15
+
+Requirements negotiation resolves conflicts between stakeholders when resources are limited. The process involves identifying conflicts, understanding each stakeholder's rationale, assessing cost/risk/time impact of each option, finding compromises (phased delivery, alternative solutions), and documenting decisions with reasoning. Effective negotiation prevents scope creep and ensures the most valuable requirements are prioritised.
+
+:::
+
+:::eli20
+
 When stakeholders have **conflicting requirements** or resources are limited, negotiation resolves disagreements and establishes priorities.
 
 ### Why Negotiate?
@@ -24,7 +38,23 @@ When stakeholders have **conflicting requirements** or resources are limited, ne
 4. **Find compromises** — phased delivery, alternative solutions, partial implementation
 5. **Document decisions** — record resolution and reasoning
 
+:::
+
 ## Prioritisation Techniques
+
+:::eli10
+
+Prioritisation is deciding what to build first. MoSCoW sorts requirements into: Must Have (cannot live without), Should Have (important but not critical), Could Have (nice extras), and Won't Have (not this time). Other methods use voting, scoring, or comparing items in pairs to rank them.
+
+:::
+
+:::eli15
+
+Prioritisation determines the order of implementation when not everything can be delivered simultaneously. MoSCoW classifies requirements into Must/Should/Could/Won't categories with a rule of thumb that Must Haves should not exceed 60% of effort. The Kano model categorises by customer satisfaction impact: Basic (expected), Performance (proportional satisfaction), and Excitement (delighters). Other techniques include numerical ranking, pairwise comparison, the 100-dollar test, and value-vs-cost matrices.
+
+:::
+
+:::eli20
 
 ### MoSCoW Method
 
@@ -59,7 +89,23 @@ When stakeholders have **conflicting requirements** or resources are limited, ne
 | Value vs. Cost matrix | Plot on 2x2 grid; prioritise high-value, low-cost |
 | Wiegers' method | Score benefit, penalty, cost, risk; compute priority |
 
+:::
+
 ## Requirements Validation
+
+:::eli10
+
+Validation checks whether the requirements actually describe what people need -- "are we planning to build the right thing?" This is different from verification (which checks whether we built it correctly later). You validate by reviewing documents, showing prototypes, and walking through scenarios with stakeholders.
+
+:::
+
+:::eli15
+
+Validation ensures requirements are correct, complete, and truly reflect stakeholder needs ("are we building the right thing?"). It happens before and during the requirements phase, unlike verification (which checks implementation against spec during development). Techniques include reviews, walkthroughs, inspections, prototyping, and model-based validation. The cost of fixing a requirements error grows exponentially the later it is discovered, making early validation critical.
+
+:::
+
+:::eli20
 
 Validation ensures requirements are **correct, complete, and reflect true stakeholder needs** ("Are we building the right thing?").
 
@@ -72,7 +118,23 @@ Validation ensures requirements are **correct, complete, and reflect true stakeh
 | When | Before/during requirements phase | During development/testing |
 | Techniques | Reviews, prototyping, walkthroughs | Testing, inspections, static analysis |
 
+:::
+
 ## Review Techniques
+
+:::eli10
+
+There are different levels of checking documents, from casual (asking a friend to look it over) to very formal (structured meetings with assigned roles, checklists, and official reports). The more critical the system (like medical devices), the more formal the review needs to be.
+
+:::
+
+:::eli15
+
+Review techniques range from informal (colleague reads the document casually) through walkthroughs (author-led presentations for feedback) and technical reviews (moderator-led with prepared reviewers) to formal inspections (Fagan inspections with defined phases, roles, and metrics). Each level trades off cost/time against thoroughness. Safety-critical systems require formal inspections; internal user stories may need only informal reviews.
+
+:::
+
+:::eli20
 
 ### Informal Review
 
@@ -130,7 +192,23 @@ Validation ensures requirements are **correct, complete, and reflect true stakeh
 - [ ] All stakeholder classes represented
 - [ ] Edge cases and error conditions addressed
 
+:::
+
 ## Validation Through Prototyping
+
+:::eli10
+
+Build a quick model, show it to the people who will use the system, and ask "is this what you meant?" Keep changing it until they say yes. Then throw away the prototype and build the real thing properly.
+
+:::
+
+:::eli15
+
+Prototype-based validation involves building a visual or interactive prototype, demonstrating it to stakeholders, gathering feedback ("is this what you meant?"), iterating until stakeholders confirm correctness, and then discarding the prototype (unless using an evolutionary approach). This is particularly effective when stakeholders struggle to express needs abstractly but can react to concrete demonstrations.
+
+:::
+
+:::eli20
 
 - Build a prototype (paper, clickable, or functional)
 - Demonstrate to stakeholders
@@ -138,7 +216,23 @@ Validation ensures requirements are **correct, complete, and reflect true stakeh
 - Iterate until stakeholders confirm correctness
 - Discard prototype (unless evolutionary approach)
 
+:::
+
 ## Validation Through Modelling
+
+:::eli10
+
+You can also validate by drawing diagrams (like use case diagrams or activity diagrams) and walking stakeholders through them step by step. "If this happens, the system does this -- is that correct?" This catches missing or wrong steps early.
+
+:::
+
+:::eli15
+
+Model-based validation creates visual representations (use cases, activity diagrams, state machines) and walks stakeholders through scenarios using the model. This reveals missing or incorrect behaviour that might not be apparent from textual requirements alone. It is particularly effective for complex workflows and state-dependent behaviour where stakeholders can follow the model step by step.
+
+:::
+
+:::eli20
 
 - Create models (use cases, activity diagrams, state machines)
 - Walk stakeholders through scenarios using the model
@@ -183,3 +277,5 @@ Match each scenario to the appropriate review type:
 3. **Walkthrough** — author-led, purpose is to educate and get feedback
 
 </details>
+
+:::

@@ -7,9 +7,39 @@ tags: ["traceability", "change-control", "baselines", "versioning", "requirement
 
 ## What is Requirements Management?
 
+:::eli10
+
+Requirements management is keeping track of all your requirements as the project goes on. Things change -- people want new features, old ones get dropped, rules get updated. You need a system to track what changed, why it changed, who approved it, and what else is affected. It is like keeping a living to-do list that never gets lost.
+
+:::
+
+:::eli15
+
+Requirements management is the ongoing process of controlling, tracking, and maintaining requirements throughout the project lifecycle. It handles the reality that requirements change due to evolving business needs, stakeholder refinements, technical discoveries, and regulatory updates. Key activities include baselining (freezing approved versions), change control (evaluating and approving changes), traceability (linking requirements to source, design, and tests), and status tracking.
+
+:::
+
+:::eli20
+
 The ongoing process of **controlling, tracking, and maintaining** requirements throughout the project lifecycle. It handles the reality that requirements change.
 
+:::
+
 ## Key Activities
+
+:::eli10
+
+The main jobs are: locking in an agreed version (baselining), evaluating and approving changes (change control), linking requirements to their source, code, and tests (traceability), watching how each requirement is progressing (status tracking), keeping a history of changes (versioning), and figuring out what else breaks when something changes (impact analysis).
+
+:::
+
+:::eli15
+
+Requirements management encompasses six key activities: baselining (freezing approved requirement snapshots), change control (structured evaluation and approval of proposed changes), traceability (bidirectional linking between requirements, sources, design, code, and tests), status tracking (monitoring each requirement through its lifecycle), version control (maintaining change history), and impact analysis (assessing the ripple effects of proposed changes on related artefacts).
+
+:::
+
+:::eli20
 
 | Activity | Purpose |
 |----------|---------|
@@ -20,7 +50,23 @@ The ongoing process of **controlling, tracking, and maintaining** requirements t
 | Version control | Maintain history of changes |
 | Impact analysis | Assess effect of proposed changes |
 
+:::
+
 ## Requirements Attributes
+
+:::eli10
+
+Each requirement is like a trading card -- it has a name, but also extra information on the back: who asked for it, how important it is, what version it is, who owns it, and whether it has been built and tested yet. This metadata helps you manage hundreds of requirements without losing track.
+
+:::
+
+:::eli15
+
+Every requirement should carry metadata attributes beyond its description: a unique ID, source (who/what originated it), priority, status (proposed through verified), version number, owner, rationale, risk level, and target release. These attributes enable filtering, sorting, reporting, and management of large requirement sets. They also support traceability and change impact analysis.
+
+:::
+
+:::eli20
 
 Each requirement should carry metadata:
 
@@ -37,7 +83,23 @@ Each requirement should carry metadata:
 | Risk | High/Medium/Low |
 | Release | Which release it targets |
 
+:::
+
 ## Traceability
+
+:::eli10
+
+Traceability is being able to follow a requirement backwards (who asked for it and why) and forwards (where is it in the code, and which test checks it). It is like a thread connecting everything together so if you pull one thing, you can see everything connected to it.
+
+:::
+
+:::eli15
+
+Traceability is the ability to follow a requirement backward to its source (stakeholder, regulation) and forward to its implementation (design, code, test cases). A traceability matrix maps these relationships in a table. Benefits include: impact analysis (what is affected by a change), coverage analysis (find untested requirements), completeness checking (every business need maps to at least one FR), and gold-plating detection (code without requirement justification). The main challenge is cost of maintenance.
+
+:::
+
+:::eli20
 
 ### What is Traceability?
 
@@ -77,7 +139,23 @@ A table mapping relationships between artefacts:
 | Granularity mismatch | Define clear traceability strategy upfront |
 | Overhead perceived as waste | Demonstrate value through impact analysis examples |
 
+:::
+
 ## Change Control
+
+:::eli10
+
+Change control is the process for deciding whether to accept or reject a requested change. Someone fills out a request, experts figure out how big the change is, a decision board says yes or no, and if approved, everything gets updated properly. This prevents random changes from breaking the project.
+
+:::
+
+:::eli15
+
+Change control provides a structured process for managing requirement changes after baselining. A change request is submitted, impact analysis determines cost/schedule/quality effects, the Change Control Board (CCB) reviews and decides (approve/reject/defer), and if approved, the requirements, traceability matrix, and affected artefacts are updated. This prevents uncontrolled scope creep while allowing necessary evolution. The CCB typically includes the project manager, technical lead, business analyst, customer representative, and QA lead.
+
+:::
+
+:::eli20
 
 ### Why Requirements Change
 
@@ -128,7 +206,23 @@ A table mapping relationships between artefacts:
 | Priority | Should Have |
 | Decision | Approved for Release 2 |
 
+:::
+
 ## Baselines
+
+:::eli10
+
+A baseline is like taking a "save game" of your requirements at a specific point. Once saved, any changes require going through the official change process. You can always look back at older saves to see what changed and when.
+
+:::
+
+:::eli15
+
+A baseline is a formally approved snapshot of requirements at a point in time. After baselining, changes require formal change control. Baselines are established at key milestones: after elicitation, after validation/review, before development sprints, and after change approvals. They provide a stable reference point for development and a comparison point for measuring requirements volatility.
+
+:::
+
+:::eli20
 
 A **baseline** is a formally approved snapshot of the requirements at a point in time. After baselining:
 - Changes require formal change control
@@ -144,7 +238,23 @@ A **baseline** is a formally approved snapshot of the requirements at a point in
 | Before development sprint | Sprint backlog requirements |
 | After change approval | Updated requirements set |
 
+:::
+
 ## Requirements Status Tracking
+
+:::eli10
+
+Each requirement goes through stages like a package delivery: proposed (requested), analysed (checked), approved (accepted), implemented (coded), verified (tested), or rejected/deferred (not now). Tracking these statuses tells you how the project is progressing.
+
+:::
+
+:::eli15
+
+Requirements move through lifecycle states: proposed, analysed, approved, implemented, verified, deferred, rejected, or deleted. Status dashboards provide metrics like percentage implemented/verified, open change requests, requirements churn rate (scope stability indicator), and orphan requirements (not linked to tests). These metrics give project managers visibility into progress and risk.
+
+:::
+
+:::eli20
 
 | Status | Meaning |
 |--------|---------|
@@ -167,7 +277,23 @@ A **baseline** is a formally approved snapshot of the requirements at a point in
 | Requirements churn rate | Stability of scope |
 | Orphan requirements | Reqs not linked to any test |
 
+:::
+
 ## Tools for Requirements Management
+
+:::eli10
+
+You can track requirements in anything from a simple spreadsheet to expensive enterprise tools. Big tools like IBM DOORS handle traceability and versioning automatically, while smaller teams might use Jira or spreadsheets. The right tool depends on how big and formal your project is.
+
+:::
+
+:::eli15
+
+Requirements management tools range from basic spreadsheets to enterprise solutions. Tools like IBM DOORS and Jama Connect provide sophisticated traceability, baselining, access control, and collaboration features. Integrated ALM tools (Azure DevOps, Jira with plugins) combine requirement tracking with development workflows. The choice depends on project size, formality level, budget, and team distribution. Even spreadsheets work for small projects if used disciplined.
+
+:::
+
+:::eli20
 
 | Tool | Type | Features |
 |------|------|----------|
@@ -222,3 +348,5 @@ Identify:
 3. **Non-requirements artefacts:** UI mockups (new screens), architecture (new service), test cases (new + modified), user documentation, training materials
 
 </details>
+
+:::

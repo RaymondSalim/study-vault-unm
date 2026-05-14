@@ -7,9 +7,23 @@ tags: ["design patterns", "behavioural", "Strategy", "Observer", "State", "Templ
 
 # Behavioural Design Patterns
 
-Behavioural patterns deal with communication between objects, defining how objects interact and distribute responsibility.
-
 ## Pattern Overview
+
+:::eli10
+
+Behavioural patterns are about how objects talk to each other and share work. Strategy lets you swap out algorithms like changing the route on a GPS. Observer is like a notification system -- when something changes, everyone subscribed gets told. State makes an object behave differently depending on its current situation (like a traffic light). Template Method is a recipe with some steps filled in and others left blank for subclasses.
+
+:::
+
+:::eli15
+
+Behavioural patterns define how objects interact and distribute responsibility. Strategy encapsulates interchangeable algorithms behind a common interface (swap at runtime). Observer implements one-to-many notifications (pub/sub pattern). State allows an object's behaviour to change when its internal state changes (avoids large conditionals). Template Method defines an algorithm skeleton with abstract steps filled by subclasses. MVC separates concerns for GUI applications into model (data), view (display), and controller (input handling).
+
+:::
+
+:::eli20
+
+Behavioural patterns deal with communication between objects, defining how objects interact and distribute responsibility.
 
 | Pattern | Intent | When to use |
 |---------|--------|-------------|
@@ -19,9 +33,25 @@ Behavioural patterns deal with communication between objects, defining how objec
 | **Template Method** | Define algorithm skeleton, defer steps to subclass | Same structure, different steps |
 | **MVC** | Separate model, view, controller | GUI applications |
 
+:::
+
 ---
 
 ## Strategy
+
+:::eli10
+
+The Strategy pattern is like choosing which route to take on a GPS. The destination is the same, but you can pick "fastest," "shortest," or "scenic." Your app does not care which route algorithm is used -- it just asks the current strategy to calculate the route. You can switch strategies at any time without changing the app itself.
+
+:::
+
+:::eli15
+
+The Strategy pattern defines a family of algorithms, encapsulates each one behind a common interface, and makes them interchangeable. The Context holds a reference to a Strategy and delegates the algorithmic work to it. Strategies can be swapped at runtime without modifying client code. This replaces complex conditional logic (if-else or switch on type) with polymorphism, following the Open/Closed Principle.
+
+:::
+
+:::eli20
 
 ### UML Structure
 
@@ -110,9 +140,25 @@ public class StudentDiscount implements DiscountStrategy {
 // etc.
 ```
 
+:::
+
 ---
 
 ## Observer
+
+:::eli10
+
+The Observer pattern is like subscribing to a YouTube channel. When the channel (subject) uploads a new video, all subscribers (observers) get notified automatically. You can subscribe and unsubscribe any time. The channel does not need to know anything about each subscriber -- it just sends notifications to everyone on the list.
+
+:::
+
+:::eli15
+
+The Observer pattern establishes a one-to-many dependency where multiple observers are notified automatically when a subject's state changes. The subject maintains a list of observers, and when its state changes, it iterates through the list calling each observer's update method. This decouples the subject from the observers (it only knows the Observer interface). Two models exist: push (subject sends data with notification) and pull (observer queries subject after being notified).
+
+:::
+
+:::eli20
 
 ### UML Structure
 
@@ -191,9 +237,25 @@ market.setPrice("AAPL", 150.0); // All observers notified
 | **Push** | Subject sends data in notification | Simple but may send unwanted data |
 | **Pull** | Observer queries subject for data it needs | Flexible but requires subject reference |
 
+:::
+
 ---
 
 ## State
+
+:::eli10
+
+The State pattern makes an object act differently depending on its current state, like a vending machine. With no coin inserted, pressing buttons does nothing. After inserting a coin, you can select a product. While dispensing, it ignores new coins. Each state is a separate object that handles the behaviour for that situation, and the machine switches between them automatically.
+
+:::
+
+:::eli15
+
+The State pattern encapsulates state-specific behaviour in separate state classes. The context delegates behaviour to its current state object, and states manage transitions to other states. This eliminates large conditional statements (if state == X then... else if state == Y then...) and makes adding new states simple (just add a new class). Unlike Strategy (where the client chooses the algorithm), in State the transitions are managed internally by the state objects themselves.
+
+:::
+
+:::eli20
 
 ### UML Structure
 
@@ -288,9 +350,25 @@ public class DispensingState implements VendingMachineState {
 | Awareness | Context may not choose state directly | Client typically sets strategy |
 | Analogy | Traffic light (changes automatically) | GPS (user picks route algorithm) |
 
+:::
+
 ---
 
 ## Template Method
+
+:::eli10
+
+The Template Method is like a recipe that says "Step 1: prepare ingredients, Step 2: cook, Step 3: serve" -- but each chef does these steps differently. The overall order is fixed (you cannot serve before cooking), but the details are left to each specific chef (subclass) to fill in. The template locks the structure; subclasses provide the specifics.
+
+:::
+
+:::eli15
+
+The Template Method defines an algorithm's skeleton in a base class method (usually marked `final` to prevent overriding), with certain steps left as abstract methods for subclasses to implement. This ensures the algorithm's structure is consistent while allowing variation in specific steps. Hook methods provide optional override points with default implementations. It inverts control: the base class calls subclass code, not vice versa (Hollywood Principle: "don't call us, we'll call you").
+
+:::
+
+:::eli20
 
 ### UML Structure
 
@@ -378,9 +456,25 @@ public abstract class Game {
 }
 ```
 
+:::
+
 ---
 
 ## MVC (Model-View-Controller)
+
+:::eli10
+
+MVC splits an application into three parts: the Model (the data and rules -- like a database), the View (what users see -- like a screen), and the Controller (the traffic cop that handles user actions and coordinates between the other two). This way, you can change how things look (View) without changing how they work (Model), and vice versa.
+
+:::
+
+:::eli15
+
+MVC separates an application into three components: the Model (data + business logic, notifies observers of changes), the View (presentation layer, displays data and captures input), and the Controller (mediator that handles input, updates the model, and selects views). The key benefit is separation of concerns: the model is testable without UI, the view can be swapped (web, mobile, desktop), and the controller coordinates without knowing rendering details. The model typically uses the Observer pattern to notify views of changes.
+
+:::
+
+:::eli20
 
 ### UML Structure
 
@@ -462,6 +556,8 @@ public class StudentController {
     }
 }
 ```
+
+:::
 
 ---
 

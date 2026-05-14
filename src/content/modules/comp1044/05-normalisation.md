@@ -9,12 +9,42 @@ tags: ["databases", "normalisation", "functional-dependencies", "normal-forms"]
 
 ## Purpose
 
+:::eli10
+
+Normalisation is like organizing your room so you do not have the same thing in two places. If you change your phone number, you should only have to update it once, not in ten different spots. Normalisation splits up messy tables so that each fact is stored in exactly one place.
+
+:::
+
+:::eli15
+
+Normalisation is the process of restructuring tables to eliminate data redundancy and prevent anomalies. Without it, you get problems: insertion anomalies (cannot add data without unrelated data), deletion anomalies (deleting one record accidentally removes other facts), and update anomalies (changing one fact requires changing multiple rows). Normalisation systematically decomposes tables so each fact is stored exactly once.
+
+:::
+
+:::eli20
+
 Normalisation is the process of organising relations to:
 - Eliminate **redundancy** (duplicate data)
 - Prevent **update anomalies** (insertion, deletion, modification)
 - Ensure **data integrity**
 
+:::
+
 ## Anomalies in Unnormalised Data
+
+:::eli10
+
+When data is not organized well, bad things happen: you might not be able to add new information without inventing fake data, deleting one thing might accidentally erase other important facts, and changing one detail means you have to find and change it everywhere it appears.
+
+:::
+
+:::eli15
+
+Anomalies are problems that arise from poorly structured tables. Insertion anomalies prevent adding new data without unrelated data (e.g., cannot add a new module until someone enrols). Deletion anomalies cause unintended data loss (deleting the last student in a module loses the module info). Update anomalies require changing the same fact in multiple places (changing a module title in every enrolment row). Normalisation eliminates all three.
+
+:::
+
+:::eli20
 
 | Anomaly | Problem | Example |
 |---------|---------|---------|
@@ -22,7 +52,23 @@ Normalisation is the process of organising relations to:
 | Deletion | Deleting data causes unintended loss | Deleting last student in a module loses module info |
 | Update/Modification | Changing one fact requires multiple updates | Changing a module title must update every row |
 
+:::
+
 ## Functional Dependencies (FDs)
+
+:::eli10
+
+A functional dependency means "if you know X, you can figure out Y." For example, if you know a student's ID, you can find their name. We write this as StudentID -> Name. This idea helps us figure out how to split tables properly.
+
+:::
+
+:::eli15
+
+A functional dependency X -> Y means that the value of X uniquely determines the value of Y. Knowing X, there is exactly one possible value for Y. FDs come in three types: full (Y depends on ALL of a composite key), partial (Y depends on only PART of a composite key -- violates 2NF), and transitive (X -> Y -> Z, an indirect dependency -- violates 3NF). Armstrong's Axioms (reflexivity, augmentation, transitivity) let you derive all implied FDs.
+
+:::
+
+:::eli20
 
 A functional dependency X → Y means: if two tuples have the same value for X, they must have the same value for Y.
 
@@ -48,7 +94,23 @@ A functional dependency X → Y means: if two tuples have the same value for X, 
 
 Derived rules: Union, Decomposition, Pseudo-transitivity.
 
+:::
+
 ## Normal Forms
+
+:::eli10
+
+Normal forms are levels of organization. 1NF means no lists in cells. 2NF means every non-key column depends on the WHOLE key (not just part of it). 3NF means no chain dependencies (where A determines B which determines C). Each level removes more problems. BCNF is the strictest -- every determinant must be a key.
+
+:::
+
+:::eli15
+
+Normal forms are progressive levels of table quality. 1NF: all values are atomic (no arrays). 2NF: no partial dependencies (non-key attributes must depend on the entire composite primary key, not just part of it). 3NF: no transitive dependencies (non-key attributes must not depend on other non-key attributes). BCNF: every functional dependency's left side must be a superkey. Each level builds on the previous, and achieving a higher normal form requires decomposing the table.
+
+:::
+
+:::eli20
 
 ### Summary Table
 
@@ -161,9 +223,25 @@ StudentTutor(Student, Tutor)
 
 > **Trade-off:** BCNF decomposition may lose some FDs that 3NF preserves.
 
+:::
+
 ---
 
 ## Decomposition Rules
+
+:::eli10
+
+When you split a table, you need to make sure you can put it back together perfectly (lossless join) and that you can still check all the original rules (dependency preserving). If you cannot, the split might lose information.
+
+:::
+
+:::eli15
+
+A good decomposition has two properties: lossless join (you can reconstruct the original data by joining the decomposed tables -- guaranteed if a common attribute is a key in at least one resulting table) and dependency preservation (all original FDs can be checked locally within individual tables, without needing to join). Sometimes achieving BCNF sacrifices dependency preservation, which is why 3NF is sometimes preferred in practice.
+
+:::
+
+:::eli20
 
 A good decomposition must be:
 
@@ -172,7 +250,23 @@ A good decomposition must be:
 | Lossless join | Original data can be reconstructed by joining | At least one common attribute is a key in one of the new tables |
 | Dependency preserving | All original FDs can be checked in the decomposed tables | Every FD is either within a single table or can be derived |
 
+:::
+
 ## Step-by-Step Normalisation Process
+
+:::eli10
+
+The process is like cleaning up step by step: first list all the rules about what determines what, then check if your table passes each level of organization, and split it up wherever there is a problem.
+
+:::
+
+:::eli15
+
+The normalisation process is systematic: (1) list all functional dependencies, (2) identify candidate keys using attribute closure, (3) check each normal form in order (1NF through BCNF), and (4) decompose whenever a violation is found. At each step, verify the decomposition is lossless. Continue until all resulting tables meet the target normal form.
+
+:::
+
+:::eli20
 
 1. **List all FDs** from the data/requirements
 2. **Identify candidate keys** (attributes that determine all others via closure)
@@ -182,7 +276,23 @@ A good decomposition must be:
 6. **Check BCNF:** Is every determinant a superkey?
 7. **Decompose** at each step if violations found
 
+:::
+
 ## Worked Example
+
+:::eli10
+
+Here is an example of taking one big messy table (OrderDetail with too much information crammed in) and splitting it into clean, organized tables step by step. Each split fixes a specific type of redundancy.
+
+:::
+
+:::eli15
+
+This worked example takes a denormalized OrderDetail table through the full normalisation process. Starting with identified FDs and key {OrderID, ProductID}, we find partial dependencies (violating 2NF) and transitive dependencies (violating 3NF), decomposing at each stage until we reach four clean tables in BCNF: Order, Customer, Product, and OrderItem.
+
+:::
+
+:::eli20
 
 **Original unnormalised relation:**
 
@@ -222,7 +332,23 @@ OrderItem(OrderID, ProductID, Quantity)
 
 **BCNF:** All determinants are now superkeys. ✓
 
+:::
+
 ## Practice
+
+:::eli10
+
+Try these normalisation problems -- figure out what normal form a table is in, and if it has problems, split it into better tables.
+
+:::
+
+:::eli15
+
+These exercises require you to identify functional dependencies, determine candidate keys, check which normal form a relation satisfies, and decompose tables to eliminate violations. Work through them systematically: find the key first, then check for partial and transitive dependencies.
+
+:::
+
+:::eli20
 
 <details>
 <summary>Q1: Given R(A, B, C, D, E) with FDs: A → B, BC → D, D → E. Key is {A, C}. What normal form is R in?</summary>
@@ -301,3 +427,5 @@ BorrowRecord(BookID, BorrowDate, BorrowerID)
 All in BCNF.
 
 </details>
+
+:::

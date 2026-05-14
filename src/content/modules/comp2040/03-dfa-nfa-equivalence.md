@@ -7,12 +7,42 @@ tags: ["minimisation", "table-filling", "equivalence"]
 
 ## DFA/NFA Equivalence Summary
 
+:::eli10
+
+DFAs and NFAs are equally powerful -- anything one can do, the other can too. A DFA is already an NFA (just one with no choices), and any NFA can be converted into a DFA using the subset trick. They are like bicycles with and without training wheels -- both get you to the same places.
+
+:::
+
+:::eli15
+
+Every DFA is trivially an NFA (it just happens to have exactly one transition per symbol). Conversely, every NFA can be converted to an equivalent DFA via subset construction, though the DFA may have exponentially more states. The key result is that both models recognise exactly the same class of languages: the regular languages.
+
+:::
+
+:::eli20
+
 | Direction | Method | Complexity |
 |-----------|--------|------------|
 | DFA → NFA | Trivial (DFA is already an NFA) | Same states |
 | NFA → DFA | Subset construction | Up to $2^n$ states |
 
+:::
+
 ## DFA Minimisation
+
+:::eli10
+
+Sometimes a DFA has extra states that are not really needed -- like having two identical rooms in a maze. Minimisation finds which states behave exactly the same and merges them together, giving you the smallest possible DFA that still accepts the same words.
+
+:::
+
+:::eli15
+
+DFA minimisation finds the smallest DFA that recognises the same language. Two states are "equivalent" if no input string can distinguish them (i.e., from both states, the same words lead to acceptance). The table-filling algorithm systematically identifies which pairs of states are distinguishable. Equivalent states are merged. The resulting minimal DFA is unique (up to state renaming).
+
+:::
+
+:::eli20
 
 **Goal**: Find the DFA with the fewest states that recognises the same language.
 
@@ -45,7 +75,23 @@ States: $\{A, B, C, D, E\}$, accepting: $\{C, E\}$, alphabet: $\{0, 1\}$
 
 **Step 4**: Merge all remaining unmarked pairs.
 
+:::
+
 ## Lexical Analysis Connection
+
+:::eli10
+
+When a computer reads your code, it breaks it into pieces like keywords, numbers, and names -- just like splitting a sentence into words. It uses minimised DFAs to do this super fast, matching patterns like a very efficient word-finder puzzle solver.
+
+:::
+
+:::eli15
+
+Compilers use DFAs in their lexical analysis phase (tokenisation). Each type of token (keyword, identifier, number, operator) is defined by a pattern. These patterns are combined into one NFA, converted to a DFA, and then minimised for efficiency. This is why understanding DFA minimisation has direct practical application in compiler construction.
+
+:::
+
+:::eli20
 
 - Tokenisers in compilers use DFAs
 - Keywords, identifiers, numbers → different accepting states
@@ -62,3 +108,5 @@ Yes — the minimal DFA for a regular language is unique up to renaming of state
 
 If $p \in F$ and $q \notin F$, then the empty word $\varepsilon$ distinguishes them: $\hat{\delta}(p, \varepsilon) = p \in F$ but $\hat{\delta}(q, \varepsilon) = q \notin F$. These are the "base case" distinguishable pairs.
 </details>
+
+:::

@@ -7,6 +7,20 @@ tags: ["CPU", "von-neumann", "fetch-decode-execute", "pipelining", "instruction-
 
 ## Von Neumann Architecture
 
+:::eli10
+
+A computer has a brain (CPU), memory (where it stores instructions and data), and input/output (keyboard, screen). The CPU fetches instructions from memory one by one, figures out what they mean, and carries them out. This fetch-decode-execute cycle repeats billions of times per second.
+
+:::
+
+:::eli15
+
+The Von Neumann architecture has a CPU (with control unit and ALU), shared memory (for both instructions and data), and I/O, connected by buses. The key principle is stored-program: instructions live in the same memory as data. This creates the "Von Neumann bottleneck" -- the single bus between CPU and memory limits throughput. Harvard architecture separates instruction and data memory/buses to reduce this bottleneck (used in caches and embedded systems).
+
+:::
+
+:::eli20
+
 | Component | Role |
 |-----------|------|
 | CPU (Control Unit + ALU) | Executes instructions |
@@ -25,9 +39,25 @@ tags: ["CPU", "von-neumann", "fetch-decode-execute", "pipelining", "instruction-
 | Bottleneck | Yes | Reduced |
 | Use | General-purpose CPUs | DSPs, microcontrollers |
 
+:::
+
 ---
 
 ## CPU Registers
+
+:::eli10
+
+Registers are tiny, super-fast storage spaces inside the CPU. The Program Counter (PC) remembers which instruction to do next. The Instruction Register (IR) holds the current instruction being worked on. The Accumulator stores the result of calculations. Think of them as sticky notes the CPU keeps right on its desk.
+
+:::
+
+:::eli15
+
+Registers are the fastest storage in a computer, built into the CPU itself. Key special-purpose registers: PC (Program Counter -- address of next instruction), IR (Instruction Register -- current instruction being decoded), MAR/MDR (interface to memory), ACC (accumulator for ALU results), SP (Stack Pointer -- top of stack), and status flags (Z, N, C, V). General-purpose registers (R0-Rn) hold operands for computation.
+
+:::
+
+:::eli20
 
 | Register | Purpose |
 |----------|---------|
@@ -40,9 +70,25 @@ tags: ["CPU", "von-neumann", "fetch-decode-execute", "pipelining", "instruction-
 | SR / Flags | Status flags (Z, N, C, V) |
 | General Purpose (R0-Rn) | Operand storage |
 
+:::
+
 ---
 
 ## Fetch-Decode-Execute Cycle
+
+:::eli10
+
+The CPU repeats three steps forever: (1) Fetch -- grab the next instruction from memory, (2) Decode -- figure out what the instruction means, (3) Execute -- do it (like add two numbers or jump to a different instruction). Then it moves to the next instruction and starts over.
+
+:::
+
+:::eli15
+
+The CPU executes instructions in a cycle: Fetch (load instruction from memory at address in PC, advance PC), Decode (control unit interprets the opcode and identifies operands/addressing mode), Execute (ALU performs the operation, result stored, flags updated). For memory operations, additional cycles access data. For branches, the PC is modified to jump to a new address. This cycle repeats indefinitely.
+
+:::
+
+:::eli20
 
 ### Fetch
 
@@ -63,9 +109,25 @@ tags: ["CPU", "von-neumann", "fetch-decode-execute", "pipelining", "instruction-
 - Result stored to register or memory
 - Flags updated
 
+:::
+
 ---
 
 ## Instruction Formats
+
+:::eli10
+
+Instructions are coded in binary. Each instruction has an "opcode" (what to do, like ADD or LOAD) and "operands" (what to do it with, like which registers). RISC computers keep all instructions the same size (simple and fast). CISC computers have variable-size instructions (more powerful but complex).
+
+:::
+
+:::eli15
+
+Instructions encode an operation and its operands in binary. Fixed-length formats (RISC -- like ARM) have uniform instruction sizes for simple decoding and predictable pipelining. Variable-length formats (CISC -- like x86) can be 1-15 bytes, allowing compact code but complex decoding. Instructions fall into categories: data processing (ALU operations), data transfer (load/store), control flow (branch/jump), and I/O.
+
+:::
+
+:::eli20
 
 ### Fixed-Length (RISC)
 
@@ -87,9 +149,25 @@ Instructions can be 1-15 bytes (e.g., x86).
 | Control flow | JUMP, BRANCH, CALL, RET | Change PC |
 | I/O | IN, OUT | Device communication |
 
+:::
+
 ---
 
 ## Addressing Modes
+
+:::eli10
+
+Addressing modes are different ways to tell the CPU where to find data. "Immediate" means the value is right there in the instruction. "Register" means look in a register. "Direct" means go to a specific memory address. "Indirect" means a register holds the address to go to -- like following a treasure map.
+
+:::
+
+:::eli15
+
+Addressing modes specify how to find an operand. Immediate: value is in the instruction itself (fast, but limited size). Register: value is in a register (fast). Direct: instruction contains the memory address. Indirect: a register holds the memory address (enables pointers/arrays). Indexed: base address + offset (for array access). PC-relative: offset from current position (for branches, enables position-independent code).
+
+:::
+
+:::eli20
 
 | Mode | Operand is... | Example | Effective Address |
 |------|---------------|---------|-------------------|
@@ -100,9 +178,25 @@ Instructions can be 1-15 bytes (e.g., x86).
 | Indexed | Base + offset | `LOAD R1, [R2 + #4]` | R2 + 4 |
 | PC-relative | PC + offset | `BRA #offset` | PC + offset |
 
+:::
+
 ---
 
 ## Pipelining
+
+:::eli10
+
+Pipelining is like a car wash with multiple stages (soap, rinse, dry). Instead of one car going through all stages before the next starts, multiple cars are in different stages at the same time. The CPU works the same way -- while one instruction is being executed, the next one is being decoded, and the one after that is being fetched.
+
+:::
+
+:::eli15
+
+Pipelining overlaps instruction execution by breaking it into stages (typically 5: IF, ID, EX, MEM, WB). While one instruction executes, the next is being decoded, and another is being fetched -- achieving near 1 instruction per cycle throughput. Hazards disrupt this: structural (hardware conflicts), data (result not yet available -- solved by forwarding), and control (branches invalidate fetched instructions -- solved by prediction). Ideal speedup approaches the number of pipeline stages.
+
+:::
+
+:::eli20
 
 Break instruction execution into stages; overlap multiple instructions.
 
@@ -150,9 +244,25 @@ where $n$ = number of instructions, $k$ = pipeline stages.
 
 Route ALU result directly to next instruction's input (bypasses register file write/read).
 
+:::
+
 ---
 
 ## Performance Metrics
+
+:::eli10
+
+We measure CPU speed by how many instructions it completes per second. "CPI" (Cycles Per Instruction) tells you how many clock ticks each instruction takes on average. Amdahl's Law says that speeding up only part of a program gives diminishing returns -- the un-improved part becomes the bottleneck.
+
+:::
+
+:::eli15
+
+Key performance metrics: CPI (Cycles Per Instruction) -- average clock cycles per instruction. Execution time = Instruction Count x CPI x Clock Period. Amdahl's Law limits speedup: if only fraction f of a program benefits from improvement p, the maximum speedup is 1/((1-f) + f/p). Even with infinite improvement to the parallelizable portion, speedup is limited by the serial fraction. This explains why diminishing returns occur when optimizing one component.
+
+:::
+
+:::eli20
 
 | Metric | Formula |
 |--------|---------|
@@ -163,9 +273,25 @@ Route ALU result directly to next instruction's input (bypasses register file wr
 
 where $f$ = fraction improved, $p$ = improvement factor.
 
+:::
+
 ---
 
 ## RISC vs CISC
+
+:::eli10
+
+RISC and CISC are two philosophies for designing CPUs. RISC (like ARM in phones) uses many simple instructions -- easier to make fast with pipelining. CISC (like x86 in PCs) uses fewer, more powerful instructions -- each one does more work but is harder to pipeline. Most modern chips use RISC ideas internally even if they accept CISC instructions.
+
+:::
+
+:::eli15
+
+RISC (Reduced Instruction Set Computer) uses simple, fixed-length instructions with few addressing modes and load/store architecture (only load/store access memory). This simplifies pipelining and enables high clock speeds. CISC (Complex Instruction Set Computer) has variable-length instructions with many addressing modes -- any instruction can access memory. Modern x86 CPUs internally decode CISC instructions into RISC-like micro-ops for efficient execution.
+
+:::
+
+:::eli20
 
 | Feature | RISC | CISC |
 |---------|------|------|
@@ -217,3 +343,5 @@ The shared bus between CPU and memory limits throughput — instructions and dat
 
 Mitigations: caches, wider buses, Harvard-style split caches (separate I-cache and D-cache).
 </details>
+
+:::

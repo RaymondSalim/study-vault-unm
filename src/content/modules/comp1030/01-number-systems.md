@@ -7,6 +7,20 @@ tags: ["binary", "hexadecimal", "twos-complement", "IEEE-754", "number-systems"]
 
 ## Base Conversions
 
+:::eli10
+
+Computers use binary (just 0s and 1s) instead of our decimal system (0-9). Converting between them is like translating between languages. To go from decimal to binary, you keep dividing by 2 and write down the remainders. Hexadecimal (0-9 plus A-F) is a shorthand for binary -- every 4 binary digits become one hex digit.
+
+:::
+
+:::eli15
+
+Computers represent all data in binary (base 2). Converting between bases: decimal to binary uses repeated division by 2 (read remainders bottom-up), binary to decimal sums each bit times its power of 2, and binary to hex groups bits in 4s (since 16 = 2^4). Hexadecimal is a compact human-readable representation of binary. Memorizing powers of 2 up to 2^10 (1024) helps with quick conversions.
+
+:::
+
+:::eli20
+
 | From | To | Method |
 |------|------|--------|
 | Decimal → Binary | Repeated division by 2, read remainders bottom-up |
@@ -22,9 +36,25 @@ tags: ["binary", "hexadecimal", "twos-complement", "IEEE-754", "number-systems"]
 |-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|---------|
 | 1 | 2 | 4 | 8 | 16 | 32 | 64 | 128 | 256 | 512 | 1024 |
 
+:::
+
 ---
 
 ## Unsigned Binary
+
+:::eli10
+
+Unsigned binary is like counting with only 0s and 1s. With 8 switches (bits), you can count from 0 to 255. Each switch represents a power of 2 -- the rightmost is 1, then 2, then 4, then 8, and so on up to 128 for the leftmost.
+
+:::
+
+:::eli15
+
+An n-bit unsigned integer stores values from 0 to 2^n - 1 (no negative numbers). Each bit position represents a power of 2. To convert decimal to binary, repeatedly divide by 2 and collect remainders (least significant first). To convert back, multiply each bit by its positional power of 2 and sum. 8 bits gives range 0-255, 16 bits gives 0-65535.
+
+:::
+
+:::eli20
 
 An $n$-bit unsigned integer represents values $0$ to $2^n - 1$.
 
@@ -36,9 +66,25 @@ $$2 \div 2 = 1\ r\ 0,\quad 1 \div 2 = 0\ r\ 1$$
 
 Read remainders bottom-up: $10011100_2$
 
+:::
+
 ---
 
 ## Signed Representations
+
+:::eli10
+
+To represent negative numbers with just 0s and 1s, computers use a trick called "two's complement." The leftmost bit tells you if the number is negative (1) or positive (0). To make a number negative, you flip all the bits and add 1. This makes math with negative numbers work naturally in hardware.
+
+:::
+
+:::eli15
+
+Three methods exist for representing negative integers in binary. Two's complement is used universally in modern hardware because it has only one zero (no +0/-0 issue) and makes addition/subtraction work the same regardless of sign. To negate in two's complement: invert all bits and add 1. The MSB is the sign bit (1 = negative). Range for n bits: -2^(n-1) to +2^(n-1)-1. Sign extension (replicating the MSB) preserves the value when widening.
+
+:::
+
+:::eli20
 
 | Method | Range ($n$ bits) | Notes |
 |--------|-----------------|-------|
@@ -72,9 +118,25 @@ To extend an $n$-bit value to $m$ bits ($m > n$): replicate the MSB (sign bit) i
 
 $$\text{8-bit } -5 = \texttt{1111\,1011} \rightarrow \text{16-bit } \texttt{1111\,1111\,1111\,1011}$$
 
+:::
+
 ---
 
 ## Binary Arithmetic
+
+:::eli10
+
+Adding binary numbers works just like adding decimal -- you go column by column and carry. The only difference is that 1+1 = 10 in binary (like how 9+1 = 10 in decimal). Subtraction uses a clever trick: instead of subtracting, you add the negative (two's complement) version.
+
+:::
+
+:::eli15
+
+Binary addition works column-by-column with carries (0+0=0, 0+1=1, 1+1=10). Subtraction is performed by adding the two's complement of the subtrahend (A - B = A + NOT(B) + 1). Overflow in signed arithmetic occurs when two operands of the same sign produce a result of the opposite sign. Overflow is detected when the carry into the MSB differs from the carry out of the MSB.
+
+:::
+
+:::eli20
 
 | Operation | Rule |
 |-----------|------|
@@ -83,9 +145,25 @@ $$\text{8-bit } -5 = \texttt{1111\,1011} \rightarrow \text{16-bit } \texttt{1111
 | Overflow (signed) | Two positive operands give negative result (or vice versa) |
 | Overflow detection | $C_{in} \oplus C_{out}$ of the MSB |
 
+:::
+
 ---
 
 ## IEEE 754 Floating Point
+
+:::eli10
+
+Floating point is how computers store decimal numbers like 3.14. It works like scientific notation: a number is stored as a sign (positive/negative), a significand (the digits), and an exponent (where to put the decimal point). Special codes represent infinity and "not a number" (NaN).
+
+:::
+
+:::eli15
+
+IEEE 754 represents real numbers using three components: sign bit (0=positive, 1=negative), exponent (biased -- stored value minus a bias gives the actual power of 2), and mantissa/significand (fractional bits with an implicit leading 1). Single precision uses 32 bits (8-bit exponent, 23-bit mantissa, bias 127). Special values: all-zero exponent with zero mantissa = 0, all-one exponent with zero mantissa = infinity, all-one exponent with non-zero mantissa = NaN.
+
+:::
+
+:::eli20
 
 ### Format
 
@@ -120,9 +198,25 @@ Convert $-6.5_{10}$ to IEEE 754 single precision:
 4. Mantissa: $10100000000000000000000$
 5. Result: `1 10000001 10100000000000000000000`
 
+:::
+
 ---
 
 ## Practice
+
+:::eli10
+
+Try converting numbers between decimal and binary, and practice negating numbers using two's complement. The key steps for two's complement negation are: write the positive number in binary, flip all the bits, then add 1.
+
+:::
+
+:::eli15
+
+Practice these key skills: decimal-to-binary conversion (repeated division by 2), two's complement negation (invert + add 1), interpreting two's complement values (MSB has negative weight), detecting overflow in signed addition, and IEEE 754 encoding (convert to binary scientific notation, add bias to exponent).
+
+:::
+
+:::eli20
 
 <details>
 <summary>Convert $-45_{10}$ to 8-bit two's complement</summary>
@@ -159,3 +253,5 @@ $$01101001 + 01010110 = 10111111$$
 Both operands are positive (MSB=0) but the result is negative (MSB=1).
 **Overflow has occurred.** The true result ($105 + 86 = 191$) exceeds the 8-bit signed range.
 </details>
+
+:::
