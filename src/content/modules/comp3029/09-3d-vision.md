@@ -7,10 +7,36 @@ tags: ["projective-geometry", "camera-model", "homogeneous-coordinates", "calibr
 
 ## Overview
 
+:::eli10
+
+When you take a photo, a 3D world gets squished onto a flat 2D picture. Depth information is lost -- you cannot tell if something is a small object nearby or a big object far away. 3D vision tries to recover that lost depth information by understanding exactly how cameras turn 3D scenes into 2D images, using geometry and math.
+
+:::
+
+:::eli15
+3D vision aims to recover three-dimensional scene structure from two-dimensional images. This requires modelling the image formation process: how 3D world points project onto 2D image pixels through a camera. The mathematical framework is projective geometry, which handles perspective effects (parallel lines converging, objects shrinking with distance). Understanding camera models and projection enables applications like 3D reconstruction, augmented reality, and autonomous navigation.
+
+:::
+
+:::eli20
 3D vision recovers the three-dimensional structure of the world from 2D images. This requires understanding the geometry of image formation.
+
+:::
 
 ## Projective Geometry
 
+:::eli10
+
+Normal geometry says parallel lines never meet. But in photos, railway tracks appear to meet in the distance! Projective geometry is a special kind of math that can handle this -- it adds "points at infinity" where parallel lines meet. It uses a trick called homogeneous coordinates where every point gets an extra number added to represent it, making many camera calculations much simpler.
+
+:::
+
+:::eli15
+Projective geometry extends Euclidean geometry to handle perspective effects that occur in cameras. It introduces homogeneous coordinates: a 2D point (x,y) becomes a 3-vector (x,y,1), or equivalently any scalar multiple (wx,wy,w). This representation elegantly handles points at infinity (w=0) where parallel lines converge, makes all geometric transformations expressible as matrix multiplications, and provides simple formulas for line intersections and point-line relationships via cross products.
+
+:::
+
+:::eli20
 ### Why Projective Geometry?
 
 Standard Euclidean geometry cannot handle:
@@ -60,8 +86,22 @@ $$\mathbf{p}' = H \mathbf{p}$$
 
 where $H$ is a 3x3 matrix with 8 DoF (defined up to scale). Requires 4 point correspondences to solve.
 
+:::
+
 ## Camera Models
 
+:::eli10
+
+A camera works like a pinhole: light from the 3D world passes through a tiny hole and hits the sensor, creating an upside-down image. The most important thing that happens is that depth disappears -- far-away things look small and nearby things look big. The "camera model" is the math that describes exactly how a 3D point ends up at a specific pixel location, depending on the camera's lens (intrinsic) and position/angle (extrinsic).
+
+:::
+
+:::eli15
+The pinhole camera model describes perspective projection: a 3D point (X,Y,Z) projects to pixel (u,v) by dividing by depth Z and scaling by focal length. The full projection is described by two sets of parameters: intrinsic parameters (focal length, principal point -- properties of the camera itself, 5 DoF) and extrinsic parameters (rotation and translation -- the camera's pose in the world, 6 DoF). Together these give 11 degrees of freedom, represented as a 3x4 projection matrix P = K[R|t].
+
+:::
+
+:::eli20
 ### Pinhole Camera Model
 
 The simplest camera model -- perspective projection through a single point.
@@ -139,8 +179,22 @@ Key property: **perspective projection divides by depth Z**.
 | Weak perspective | Depth variation $\ll$ average depth | $x = (f/Z_0)X$ (constant scale) |
 | Orthographic | Camera at infinity | $x = X$ (no magnification, parallel rays) |
 
+:::
+
 ## Camera Calibration
 
+:::eli10
+
+Camera calibration is figuring out the exact settings of your camera (how zoomed in it is, where the centre of the image is, etc.) by taking pictures of a known pattern like a checkerboard. Since you know the exact real-world positions of the checkerboard corners, and you can see where they appear in the image, you can work backwards to calculate all the camera's internal settings.
+
+:::
+
+:::eli15
+Camera calibration determines the intrinsic and extrinsic parameters from images of a known calibration target (typically a checkerboard). Zhang's method captures multiple views of a planar pattern, detects corner points, computes homographies between the pattern plane and each image, and extracts camera parameters from constraints these homographies impose. Real lenses also introduce radial and tangential distortion (straight lines become curved), which must be modelled and corrected for accurate measurements.
+
+:::
+
+:::eli20
 ### Purpose
 
 Determine intrinsic and extrinsic parameters from known 3D-2D correspondences.
@@ -165,8 +219,22 @@ Real lenses introduce distortion (not modelled by pinhole):
 | Radial (barrel/pincushion) | Straight lines become curved | $r' = r(1 + k_1 r^2 + k_2 r^4)$ |
 | Tangential | Asymmetric distortion | $p_1, p_2$ coefficients |
 
+:::
+
 ## Projection Properties
 
+:::eli10
+
+When a camera takes a picture, some properties of the 3D world are preserved and some are lost. Straight lines stay straight (a ruler still looks straight in a photo). But parallel lines appear to converge (like railway tracks), angles get distorted, and distances become unreliable (you cannot measure real-world size from a single photo because nearby things look bigger than far-away things).
+
+:::
+
+:::eli15
+Perspective projection preserves straight lines (they remain straight in the image) but distorts many other properties. Parallel lines converge to vanishing points, angles are not preserved (rectangles become trapezoids), and distances become depth-dependent (objects at twice the distance appear half the size). Relative depth ordering is lost from a single view. These properties are fundamental constraints that both limit single-image inference and enable multi-view 3D reconstruction.
+
+:::
+
+:::eli20
 | Property | In 3D | After Projection |
 |----------|-------|------------------|
 | Straight lines | Preserved | Still straight |
@@ -175,8 +243,22 @@ Real lenses introduce distortion (not modelled by pinhole):
 | Distances | Fixed | Not preserved (depends on depth) |
 | Relative depth | Clear | Lost (without stereo) |
 
+:::
+
 ## Epipolar Geometry
 
+:::eli10
+
+When two cameras look at the same scene from different positions, there is a special geometric relationship between them. If you see a point in one camera's image, you cannot know exactly where it is in 3D (it could be anywhere along a line of sight). But in the second camera's image, that point MUST lie somewhere on a specific line called the "epipolar line." This narrows your search from the entire image to just one line.
+
+:::
+
+:::eli15
+Epipolar geometry describes the geometric relationship between two views of the same scene. For any point in one image, its correspondence in the other image is constrained to lie on a specific line (the epipolar line), reducing the search from 2D to 1D. This constraint is encoded in the Fundamental matrix F (for uncalibrated cameras, 7 DoF) or Essential matrix E (for calibrated cameras, 5 DoF). Both matrices relate corresponding points via the equation p2^T F p1 = 0. Image rectification warps both images so that epipolar lines become horizontal scanlines.
+
+:::
+
+:::eli20
 ### Fundamentals
 
 | Term | Definition |
@@ -229,6 +311,8 @@ When cameras have parallel image planes ($R = I$, $\mathbf{t} = (t_x, 0, 0)$):
 ### Image Rectification
 
 Transform both images so that epipolar lines become horizontal scanlines. After rectification, stereo correspondence reduces to a 1D search along each row.
+
+:::
 
 <details><summary>Practice</summary>
 

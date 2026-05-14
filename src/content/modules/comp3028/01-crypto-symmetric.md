@@ -7,6 +7,18 @@ tags: ["symmetric", "AES", "DES", "block-cipher", "encryption", "modes"]
 
 ## Symmetric Encryption Overview
 
+:::eli10
+
+Symmetric encryption is like having a secret language that you and your friend both know. You use the same codebook to turn your message into gibberish (encryption) and back into the real message (decryption). The tricky part is: how do you share the codebook without anyone else seeing it?
+
+:::
+
+:::eli15
+Symmetric encryption uses a single shared secret key for both encryption and decryption. It is fast and efficient, making it the workhorse of modern encryption. The main challenge is key distribution -- both parties must somehow securely agree on the same key before they can communicate. The number of keys needed grows quadratically with the number of participants: for n people, you need n(n-1)/2 unique keys.
+
+:::
+
+:::eli20
 Same key for encryption and decryption: $C = E_K(P)$, $P = D_K(C)$.
 
 | Property | Detail |
@@ -16,8 +28,22 @@ Same key for encryption and decryption: $C = E_K(P)$, $P = D_K(C)$.
 | Key distribution problem | How to securely share the key? |
 | Number of keys ($n$ parties) | $\binom{n}{2} = \frac{n(n-1)}{2}$ |
 
+:::
+
 ## Block Ciphers vs Stream Ciphers
 
+:::eli10
+
+Imagine encrypting a letter. A block cipher is like putting the letter into a special box that scrambles exactly one page at a time. A stream cipher is like a magic pen that scrambles each letter as you write it, one by one. The box method is stronger for most things, but the pen method is faster for live conversations.
+
+:::
+
+:::eli15
+Block ciphers encrypt data in fixed-size chunks (blocks), typically 128 bits. They are general-purpose and used in most file/network encryption. Stream ciphers encrypt data one bit or byte at a time, generating a pseudorandom keystream that is XORed with the plaintext. Stream ciphers are faster per bit and better suited for real-time communications where data arrives continuously. Errors in stream ciphers do not propagate to other parts of the message.
+
+:::
+
+:::eli20
 | | Block Cipher | Stream Cipher |
 |-|-------------|---------------|
 | Input | Fixed-size blocks (e.g., 128 bits) | One bit/byte at a time |
@@ -26,8 +52,22 @@ Same key for encryption and decryption: $C = E_K(P)$, $P = D_K(C)$.
 | Error propagation | Depends on mode | No propagation |
 | Use case | General purpose | Real-time streams |
 
+:::
+
 ## DES (Data Encryption Standard)
 
+:::eli10
+
+DES was once the lock that protected all important computer secrets. It uses a 56-bit key, which seemed big in the 1970s but today is like having a lock with too few combinations -- a computer can try them all and break in. It is no longer safe to use.
+
+:::
+
+:::eli15
+DES is an older encryption standard that processes 64-bit blocks using a 56-bit key over 16 rounds of a Feistel network. In a Feistel network, each round splits the block in half and mixes one half with a round key, then swaps the halves. This elegant structure means the same hardware can encrypt and decrypt (just reversing the key order). DES is now considered broken because modern hardware can brute-force all 2^56 possible keys. Triple DES (3DES) applies DES three times with different keys to achieve 112-bit effective security, but it is slow and being phased out.
+
+:::
+
+:::eli20
 | Property | Value |
 |----------|-------|
 | Block size | 64 bits |
@@ -55,8 +95,22 @@ $$C = E_{K_3}(D_{K_2}(E_{K_1}(P)))$$
 | Option 2 | $K_1 = K_3 \neq K_2$ | 112 bits |
 | Option 3 | $K_1 = K_2 = K_3$ | 56 bits (backwards compatible) |
 
+:::
+
 ## AES (Advanced Encryption Standard)
 
+:::eli10
+
+AES is the gold-standard lock used today to protect everything from bank transactions to your Wi-Fi password. It works on 128-bit blocks and has keys of 128, 192, or 256 bits. Nobody has found a way to break it -- it is like a lock with so many combinations that even all the world's computers working together could never try them all.
+
+:::
+
+:::eli15
+AES replaced DES as the encryption standard. Unlike DES's Feistel structure, AES uses a Substitution-Permutation Network (SPN), applying four operations each round: byte substitution (SubBytes) for non-linearity, row shifting (ShiftRows) and column mixing (MixColumns) for diffusion, and key XOR (AddRoundKey). These operations implement Shannon's principles of confusion (making the relationship between key and ciphertext complex) and diffusion (spreading plaintext influence across the ciphertext). AES supports 128, 192, or 256-bit keys with 10, 12, or 14 rounds respectively.
+
+:::
+
+:::eli20
 | Property | Value |
 |----------|-------|
 | Block size | 128 bits |
@@ -83,8 +137,22 @@ $$C = E_{K_3}(D_{K_2}(E_{K_1}(P)))$$
 | Confusion | Each ciphertext bit depends on multiple key bits | SubBytes, AddRoundKey |
 | Diffusion | Each plaintext bit affects many ciphertext bits | ShiftRows, MixColumns |
 
+:::
+
 ## Block Cipher Modes of Operation
 
+:::eli10
+
+A block cipher only scrambles one small block at a time. But what if your message is longer than one block? Modes of operation are different strategies for chaining blocks together. Some strategies (like ECB) are bad because identical blocks produce identical scrambled output -- you could still see patterns. Better strategies (like CBC or CTR) mix in extra randomness so every block looks different even if the original blocks were the same.
+
+:::
+
+:::eli15
+Block cipher modes determine how to securely encrypt messages longer than one block. The simplest mode, ECB, encrypts each block independently, which leaks patterns (the famous "ECB penguin"). CBC chains blocks together so each ciphertext block depends on the previous one, requiring an unpredictable IV. CTR mode turns the block cipher into a stream cipher by encrypting sequential counter values and XORing with plaintext -- it is parallelisable and does not require padding. GCM combines CTR with an authentication tag, providing both confidentiality and integrity (authenticated encryption). Never reuse a nonce/IV with the same key in CTR or GCM mode -- it completely breaks security.
+
+:::
+
+:::eli20
 | Mode | Name | Parallelisable (enc) | Error propagation | IV needed |
 |------|------|:---:|:---:|:---:|
 | ECB | Electronic Codebook | Yes | None | No |
@@ -126,8 +194,26 @@ $$C_i = P_i \oplus E_K(\text{Nonce} \| \text{Counter}_i)$$
 
 CTR mode + authentication tag (GMAC). Provides **authenticated encryption** (confidentiality + integrity).
 
+:::
+
 ## Key Points
 
+:::eli10
+
+The most important things to remember: never use ECB mode (it leaks patterns), never reuse a secret number (nonce) with the same key (it reveals your messages), and AES-GCM is the best choice for encrypting data today because it protects both secrecy and detects tampering.
+
+:::
+
+:::eli15
+Key takeaways for practice:
+- ECB mode is deterministic and leaks plaintext patterns -- never use it for real data.
+- Reusing a nonce/IV in CTR or GCM mode is catastrophic: it allows an attacker to XOR two ciphertexts and obtain the XOR of the plaintexts.
+- AES-GCM is the current gold standard because it provides authenticated encryption (confidentiality plus integrity) in a single operation.
+- Use at least AES-128 for current security, AES-256 for long-term or post-quantum considerations.
+
+:::
+
+:::eli20
 | Concept | Remember |
 |---------|----------|
 | ECB is insecure | Deterministic -- leaks patterns |
@@ -151,3 +237,5 @@ If nonce is reused with the same key:
 
 The attacker gets the XOR of two plaintexts, which can be exploited (especially with known/guessable plaintext).
 </details>
+
+:::

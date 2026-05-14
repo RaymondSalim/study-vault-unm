@@ -7,10 +7,36 @@ tags: ["gan", "generative-models", "vision-transformer", "vit", "self-attention"
 
 ## Overview
 
+:::eli10
+
+This topic covers two big ideas. Generative models are AI systems that can create brand new images (like faces that do not exist or turning a sketch into a photo). Vision Transformers are a new type of network borrowed from language AI that can look at an entire image at once (unlike CNNs that look at small patches), relating any part of the image to any other part directly.
+
+:::
+
+:::eli15
+Generative models learn the underlying distribution of training data and can create new, realistic samples. GANs achieve this through adversarial training between a generator and discriminator. Vision Transformers (ViT) adapt the self-attention mechanism from NLP to images, replacing convolutional layers with global attention over image patches. ViTs lack the built-in spatial biases of CNNs but excel when trained on very large datasets, achieving state-of-the-art performance on image classification.
+
+:::
+
+:::eli20
 Generative models learn to create new data samples resembling the training distribution. Vision Transformers apply attention mechanisms from NLP to image understanding.
+
+:::
 
 ## Generative Adversarial Networks (GANs)
 
+:::eli10
+
+A GAN is like a forger and a detective playing a game. The forger (generator) tries to create fake images that look real. The detective (discriminator) tries to tell real images from fakes. As they compete, the forger gets better at making convincing fakes and the detective gets better at spotting them. Eventually, the forger produces images so realistic that even the detective cannot tell the difference.
+
+:::
+
+:::eli15
+GANs consist of two neural networks trained in opposition. The generator takes random noise and produces images, trying to fool the discriminator. The discriminator receives both real and generated images, trying to classify them correctly. Through this adversarial game, the generator learns to produce increasingly realistic images. At equilibrium, the generator's output distribution matches the real data distribution. Key challenges include mode collapse (generator produces limited variety), training instability, and difficulty evaluating quality.
+
+:::
+
+:::eli20
 ### Architecture
 
 Two networks trained adversarially:
@@ -67,8 +93,22 @@ At optimum: $D(\mathbf{x}) = 0.5$ for all inputs (cannot distinguish real from f
 - Image inpainting and editing
 - Text-to-image generation
 
+:::
+
 ## Vision Transformers (ViT)
 
+:::eli10
+
+Vision Transformers treat an image like a sentence. They chop the image into small square patches (like words), line them up in a row, and use "attention" to figure out how each patch relates to every other patch. Unlike CNNs that only look at nearby pixels, a Vision Transformer can directly connect a patch in the top-left corner to a patch in the bottom-right corner in a single step. It needs a LOT of training data but can become very powerful.
+
+:::
+
+:::eli15
+Vision Transformers (ViT) apply the transformer architecture from NLP to images by splitting them into fixed-size patches (e.g., 16x16) which serve as "tokens." Each patch is linearly projected into an embedding, positional information is added, and the sequence is processed by standard transformer encoder blocks with self-attention and MLPs. Unlike CNNs, ViTs have a global receptive field from the first layer and minimal inductive bias about image structure. This means they require massive datasets (or strong pre-training) to excel, but scale better with data and compute.
+
+:::
+
+:::eli20
 ### Motivation: CNN Limitations
 
 | Limitation | Detail |
@@ -185,6 +225,8 @@ The **[CLS] token** aggregates global information through self-attention across 
 | DeiT | Data-efficient training with distillation |
 | Swin Transformer | Shifted window attention (hierarchical) |
 | BEiT | BERT-style pre-training for vision |
+
+:::
 
 <details><summary>Practice</summary>
 

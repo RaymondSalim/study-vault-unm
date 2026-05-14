@@ -7,10 +7,36 @@ tags: ["stereo", "disparity", "epipolar-geometry", "optical-flow", "motion-detec
 
 ## Overview
 
+:::eli10
+
+Stereo vision is like how your two eyes give you depth perception. Two cameras take pictures from slightly different positions, and by comparing how much things shift between the two images (disparity), the computer can figure out how far away everything is. Motion analysis is about understanding movement in a video -- tracking how pixels move from one frame to the next.
+
+:::
+
+:::eli15
+Stereo vision uses two cameras separated by a baseline to recover depth through triangulation. The key quantity is disparity -- the horizontal shift between corresponding points in the left and right images -- which is inversely proportional to depth. Motion analysis (optical flow) estimates per-pixel velocity between consecutive video frames, enabling motion detection, tracking, and video understanding. Both problems share the fundamental challenge of establishing pixel correspondences.
+
+:::
+
+:::eli20
 Stereo vision recovers depth from two views; motion analysis tracks changes across time (video frames).
+
+:::
 
 ## Stereo Correspondence
 
+:::eli10
+
+The tricky part of stereo vision is figuring out which pixel in the left image matches which pixel in the right image. Once you know the matches, depth is easy to calculate: things that shift a lot between the two images are close, and things that barely shift are far away. The formula is simple -- depth equals focal length times baseline divided by disparity.
+
+:::
+
+:::eli15
+Stereo correspondence finds matching points between left and right images to compute disparity (and thus depth). For a rectified stereo pair, depth Z = f*B/d where f is focal length, B is baseline distance, and d is disparity (horizontal pixel shift). Large disparity means close objects; small disparity means distant objects. The main challenges are occlusions (regions visible in only one view), textureless areas (nothing distinctive to match), and repetitive patterns (ambiguous matches).
+
+:::
+
+:::eli20
 ### Problem Statement
 
 Given two images from different viewpoints, find corresponding points to triangulate 3D position.
@@ -39,8 +65,22 @@ Key insight: **depth is inversely proportional to disparity**.
 | Small disparity | Far objects |
 | Zero disparity | Points at infinity |
 
+:::
+
 ## Epipolar Geometry
 
+:::eli10
+
+Epipolar geometry is a rule that helps narrow down where to look for matches. If you see a point in the left image, its match in the right image must be somewhere on a specific horizontal line (after the images are rectified). Instead of searching the entire right image, you only need to search along one row -- much faster and less error-prone.
+
+:::
+
+:::eli15
+Epipolar geometry constrains the stereo correspondence problem. For any point in one image, its match in the other must lie on the corresponding epipolar line (determined by the camera geometry). After rectification, epipolar lines become horizontal scanlines, so correspondence search reduces to a 1D search along each row. The Fundamental matrix F encodes this geometry for uncalibrated cameras (7 DoF, estimated from 8+ correspondences), while the Essential matrix E applies to calibrated cameras (5 DoF).
+
+:::
+
+:::eli20
 ### Epipolar Constraint
 
 For a point in one image, its correspondence in the other image must lie on a specific line (the **epipolar line**).
@@ -73,8 +113,22 @@ $$\mathbf{p}_2'^T E \mathbf{p}_1' = 0$$
 
 where $\mathbf{p}'$ are normalised image coordinates. Contains only rotation and translation (5 DoF).
 
+:::
+
 ## Stereo Matching Methods
 
+:::eli10
+
+To find matching pixels between two images, the computer slides a small window along each row, comparing the left image patch against different positions in the right image. It picks the position where the patches look most similar. Bigger windows give smoother results but blur the edges of objects. Smaller windows are more precise at edges but noisier in plain areas.
+
+:::
+
+:::eli15
+Stereo matching methods vary in complexity and quality. Block matching (local method) compares small image patches along epipolar lines using metrics like SSD or NCC -- simple and fast but struggles at boundaries and textureless areas. Window size presents a trade-off between noise robustness (large windows) and edge accuracy (small windows). Global methods formulate stereo as energy minimisation, combining a data term (matching cost) with a smoothness term (penalising disparity jumps), solved via graph cuts or dynamic programming for better results at higher computational cost.
+
+:::
+
+:::eli20
 ### Block Matching
 
 | Step | Action |
@@ -165,8 +219,22 @@ Each entry stores the matching cost at $(x, y)$ for disparity $d$. Learning-base
 | 3 | Disparity optimisation (WTA, DP, or global) |
 | 4 | Disparity refinement (sub-pixel, consistency check) |
 
+:::
+
 ## Optical Flow
 
+:::eli10
+
+Optical flow is about seeing movement. When you watch a video, things move between frames -- a ball flies to the right, a person walks forward. Optical flow calculates exactly how each pixel moved (direction and speed) from one frame to the next. It is like drawing tiny arrows on every pixel showing where it went. This helps computers understand motion, track objects, and detect activity.
+
+:::
+
+:::eli15
+Optical flow estimates per-pixel motion (velocity) between consecutive video frames. It assumes brightness constancy -- a pixel's intensity stays the same as it moves. Taylor-expanding this assumption yields the optical flow constraint equation (one equation, two unknowns per pixel -- the aperture problem). Lucas-Kanade solves this locally by assuming constant flow within a window (works best at corners). Horn-Schunck solves globally with a smoothness regularisation. Multi-resolution pyramids handle large motions that violate the small-displacement assumption.
+
+:::
+
+:::eli20
 ### Definition
 
 Optical flow is the apparent motion of pixels between consecutive frames:
@@ -264,8 +332,22 @@ where $\bar{u}, \bar{v}$ are neighbourhood averages of flow.
 | Properties | Global, iterative, errors propagate across image |
 | Limitation | Over-smooths at motion boundaries |
 
+:::
+
 ## Motion Detection
 
+:::eli10
+
+Motion detection figures out what is moving in a video. The simplest way is to remember what the background looks like (when nothing is moving) and then highlight anything that looks different. If a pixel's colour suddenly changes a lot, something probably moved there. This is how security cameras detect intruders -- they learn the normal background and flag anything unusual.
+
+:::
+
+:::eli15
+Motion detection identifies moving objects by distinguishing them from the static background. Frame differencing (comparing consecutive frames) is the simplest approach but struggles with slow motion and static parts of moving objects. Background modelling builds a statistical model (Gaussian or GMM) of each pixel's normal appearance, flagging pixels that deviate significantly as foreground. GMM backgrounds can handle dynamic scenes (waving trees, water) by modelling multiple modes per pixel.
+
+:::
+
+:::eli20
 ### Background Subtraction
 
 | Method | Approach |
@@ -286,8 +368,22 @@ where $\bar{u}, \bar{v}$ are neighbourhood averages of flow.
 | Video stabilisation | Global motion estimation |
 | 3D reconstruction | Structure from Motion (SfM) |
 
+:::
+
 ## Comparing Stereo and Motion
 
+:::eli10
+
+Stereo and optical flow are related problems but work differently. Stereo uses two cameras at the same time to find depth (how far away things are). Optical flow uses one camera at two different times to find motion (how things are moving). Both solve the same puzzle of matching points between two images -- stereo matches across space, flow matches across time.
+
+:::
+
+:::eli15
+Stereo vision and optical flow are dual problems sharing the fundamental correspondence challenge. Stereo uses spatial displacement between simultaneous views to recover depth via the epipolar constraint. Optical flow uses temporal displacement between consecutive frames to recover velocity via brightness constancy. Both produce dense per-pixel maps (disparity/velocity), both struggle with occlusion and textureless regions, and both benefit from similar algorithmic approaches (local matching, global energy minimisation, deep learning).
+
+:::
+
+:::eli20
 | Aspect | Stereo | Optical Flow |
 |--------|--------|-------------|
 | Input | Two simultaneous views | Two consecutive frames |
@@ -295,6 +391,8 @@ where $\bar{u}, \bar{v}$ are neighbourhood averages of flow.
 | Geometry | Epipolar constraint | Brightness constancy |
 | Constraint | Spatial (two cameras) | Temporal (one camera, two times) |
 | Shared problem | Correspondence | Correspondence |
+
+:::
 
 <details><summary>Practice</summary>
 

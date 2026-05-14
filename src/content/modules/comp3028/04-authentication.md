@@ -7,6 +7,18 @@ tags: ["authentication", "passwords", "MFA", "biometrics", "Kerberos", "tokens"]
 
 ## Authentication Factors
 
+:::eli10
+
+Authentication means proving who you are. There are different ways to do it: something you know (like a password), something you have (like your phone), or something you are (like your fingerprint). Using two or more of these together (multi-factor authentication) is much safer than just one, because a thief would need to steal multiple different things.
+
+:::
+
+:::eli15
+Authentication verifies a user's claimed identity using one or more factors from distinct categories: knowledge (passwords, PINs), possession (phone, hardware token), inherence (biometrics), behaviour (typing pattern), or location (GPS). Multi-factor authentication (MFA) requires factors from at least two different categories -- two passwords do not count as MFA since both are knowledge factors. The strength of MFA comes from requiring an attacker to compromise fundamentally different types of evidence simultaneously.
+
+:::
+
+:::eli20
 | Factor | Type | Examples |
 |--------|------|----------|
 | Something you **know** | Knowledge | Password, PIN, security question |
@@ -28,8 +40,22 @@ Requires **two or more** factors from **different categories**.
 
 > Two passwords = NOT MFA (same factor category).
 
+:::
+
 ## Password-Based Authentication
 
+:::eli10
+
+Websites do not (or should not) store your actual password. Instead, they run it through a special scrambler (hash function) with a random "salt" and store the scrambled result. When you log in, they scramble your input the same way and check if it matches. If hackers steal the database, they only get scrambled versions that are very hard to reverse.
+
+:::
+
+:::eli15
+Secure password authentication never stores passwords in plaintext. Instead, the system stores a salted hash: hash(salt || password). When a user logs in, the system hashes their input with the stored salt and compares. Purpose-built slow hashing algorithms (bcrypt, Argon2) are essential to resist brute-force attacks. Each user gets a unique random salt to prevent rainbow table attacks. Common password attacks include brute force, dictionary attacks, credential stuffing (reusing leaked passwords from other sites), and phishing. Defences include rate limiting, account lockout, checking against known breached password lists, and using FIDO2/WebAuthn for phishing resistance.
+
+:::
+
+:::eli20
 ### Secure Storage
 
 ```
@@ -55,8 +81,22 @@ verify: hash(salt || input) == stored?
 | Phishing | Social engineering | User education, FIDO2/WebAuthn |
 | Shoulder surfing | Physical observation | Screen privacy |
 
+:::
+
 ## One-Time Passwords (OTP)
 
+:::eli10
+
+A one-time password is a code that works only once or for a very short time (like 30 seconds). Your authenticator app generates these using a shared secret and the current time. Even if someone sees the code, it will be expired by the time they try to use it.
+
+:::
+
+:::eli15
+One-time passwords add a second authentication factor without needing special hardware. HOTP (HMAC-based OTP) generates codes from a shared secret and an incrementing counter -- each code is valid until used. TOTP (Time-based OTP) is more common: it uses the current time divided into 30-second windows instead of a counter, so codes automatically expire. Both work by computing HMAC-SHA1 of the secret with the counter/time value, then truncating to 6 digits. TOTP is used by apps like Google Authenticator. The main risks are counter desynchronisation (HOTP) and clock skew (TOTP).
+
+:::
+
+:::eli20
 ### HOTP (HMAC-based)
 
 $$\text{HOTP}(K, C) = \text{Truncate}(\text{HMAC-SHA1}(K, C)) \mod 10^d$$
@@ -76,8 +116,22 @@ Typically: step = 30 seconds, $d = 6$ digits.
 | Sync issue | Counter mismatch | Clock skew |
 | More common | Hardware tokens | Authenticator apps |
 
+:::
+
 ## Kerberos
 
+:::eli10
+
+Kerberos is like getting a wristband at an amusement park. First you show your ID at the gate (authenticate once), and you get a special wristband (ticket). Then you can show the wristband to ride any ride (access any service) without showing your ID every time. The wristband expires at the end of the day so it cannot be stolen and used forever.
+
+:::
+
+:::eli15
+Kerberos is a network authentication protocol that provides single sign-on (SSO). You authenticate once with the Key Distribution Centre (KDC) and receive a Ticket Granting Ticket (TGT). When you need to access a service, you present the TGT to get a service-specific ticket, which you then present to the service. All tickets are encrypted and time-limited. Kerberos provides mutual authentication (both client and server verify each other) and uses timestamps to prevent replay attacks. The KDC is a single point of failure. Known attacks include pass-the-ticket, Kerberoasting (cracking service tickets offline), golden tickets (forging TGTs), and silver tickets (forging service tickets).
+
+:::
+
+:::eli20
 ### Components
 
 | Entity | Role |
@@ -119,8 +173,22 @@ Typically: step = 30 seconds, $d = 6$ digits.
 | Golden ticket | Forge TGT with KDC master key | Protect KDC, rotate krbtgt password |
 | Silver ticket | Forge service ticket with service key | Monitor for anomalous tickets |
 
+:::
+
 ## Token-Based Authentication
 
+:::eli10
+
+After you log in to a website, it gives you a special token (stored in your browser) so it knows who you are without asking for your password on every page. Session cookies are like a coat check ticket -- the site keeps your info and you just show the ticket. JWTs are like a passport -- all your info is written inside the token itself, signed so nobody can forge it.
+
+:::
+
+:::eli15
+Web applications use tokens to maintain authenticated state after login. Traditional session tokens (cookies) are opaque identifiers that reference server-stored session data -- easy to revoke by deleting server-side. JSON Web Tokens (JWTs) are self-contained: they embed the user's claims (identity, permissions, expiry) in a signed token that the server can verify without a database lookup. JWTs are stateless and scalable but harder to revoke (must wait for expiry or maintain a blacklist). JWTs have three Base64URL-encoded parts: header, payload, and signature (HMAC or RSA/ECDSA).
+
+:::
+
+:::eli20
 ### Session Tokens (Cookies)
 
 | Property | Detail |
@@ -149,8 +217,22 @@ Structure: `header.payload.signature` (Base64URL encoded)
 | `iat` | Issued at |
 | `aud` | Audience |
 
+:::
+
 ## FIDO2 / WebAuthn
 
+:::eli10
+
+FIDO2 is a new way to log in without passwords at all. Your device (phone or security key) creates a unique key pair for each website. You unlock it with your fingerprint or face, and the device proves your identity using cryptography. Because the key is tied to the real website address, phishing sites cannot trick you -- your device simply will not respond to a fake site.
+
+:::
+
+:::eli15
+FIDO2/WebAuthn is a modern authentication standard designed to eliminate phishing. It uses asymmetric cryptography: your device generates a unique key pair for each website, storing the private key securely on the device. Authentication involves the device signing a challenge from the server. The key is bound to the website's origin (domain), so phishing sites cannot request authentication -- the browser will not issue a challenge for the wrong domain. FIDO2 can be passwordless, using biometrics or a PIN just to unlock the local authenticator. It supports hardware security keys, platform authenticators (fingerprint readers, Face ID), and passkeys synced across devices.
+
+:::
+
+:::eli20
 | Property | Detail |
 |----------|--------|
 | Phishing-resistant | Bound to origin (domain) |
@@ -185,3 +267,5 @@ Timestamps prevent **replay attacks**:
 
 This requires clocks to be loosely synchronised (NTP).
 </details>
+
+:::

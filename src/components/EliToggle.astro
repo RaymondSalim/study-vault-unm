@@ -1,0 +1,97 @@
+---
+---
+<div class="eli-toggle" id="eli-toggle">
+  <span class="eli-toggle-label">Depth:</span>
+  <button class="eli-btn" data-level="eli10" title="Simple overview (ages 10+)">ELI10</button>
+  <button class="eli-btn" data-level="eli15" title="Intermediate detail (ages 15+)">ELI15</button>
+  <button class="eli-btn active" data-level="eli20" title="Full university detail">ELI20</button>
+</div>
+
+<style>
+  .eli-toggle {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    padding: 0.6em 1em;
+    margin: 0 -2em 1.5em -2em;
+    background: var(--bg-secondary, #1e1f2e);
+    border-bottom: 1px solid var(--border, #2a2b3d);
+    backdrop-filter: blur(8px);
+  }
+  .eli-toggle-label {
+    font-size: 0.8em;
+    color: var(--text-muted, #888);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-right: 0.25em;
+  }
+  .eli-btn {
+    padding: 0.3em 0.7em;
+    border: 1px solid var(--border, #2a2b3d);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--text-muted, #888);
+    font-size: 0.8em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .eli-btn:hover {
+    border-color: var(--accent, #7aa2f7);
+    color: var(--accent, #7aa2f7);
+  }
+  .eli-btn.active {
+    background: var(--accent, #7aa2f7);
+    border-color: var(--accent, #7aa2f7);
+    color: var(--bg, #1a1b26);
+    font-weight: 600;
+  }
+  @media (max-width: 768px) {
+    .eli-toggle {
+      margin: 0 -1em 1em -1em;
+      padding: 0.5em 0.75em;
+    }
+  }
+</style>
+
+<script>
+  const STORAGE_KEY = 'eli-level';
+  const DEFAULT_LEVEL = 'eli20';
+
+  function getLevel() {
+    return localStorage.getItem(STORAGE_KEY) || DEFAULT_LEVEL;
+  }
+
+  function applyLevel(level) {
+    document.querySelectorAll('[data-eli-level]').forEach((el) => {
+      if (el.id === 'eli-toggle') return;
+      const elLevel = el.getAttribute('data-eli-level');
+      el.style.display = elLevel === level ? '' : 'none';
+    });
+    document.querySelectorAll('.eli-btn').forEach((btn) => {
+      btn.classList.toggle('active', btn.getAttribute('data-level') === level);
+    });
+    localStorage.setItem(STORAGE_KEY, level);
+  }
+
+  function hasEliContent() {
+    return document.querySelector('[data-eli-level]:not(#eli-toggle)') !== null;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.getElementById('eli-toggle');
+    if (!hasEliContent()) {
+      toggle?.style.setProperty('display', 'none');
+      return;
+    }
+    applyLevel(getLevel());
+    toggle?.addEventListener('click', (e) => {
+      const btn = e.target.closest('.eli-btn');
+      if (!btn) return;
+      applyLevel(btn.getAttribute('data-level'));
+    });
+  });
+</script>

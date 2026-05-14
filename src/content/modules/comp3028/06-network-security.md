@@ -7,6 +7,18 @@ tags: ["firewall", "IDS", "IPS", "VPN", "TLS", "SSL", "network"]
 
 ## Firewalls
 
+:::eli10
+
+A firewall is like a security guard at the door of your network. It checks every piece of data coming in or going out and decides whether to let it through based on a set of rules. Simple firewalls only look at where data is coming from and where it is going. Smarter firewalls can look inside the data to check if it is dangerous.
+
+:::
+
+:::eli15
+Firewalls filter network traffic based on rules. Packet filters operate at layers 3-4, examining IP addresses, ports, and protocol flags -- fast but unable to understand application context. Stateful firewalls track connection state, so they can distinguish legitimate return traffic from unsolicited inbound packets. Application-layer proxies inspect full payload content for threats but are slow. Next-Generation Firewalls (NGFW) combine deep packet inspection with threat intelligence. The principle of "default deny" means blocking everything not explicitly allowed, which is far more secure than default-allow.
+
+:::
+
+:::eli20
 ### Types
 
 | Type | Operates at | Inspects | Speed |
@@ -44,8 +56,22 @@ Internet <--> [Firewall] <--> DMZ <--> [Firewall] <--> Internal LAN
                               (web server, mail server)
 ```
 
+:::
+
 ## Intrusion Detection/Prevention Systems
 
+:::eli10
+
+An IDS is like a security camera that watches network traffic and sounds an alarm if it spots something suspicious. An IPS is the same thing but also has the power to block the attack automatically. The camera approach (IDS) never accidentally blocks good traffic, but the blocker approach (IPS) can stop attacks in real time.
+
+:::
+
+:::eli15
+Intrusion Detection Systems (IDS) passively monitor network traffic and alert on suspicious activity. Intrusion Prevention Systems (IPS) sit inline in the traffic path and can actively block threats. Detection methods include signature-based (matching known attack patterns -- accurate but cannot detect new attacks), anomaly-based (detecting deviations from a baseline of normal behaviour -- can catch zero-days but has high false positive rates), and heuristic/behavioural analysis. The key trade-off is between false positives (blocking legitimate traffic) and false negatives (missing real attacks).
+
+:::
+
+:::eli20
 | | IDS | IPS |
 |-|-----|-----|
 | Mode | Passive (monitor + alert) | Active (monitor + block) |
@@ -60,8 +86,22 @@ Internet <--> [Firewall] <--> DMZ <--> [Firewall] <--> Internal LAN
 | Anomaly-based | Detect deviation from baseline | Can detect novel attacks | High false positives |
 | Heuristic/Behavioural | Rule-based analysis of behaviour | Balance of both | Requires tuning |
 
+:::
+
 ## Virtual Private Networks (VPN)
 
+:::eli10
+
+A VPN creates a secret tunnel through the internet. Even though your data travels across public networks that anyone could spy on, the tunnel encrypts everything so nobody can see what is inside. It is like sending your letters through a private, locked tube instead of regular mail.
+
+:::
+
+:::eli15
+VPNs create encrypted tunnels over untrusted networks, typically the public internet. IPsec is the standard protocol suite for VPNs: transport mode encrypts only the payload (for host-to-host), while tunnel mode wraps the entire IP packet in a new encrypted packet (for site-to-site gateways). IPsec uses ESP for encryption and integrity, AH for integrity only, and IKE for key negotiation. Modern alternatives include WireGuard (simpler, faster, using ChaCha20) and OpenVPN (TLS-based). Each VPN connection is governed by a Security Association (SA) that specifies the algorithms, keys, and lifetime.
+
+:::
+
+:::eli20
 ### Purpose
 
 Create encrypted tunnel over untrusted network (Internet).
@@ -97,8 +137,22 @@ Create encrypted tunnel over untrusted network (Internet).
 | WireGuard | L3 | ChaCha20 | Modern, simple, fast |
 | SSL/TLS VPN | L4-L7 | TLS | Browser-based access |
 
+:::
+
 ## TLS/SSL
 
+:::eli10
+
+TLS (the successor to SSL) is what puts the padlock icon in your browser. When you visit a website with HTTPS, your browser and the server perform a secret handshake: they prove their identities, agree on encryption methods, and create shared keys -- all before any private data is sent. After the handshake, everything is encrypted.
+
+:::
+
+:::eli15
+TLS (Transport Layer Security) secures communication between clients and servers (HTTPS, email, etc.). The TLS handshake establishes a secure session: the server presents its certificate, they agree on a cipher suite, and derive session keys via key exchange. TLS 1.3 (2018) improved on 1.2 by reducing the handshake to 1 round-trip, removing insecure algorithms (RC4, CBC, RSA key exchange), and mandating forward secrecy via ephemeral Diffie-Hellman. Forward secrecy means that compromising the server's long-term private key does not allow decryption of previously recorded sessions, because each session uses unique ephemeral keys. Certificate validation involves checking the chain of trust up to a root CA, expiry, revocation, and hostname matching.
+
+:::
+
+:::eli20
 ### TLS Handshake (TLS 1.2 simplified)
 
 ```
@@ -142,8 +196,22 @@ Client                          Server
 4. Client checks hostname matches certificate SAN/CN
 5. If valid, client trusts server's public key
 
+:::
+
 ## Common Network Attacks
 
+:::eli10
+
+There are many ways attackers try to break into networks. Some pretend to be your router to intercept your traffic (ARP spoofing). Some flood a server with fake connection requests until it crashes (SYN flood, DDoS). Some trick your computer into going to the wrong website (DNS spoofing). Defences include using encryption (TLS), verifying identities (certificates), and filtering bad traffic (firewalls).
+
+:::
+
+:::eli15
+Network attacks target different layers of the stack. At layer 2, ARP spoofing sends fake ARP replies to redirect local traffic through the attacker. At layer 3, IP spoofing forges source addresses. At layer 4, SYN floods exhaust server connection tables by sending half-open TCP connections. At higher layers, DNS spoofing redirects users to malicious servers, and man-in-the-middle attacks intercept communications. DDoS attacks overwhelm targets with traffic from many sources. Key defences include TLS for encryption and authentication, DNSSEC for DNS integrity, SYN cookies for SYN floods, and certificate pinning against MITM.
+
+:::
+
+:::eli20
 | Attack | Layer | Description | Defence |
 |--------|-------|-------------|---------|
 | ARP spoofing | L2 | Fake ARP replies to redirect traffic | Static ARP, DHCP snooping |
@@ -182,3 +250,5 @@ Stateful firewall:
 - Rejects unsolicited inbound packets even if they have ACK flag
 - No need for broad "allow high ports" rules
 </details>
+
+:::

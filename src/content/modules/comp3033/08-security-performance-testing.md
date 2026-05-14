@@ -7,20 +7,60 @@ tags: ["security-testing", "sast", "dast", "sca", "owasp", "devsecops", "perform
 
 ## Shift Left
 
+:::eli10
+
+"Shift left" means finding problems early instead of late. Imagine you are building a house and discover the foundation is crooked -- fixing it on day 1 is easy, but fixing it after the whole house is built is incredibly expensive. The same goes for software bugs: catch them early!
+
+:::
+
+:::eli15
+"Shift left" is the principle of finding and fixing defects as early as possible in the development lifecycle. The cost to fix a bug increases exponentially as it moves from requirements to design to code to testing to production. Instead of doing security and performance testing only after deployment, shift-left integrates these checks continuously into the CI/CD pipeline from the start.
+
+:::
+
+:::eli20
 **Goal**: Find and fix defects as early in the lifecycle as possible.
 
 - Cost to fix increases exponentially across phases (Requirements → Design → Code → Test → Production)
 - Instead of security/performance testing after deployment, integrate it continuously into CI/CD
 
+:::
+
 ## DevSecOps
 
+:::eli10
+
+DevSecOps means that security is everyone's job, not just one special team's job. It is like how keeping a classroom clean is everyone's responsibility, not just the janitor's. Automated tools help check for security problems every time code is written, making the safe way also the easy way.
+
+:::
+
+:::eli15
+DevSecOps is a cultural and technical shift that integrates security into the DevOps process rather than treating it as a separate phase. Security becomes everyone's responsibility, not just a dedicated security team's. It relies heavily on automation to provide fast feedback and aims to make the secure path the easiest path for developers to follow.
+
+:::
+
+:::eli20
 A cultural and technical shift to integrate security into the DevOps process:
 - Security is **everyone's** responsibility, not just a separate team
 - Relies on automation to provide fast feedback
 - Goal: make the secure path the easiest path
 
+:::
+
 ## The Automated Security Testing Triad
 
+:::eli10
+
+There are three robot security guards for your code. SAST reads your code looking for mistakes (like a proofreader). SCA checks if any libraries you borrowed from others have known weaknesses (like checking if your ingredients have been recalled). DAST actually attacks your running app to see if it can break in (like a friendly burglar testing your locks).
+
+:::
+
+:::eli15
+Three complementary automated security testing techniques form a triad. SAST (Static Application Security Testing) analyses source code without running it -- fast but produces false positives. SCA (Software Composition Analysis) scans third-party dependencies against vulnerability databases -- critical since modern apps are 80-90% third-party code. DAST (Dynamic Application Security Testing) attacks the running application -- slower but finds real exploitable issues with very low false positives.
+
+:::
+
+:::eli20
 | Technique | What it Tests | Box Type | When in CI | Speed |
 |-----------|--------------|----------|-----------|-------|
 | **SAST** | Your source code | White-box | Early (commit) | Fast (seconds/minutes) |
@@ -58,8 +98,22 @@ A cultural and technical shift to integrate security into the DevOps process:
 
 **Tools**: OWASP ZAP, Burp Suite
 
+:::
+
 ## SQL Injection Prevention
 
+:::eli10
+
+SQL injection is when a hacker types special code into a text box (like a login form) and tricks the database into doing something it should not. The fix is to use "parameterised queries" which keep the hacker's text separate from the actual commands, so the database treats everything they type as just plain text, not instructions.
+
+:::
+
+:::eli15
+SQL injection occurs when user input is concatenated directly into SQL queries, allowing attackers to manipulate the query logic. Sanitisation (stripping dangerous characters) is fragile and can be bypassed. The secure approach is parameterised queries (prepared statements), which separate code from data using placeholders -- the database treats all input as literal data, never as executable SQL commands.
+
+:::
+
+:::eli20
 | Approach | Method | Weakness |
 |----------|--------|----------|
 | **Sanitisation** (reactive) | Strip dangerous characters | Fragile — blocklist can be bypassed |
@@ -75,8 +129,22 @@ PreparedStatement pstmt = conn.prepareStatement(query);
 pstmt.setString(1, userId);
 ```
 
+:::
+
 ## OWASP Top 10 (2021)
 
+:::eli10
+
+The OWASP Top 10 is like a "most wanted" list of the ten most common ways hackers break into websites. It includes things like people getting access they should not have, data not being protected properly, and attackers injecting bad code. Developers use this list to know what to protect against first.
+
+:::
+
+:::eli15
+The OWASP Top 10 is the industry-standard awareness document listing the ten most critical web application security risks. It covers broken access control, cryptographic failures, injection attacks, insecure design, security misconfiguration, vulnerable components, authentication failures, data integrity failures, logging failures, and server-side request forgery (SSRF). It is updated periodically and used as a baseline for security testing priorities.
+
+:::
+
+:::eli20
 | # | Category | Description |
 |---|----------|-------------|
 | A01 | Broken Access Control | Users act outside intended permissions |
@@ -90,8 +158,22 @@ pstmt.setString(1, userId);
 | A09 | Logging Failures | Insufficient monitoring and alerting |
 | A10 | SSRF | Server-Side Request Forgery |
 
+:::
+
 ## Performance Testing
 
+:::eli10
+
+Performance testing is like stress-testing a bridge to see how much weight it can hold. You throw lots of fake users at a website to see if it stays fast (load testing), find out when it crashes (stress testing), or check if it gets slower over many hours (soak testing). The key measurements are speed, how many requests it handles, and how many errors occur.
+
+:::
+
+:::eli15
+Performance testing verifies that software meets speed and capacity requirements. Three key metrics are measured: latency (response time for a single request), throughput (requests handled per second), and error rate. Three types of tests are used: load testing verifies behaviour under expected users, stress testing finds the breaking point by ramping up beyond capacity, and soak testing runs for extended periods to find time-dependent issues like memory leaks.
+
+:::
+
+:::eli20
 ### Key Metrics
 
 | Metric | Definition | Example |
@@ -129,8 +211,24 @@ As load increases, latency stays flat until the system reaches **saturation** ("
 | **Gatling** | Modern, code-based, high-concurrency |
 | **k6** | Lightweight, JavaScript-based, DevOps-friendly |
 
+:::
+
 ## The Full CI/CD Pipeline
 
+:::eli10
+
+The CI/CD pipeline is like a factory assembly line for code. Your code goes through stations: it gets built, then unit tests check it, then security scanners look for problems, then performance tests run, and finally it gets deployed to users. If any station finds a problem, the line stops.
+
+:::
+
+:::eli15
+A full CI/CD pipeline orchestrates all quality checks in sequence: code is committed, the project is built, unit tests and SAST run early, SCA scans dependencies, then UI/DAST and performance tests execute against the deployed application, followed by monitoring in production. This ensures every change passes through multiple quality gates before reaching users.
+
+:::
+
+:::eli20
 ```
 Commit → Build → Unit Tests + SAST → SCA Scan → UI/DAST + Perf Tests → Deploy → Monitor
 ```
+
+:::

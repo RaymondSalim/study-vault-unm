@@ -7,6 +7,18 @@ tags: ["k-means", "clustering", "PCA", "dimensionality-reduction", "hierarchical
 
 ## Clustering
 
+:::eli10
+
+Clustering is like sorting a pile of LEGO bricks by colour without anyone telling you what the colours are. The computer looks at the data and groups similar things together on its own. It does not know the "right answer" ahead of time -- it just finds natural groups based on which items are most alike.
+
+:::
+
+:::eli15
+Clustering is an unsupervised learning task where the goal is to partition data into groups such that items within a group are similar and items in different groups are different. Unlike classification, there are no labels -- the algorithm discovers the structure on its own. K-Means is the most popular algorithm: it assigns each point to the nearest centroid and then moves centroids to the centre of their assigned points, repeating until stable. Other methods include hierarchical clustering (builds a tree of merges/splits) and DBSCAN (finds dense regions of arbitrary shape).
+
+:::
+
+:::eli20
 ### K-Means
 
 **Algorithm:**
@@ -80,8 +92,22 @@ Density-based clustering: finds clusters of arbitrary shape.
 | Border point | Within $\varepsilon$ of a core point, but not core itself |
 | Noise | Neither core nor border |
 
+:::
+
 ## Principal Component Analysis (PCA)
 
+:::eli10
+
+Imagine you have a 3D object and you want to draw it on a flat piece of paper. PCA finds the best angle to look at the data so that you keep as much of the interesting shape as possible, even though you are reducing dimensions. It is like finding the shadow of an object that reveals the most detail.
+
+:::
+
+:::eli15
+PCA (Principal Component Analysis) is a dimensionality reduction technique that finds the directions (principal components) along which the data varies the most. It then projects the data onto a smaller number of these directions, discarding the least informative ones. This reduces the number of features while keeping as much information as possible. The first principal component captures the most variance, the second captures the next most (perpendicular to the first), and so on. You choose how many to keep based on how much total variance you want to preserve (typically 95%).
+
+:::
+
+:::eli20
 ### Goal
 
 Find directions of maximum variance to reduce dimensionality while preserving as much information as possible.
@@ -117,8 +143,22 @@ Reconstruction error = sum of discarded eigenvalues: $\sum_{i=k+1}^n \lambda_i$
 | UMAP | No | Local + some global |
 | Kernel PCA | No (via kernel) | Non-linear structure |
 
+:::
+
 ## Clustering vs Classification
 
+:::eli10
+
+Classification is like a teacher giving you labelled examples and asking you to learn the pattern. Clustering is like being given a box of unlabelled things and having to sort them into groups by yourself. One has answers to learn from; the other does not.
+
+:::
+
+:::eli15
+Classification (supervised) learns from labelled training data to predict categories for new samples. Clustering (unsupervised) has no labels -- it discovers natural groupings based solely on similarity. They are evaluated differently: classification uses accuracy, F1, etc. against known labels, while clustering uses internal measures like silhouette score or external measures if ground truth is available. Clustering is useful for exploratory analysis, customer segmentation, and finding structure in unlabelled data.
+
+:::
+
+:::eli20
 | | Clustering | Classification |
 |-|-----------|---------------|
 | Labels | No labels (unsupervised) | Labelled data (supervised) |
@@ -148,3 +188,5 @@ Given centred data matrix $\mathbf{X}$ (rows are samples):
 
 Equivalently: $\mathbf{u}_1 = \arg\max_{\|\mathbf{u}\|=1} \mathbf{u}^T \Sigma \mathbf{u}$
 </details>
+
+:::

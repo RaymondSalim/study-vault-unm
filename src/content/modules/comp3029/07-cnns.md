@@ -7,10 +7,36 @@ tags: ["cnn", "convolution", "pooling", "alexnet", "vgg", "resnet", "transfer-le
 
 ## Overview
 
+:::eli10
+
+CNNs are special neural networks designed for images. Instead of connecting every pixel to every neuron (which would be way too many connections), they use small sliding filters that scan across the image looking for patterns like edges, textures, and shapes. Early layers detect simple things (lines, corners), and later layers combine these into complex things (eyes, wheels, faces). This is what powers modern image recognition.
+
+:::
+
+:::eli15
+Convolutional Neural Networks exploit the spatial structure of images through three key principles: local connectivity (each neuron sees only a small patch), weight sharing (the same filter is applied at every position), and hierarchical feature learning (simple features combine into complex ones across layers). This dramatically reduces parameters compared to fully-connected networks and builds in useful inductive biases about image structure -- nearby pixels are related, and the same pattern can appear anywhere.
+
+:::
+
+:::eli20
 CNNs exploit the spatial structure of images through local connectivity, weight sharing, and hierarchical feature learning.
+
+:::
 
 ## CNN Building Blocks
 
+:::eli10
+
+A CNN has three main types of layers. Convolutional layers slide small filters over the image to detect patterns (like edge detectors, but learned automatically). Pooling layers shrink the image to make it smaller and more manageable, while keeping the important information. Fully connected layers at the end take all the detected features and make the final decision about what is in the image.
+
+:::
+
+:::eli15
+CNNs are built from three layer types. Convolutional layers apply learned filters (kernels) that slide over the input, producing feature maps that highlight where specific patterns occur. The output size depends on kernel size, stride, and padding. Pooling layers reduce spatial dimensions (typically 2x halving) while preserving channel count, providing some translation invariance. Fully connected layers at the end flatten all feature maps and perform classification. Convolution is volumetric (spans all input channels) while pooling is purely spatial.
+
+:::
+
+:::eli20
 ### Convolutional Layer
 
 | Property | Detail |
@@ -59,8 +85,22 @@ Reduces spatial dimensions, provides translation invariance. Channel count stays
 - Standard MLP layers for classification
 - Typically at the end of the network
 
+:::
+
 ## Key CNN Architectures
 
+:::eli10
+
+Over the years, people built bigger and better CNNs. AlexNet (2012) proved that deep learning works for images and won a famous competition. VGGNet showed that using many small filters is better than a few big ones. ResNet introduced "shortcut" connections that skip over layers, allowing networks to be incredibly deep (over 100 layers) without losing the learning signal.
+
+:::
+
+:::eli15
+CNN architectures have evolved rapidly. AlexNet (2012) demonstrated deep learning dominance on ImageNet with 8 layers, using ReLU and dropout. VGGNet (2014) showed that stacking small 3x3 filters achieves the same receptive field as larger filters with fewer parameters and more non-linearity. ResNet (2015) solved the degradation problem in very deep networks by introducing skip connections (residual learning), enabling training of 152+ layer networks. Each generation roughly halved the error rate on ImageNet.
+
+:::
+
+:::eli20
 | Architecture | Year | Depth | Top-5 Error | Key Innovation |
 |-------------|------|-------|-------------|----------------|
 | LeNet-5 | 1998 | 5 | -- | First successful CNN (digits) |
@@ -115,8 +155,22 @@ $$\mathbf{y} = F(\mathbf{x}) + \mathbf{x}$$
 | Very deep networks | Enables 100+ layers without degradation |
 | Ensemble effect | Can be viewed as ensemble of shallower networks |
 
+:::
+
 ## Transfer Learning
 
+:::eli10
+
+Transfer learning is like using knowledge from one subject to help with another. A network trained on millions of general photos (cats, cars, buildings) has already learned what edges, textures, and shapes look like. Instead of starting from scratch, you take this pre-trained network and teach it your specific task (like identifying types of flowers) -- it learns much faster because it already understands the basics.
+
+:::
+
+:::eli15
+Transfer learning reuses features learned on a large dataset (typically ImageNet with 1.2M images) for new tasks with limited data. Early CNN layers learn generic visual features (edges, textures, colour blobs) that transfer well across domains. For small target datasets, you freeze the pre-trained convolutional layers and only train a new classification head. With more data, you can fine-tune some or all layers with a small learning rate. This dramatically reduces the data needed for good performance.
+
+:::
+
+:::eli20
 Use features learned on large dataset (ImageNet) for new tasks.
 
 ### Strategies
@@ -133,8 +187,22 @@ Use features learned on large dataset (ImageNet) for new tasks.
 - Later layers learn task-specific features
 - Pre-trained features are good starting points for related tasks
 
+:::
+
 ## Convolution Variants
 
+:::eli10
+
+There are different flavours of convolution for different needs. A 1x1 convolution mixes information between channels without looking at neighbours -- like combining the RGB channels in a new way. Depthwise separable convolution splits the work into two cheaper steps to save computation (used in phones). Dilated convolution adds gaps in the filter to see a bigger area without using more weights. Group convolution processes channel groups independently.
+
+:::
+
+:::eli15
+Several convolution variants address specific needs. 1x1 convolutions mix channel information without spatial interaction, serving as bottlenecks to reduce dimensionality. Depthwise separable convolutions (MobileNet) factor standard convolution into a per-channel spatial filter and a channel-mixing 1x1 filter, reducing computation by a factor of K^2. Dilated/atrous convolutions insert gaps between filter elements to expand the receptive field without adding parameters. Group convolutions split channels into independent groups, reducing computation by factor G. Inception modules apply multiple filter sizes in parallel.
+
+:::
+
+:::eli20
 ### 1x1 Convolution
 
 Mixes channel information only — no spatial interaction. Used as a "bottleneck" to reduce channel dimensionality before expensive operations.
@@ -195,8 +263,22 @@ Channel attention mechanism:
 
 Learns which channels are important for each input. Reduction ratio $r$ (typically 16) controls bottleneck size.
 
+:::
+
 ## CNN Design Principles
 
+:::eli10
+
+Good CNNs follow a pattern: use small (3x3) filters stacked deep rather than big filters, increase the number of filters as you go deeper (since later layers need to represent more complex things), shrink the spatial size with pooling, use batch normalisation to keep training stable, and add skip connections to let gradients flow freely through very deep networks.
+
+:::
+
+:::eli15
+Modern CNN design follows established principles. Small 3x3 filters are preferred because stacking them achieves the same receptive field as larger filters with fewer parameters and more non-linearity. Channel count increases with depth to provide capacity for increasingly abstract features. Spatial dimensions decrease with depth (via pooling or strided convolutions) to reduce computation. Batch normalisation, skip connections, and global average pooling (replacing large FC layers) are standard components in modern architectures.
+
+:::
+
+:::eli20
 | Principle | Rationale |
 |-----------|-----------|
 | Small filters (3x3) | More non-linearity, fewer parameters |
@@ -206,8 +288,22 @@ Learns which channels are important for each input. Reduction ratio $r$ (typical
 | Skip connections | Enable very deep networks |
 | Global average pooling | Replace FC layers, reduce parameters |
 
+:::
+
 ## Receptive Field
 
+:::eli10
+
+The receptive field is how much of the original image a single neuron in a later layer can "see." Each convolutional layer can only see a small neighbourhood, but as you stack layers, the effective view gets bigger and bigger. Three layers of 3x3 filters let a neuron see a 7x7 area of the input. Deeper networks have larger receptive fields, which is why they can understand bigger structures.
+
+:::
+
+:::eli15
+The receptive field is the region of the input image that influences a particular neuron's output. Each convolutional layer expands the receptive field by (kernel_size - 1) pixels. For L layers of FxF filters with stride 1, the total receptive field is L*(F-1)+1. Pooling and strided convolutions multiply the effective receptive field growth. Understanding receptive fields helps design networks that can "see" enough context for their task -- object detection needs larger receptive fields than edge detection.
+
+:::
+
+:::eli20
 The receptive field is the input region that influences a particular output neuron.
 
 For $L$ layers of $F \times F$ filters with stride 1:
@@ -215,6 +311,8 @@ For $L$ layers of $F \times F$ filters with stride 1:
 $$\text{Receptive field} = L \times (F - 1) + 1$$
 
 Example: 3 layers of 3x3 = receptive field of 7x7.
+
+:::
 
 <details><summary>Practice</summary>
 

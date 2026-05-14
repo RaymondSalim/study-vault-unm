@@ -7,6 +7,18 @@ tags: ["object-recognition", "sliding-window", "bag-of-features", "svm", "detect
 
 ## Overview
 
+:::eli10
+
+Object recognition is teaching a computer to look at a photo and say "that is a cat" or "there is a car at this spot." There are three versions of this task: naming what is in the image (classification), drawing a box around where it is (detection), and figuring out exactly how the object is positioned in 3D space (pose estimation).
+
+:::
+
+:::eli15
+Object recognition encompasses several related tasks of increasing difficulty. Classification identifies the main object category in an image. Detection localises objects with bounding boxes and labels. Pose estimation determines the 3D position and orientation of detected objects. Approaches have evolved from matching specific known objects (SIFT), through learned classifiers on hand-crafted features (HoG + SVM), to modern end-to-end deep learning methods (CNNs).
+
+:::
+
+:::eli20
 Object recognition identifies and locates objects in images. Three key problems:
 
 | Problem | Task | Output |
@@ -15,16 +27,44 @@ Object recognition identifies and locates objects in images. Three key problems:
 | Detection | Find object and its location | Bounding box + label |
 | Pose estimation | Determine 3D position/orientation | 3D coordinates |
 
+:::
+
 ## Approaches to Recognition
 
+:::eli10
+
+Over the decades, computers learned to recognise objects in different ways. First, they tried matching specific known objects using landmark points. Then, they learned to recognise whole categories (like "any car") by scanning a window across the image and asking a trained classifier "is this a car?" Now, deep neural networks learn everything from scratch -- they figure out both what to look for and how to decide.
+
+:::
+
+:::eli15
+Object recognition has progressed through three major paradigms. In the 1990s, recognition meant matching specific objects via distinctive features (like SIFT keypoints). In the 2000s, the focus shifted to category-level recognition using hand-crafted features (HoG, SIFT descriptors) fed into learned classifiers (SVM, boosting) with sliding window detection. From 2012 onward, deep CNNs replaced both the feature extraction and classification stages, learning end-to-end from raw pixels to object labels.
+
+:::
+
+:::eli20
 | Era | Approach | Method |
 |-----|----------|--------|
 | 1980-90s | Specific objects | SIFT feature matching |
 | 2000-10s | Object classes | Sliding window + learned classifiers |
 | 2010s+ | Deep learning | CNNs (end-to-end) |
 
+:::
+
 ## Sliding Window Detection
 
+:::eli10
+
+Sliding window detection is like looking through a magnifying glass that you slide across every spot in the photo, at different zoom levels. At each position you ask: "Does this look like the object I am searching for?" A trained classifier answers yes or no. When multiple overlapping spots say "yes," you merge them into one detection.
+
+:::
+
+:::eli15
+Sliding window detection systematically scans a fixed-size detection window across the image at multiple positions and scales. At each position, features (typically HoG) are extracted from the window and fed to a classifier (typically linear SVM). The detector runs at multiple scales via an image pyramid. Since objects may trigger multiple overlapping windows, non-maximum suppression merges nearby detections into a single final bounding box.
+
+:::
+
+:::eli20
 ### Pipeline (Dalal & Triggs)
 
 | Step | Operation |
@@ -41,8 +81,22 @@ Object recognition identifies and locates objects in images. Three key problems:
 - Run detector at multiple scales (image pyramid)
 - Non-maximum suppression to merge overlapping detections
 
+:::
+
 ## Pictorial Structures (Deformable Parts Models)
 
+:::eli10
+
+Some objects, like people, are made of parts that move around (arms, legs, head). Pictorial structures model an object as a collection of connected parts -- like a paper doll with joints. Each part has its own appearance, and the connections say how far apart the parts can be. To find the object, you find the arrangement of parts that looks right and is not too stretched.
+
+:::
+
+:::eli15
+Deformable Parts Models represent objects as collections of parts with learned appearance templates and spatial relationships (springs connecting parts). Detection minimises an energy function balancing appearance matching costs (how well each part matches its template) against deformation costs (how much the spatial arrangement deviates from the learned model). Inference uses dynamic programming on tree-structured graphs, enabling flexible detection of articulated objects like humans.
+
+:::
+
+:::eli20
 Model objects as a collection of parts with spatial relationships.
 
 ### Formulation
@@ -64,8 +118,22 @@ where $V_i(l_i)$ = appearance cost, $V_{ij}(l_i, l_j)$ = deformation cost.
 | Training | Learn part appearances + spatial priors from data |
 | Limitation | Complex, slow inference |
 
+:::
+
 ## Bag of Features (Bag of Visual Words)
 
+:::eli10
+
+Bag of Features treats an image like a bag of Scrabble tiles. First, you create a "dictionary" of common visual patterns (like different types of edges, corners, textures). Then for each new image, you find which dictionary patterns appear and count them up. The resulting count-list is the image's description. It is like describing a recipe by listing ingredients without caring about the cooking order.
+
+:::
+
+:::eli15
+Bag of Features (inspired by text retrieval) represents images as histograms over a vocabulary of "visual words." The pipeline first extracts local features (e.g., SIFT) from many training images and clusters them into K representative patterns (the visual vocabulary). New images are described by assigning each detected feature to its nearest visual word and building a frequency histogram. This histogram is classified using SVM or similar. The approach loses spatial information but is simple and effective for recognition and retrieval.
+
+:::
+
+:::eli20
 Inspired by text retrieval -- represent images as unordered collections of local features.
 
 ### Pipeline
@@ -115,8 +183,22 @@ Extension that preserves some spatial layout:
 - Compute BoF histogram in each cell
 - Concatenate with weights (finer levels get lower weight)
 
+:::
+
 ## Linear Classifiers
 
+:::eli10
+
+A linear classifier draws a straight line (or flat plane) to separate things into categories. Imagine laying photos on a table and drawing a line so all cats are on one side and all dogs on the other. The computer learns where to draw this line by looking at many examples. The "score" for each class is just a weighted sum of the input features plus a bias.
+
+:::
+
+:::eli15
+Linear classifiers compute a score for each class using a simple weighted sum of the input features: score = W*x + b. Each row of the weight matrix W acts as a template for one class. The classifier assigns the input to the class with the highest score. Training involves minimising a loss function (hinge loss for SVM, cross-entropy for softmax) that penalises incorrect predictions. Despite their simplicity, linear classifiers are effective when paired with good features (like HoG or bag-of-features histograms).
+
+:::
+
+:::eli20
 ### Formulation
 
 For $C$ classes, input $\mathbf{x}$ (flattened to $N \times 1$):
@@ -179,8 +261,22 @@ Find hyperplane $\mathbf{w} \cdot \mathbf{x} + b = 0$ that separates positive/ne
 | AP (Average Precision) | Area under precision-recall curve |
 | IoU (Intersection over Union) | $\frac{\text{Area of Overlap}}{\text{Area of Union}}$ |
 
+:::
+
 ## Typical Datasets
 
+:::eli10
+
+To train and test object recognisers, researchers use big collections of labelled pictures. Small ones have around 9,000 images in 100 categories. The biggest (ImageNet) has over 1.2 million images in 1,000 categories. These datasets let us compare how well different methods work on the same problems.
+
+:::
+
+:::eli15
+Standard benchmark datasets allow fair comparison between recognition methods. Caltech-101 (101 classes, ~9K images) and Pascal VOC (20 classes, ~11.5K images) are smaller benchmarks. ImageNet/ILSVRC (1000 classes, ~1.2M images) drove the deep learning revolution starting in 2012. COCO (80 classes, ~330K images) is the modern standard for detection and segmentation, offering more complex scenes with multiple objects per image.
+
+:::
+
+:::eli20
 | Dataset | Classes | Images | Task |
 |---------|---------|--------|------|
 | Caltech-101 | 101 | ~9,000 | Classification |
@@ -188,13 +284,29 @@ Find hyperplane $\mathbf{w} \cdot \mathbf{x} + b = 0$ that separates positive/ne
 | ImageNet (ILSVRC) | 1,000 | ~1.2M | Classification |
 | COCO | 80 | ~330K | Detection + Segmentation |
 
+:::
+
 ## Comparison of Methods
 
+:::eli10
+
+Different recognition methods use different strategies. HoG + SVM uses edge patterns and a line-drawing classifier. Bag of Features uses a dictionary of visual patterns. Viola-Jones uses simple light/dark patterns with a cascade of quick checks. Each approach is like a different detective strategy -- some are faster, some are more accurate.
+
+:::
+
+:::eli15
+The three classical recognition approaches differ in representation and learning strategy. HoG + linear SVM uses a fixed feature pipeline with a discriminative classifier optimised for classification. Bag of Features uses unsupervised clustering to build a visual vocabulary, then classifies frequency histograms. Viola-Jones uses extremely simple Haar features selected by boosting (AdaBoost) and organised in a cascade for real-time face detection. Deep learning has largely superseded all three.
+
+:::
+
+:::eli20
 | Method | Representation | Learning | Goal |
 |--------|---------------|----------|------|
 | Linear Classifier (HoG + SVM) | Simple hand-crafted features | Optimisation (SVM/Softmax) | Classification |
 | Bag of Features | Visual vocabulary (clustering) | K-means codebook | Recognition / Retrieval |
 | Viola-Jones | Haar features | Boosting (AdaBoost) | Real-time Detection |
+
+:::
 
 <details><summary>Practice</summary>
 

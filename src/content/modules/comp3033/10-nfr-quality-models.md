@@ -7,6 +7,18 @@ tags: ["exam-prep", "synthesis", "worked-examples", "countzeroes", "path-testing
 
 ## Key Exam Topics & Worked Examples
 
+:::eli10
+
+This section shows you how exam questions look and how to answer them. It connects all the topics together: finding bugs in code, designing tests using partitions and paths, spotting security problems, choosing the right performance test, and knowing which quality activities belong at which level.
+
+:::
+
+:::eli15
+This section provides worked examples of the major exam question types: identifying faults, errors, and failures in code; designing tests using input space partitioning and path testing with cyclomatic complexity; analysing code for security vulnerabilities; selecting appropriate performance test types for scenarios; and distinguishing organisational-level from project-level SQA activities.
+
+:::
+
+:::eli20
 ### 1. Fault → Error → Failure Analysis
 
 Given the `countZeroes` method:
@@ -84,8 +96,22 @@ String sql = "SELECT * FROM products WHERE name LIKE '%" + searchTerm + "%'";  /
 | Define company-wide coding standard | **Organisational** | Infrastructure for all projects |
 | Choose security as top priority for QuickCart app | **Project** | Specific quality plan for one project |
 
+:::
+
 ## Synthesis: How Everything Connects
 
+:::eli10
+
+All the topics in this module fit together like a chain. First you define what quality means, then you write specific requirements, then you design tests, then you automate those tests, then you run them in a pipeline, and finally you manage the whole process. Each piece feeds into the next!
+
+:::
+
+:::eli15
+The module forms a coherent pipeline: quality is defined through models (ISO 25010, McCall), which informs writing specific NFRs, which drives test design (partitioning, path testing), which gets automated (JUnit, Espresso), which runs in CI/CD pipelines (with SAST, SCA, DAST, and performance tests), all managed through SQA plans and measured with metrics for continuous process improvement.
+
+:::
+
+:::eli20
 ```
 Quality Definition (ISO 25010, McCall)
         ↓
@@ -101,3 +127,5 @@ SQA Management (plans, audits, metrics)
         ↓
 Process Improvement (metrics, feedback loops)
 ```
+
+:::
