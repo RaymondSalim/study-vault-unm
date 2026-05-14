@@ -69,51 +69,113 @@ At optimum: $D(\mathbf{x}) = 0.5$ for all inputs (cannot distinguish real from f
 
 ## Vision Transformers (ViT)
 
-### From NLP to Vision
+### Motivation: CNN Limitations
 
-Transformers (Vaswani et al., 2017) use **self-attention** instead of convolution, originally for sequence modelling in NLP. ViT (Dosovitskiy et al., 2020) adapts this to images.
+| Limitation | Detail |
+|-----------|--------|
+| Local receptive fields | Cannot model long-range dependencies directly |
+| Translation equivariance | $f(G(x)) = G(f(x))$, but classification needs invariance |
+| Scaling | Stacking layers only gradually increases receptive field |
 
-### ViT Architecture
+Pooling approximates invariance but doesn't guarantee it.
 
-| Step | Operation |
-|------|-----------|
-| 1 | Split image into fixed-size patches (e.g., 16x16) |
-| 2 | Linearly embed each patch (flatten + project) |
-| 3 | Add positional embeddings |
-| 4 | Prepend [CLS] token |
-| 5 | Pass through Transformer encoder blocks |
-| 6 | Use [CLS] token output for classification |
+### Attention Mechanism: Origins
 
-### Self-Attention Mechanism
+**Seq2seq bottleneck problem:** compressing an entire input sequence into one fixed context vector loses information for long sequences.
 
-For input sequence of patch embeddings:
+**Solution:** Let each output position attend to ALL input positions with learned weights:
 
-$$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right) V$$
+$$e_{i,j} = f(s_{i-1}, h_j) \quad \text{(alignment score)}$$
+$$\alpha_{i,j} = \frac{\exp(e_{i,j})}{\sum_k \exp(e_{i,k})} \quad \text{(attention weight)}$$
+$$c_i = \sum_j \alpha_{i,j} h_j \quad \text{(context vector)}$$
 
-where $Q = XW_Q$, $K = XW_K$, $V = XW_V$.
+### Scaled Dot-Product Attention
 
-| Component | Role |
-|-----------|------|
-| Query (Q) | "What am I looking for?" |
-| Key (K) | "What do I contain?" |
-| Value (V) | "What information do I provide?" |
-| $\sqrt{d_k}$ | Scaling factor for numerical stability |
+$$e_i = \frac{\mathbf{q} \cdot \mathbf{k}_i}{\sqrt{d_k}}$$
+$$\alpha = \text{softmax}(\mathbf{e})$$
+$$\mathbf{y} = \sum_i \alpha_i \mathbf{v}_i$$
+
+**Why scale by $\sqrt{d_k}$:** Without scaling, large dot products push softmax into saturation → vanishing gradients during backpropagation.
+
+### Query, Key, Value Projections
+
+$$Q = X W_Q, \quad K = X W_K, \quad V = X W_V$$
+
+| Component | Analogy | Role |
+|-----------|---------|------|
+| Query (Q) | Search query | What am I looking for? |
+| Key (K) | Database index | What do I contain? |
+| Value (V) | Stored content | What information do I return? |
+
+**Cross-attention:** Q from one source, K/V from another (e.g., decoder queries encoder)
+
+**Self-attention:** Q, K, V all derived from the same input (learning within-sequence interactions)
+
+### Self-Attention Properties
+
+| Property | Implication |
+|----------|------------|
+| Permutation equivariant | Changing input order changes output order identically |
+| Global receptive field | Every token attends to every other token in one layer |
+| Requires positional encoding | Without it, model cannot distinguish sequence order |
+
+### Positional Encoding (Sinusoidal)
+
+$$PE(pos, 2i) = \sin\left(\frac{pos}{10000^{2i/d_{model}}}\right)$$
+$$PE(pos, 2i+1) = \cos\left(\frac{pos}{10000^{2i/d_{model}}}\right)$$
+
+Added to patch embeddings before the transformer encoder.
 
 ### Multi-Head Attention
 
-Run multiple attention heads in parallel, concatenate outputs:
+Split dimensions into $H$ heads (partition, NOT replicate):
 
-$$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \ldots, \text{head}_h) W^O$$
+$$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \ldots, \text{head}_H) W^O$$
+
+Each head operates on $d/H$ dimensions and learns different attention patterns.
+
+### Transformer Block
+
+$$\text{Input} \to \text{Multi-Head Self-Attention} \to \text{Add \& LayerNorm} \to \text{MLP} \to \text{Add \& LayerNorm} \to \text{Output}$$
+
+| Component | Interaction |
+|-----------|------------|
+| Self-attention | Creates inter-token interaction (global mixing) |
+| MLP | Operates independently per token (channel mixing) |
+| LayerNorm | Statistics along feature dimension per token (not across batch) |
+| Residual connections | Enable gradient flow through deep stacks |
+
+**LayerNorm vs BatchNorm:** LayerNorm normalises across features for each token independently; BatchNorm normalises across the batch dimension.
+
+### ViT Architecture
+
+| Step | Operation | Dimensions |
+|------|-----------|-----------|
+| 1 | Split 224×224 image into 16×16 patches | 14×14 = 196 patches |
+| 2 | Flatten each patch | 16×16×3 = 768-dim vector |
+| 3 | Linear projection | $768 \to d_{model}$ embedding |
+| 4 | Prepend learnable [CLS] token | 197 tokens total |
+| 5 | Add positional embeddings | 197 × $d_{model}$ |
+| 6 | Transformer encoder (L layers) | Self-attention + MLP |
+| 7 | Extract [CLS] output → MLP head | Classification |
+
+The **[CLS] token** aggregates global information through self-attention across all layers.
 
 ### ViT vs CNN
 
 | Aspect | CNN | ViT |
 |--------|-----|-----|
 | Inductive bias | Local, translation equivariant | Minimal (global from start) |
-| Data efficiency | Better with small data | Needs large datasets (or pre-training) |
+| Data efficiency | Better with small data | Needs massive data (JFT-300M) |
 | Receptive field | Grows with depth | Global from first layer |
 | Computational cost | $O(n)$ per layer | $O(n^2)$ for self-attention |
 | Scalability | Diminishing returns at scale | Scales well with data + compute |
+
+### ViT Scaling Properties
+
+- With enough data, ViT dominates CNNs
+- Without large-scale pretraining, ViT underperforms ResNets
+- Scaling depth > scaling width for performance
 
 ### Key ViT Variants
 
@@ -135,5 +197,11 @@ $$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \ldots, \text{head}_h
 4. Why does ViT need more training data than CNNs? What inductive biases does a CNN have that ViT lacks?
 
 5. Compare the receptive field growth in a 5-layer CNN vs a single transformer layer applied to image patches.
+
+6. Why is scaling by $\sqrt{d_k}$ necessary in dot-product attention? What goes wrong without it?
+
+7. Explain the difference between cross-attention and self-attention. Give an example use case for each.
+
+8. Why is self-attention permutation equivariant? How does positional encoding fix this?
 
 </details>

@@ -69,15 +69,39 @@ LBP captures local texture patterns around each pixel.
 | 4 | Optionally normalise each histogram |
 | 5 | Concatenate histograms into feature vector |
 
+## Image Gradient Theory
+
+The image gradient $\nabla f = \left(\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}\right)$ is a **vector** at each pixel:
+
+| Property | Detail |
+|----------|--------|
+| Direction | Points toward maximum intensity increase |
+| Perpendicular to | Edge direction (edge tangent) |
+| Magnitude | $\|\nabla f\| = \sqrt{f_x^2 + f_y^2}$ — largest at edges |
+
+### Directional Derivative
+
+The intensity change along direction $\mathbf{u}$:
+
+$$\frac{\partial f}{\partial \mathbf{u}} = \nabla f \cdot \mathbf{u}$$
+
+This is maximised when $\mathbf{u}$ aligns with $\nabla f$ (proven via Lagrange multipliers with $\|\mathbf{u}\| = 1$ constraint). Therefore the gradient direction gives the steepest intensity increase.
+
+### Sobel Filter Derivation
+
+Approximates partial derivatives using central differences:
+
+$$\frac{\partial f}{\partial x} \approx \frac{f(x+1, y) - f(x-1, y)}{2}$$
+
+$$G_x = \begin{bmatrix} -1 & 0 & 1 \\ -2 & 0 & 2 \\ -1 & 0 & 1 \end{bmatrix}, \quad G_y = \begin{bmatrix} -1 & -2 & -1 \\ 0 & 0 & 0 \\ 1 & 2 & 1 \end{bmatrix}$$
+
+**Spatial filtering (convolution):** place template on image patch, multiply corresponding positions, sum all products → one response value at centre pixel.
+
 ## Shape Features -- Histogram of Oriented Gradients (HoG)
 
 HoG captures edge/gradient structure and is widely used for object detection (Dalal & Triggs, CVPR 2005).
 
 ### Gradient Computation
-
-Using Sobel operators:
-
-$$G_x = \begin{bmatrix} -1 & 0 & 1 \\ -2 & 0 & 2 \\ -1 & 0 & 1 \end{bmatrix}, \quad G_y = \begin{bmatrix} -1 & -2 & -1 \\ 0 & 0 & 0 \\ 1 & 2 & 1 \end{bmatrix}$$
 
 Gradient magnitude and direction:
 

@@ -87,6 +87,27 @@ Inspired by text retrieval -- represent images as unordered collections of local
 | Handles variable number of features | Codebook size is a hyperparameter |
 | Works with any local descriptor | Quantisation introduces errors |
 
+### IDF Weighting
+
+Common visual words (appearing in many images) are uninformative — down-weight them:
+
+$$\text{IDF}(w) = \log \frac{N_\text{total}}{N_\text{docs containing } w}$$
+
+Re-weight histogram bins by IDF before classification or retrieval.
+
+### Inverted File Index (Large-Scale Search)
+
+Instead of comparing histograms of all database images:
+
+| Step | Action |
+|------|--------|
+| 1 | Build vocabulary (visual words) |
+| 2 | For each word, store which images contain it (posting list) |
+| 3 | Query: extract features → map to words → find intersection of posting lists |
+| 4 | Compare histograms only for candidate images |
+
+Much faster than exhaustive comparison — enables real-time large-scale image retrieval.
+
 ### Spatial Pyramid Matching
 
 Extension that preserves some spatial layout:
@@ -94,13 +115,60 @@ Extension that preserves some spatial layout:
 - Compute BoF histogram in each cell
 - Concatenate with weights (finer levels get lower weight)
 
-## Linear Classifiers and SVMs
+## Linear Classifiers
+
+### Formulation
+
+For $C$ classes, input $\mathbf{x}$ (flattened to $N \times 1$):
+
+$$f(\mathbf{x}) = W\mathbf{x} + \mathbf{b}$$
+
+where $W$ is $C \times N$, output is $C \times 1$ score vector. Each row $w_i$ of $W$ acts as a **template** for class $i$ — reshaping a learned row to image dimensions reveals what the classifier "looks for."
+
+### Geometric Interpretation
+
+- Each row $w_i \cdot x + b_i = 0$ defines a binary decision boundary (hyperplane)
+- Combined: multi-class boundaries partition the feature space
+- Support vectors are the training samples lying on the margin
+
+### SVM Loss (Multi-Class Hinge Loss)
+
+For sample $i$ with true label $y_i$ and scores $s = Wx_i + b$:
+
+$$L_i = \sum_{j \neq y_i} \max(0, \; s_j - s_{y_i} + 1)$$
+
+The margin constant 1 requires the true class score to beat all others by at least 1.
+
+**Worked example:** Input is cat, scores = [cat: 3.2, car: 5.1, frog: -1.7]
+
+| Comparison | Calculation | Result |
+|-----------|-------------|--------|
+| car vs cat | $\max(0, 5.1 - 3.2 + 1) = \max(0, 2.9)$ | 2.9 |
+| frog vs cat | $\max(0, -1.7 - 3.2 + 1) = \max(0, -3.9)$ | 0 |
+| **Total $L_\text{cat}$** | | **2.9** |
+
+### Softmax / Cross-Entropy Loss
+
+Convert scores to probabilities via softmax:
+
+$$p_k = \frac{e^{s_k}}{\sum_j e^{s_j}}$$
+
+Loss: negative log-probability of the true class:
+
+$$L_i = -\log(p_{y_i})$$
+
+**Derivation from KL divergence:** The true distribution $P$ is one-hot. Minimising $D_{KL}(P \| Q) = \sum_k P_k \log \frac{P_k}{Q_k}$ is equivalent to minimising cross-entropy $H(P, Q) = -\sum_k P_k \log Q_k$, which reduces to $-\log(Q_{y_i})$ since only one $P_k = 1$.
 
 ### Linear SVM
 
-Find hyperplane $\mathbf{w} \cdot \mathbf{x} + b = 0$ that separates positive/negative examples with maximum margin.
+Find hyperplane $\mathbf{w} \cdot \mathbf{x} + b = 0$ that separates positive/negative examples with maximum margin. Support vectors are samples on the margin boundary.
 
-$$\text{Classify: } \begin{cases} +1 & \text{if } \mathbf{w} \cdot \mathbf{x}_i + b \geq 0 \\ -1 & \text{if } \mathbf{w} \cdot \mathbf{x}_i + b < 0 \end{cases}$$
+| Property | Detail |
+|----------|--------|
+| Objective | Maximise margin between classes |
+| Decision | Based on edge cases (support vectors), not class centres |
+| Kernel trick | Map to higher dimensions for non-linear separation |
+| Convexity | Convex objective → global optimum guaranteed |
 
 ### Evaluation Metrics
 
@@ -120,6 +188,14 @@ $$\text{Classify: } \begin{cases} +1 & \text{if } \mathbf{w} \cdot \mathbf{x}_i 
 | ImageNet (ILSVRC) | 1,000 | ~1.2M | Classification |
 | COCO | 80 | ~330K | Detection + Segmentation |
 
+## Comparison of Methods
+
+| Method | Representation | Learning | Goal |
+|--------|---------------|----------|------|
+| Linear Classifier (HoG + SVM) | Simple hand-crafted features | Optimisation (SVM/Softmax) | Classification |
+| Bag of Features | Visual vocabulary (clustering) | K-means codebook | Recognition / Retrieval |
+| Viola-Jones | Haar features | Boosting (AdaBoost) | Real-time Detection |
+
 <details><summary>Practice</summary>
 
 1. Explain why bag-of-features loses spatial information. How does spatial pyramid matching address this?
@@ -129,5 +205,9 @@ $$\text{Classify: } \begin{cases} +1 & \text{if } \mathbf{w} \cdot \mathbf{x}_i 
 3. What is the role of non-maximum suppression in multi-scale detection?
 
 4. Compare the Dalal & Triggs (HoG + SVM) pipeline with the Viola-Jones approach in terms of features, classifier, and speed.
+
+5. Given scores [cat: 2.0, dog: 4.0, bird: -1.0] with true label = cat, compute the SVM hinge loss.
+
+6. Show that minimising KL divergence between one-hot $P$ and predicted $Q$ is equivalent to minimising $-\log(Q_{y_i})$.
 
 </details>

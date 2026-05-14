@@ -90,6 +90,45 @@ $$\Sigma_i = \frac{\sum_{j=1}^{N} P(\theta_i|x_j)(x_j - \mu_i)(x_j - \mu_i)^T}{\
 
 $$\pi_i = \frac{1}{N} \sum_{j=1}^{N} P(\theta_i|x_j)$$
 
+## K-Means Optimisation Formulation
+
+The K-means algorithm derives from minimising:
+
+$$J = \sum_{n=1}^{N} \sum_{k=1}^{K} r_{nk} \| \mathbf{x}_n - \boldsymbol{\mu}_k \|^2$$
+
+subject to $r_{nk} \in \{0, 1\}$ and $\sum_k r_{nk} = 1$.
+
+This is a **block coordinate descent** (alternating minimisation):
+
+| Step | Fix | Minimise w.r.t. | Solution |
+|------|-----|-----------------|----------|
+| Assign | $\mu_k$ | $r_{nk}$ | $k^* = \arg\min_k \|x_n - \mu_k\|^2$ (independent per pixel) |
+| Update | $r_{nk}$ | $\mu_k$ | $\mu_k = \frac{\sum_n r_{nk} x_n}{\sum_n r_{nk}}$ (derivative of quadratic = 0) |
+
+## GMM Log-Likelihood Objective
+
+Under i.i.d. assumption, the joint observation probability:
+
+$$P(x_1, \ldots, x_N | \theta) = \prod_{j=1}^{N} P(x_j | \theta) = \prod_{j=1}^{N} \sum_{i=1}^{M} \pi_i \, g(x_j | \theta_i)$$
+
+Log-likelihood to maximise:
+
+$$\mathcal{L}(\theta) = \sum_{j=1}^{N} \log \left( \sum_{i=1}^{M} \pi_i \, g(x_j | \theta_i) \right)$$
+
+Direct maximisation is intractable (log of sum) → use EM algorithm.
+
+## EM Algorithm: Conceptual Derivation
+
+| Concept | Detail |
+|---------|--------|
+| Problem | Log-likelihood has log(sum) — hard to optimise directly |
+| Idea | Introduce latent variable $z$ (which Gaussian generated each pixel) |
+| Jensen's inequality | $\log \mathbb{E}[Y] \geq \mathbb{E}[\log Y]$ → gives a lower bound |
+| EM optimises | This lower bound alternately w.r.t. $q(z)$ and $\theta$ |
+| Guarantee | Log-likelihood increases monotonically at each iteration |
+
+This framework is reused in Variational Autoencoders (VAEs).
+
 ## K-Means vs GMM
 
 | Aspect | K-Means | GMM + EM |
@@ -99,7 +138,28 @@ $$\pi_i = \frac{1}{N} \sum_{j=1}^{N} P(\theta_i|x_j)$$
 | Output | Cluster labels | Class probabilities |
 | Parameters | Only means $\mu_k$ | $\mu_i$, $\Sigma_i$, $\pi_i$ |
 | Speed | Faster | Slower per iteration |
+| Mean update | Only assigned pixels contribute | ALL pixels contribute (weighted by posterior) |
 | K-Means as special case | -- | GMM with $\Sigma = \sigma^2 I$, $\sigma \to 0$ |
+
+## HSV Colour Space for Segmentation
+
+Convert RGB → HSV; use Hue channel for clustering:
+- **H (Hue):** represents colour as single angle (0–360°)
+- **S (Saturation):** colour vividness
+- **V (Value):** brightness
+
+Hue encodes colour information in one number vs. three in RGB — more representative for colour-based segmentation.
+
+## Advanced Segmentation Techniques
+
+| Method | Definition | Output |
+|--------|-----------|--------|
+| Semantic segmentation | Assign class label per pixel | Pixel → {cat, dog, sky, ...} |
+| Instance segmentation | Semantic + distinguish individuals | Pixel → {cat #1, cat #2, ...} |
+| Panoptic segmentation | Combines both | Countable instances + amorphous regions |
+
+- **Countable objects** (cars, people): instance segmentation
+- **Amorphous regions** (sky, sea, grass): semantic segmentation only
 
 ## Key Assumptions and Limitations
 
@@ -116,5 +176,9 @@ $$\pi_i = \frac{1}{N} \sum_{j=1}^{N} P(\theta_i|x_j)$$
 3. Why is hue often preferred over RGB values for K-means colour segmentation?
 
 4. Explain why K-means can be viewed as a special case of EM for GMM.
+
+5. Write the K-means cost function $J$. Show that minimising $J$ w.r.t. $\mu_k$ (with $r_{nk}$ fixed) gives the mean update formula.
+
+6. What is the difference between semantic, instance, and panoptic segmentation?
 
 </details>

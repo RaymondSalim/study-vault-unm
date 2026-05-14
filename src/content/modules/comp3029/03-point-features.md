@@ -64,16 +64,42 @@ Lowe 2004 -- over 31,000 citations. Provides invariance to scale, rotation, tran
 
 ### Stage 1: Scale-Space Extrema Detection
 
-- Build Gaussian pyramid: convolve image with Gaussians at increasing $\sigma$
-- Compute Difference of Gaussians (DoG): $D(x,y,\sigma) = G(x,y,k\sigma) - G(x,y,\sigma)$
-- DoG approximates the Laplacian of Gaussian (LoG)
-- Find extrema by comparing each point to 26 neighbours (8 spatial + 9 above + 9 below)
+**Scale space:** $L(x,y,\sigma) = G(x,y,\sigma) * I(x,y)$ — Gaussian convolution at different $\sigma$ highlights structures at different scales (small $\sigma$: fine details; large $\sigma$: coarse structures).
+
+**Scale-normalised LoG:** $\sigma^2 \nabla^2 G$ detects blobs at their characteristic scale. Finding its extrema locates blob centres (more stable than zero-crossings).
+
+**Key relationship** (Gaussian diffusion equation): $\frac{\partial G}{\partial \sigma} = \sigma \nabla^2 G$
+
+**DoG approximation:** Taylor expand $G(\sigma + \Delta\sigma)$ with $\Delta\sigma = (k-1)\sigma$:
+
+$$D(x,y,\sigma) = G(x,y,k\sigma) - G(x,y,\sigma) \approx (k-1) \sigma^2 \nabla^2 G$$
+
+DoG is proportional to scale-normalised LoG — no extra convolutions needed, just subtract adjacent scale-space images.
+
+**Octave implementation:**
+- Within each octave: same resolution, $\sigma$ multiplied by $k = 2^{1/s}$ ($s$ scales per octave)
+- Between octaves: downsample image by 2× (halve each dimension)
+- Compare each point to **26 neighbours** (8 same scale + 9 above + 9 below)
+- Extrema found within each octave, not across
 
 ### Stage 2: Keypoint Localisation
 
-- Sub-pixel refinement using Taylor expansion of DoG
-- Reject low-contrast points ($|D| < $ threshold)
-- Reject edge responses using ratio of principal curvatures
+Filter extrema to keep only informative corner-like points:
+
+**Error function** for a window at point $(x,y)$, moved by $(u,v)$:
+
+$$E(u,v) = \sum_W [I(x+u, y+v) - I(x,y)]^2 \approx [u, v] \, H \, [u, v]^T$$
+
+where $H$ is the structure tensor (Hessian):
+
+$$H = \sum_W \begin{bmatrix} I_x^2 & I_x I_y \\ I_x I_y & I_y^2 \end{bmatrix}$$
+
+**Eigenvalue analysis of $H$:**
+- Both $\lambda$ large → corner (keep as keypoint)
+- One large, one small → edge (reject)
+- Both small → flat (reject)
+
+Threshold: keep points where $\min(\lambda_1, \lambda_2) > T$.
 
 ### Stage 3: Orientation Assignment
 
