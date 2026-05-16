@@ -92,12 +92,19 @@ The integral image enables O(1) computation of any rectangular sum.
 
 $$ii(x, y) = \sum_{x' \leq x, \, y' \leq y} i(x', y')$$
 
+> **What it is:** Integral image (summed area table).
+> **What it does:** Stores the sum of all pixel intensities in the rectangle from $(0,0)$ to $(x,y)$.
+> **Variables:** $i(x',y')$ = original pixel intensity at $(x',y')$, $ii(x,y)$ = cumulative sum value.
+
 Value at $(x,y)$ = sum of all pixels above and to the left.
 
 ### Computation (Single Pass)
 
 $$s(x, y) = s(x-1, y) + i(x, y)$$
 $$ii(x, y) = ii(x, y-1) + s(x, y)$$
+
+> **What they do:** Build the integral image in one pass using two running sums.
+> **Variables:** $s(x,y)$ = cumulative row sum (running total along current row), $i(x,y)$ = original pixel value, $ii(x,y)$ = integral image value.
 
 where $s(x,y)$ is the cumulative row sum.
 
@@ -106,6 +113,9 @@ where $s(x,y)$ is the cumulative row sum.
 For rectangle D with corners at positions 1, 2, 3, 4:
 
 $$\text{Sum}(D) = ii(4) + ii(1) - ii(2) - ii(3)$$
+
+> **What it does:** Computes the sum of any rectangular region using inclusion-exclusion with just 4 lookups.
+> **Variables:** $ii(1)$ = top-left corner, $ii(2)$ = top-right, $ii(3)$ = bottom-left, $ii(4)$ = bottom-right. Add corners that include the region, subtract those that over-count.
 
 Only **4 array lookups** regardless of rectangle size.
 
@@ -137,6 +147,9 @@ Each weak classifier thresholds a single Haar feature:
 
 $$h_t(x) = \begin{cases} +1 & \text{if } p_t f_t(x) < p_t \theta_t \\ -1 & \text{otherwise} \end{cases}$$
 
+> **What it is:** A simple binary decision stump (one threshold on one feature).
+> **Variables:** $f_t(x)$ = Haar feature value for input window $x$, $\theta_t$ = learned threshold, $p_t$ = polarity (+1 or −1, determines which side is positive). Each weak classifier is only slightly better than random chance.
+
 where $f_t$ = feature value, $\theta_t$ = threshold, $p_t$ = polarity.
 
 ### AdaBoost Algorithm
@@ -150,6 +163,10 @@ where $f_t$ = feature value, $\theta_t$ = threshold, $p_t$ = polarity.
 | 2c | Compute classifier weight: $\alpha_t = \frac{1}{2} \ln\frac{1-\epsilon_t}{\epsilon_t}$ |
 | 2d | Update sample weights (increase for misclassified) |
 | 3 | Final classifier: $H(x) = \text{sign}\left(\sum_{t=1}^T \alpha_t h_t(x)\right)$ |
+
+> **$\alpha_t$ (AdaBoost weight):** Confidence assigned to weak classifier $t$. $\epsilon_t$ = weighted error rate. Lower error → higher weight (more voting power). If $\epsilon_t = 0$, the classifier is perfect; if $\epsilon_t = 0.5$, it's random (gets zero weight).
+>
+> **$H(x)$ (Strong classifier):** Final ensemble decision — weighted majority vote of all $T$ selected weak classifiers. Output: +1 (face) or −1 (non-face). Each $\alpha_t h_t(x)$ contributes a weighted vote.
 
 ### Properties
 

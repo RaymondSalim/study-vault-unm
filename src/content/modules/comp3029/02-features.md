@@ -65,11 +65,11 @@ Colour histograms count pixel colour occurrences in a region.
 
 ### Histogram Comparison
 
-| Metric | Formula | Range |
-|--------|---------|-------|
-| L1 distance | $d = \sum_i |h_1(i) - h_2(i)|$ | $[0, 2]$ |
-| Chi-squared | $\chi^2 = \sum_i \frac{(h_1(i)-h_2(i))^2}{h_1(i)+h_2(i)}$ | $[0, \infty)$ |
-| Bhattacharyya | $d = \sqrt{1 - \sum_i \sqrt{h_1(i) \cdot h_2(i)}}$ | $[0, 1]$ |
+| Metric | Formula | Range | Description |
+|--------|---------|-------|-------------|
+| L1 distance | $d = \sum_i |h_1(i) - h_2(i)|$ | $[0, 2]$ | Sum of absolute bin differences. Simple, fast. $h_1(i)$, $h_2(i)$ = normalised histogram bin values. |
+| Chi-squared | $\chi^2 = \sum_i \frac{(h_1(i)-h_2(i))^2}{h_1(i)+h_2(i)}$ | $[0, \infty)$ | Normalises each bin difference by bin magnitude — gives more weight to differences in sparse bins. |
+| Bhattacharyya | $d = \sqrt{1 - \sum_i \sqrt{h_1(i) \cdot h_2(i)}}$ | $[0, 1]$ | Measures overlap between two distributions. 0 = identical, 1 = no overlap. Geometric mean of bin values. |
 
 :::
 
@@ -135,6 +135,9 @@ The image gradient is a vector at each pixel pointing in the direction of steepe
 
 The image gradient $\nabla f = \left(\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}\right)$ is a **vector** at each pixel:
 
+> **What it is:** A 2D vector describing local intensity change direction and rate.
+> **Variables:** $f_x = \partial f/\partial x$ = horizontal intensity change, $f_y = \partial f/\partial y$ = vertical intensity change.
+
 | Property | Detail |
 |----------|--------|
 | Direction | Points toward maximum intensity increase |
@@ -147,6 +150,9 @@ The intensity change along direction $\mathbf{u}$:
 
 $$\frac{\partial f}{\partial \mathbf{u}} = \nabla f \cdot \mathbf{u}$$
 
+> **What it is:** Rate of intensity change along an arbitrary unit direction $\mathbf{u}$.
+> **What it does:** Dot product of gradient with direction vector. Maximised when $\mathbf{u}$ aligns with $\nabla f$ — proves the gradient points in the direction of steepest increase.
+
 This is maximised when $\mathbf{u}$ aligns with $\nabla f$ (proven via Lagrange multipliers with $\|\mathbf{u}\| = 1$ constraint). Therefore the gradient direction gives the steepest intensity increase.
 
 ### Sobel Filter Derivation
@@ -155,7 +161,11 @@ Approximates partial derivatives using central differences:
 
 $$\frac{\partial f}{\partial x} \approx \frac{f(x+1, y) - f(x-1, y)}{2}$$
 
+> **What it does:** Estimates horizontal gradient by subtracting left neighbour from right neighbour.
+
 $$G_x = \begin{bmatrix} -1 & 0 & 1 \\ -2 & 0 & 2 \\ -1 & 0 & 1 \end{bmatrix}, \quad G_y = \begin{bmatrix} -1 & -2 & -1 \\ 0 & 0 & 0 \\ 1 & 2 & 1 \end{bmatrix}$$
+
+> **What these are:** Sobel convolution kernels. $G_x$ detects vertical edges (horizontal gradient), $G_y$ detects horizontal edges (vertical gradient). The weighting (2 in centre row/column) provides smoothing perpendicular to the derivative direction.
 
 **Spatial filtering (convolution):** place template on image patch, multiply corresponding positions, sum all products → one response value at centre pixel.
 
@@ -184,6 +194,9 @@ HoG captures edge/gradient structure and is widely used for object detection (Da
 Gradient magnitude and direction:
 
 $$g(x,y) = \sqrt{\Delta x^2 + \Delta y^2}, \quad \theta(x,y) = \arctan\left(\frac{\Delta y}{\Delta x}\right)$$
+
+> **$g(x,y)$:** Edge strength at pixel $(x,y)$. $\Delta x$, $\Delta y$ = horizontal/vertical intensity differences (from Sobel or similar filter). Large values = strong edges.
+> **$\theta(x,y)$:** Edge orientation. Used to bin gradients into orientation histograms. Typically unsigned (0–180°) for HoG since edge polarity doesn't matter for shape.
 
 ### HoG Algorithm
 

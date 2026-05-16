@@ -53,6 +53,10 @@ K-Means clustering splits data into K groups by repeatedly assigning each point 
 
 $$J = \sum_{n=1}^{N} \sum_{k=1}^{K} r_{nk} \| \mathbf{x}_n - \boldsymbol{\mu}_k \|^2$$
 
+> **What it is:** Total within-cluster sum of squared distances (distortion).
+> **What it does:** Measures how well the K clusters fit the data — lower $J$ = tighter clusters.
+> **Variables:** $N$ = total data points, $K$ = number of clusters, $r_{nk}$ = binary assignment (1 if point $n$ belongs to cluster $k$, else 0), $\mathbf{x}_n$ = data point (e.g., pixel colour), $\boldsymbol{\mu}_k$ = centroid (mean) of cluster $k$.
+
 where $r_{nk} = 1$ if point $n$ is assigned to cluster $k$, else 0.
 
 ### Algorithm
@@ -63,6 +67,8 @@ where $r_{nk} = 1$ if point $n$ is assigned to cluster $k$, else 0.
 | 2 | **Assign:** For each point, set $r_{nk}=1$ for nearest $\mu_k$ |
 | 3 | **Update:** $\mu_k = \frac{\sum_n r_{nk} x_n}{\sum_n r_{nk}}$ |
 | 4 | Repeat 2-3 until convergence |
+
+> **Mean update formula:** Recomputes cluster centre $\mu_k$ as the weighted average of all points assigned to cluster $k$. Numerator = sum of assigned point values, denominator = count of assigned points. Derived by setting $\partial J / \partial \mu_k = 0$.
 
 ### K-Means for Images
 
@@ -101,6 +107,10 @@ A GMM models pixel values as drawn from a mixture of M Gaussians:
 
 $$p(x) = \sum_{i=1}^{M} \pi_i \, g(x | \theta_i)$$
 
+> **What it is:** Gaussian Mixture Model probability density function.
+> **What it does:** Models the overall distribution of pixel values as a weighted combination of $M$ Gaussian components — allows soft, overlapping clusters.
+> **Variables:** $M$ = number of Gaussian components, $\pi_i$ = mixing coefficient/weight of component $i$ (must sum to 1), $g(x|\theta_i)$ = Gaussian PDF, $\theta_i = (\mu_i, \Sigma_i)$ = mean and covariance of component $i$.
+
 where $\theta_i = (\mu_i, \Sigma_i)$ and $\pi_i$ are mixing coefficients ($\sum \pi_i = 1$).
 
 ### Log-Likelihood
@@ -108,6 +118,11 @@ where $\theta_i = (\mu_i, \Sigma_i)$ and $\pi_i$ are mixing coefficients ($\sum 
 Under the i.i.d. assumption (pixels are independent, identically distributed):
 
 $$L(\boldsymbol{\theta}) = \log p(\mathbf{x}|\boldsymbol{\theta}) = \sum_{j=1}^{N} \log \left( \sum_{i=1}^{M} \pi_i \, g(x_j | \theta_i) \right)$$
+
+> **What it is:** GMM log-likelihood — the score to maximise when fitting parameters.
+> **What it does:** Measures how probable the observed data is under the current model. Higher = better fit.
+> **Variables:** $\boldsymbol{\theta}$ = all model parameters, $N$ = number of pixels, $M$ = number of Gaussian components, $\pi_i$ = mixing weight, $g(x_j|\theta_i)$ = Gaussian PDF evaluated at pixel $x_j$.
+> **Why intractable:** The log-of-a-sum has no closed-form derivative — hence EM is used.
 
 Direct maximisation is intractable -- use EM.
 
@@ -142,15 +157,25 @@ Compute posterior probability that Gaussian $i$ generated pixel $x_j$:
 
 $$P(\theta_i | x_j) = \frac{\pi_i \, g(x_j | \theta_i)}{\sum_{m=1}^{M} \pi_m \, g(x_j | \theta_m)}$$
 
+> **What it is:** Responsibility — posterior probability via Bayes' rule.
+> **What it does:** Computes the "ownership" of pixel $x_j$ by Gaussian component $i$. Soft assignment: values between 0 and 1, summing to 1 across all components.
+> **Variables:** $\pi_i$ = prior weight of component $i$, $g(x_j|\theta_i)$ = likelihood of $x_j$ under component $i$, denominator = total evidence (normalising constant across all $M$ components).
+
 ### M-Step (Maximisation)
 
 Update parameters using soft assignments:
 
 $$\mu_i = \frac{\sum_{j=1}^{N} P(\theta_i|x_j) \, x_j}{\sum_{j=1}^{N} P(\theta_i|x_j)}$$
 
+> **Mean update:** Weighted average of all data points, with weights = responsibilities. Unlike K-means, ALL pixels contribute (not just assigned ones).
+
 $$\Sigma_i = \frac{\sum_{j=1}^{N} P(\theta_i|x_j)(x_j - \mu_i)(x_j - \mu_i)^T}{\sum_{j=1}^{N} P(\theta_i|x_j)}$$
 
+> **Covariance update:** Weighted scatter matrix. Captures the shape/spread of component $i$. Allows elliptical clusters (unlike K-means which is spherical only).
+
 $$\pi_i = \frac{1}{N} \sum_{j=1}^{N} P(\theta_i|x_j)$$
+
+> **Mixing weight update:** Average responsibility across all pixels = proportion of data "owned" by component $i$. $N$ = total number of pixels.
 
 :::
 
@@ -173,6 +198,8 @@ K-Means can be understood as minimising a cost function (sum of squared distance
 The K-means algorithm derives from minimising:
 
 $$J = \sum_{n=1}^{N} \sum_{k=1}^{K} r_{nk} \| \mathbf{x}_n - \boldsymbol{\mu}_k \|^2$$
+
+> **What it does:** Same objective as before — total distortion. The constraints below formalise that each point belongs to exactly one cluster.
 
 subject to $r_{nk} \in \{0, 1\}$ and $\sum_k r_{nk} = 1$.
 
@@ -205,9 +232,14 @@ Under i.i.d. assumption, the joint observation probability:
 
 $$P(x_1, \ldots, x_N | \theta) = \prod_{j=1}^{N} P(x_j | \theta) = \prod_{j=1}^{N} \sum_{i=1}^{M} \pi_i \, g(x_j | \theta_i)$$
 
+> **Joint observation probability:** Product over all $N$ pixels (i.i.d. assumption). Each pixel's probability is the GMM density (sum over $M$ components).
+
 Log-likelihood to maximise:
 
 $$\mathcal{L}(\theta) = \sum_{j=1}^{N} \log \left( \sum_{i=1}^{M} \pi_i \, g(x_j | \theta_i) \right)$$
+
+> **What it does:** Converts the product to a sum (log) for numerical stability. We want parameters $\theta$ that maximise this — i.e., make the data most probable.
+> **Why intractable:** The $\log(\sum)$ structure prevents direct differentiation to find optimal $\theta$.
 
 Direct maximisation is intractable (log of sum) → use EM algorithm.
 

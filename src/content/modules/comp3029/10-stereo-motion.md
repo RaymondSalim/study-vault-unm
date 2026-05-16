@@ -51,14 +51,17 @@ For a parallel camera setup (rectified stereo):
 
 $$Z = \frac{f \cdot B}{d}$$
 
+> **What it is:** The stereo depth equation — recovers 3D depth from 2D disparity.
+> **What it does:** Triangulates the depth of a point given how much it shifts between left and right images.
+
 | Symbol | Meaning |
 |--------|---------|
-| $Z$ | Depth of point |
-| $f$ | Focal length |
-| $B$ | Baseline (distance between cameras) |
-| $d$ | Disparity ($d = x_L - x_R$) |
+| $Z$ | Depth of point (distance from camera) |
+| $f$ | Focal length (in pixels) |
+| $B$ | Baseline — physical distance between the two cameras |
+| $d$ | Disparity — horizontal pixel shift ($d = x_L - x_R$, where $x_L$, $x_R$ are the pixel positions in left/right images) |
 
-Key insight: **depth is inversely proportional to disparity**.
+Key insight: **depth is inversely proportional to disparity** (large shift = close, small shift = far, zero shift = infinity).
 
 ### Disparity Map
 
@@ -104,6 +107,10 @@ Encodes the epipolar geometry between two uncalibrated views:
 
 $$\mathbf{p}_2^T F \mathbf{p}_1 = 0$$
 
+> **What it is:** The epipolar constraint equation.
+> **What it does:** For any pair of corresponding points, this equation equals zero. Constrains where a point's match can appear in the other image (on the epipolar line).
+> **Variables:** $\mathbf{p}_1$ = point in image 1 (homogeneous), $\mathbf{p}_2$ = corresponding point in image 2, $F$ = 3×3 fundamental matrix (rank 2, 7 DoF). $F\mathbf{p}_1$ = the epipolar line in image 2.
+
 | Property | Detail |
 |----------|--------|
 | Size | 3x3 |
@@ -116,6 +123,9 @@ $$\mathbf{p}_2^T F \mathbf{p}_1 = 0$$
 For calibrated cameras: $E = K_2^T F K_1$
 
 $$\mathbf{p}_2'^T E \mathbf{p}_1' = 0$$
+
+> **What it does:** Same epipolar constraint but for calibrated cameras (known intrinsics).
+> **Variables:** $\mathbf{p}_1'$, $\mathbf{p}_2'$ = normalised image coordinates (pixel coords transformed by $K^{-1}$), $E$ = essential matrix. Relationship to $F$: $E = K_2^T F K_1$ — remove calibration to get pure geometry.
 
 where $\mathbf{p}'$ are normalised image coordinates. Contains only rotation and translation (5 DoF).
 
@@ -200,12 +210,17 @@ Formulate correspondence as optimal path through a cost matrix:
 
 Bayesian formulation: $P(d|I,I') \propto P(I,I'|d) \cdot P(d)$
 
+> **What it is:** Bayes' rule applied to stereo — posterior probability of disparity map given image pair.
+> **Variables:** $d$ = disparity map, $I, I'$ = left/right images, $P(I,I'|d)$ = likelihood (how well disparity explains observations), $P(d)$ = prior (preference for smooth disparity).
+
 Taking log: $E = E_\text{data} + E_\text{smoothness}$
 
 $$E = \sum_i C(i, d_i) + \lambda \sum_{(i,j) \in \mathcal{N}} S(d_i, d_j)$$
 
-- $C(i, d_i)$: matching cost at pixel $i$ with disparity $d_i$
-- $S(d_i, d_j)$: penalises disparity discontinuities between neighbours
+> **What it is:** Energy minimisation formulation for global stereo matching.
+> **What it does:** Finds the disparity map minimising total cost = matching quality + smoothness penalty.
+> **Variables:** $C(i, d_i)$ = matching cost at pixel $i$ for disparity $d_i$ (how well left/right patches agree), $S(d_i, d_j)$ = smoothness penalty between neighbouring pixels $i,j$ (penalises disparity jumps), $\lambda$ = weight balancing data vs smoothness, $\mathcal{N}$ = pixel neighbourhood.
+
 - Solved via graph cuts or belief propagation (MRF framework)
 
 ### 3D Cost Volume
@@ -266,9 +281,16 @@ where $(u, v)$ is the velocity (displacement) at pixel $(x,y)$.
 
 $$I(x, y, t) = I(x + u, y + v, t + 1)$$
 
+> **What it is:** Brightness constancy assumption — a pixel's intensity doesn't change as it moves.
+> **Variables:** $I(x,y,t)$ = pixel intensity at position $(x,y)$ and time $t$, $(u,v)$ = pixel displacement (velocity).
+
 Taylor expansion yields the **optical flow constraint equation:**
 
 $$I_x u + I_y v + I_t = 0$$
+
+> **What it is:** The linearised brightness constancy equation (optical flow constraint).
+> **What it does:** Relates pixel motion $(u,v)$ to measurable image gradients. One equation per pixel but two unknowns — underdetermined (aperture problem).
+> **Variables:** $I_x = \partial I/\partial x$ = spatial gradient (horizontal), $I_y = \partial I/\partial y$ = spatial gradient (vertical), $I_t = \partial I/\partial t$ = temporal gradient (intensity change over time), $(u,v)$ = optical flow velocity to solve for.
 
 or equivalently: $\nabla I \cdot \mathbf{v} + I_t = 0$
 
@@ -283,6 +305,10 @@ Through a small aperture, only motion **perpendicular to edges** (along gradient
 Assumes flow is constant within a small window $W$:
 
 $$\begin{bmatrix} u \\ v \end{bmatrix} = \begin{bmatrix} \sum I_x^2 & \sum I_x I_y \\ \sum I_x I_y & \sum I_y^2 \end{bmatrix}^{-1} \begin{bmatrix} -\sum I_x I_t \\ -\sum I_y I_t \end{bmatrix}$$
+
+> **What it is:** Lucas-Kanade optical flow solution — least-squares estimate of local motion.
+> **What it does:** Combines constraints from all pixels in a window to solve for the single velocity $(u,v)$ that best explains the observed intensity changes.
+> **Variables:** The 2×2 matrix = structure tensor $H$ (same as Harris — sums over window $W$). Right side = weighted temporal gradients. Solution exists only when $H$ is invertible (both eigenvalues large = corner).
 
 Note: The matrix is the same structure tensor $H$ from Harris corners -- well-conditioned at corners.
 
@@ -327,10 +353,17 @@ Global method with smoothness regularisation:
 
 $$E = \sum_\text{pixels} \left[ (I_x u + I_y v + I_t)^2 + \lambda\left((u - \bar{u})^2 + (v - \bar{v})^2\right) \right]$$
 
+> **What it is:** Horn-Schunck energy function — combines data fidelity with smoothness.
+> **What it does:** Finds a dense flow field that (1) satisfies the brightness constancy constraint everywhere AND (2) varies smoothly across the image.
+> **Variables:** First term = data term (how well flow explains observed gradients), second term = smoothness term (penalises flow that differs from its neighbours), $\lambda$ = regularisation weight (higher = trust data more, lower = smoother flow), $\bar{u}, \bar{v}$ = neighbourhood average of flow.
+
 **Iterative solution** (Gauss-Seidel/Jacobi):
 
 $$u = \bar{u} - \frac{I_x(I_x \bar{u} + I_y \bar{v} + I_t)}{\lambda + I_x^2 + I_y^2}$$
 $$v = \bar{v} - \frac{I_y(I_x \bar{u} + I_y \bar{v} + I_t)}{\lambda + I_x^2 + I_y^2}$$
+
+> **What they do:** Update equations — iteratively refine flow estimates toward the energy minimum.
+> **Variables:** $\bar{u}, \bar{v}$ = average flow of neighbouring pixels (from previous iteration). Each pixel's flow is pulled toward its neighbours' average, corrected by the data constraint.
 
 where $\bar{u}, \bar{v}$ are neighbourhood averages of flow.
 

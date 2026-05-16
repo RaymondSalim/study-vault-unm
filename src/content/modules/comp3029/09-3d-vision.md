@@ -55,6 +55,10 @@ A 2D point $(x, y)$ is represented as a 3-vector:
 
 $$\mathbf{p} = \begin{bmatrix} x \\ y \\ 1 \end{bmatrix} \quad \text{or more generally} \quad \begin{bmatrix} wx \\ wy \\ w \end{bmatrix} \sim \begin{bmatrix} x \\ y \\ 1 \end{bmatrix}$$
 
+> **What it is:** Homogeneous coordinate representation of a 2D point.
+> **What it does:** Adds an extra coordinate to enable all geometric transformations (including projection) as matrix multiplications. Any scalar multiple represents the same point (divide by $w$ to recover Euclidean coordinates).
+> **Variables:** $(x,y)$ = Euclidean coordinates, $w$ = scale factor ($w=0$ represents a point at infinity / direction).
+
 | Property | Euclidean | Homogeneous |
 |----------|-----------|-------------|
 | 2D point | $(x, y)$ | $(x, y, 1)^T$ or $(wx, wy, w)^T$ |
@@ -69,6 +73,9 @@ $$\mathbf{p} = \begin{bmatrix} x \\ y \\ 1 \end{bmatrix} \quad \text{or more gen
 Parallel lines $\mathbf{l}_1 = (a, b, c_1)^T$ and $\mathbf{l}_2 = (a, b, c_2)^T$ intersect at:
 
 $$\mathbf{p}_\infty = \mathbf{l}_1 \times \mathbf{l}_2 = (b, -a, 0)^T$$
+
+> **What it does:** Cross product of two parallel lines yields their intersection — a point at infinity ($w=0$).
+> **Variables:** $\mathbf{l}_1$, $\mathbf{l}_2$ = lines with same direction $(a,b)$ but different offsets $c_1$, $c_2$. The result $(b,-a,0)$ represents a direction, not a location — this is where parallel lines "meet" (vanishing point).
 
 A point with $w = 0$ is a **point at infinity** (direction without position).
 
@@ -87,6 +94,10 @@ A point with $w = 0$ is a **point at infinity** (direction without position).
 Maps points between two views of a planar surface:
 
 $$\mathbf{p}' = H \mathbf{p}$$
+
+> **What it is:** Projective transformation mapping between two images of a plane.
+> **What it does:** Transforms pixel coordinates from one view to another for planar scenes. Used in panorama stitching and augmented reality.
+> **Variables:** $\mathbf{p}$ = point in image 1 (homogeneous), $\mathbf{p}'$ = corresponding point in image 2, $H$ = 3×3 homography matrix (8 DoF — 9 entries minus 1 for scale). Requires 4 point correspondences (each gives 2 equations).
 
 where $H$ is a 3x3 matrix with 8 DoF (defined up to scale). Requires 4 point correspondences to solve.
 
@@ -124,6 +135,10 @@ $$\begin{bmatrix} u \\ v \\ 1 \end{bmatrix} \sim \begin{bmatrix} f_x & 0 & c_x \
 
 $$\mathbf{p} = K [R | \mathbf{t}] \mathbf{P}$$
 
+> **What it is:** The full pinhole camera projection equation.
+> **What it does:** Maps a 3D world point $\mathbf{P} = (X,Y,Z,1)^T$ to 2D pixel coordinates $\mathbf{p} = (u,v,1)^T$.
+> **Variables:** $K$ = 3×3 intrinsic matrix (camera-specific: focal lengths $f_x, f_y$, principal point $c_x, c_y$), $[R|\mathbf{t}]$ = 3×4 extrinsic matrix ($R$ = 3×3 rotation for camera orientation, $\mathbf{t}$ = translation for camera position), $\sim$ means equality up to scale (divide by third component to get pixel coords).
+
 ### Camera Parameters
 
 | Type | Parameters | Matrix | DoF |
@@ -135,11 +150,14 @@ $$\mathbf{p} = K [R | \mathbf{t}] \mathbf{P}$$
 
 $$K = \begin{bmatrix} f_x & s & c_x \\ 0 & f_y & c_y \\ 0 & 0 & 1 \end{bmatrix}$$
 
+> **What it is:** Camera intrinsic matrix — encodes internal camera properties (fixed for a given camera/lens).
+> **What it does:** Converts normalised camera coordinates to pixel coordinates.
+
 | Parameter | Meaning |
 |-----------|---------|
-| $f_x, f_y$ | Focal length in pixel units (x and y) |
-| $c_x, c_y$ | Principal point (where optical axis meets image plane) |
-| $s$ | Skew (usually 0) |
+| $f_x, f_y$ | Focal length in pixel units (x and y). Converts physical distance to pixels. May differ for non-square pixels. |
+| $c_x, c_y$ | Principal point — where the optical axis meets the image plane (roughly image centre). |
+| $s$ | Skew — non-orthogonality of pixel axes (usually 0 for modern cameras). |
 
 ### Intrinsic Parameters Detail
 
@@ -165,6 +183,9 @@ $$K = \begin{bmatrix} f_x & s & c_x \\ 0 & f_y & c_y \\ 0 & 0 & 1 \end{bmatrix}$
 
 $$R_x(\theta) = \begin{bmatrix} 1 & 0 & 0 \\ 0 & \cos\theta & -\sin\theta \\ 0 & \sin\theta & \cos\theta \end{bmatrix}, \quad R_y(\theta) = \begin{bmatrix} \cos\theta & 0 & \sin\theta \\ 0 & 1 & 0 \\ -\sin\theta & 0 & \cos\theta \end{bmatrix}, \quad R_z(\theta) = \begin{bmatrix} \cos\theta & -\sin\theta & 0 \\ \sin\theta & \cos\theta & 0 \\ 0 & 0 & 1 \end{bmatrix}$$
 
+> **What they are:** Elementary rotation matrices for rotation by angle $\theta$ around each axis.
+> **Variables:** $\theta$ = rotation angle. Each matrix rotates around its labelled axis (the row/column that remains as identity). $R_x$ rotates in the YZ plane, $R_y$ in XZ, $R_z$ in XY.
+
 Combined: $R = R_z R_y R_x$ (order matters). Note $R_y$ has a sign flip due to the right-hand rule.
 
 Rotation = projecting point onto new coordinate axes: $P' = R^T P$ transforms from world to camera coordinates.
@@ -174,6 +195,9 @@ Rotation = projecting point onto new coordinate axes: $P' = R^T P$ transforms fr
 For a 3D point $(X, Y, Z)$ in camera coordinates:
 
 $$u = f_x \frac{X}{Z} + c_x, \quad v = f_y \frac{Y}{Z} + c_y$$
+
+> **What it does:** Converts a 3D point to pixel coordinates via perspective division.
+> **Variables:** $(X,Y,Z)$ = 3D point in camera frame, $(u,v)$ = resulting pixel coordinates, $f_x, f_y$ = focal lengths in pixels, $c_x, c_y$ = principal point offset. Division by $Z$ is what causes perspective effects (far objects appear smaller).
 
 Key property: **perspective projection divides by depth Z**.
 
@@ -222,10 +246,10 @@ Determine intrinsic and extrinsic parameters from known 3D-2D correspondences.
 
 Real lenses introduce distortion (not modelled by pinhole):
 
-| Type | Effect | Formula |
-|------|--------|---------|
-| Radial (barrel/pincushion) | Straight lines become curved | $r' = r(1 + k_1 r^2 + k_2 r^4)$ |
-| Tangential | Asymmetric distortion | $p_1, p_2$ coefficients |
+| Type | Effect | Formula | Description |
+|------|--------|---------|-------------|
+| Radial (barrel/pincushion) | Straight lines become curved | $r' = r(1 + k_1 r^2 + k_2 r^4)$ | $r$ = distance from principal point, $r'$ = distorted distance, $k_1, k_2$ = radial distortion coefficients. Positive $k_1$ = pincushion, negative = barrel. |
+| Tangential | Asymmetric distortion | $p_1, p_2$ coefficients | Caused by lens elements not perfectly aligned. Usually small. |
 
 :::
 
@@ -286,6 +310,10 @@ All epipolar lines converge at the epipole. The epipolar constraint reduces corr
 
 $$E = [\mathbf{t}]_\times R$$
 
+> **What it is:** Encodes the geometric relationship between two calibrated camera views.
+> **What it does:** Relates corresponding normalised image points. Contains only rotation and translation (no camera intrinsics).
+> **Variables:** $[\mathbf{t}]_\times$ = 3×3 skew-symmetric matrix of translation vector $\mathbf{t}$ (encodes cross product as matrix multiplication), $R$ = rotation between cameras.
+
 where $[\mathbf{t}]_\times$ is the skew-symmetric (cross-product) matrix of translation.
 
 **Constraint:** $\mathbf{p}'^T E \mathbf{p} = 0$
@@ -300,6 +328,10 @@ where $[\mathbf{t}]_\times$ is the skew-symmetric (cross-product) matrix of tran
 ### Fundamental Matrix $F$
 
 $$F = K'^{-T} E K^{-1} = K'^{-T} [\mathbf{t}]_\times R \, K^{-1}$$
+
+> **What it is:** Relates corresponding pixel coordinates between two uncalibrated views.
+> **What it does:** Encapsulates both camera intrinsics and relative pose. Given a point in image 1, $F\mathbf{p}_1$ gives the epipolar line in image 2 where the correspondence must lie.
+> **Variables:** $K$, $K'$ = intrinsic matrices of cameras 1 and 2, $E$ = essential matrix (pure geometry), $F$ = fundamental matrix (includes calibration).
 
 **Constraint:** $\mathbf{p}_2^T F \mathbf{p}_1 = 0$
 

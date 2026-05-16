@@ -54,6 +54,9 @@ CNNs are built from three layer types. Convolutional layers apply learned filter
 
 $$\text{out} = \frac{\text{in} - \text{kernel} + 2 \times \text{padding}}{\text{stride}} + 1$$
 
+> **What it does:** Computes spatial dimension of the output feature map after convolution.
+> **Variables:** $\text{in}$ = input spatial size (width or height), $\text{kernel}$ = filter size (e.g., 3 for 3×3), $\text{padding}$ = zero-padding added to each side, $\text{stride}$ = step size of the sliding filter. Result is floored to an integer.
+
 ### Parameters of a Conv Layer
 
 | Parameter | Meaning |
@@ -66,6 +69,9 @@ $$\text{out} = \frac{\text{in} - \text{kernel} + 2 \times \text{padding}}{\text{
 **Parameter count:** For input with $C_{in}$ channels, $K$ filters of size $F \times F$:
 
 $$\text{params} = K \times (C_{in} \times F \times F + 1)$$
+
+> **What it does:** Total learnable parameters in one convolutional layer.
+> **Variables:** $K$ = number of output filters, $C_{in}$ = input channels, $F$ = filter spatial size, $+1$ = one bias per filter. Each filter has $C_{in} \times F \times F$ weights (spans all input channels spatially).
 
 ### Convolution is Volumetric
 
@@ -154,6 +160,10 @@ Stacking is more parameter-efficient AND adds more non-linearity.
 
 $$\mathbf{y} = F(\mathbf{x}) + \mathbf{x}$$
 
+> **What it is:** ResNet residual block output formula.
+> **What it does:** Adds the input $\mathbf{x}$ directly to the learned transformation $F(\mathbf{x})$. The network only needs to learn the *residual* (difference from identity), not the full mapping.
+> **Variables:** $\mathbf{x}$ = block input (skip/shortcut connection), $F(\mathbf{x})$ = output of stacked conv layers (the residual), $\mathbf{y}$ = block output.
+
 | Benefit | Explanation |
 |---------|-------------|
 | Gradient flow | Gradients can bypass layers via skip connection |
@@ -219,6 +229,9 @@ Mixes channel information only — no spatial interaction. Used as a "bottleneck
 
 $$\text{params} = 1 \times 1 \times C_{in} \times C_{out}$$
 
+> **What it does:** Cross-channel linear combination at each spatial position (like a per-pixel fully-connected layer across channels).
+> **Variables:** $C_{in}$ = input channels, $C_{out}$ = output channels. No spatial extent — just mixes channel information.
+
 ### Depthwise Separable Convolution (MobileNet)
 
 Separates spatial filtering and channel mixing:
@@ -248,6 +261,9 @@ Effective size: $(2d + 1) \times (2d + 1)$ for a 3x3 kernel with dilation $d$.
 Split input channels into $G$ groups; each group convolved independently:
 
 $$\text{params} = K^2 \times \frac{C_{in}}{G} \times \frac{C_{out}}{G} \times G = \frac{K^2 \times C_{in} \times C_{out}}{G}$$
+
+> **What it does:** Divides channels into $G$ independent groups, each convolved separately. Reduces parameters and computation by factor $G$.
+> **Variables:** $K$ = kernel size, $C_{in}$ = input channels, $C_{out}$ = output channels, $G$ = number of groups. Extreme case: $G = C_{in}$ = depthwise convolution.
 
 Reduces computation by factor $G$ while maintaining representational capacity.
 
@@ -323,6 +339,10 @@ The receptive field is the input region that influences a particular output neur
 For $L$ layers of $F \times F$ filters with stride 1:
 
 $$\text{Receptive field} = L \times (F - 1) + 1$$
+
+> **What it is:** Total input region that influences a single output neuron.
+> **What it does:** Calculates how much of the original image one deep neuron can "see."
+> **Variables:** $L$ = number of convolutional layers, $F$ = filter size per layer. Each layer adds $(F-1)$ pixels to the receptive field.
 
 Example: 3 layers of 3x3 = receptive field of 7x7.
 

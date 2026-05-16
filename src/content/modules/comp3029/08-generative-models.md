@@ -54,6 +54,10 @@ Two networks trained adversarially:
 
 $$\min_G \max_D \; V(D, G) = \mathbb{E}_{\mathbf{x} \sim p_{data}}[\log D(\mathbf{x})] + \mathbb{E}_{\mathbf{z} \sim p_z}[\log(1 - D(G(\mathbf{z})))]$$
 
+> **What it is:** The GAN value function — a two-player minimax game.
+> **What it does:** $D$ tries to maximise (correctly identify real vs fake), $G$ tries to minimise (fool $D$).
+> **Variables:** $G$ = generator network, $D$ = discriminator network, $\mathbf{x}$ = real image sampled from data distribution $p_{data}$, $\mathbf{z}$ = random noise vector from prior $p_z$ (e.g., Gaussian), $D(\mathbf{x})$ = discriminator's estimate that $\mathbf{x}$ is real, $G(\mathbf{z})$ = generated fake image. At equilibrium: $D = 0.5$ everywhere, $p_G = p_{data}$.
+
 ### Training Procedure
 
 | Step | Action |
@@ -135,17 +139,26 @@ $$e_{i,j} = f(s_{i-1}, h_j) \quad \text{(alignment score)}$$
 $$\alpha_{i,j} = \frac{\exp(e_{i,j})}{\sum_k \exp(e_{i,k})} \quad \text{(attention weight)}$$
 $$c_i = \sum_j \alpha_{i,j} h_j \quad \text{(context vector)}$$
 
+> **What they do:** (1) Compute how relevant each input position $j$ is to output position $i$, (2) normalise scores to weights via softmax, (3) weighted sum of input representations.
+> **Variables:** $e_{i,j}$ = raw alignment score, $s_{i-1}$ = previous decoder state, $h_j$ = encoder hidden state at position $j$, $\alpha_{i,j}$ = normalised attention weight, $c_i$ = context vector (attended summary of input for output position $i$).
+
 ### Scaled Dot-Product Attention
 
 $$e_i = \frac{\mathbf{q} \cdot \mathbf{k}_i}{\sqrt{d_k}}$$
 $$\alpha = \text{softmax}(\mathbf{e})$$
 $$\mathbf{y} = \sum_i \alpha_i \mathbf{v}_i$$
 
+> **What it does:** Computes attention output for a single query. (1) Score each key against the query via dot product, (2) scale down and normalise, (3) weighted sum of values.
+> **Variables:** $\mathbf{q}$ = query vector (what am I looking for), $\mathbf{k}_i$ = key vector of position $i$ (what does position $i$ contain), $d_k$ = dimension of keys, $\alpha_i$ = attention weight for position $i$, $\mathbf{v}_i$ = value vector (information to retrieve from position $i$).
+
 **Why scale by $\sqrt{d_k}$:** Without scaling, large dot products push softmax into saturation → vanishing gradients during backpropagation.
 
 ### Query, Key, Value Projections
 
 $$Q = X W_Q, \quad K = X W_K, \quad V = X W_V$$
+
+> **What it does:** Projects input embeddings $X$ into three separate representation spaces via learned weight matrices.
+> **Variables:** $X$ = input token embeddings (sequence × $d_{model}$), $W_Q$, $W_K$, $W_V$ = learned projection matrices ($d_{model} \times d_k$ or $d_{model} \times d_v$). Different projections allow the model to separately learn "what to search for," "what to be indexed by," and "what information to return."
 
 | Component | Analogy | Role |
 |-----------|---------|------|
@@ -170,6 +183,9 @@ $$Q = X W_Q, \quad K = X W_K, \quad V = X W_V$$
 $$PE(pos, 2i) = \sin\left(\frac{pos}{10000^{2i/d_{model}}}\right)$$
 $$PE(pos, 2i+1) = \cos\left(\frac{pos}{10000^{2i/d_{model}}}\right)$$
 
+> **What it does:** Injects position information into the model since self-attention is permutation-equivariant (has no inherent sense of order).
+> **Variables:** $pos$ = position in the sequence (0, 1, 2, ...), $i$ = dimension index, $d_{model}$ = embedding dimension. Different frequencies at different dimensions create unique encodings for each position. Sine and cosine alternate across dimensions.
+
 Added to patch embeddings before the transformer encoder.
 
 ### Multi-Head Attention
@@ -177,6 +193,9 @@ Added to patch embeddings before the transformer encoder.
 Split dimensions into $H$ heads (partition, NOT replicate):
 
 $$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \ldots, \text{head}_H) W^O$$
+
+> **What it does:** Runs $H$ independent attention operations in parallel (each on $d/H$ dimensions), then concatenates and projects results.
+> **Variables:** $H$ = number of heads, $\text{head}_h$ = output of attention head $h$ (operating on its $d/H$-dimensional slice), $W^O$ = output projection matrix ($d \times d$). Different heads learn different attention patterns (e.g., one attends locally, another globally).
 
 Each head operates on $d/H$ dimensions and learns different attention patterns.
 

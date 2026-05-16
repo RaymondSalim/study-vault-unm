@@ -53,13 +53,23 @@ Sum of Squared Differences (SSD) for a shift $(u,v)$:
 
 $$E(u,v) = \sum_{(x,y) \in W} [I(x+u, y+v) - I(x,y)]^2$$
 
+> **What it is:** Total intensity difference when sliding window $W$ by $(u,v)$.
+> **What it does:** Measures how much the local image changes for a given shift. Large $E$ in all directions = corner.
+> **Variables:** $W$ = local window, $I(x,y)$ = pixel intensity, $(u,v)$ = shift amount.
+
 Using Taylor expansion (small motion assumption):
 
 $$E(u,v) \approx \begin{bmatrix} u & v \end{bmatrix} H \begin{bmatrix} u \\ v \end{bmatrix}$$
 
+> **What it does:** Approximates $E$ as a quadratic form. The shape of this quadratic (determined by $H$) reveals local geometry without testing every possible shift.
+
 where the **structure tensor** (second moment matrix):
 
 $$H = \sum_{(x,y) \in W} \begin{bmatrix} I_x^2 & I_x I_y \\ I_y I_x & I_y^2 \end{bmatrix}$$
+
+> **What it is:** 2×2 matrix encoding gradient structure over window $W$.
+> **Variables:** $I_x = \partial I/\partial x$, $I_y = \partial I/\partial y$ = image partial derivatives. Summed over all pixels in window.
+> **Eigenvalues:** Reveal geometry — both large = corner, one large = edge, both small = flat.
 
 ### Eigenvalue Analysis
 
@@ -72,6 +82,10 @@ $$H = \sum_{(x,y) \in W} \begin{bmatrix} I_x^2 & I_x I_y \\ I_y I_x & I_y^2 \end
 **Harris corner response:**
 
 $$R = \lambda_+ \lambda_- - k(\lambda_+ + \lambda_-)^2 = \det(H) - k \cdot \text{trace}(H)^2$$
+
+> **What it is:** Harris corner response score — avoids computing eigenvalues explicitly.
+> **What it does:** Scores each pixel as corner (large positive $R$), edge (large negative $R$), or flat (small $|R|$).
+> **Variables:** $\lambda_+, \lambda_-$ = eigenvalues of $H$, $\det(H) = \lambda_+\lambda_-$, $\text{trace}(H) = \lambda_+ + \lambda_-$, $k$ = sensitivity constant (typically 0.04–0.06).
 
 where $k \approx 0.04$--$0.06$. Corner if $R > $ threshold.
 
@@ -112,13 +126,23 @@ Lowe 2004 -- over 31,000 citations. Provides invariance to scale, rotation, tran
 
 **Scale space:** $L(x,y,\sigma) = G(x,y,\sigma) * I(x,y)$ — Gaussian convolution at different $\sigma$ highlights structures at different scales (small $\sigma$: fine details; large $\sigma$: coarse structures).
 
+> **Variables:** $G(x,y,\sigma)$ = Gaussian kernel with standard deviation $\sigma$, $*$ = convolution, $I$ = input image. Each $\sigma$ level reveals features at that spatial scale.
+
 **Scale-normalised LoG:** $\sigma^2 \nabla^2 G$ detects blobs at their characteristic scale. Finding its extrema locates blob centres (more stable than zero-crossings).
 
+> **What it does:** Laplacian of Gaussian, scaled by $\sigma^2$ for consistent response across scales. Gives strongest response when blob size matches $\sigma$.
+
 **Key relationship** (Gaussian diffusion equation): $\frac{\partial G}{\partial \sigma} = \sigma \nabla^2 G$
+
+> **What it shows:** The derivative of a Gaussian w.r.t. scale is proportional to the Laplacian — this links scale-space evolution to blob detection.
 
 **DoG approximation:** Taylor expand $G(\sigma + \Delta\sigma)$ with $\Delta\sigma = (k-1)\sigma$:
 
 $$D(x,y,\sigma) = G(x,y,k\sigma) - G(x,y,\sigma) \approx (k-1) \sigma^2 \nabla^2 G$$
+
+> **What it is:** Difference of Gaussians — cheap approximation to the scale-normalised LoG.
+> **What it does:** Subtracting adjacent blurred images approximates the LoG. The constant $(k-1)$ is the same across all scales, so extrema locations are preserved.
+> **Variables:** $k$ = scale ratio between adjacent levels (e.g., $k = 2^{1/3}$).
 
 DoG is proportional to scale-normalised LoG — no extra convolutions needed, just subtract adjacent scale-space images.
 
@@ -199,6 +223,10 @@ For descriptor $d_A$ in image A, find closest descriptor $d_B$ in image B using 
 **Lowe's ratio test:** Accept match only if:
 
 $$\frac{\|d_A - d_{B1}\|}{\|d_A - d_{B2}\|} < 0.8$$
+
+> **What it is:** Ambiguity rejection test for feature matching.
+> **What it does:** Only accepts a match when the best match is significantly closer than the second-best. Low ratio = distinctive match; high ratio = ambiguous (likely incorrect).
+> **Variables:** $d_A$ = query descriptor from image A, $d_{B1}$ = nearest descriptor in B, $d_{B2}$ = second-nearest in B, 0.8 = threshold (empirically chosen).
 
 where $d_{B1}$, $d_{B2}$ are the first and second nearest neighbours.
 

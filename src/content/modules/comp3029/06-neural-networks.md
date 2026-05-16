@@ -45,13 +45,16 @@ The perceptron is a single neuron that computes a weighted sum of its inputs, ad
 
 $$y = f\left(\sum_{i=1}^{n} w_i x_i + b\right) = f(\mathbf{w}^T \mathbf{x} + b)$$
 
+> **What it is:** The fundamental computation of a single artificial neuron (perceptron).
+> **What it does:** Computes a weighted sum of inputs, adds bias, then applies a non-linear activation to produce output.
+
 | Component | Role |
 |-----------|------|
-| $x_i$ | Inputs |
-| $w_i$ | Weights (learned) |
-| $b$ | Bias |
-| $f$ | Activation function |
-| $y$ | Output |
+| $x_i$ | Inputs (features or activations from previous layer) |
+| $w_i$ | Weights (learned parameters controlling each input's influence) |
+| $b$ | Bias (learned offset, shifts decision boundary) |
+| $f$ | Activation function (introduces non-linearity: sigmoid, ReLU, etc.) |
+| $y$ | Output (fed to next layer or used as final prediction) |
 
 ### Perceptron as Linear Classifier
 
@@ -109,13 +112,13 @@ Activation functions introduce non-linearity, which is essential for learning co
 
 :::eli20
 
-| Function | Formula | Range | Properties |
-|----------|---------|-------|------------|
-| Sigmoid | $\sigma(x) = \frac{1}{1+e^{-x}}$ | $(0, 1)$ | Smooth, saturates, vanishing gradient |
-| Tanh | $\tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$ | $(-1, 1)$ | Zero-centred, still saturates |
-| ReLU | $f(x) = \max(0, x)$ | $[0, \infty)$ | Fast, no saturation, dying neurons |
-| Leaky ReLU | $f(x) = \max(\alpha x, x)$ | $(-\infty, \infty)$ | Fixes dying ReLU |
-| Softmax | $\sigma(x_i) = \frac{e^{x_i}}{\sum_j e^{x_j}}$ | $(0, 1)$, sums to 1 | Output layer for multi-class |
+| Function | Formula | Range | Properties | Description |
+|----------|---------|-------|------------|-------------|
+| Sigmoid | $\sigma(x) = \frac{1}{1+e^{-x}}$ | $(0, 1)$ | Smooth, saturates, vanishing gradient | Squashes any input to a probability-like value. $x$ = pre-activation. Gradient $\approx 0$ at extremes → vanishing gradient in deep networks. |
+| Tanh | $\tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$ | $(-1, 1)$ | Zero-centred, still saturates | Like sigmoid but centred at 0. Better for hidden layers since outputs have zero mean. Still saturates. |
+| ReLU | $f(x) = \max(0, x)$ | $[0, \infty)$ | Fast, no saturation, dying neurons | Modern default. Passes positive values unchanged, zeros negatives. Fast to compute, gradient is 0 or 1. "Dying" neurons can get stuck at 0. |
+| Leaky ReLU | $f(x) = \max(\alpha x, x)$ | $(-\infty, \infty)$ | Fixes dying ReLU | Small slope $\alpha$ (e.g., 0.01) for negative inputs prevents neurons from permanently dying. |
+| Softmax | $\sigma(x_i) = \frac{e^{x_i}}{\sum_j e^{x_j}}$ | $(0, 1)$, sums to 1 | Output layer for multi-class | Converts raw scores (logits) into a probability distribution over classes. $x_i$ = logit for class $i$, denominator normalises across all classes. |
 
 :::
 
@@ -135,11 +138,11 @@ Loss functions quantify prediction error and provide the signal that drives lear
 
 :::eli20
 
-| Task | Loss Function | Formula |
-|------|--------------|---------|
-| Binary classification | Binary Cross-Entropy | $-[y\log(\hat{y}) + (1-y)\log(1-\hat{y})]$ |
-| Multi-class | Cross-Entropy | $-\sum_c y_c \log(\hat{y}_c)$ |
-| Regression | Mean Squared Error | $\frac{1}{N}\sum_i(y_i - \hat{y}_i)^2$ |
+| Task | Loss Function | Formula | Description |
+|------|--------------|---------|-------------|
+| Binary classification | Binary Cross-Entropy | $-[y\log(\hat{y}) + (1-y)\log(1-\hat{y})]$ | $y$ = true label (0 or 1), $\hat{y}$ = predicted probability. Penalises confident wrong predictions heavily (log goes to $-\infty$ as $\hat{y} \to 0$ for positive examples). |
+| Multi-class | Cross-Entropy | $-\sum_c y_c \log(\hat{y}_c)$ | $y_c$ = 1 for correct class (one-hot), $\hat{y}_c$ = predicted probability for class $c$. Only the correct class's term contributes (others are multiplied by 0). |
+| Regression | Mean Squared Error | $\frac{1}{N}\sum_i(y_i - \hat{y}_i)^2$ | $y_i$ = true value, $\hat{y}_i$ = predicted value, $N$ = number of samples. Penalises large errors quadratically. |
 
 :::
 
@@ -166,21 +169,31 @@ Compute output layer by layer:
 $$\mathbf{z}^{(l)} = W^{(l)} \mathbf{a}^{(l-1)} + \mathbf{b}^{(l)}$$
 $$\mathbf{a}^{(l)} = f(\mathbf{z}^{(l)})$$
 
+> **What they do:** First equation computes pre-activation (linear transform), second applies non-linearity.
+> **Variables:** $l$ = layer index, $W^{(l)}$ = weight matrix of layer $l$, $\mathbf{a}^{(l-1)}$ = activation from previous layer (input to current layer), $\mathbf{b}^{(l)}$ = bias vector, $\mathbf{z}^{(l)}$ = pre-activation, $f$ = activation function, $\mathbf{a}^{(l)}$ = output activation.
+
 ### Backward Pass (Chain Rule)
 
 Compute gradients of loss $L$ w.r.t. each parameter:
 
 $$\frac{\partial L}{\partial w_{ij}^{(l)}} = \frac{\partial L}{\partial z_i^{(l)}} \cdot \frac{\partial z_i^{(l)}}{\partial w_{ij}^{(l)}} = \delta_i^{(l)} \cdot a_j^{(l-1)}$$
 
+> **What it does:** Computes how much each weight contributed to the loss. Chain rule decomposes into: (1) error signal $\delta_i^{(l)}$ flowing back from output, times (2) the activation $a_j^{(l-1)}$ that flowed forward through that weight.
+
 Error signal propagated backwards:
 
 $$\delta^{(l)} = (W^{(l+1)})^T \delta^{(l+1)} \odot f'(\mathbf{z}^{(l)})$$
+
+> **What it does:** Propagates error from layer $l+1$ back to layer $l$.
+> **Variables:** $\delta^{(l+1)}$ = error at next layer, $W^{(l+1)}$ = weights connecting layer $l$ to $l+1$, $f'(\mathbf{z}^{(l)})$ = derivative of activation function, $\odot$ = element-wise multiplication.
 
 ### Key Insight: Gradient Decomposition
 
 Every weight gradient decomposes as:
 
 $$\frac{\partial E}{\partial W_{ji}} = \underbrace{\delta_j}_{\text{back-propagated error}} \times \underbrace{z_i}_{\text{forward-pass activation}}$$
+
+> **What it means:** The gradient for any weight = (error signal from above) × (activation from below). This explains vanishing gradients: if $f'(a) \approx 0$ (sigmoid saturation), $\delta$ shrinks through each layer.
 
 This directly explains:
 - **Vanishing gradients:** if $f'(a) \approx 0$ (sigmoid saturation), $\delta$ vanishes through layers
@@ -208,6 +221,10 @@ Optimisation algorithms update network weights to minimise the loss. Basic SGD f
 
 $$\theta_{t+1} = \theta_t - \eta \nabla_\theta L$$
 
+> **What it is:** The general weight update rule for gradient descent.
+> **What it does:** Moves parameters in the direction that reduces loss.
+> **Variables:** $\theta_t$ = current parameters, $\eta$ = learning rate (step size), $\nabla_\theta L$ = gradient of loss w.r.t. parameters, $\theta_{t+1}$ = updated parameters.
+
 | Variant | Batch Size | Property |
 |---------|-----------|----------|
 | Batch GD | Full dataset | Stable but slow, memory-intensive |
@@ -221,6 +238,9 @@ Accumulates velocity to smooth updates and escape local minima:
 $$v_t = m \cdot v_{t-1} - \eta \cdot g_t$$
 $$\theta_{t+1} = \theta_t + v_t$$
 
+> **What it does:** Adds a "velocity" term that accumulates gradient direction over time, smoothing noisy updates.
+> **Variables:** $v_t$ = velocity (accumulated gradient direction), $m$ = momentum coefficient (typically 0.9, controls how much history to keep), $g_t$ = current gradient, $\eta$ = learning rate.
+
 Typical $m = 0.9$. Helps with ill-conditioned curvature (reduces oscillation in narrow valleys).
 
 ### AdaGrad
@@ -230,6 +250,9 @@ Adapts learning rate per parameter based on historical gradients:
 $$R_t = R_{t-1} + g_t^2$$
 $$\theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{R_t + \epsilon}} \cdot g_t$$
 
+> **What it does:** Gives each parameter its own effective learning rate. Frequently-updated parameters get smaller steps; rarely-updated get larger steps.
+> **Variables:** $R_t$ = accumulated sum of squared gradients, $g_t$ = current gradient, $\epsilon$ = small constant (prevents division by zero, ~$10^{-8}$), $\eta$ = base learning rate.
+
 Problem: $R$ grows monotonically → learning rate decays to zero over time.
 
 ### RMSProp
@@ -238,6 +261,9 @@ Fixes AdaGrad with exponential moving average (forgetting old gradients):
 
 $$R_t = \rho \cdot R_{t-1} + (1 - \rho) \cdot g_t^2$$
 $$\theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{R_t + \epsilon}} \cdot g_t$$
+
+> **What it does:** Like AdaGrad but uses exponential moving average instead of total accumulation, so the learning rate doesn't decay to zero.
+> **Variables:** $\rho$ = decay rate (0.9 = remembers last ~10 steps), $(1-\rho)$ = weight for current gradient.
 
 Typical: $\rho = 0.9$, $\eta = 0.001$.
 
@@ -249,6 +275,9 @@ $$m_t = \beta_1 m_{t-1} + (1-\beta_1) g_t$$
 $$v_t = \beta_2 v_{t-1} + (1-\beta_2) g_t^2$$
 $$\hat{m}_t = \frac{m_t}{1 - \beta_1^t}, \quad \hat{v}_t = \frac{v_t}{1 - \beta_2^t}$$
 $$\theta_{t+1} = \theta_t - \frac{\eta \cdot \hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon}$$
+
+> **What it does:** Combines momentum (smoothed gradient direction) with adaptive learning rates (per-parameter step sizes). The most popular default optimiser.
+> **Variables:** $m_t$ = first moment estimate (exponential moving average of gradients, like momentum), $v_t$ = second moment estimate (EMA of squared gradients, like RMSProp), $\beta_1$ = decay for first moment (0.9), $\beta_2$ = decay for second moment (0.999), $\hat{m}_t$/$\hat{v}_t$ = bias-corrected moments (compensate for zero initialisation at start), $\epsilon$ = numerical stability (~$10^{-8}$).
 
 Typical: $\beta_1 = 0.9$, $\beta_2 = 0.999$, $\eta = 0.001$. Bias correction compensates for zero-initialisation of $m_0, v_0$.
 
@@ -299,6 +328,9 @@ Normalises activations within each mini-batch to stabilise and accelerate traini
 
 $$\hat{x} = \frac{x - \mu_B}{\sqrt{\sigma_B^2 + \epsilon}}$$
 $$y = \gamma \hat{x} + \beta$$
+
+> **What it does:** First normalises activations to zero mean/unit variance, then lets the network learn optimal scale and shift.
+> **Variables:** $x$ = input activation, $\mu_B$ = mini-batch mean, $\sigma_B^2$ = mini-batch variance, $\epsilon$ = stability constant, $\hat{x}$ = normalised value, $\gamma$ = learnable scale, $\beta$ = learnable shift, $y$ = output.
 
 where $\gamma$, $\beta$ are learnable scale and shift parameters.
 
